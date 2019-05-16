@@ -2,85 +2,94 @@ Return-Path: <linux-wpan-owner@vger.kernel.org>
 X-Original-To: lists+linux-wpan@lfdr.de
 Delivered-To: lists+linux-wpan@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 6E71A17D76
-	for <lists+linux-wpan@lfdr.de>; Wed,  8 May 2019 17:43:32 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id EFA5D205BC
+	for <lists+linux-wpan@lfdr.de>; Thu, 16 May 2019 13:58:44 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726515AbfEHPnb (ORCPT <rfc822;lists+linux-wpan@lfdr.de>);
-        Wed, 8 May 2019 11:43:31 -0400
-Received: from mail-io1-f68.google.com ([209.85.166.68]:34564 "EHLO
-        mail-io1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726506AbfEHPnb (ORCPT
-        <rfc822;linux-wpan@vger.kernel.org>); Wed, 8 May 2019 11:43:31 -0400
-Received: by mail-io1-f68.google.com with SMTP id g84so9485035ioa.1
-        for <linux-wpan@vger.kernel.org>; Wed, 08 May 2019 08:43:30 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=mojatatu-com.20150623.gappssmtp.com; s=20150623;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:content-transfer-encoding:in-reply-to
-         :user-agent;
-        bh=YYX7E7iR5nqLOZQLUwrAtuFr9M6AuUYPADgHcb9hOGI=;
-        b=Wci141IdsYqgXnl/WZqJfrCjqVxcOYsM6oRufs6wt+xPbEEyrmQPANVHcUfpkymizV
-         jxc/gRulYXB0YmYk8fJJfsRtw3dTNXQw/u2FwsIXGOLETTFxY0dAMO7qLUEra1vFM/iu
-         gJLQhrSYPsFNwST0Z9lcAg9l1JEkIHPauHKJ1bwWRrbHHdc8Dmzhis/7pSe1IjDm3ipn
-         4+Jf/XCczic/9hKJkXIDtA1LCEVvV9oRsXi8vRHEJGePpKbttvqfTvJZ/PIpHPe1jXsB
-         IBObV+PaqLoE2rFLyuGp3837TbzNI2O2BTpfKRqJcz4yaTNnAP4EKMZY8QYVy5U3PmsG
-         4ZdA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:content-transfer-encoding
-         :in-reply-to:user-agent;
-        bh=YYX7E7iR5nqLOZQLUwrAtuFr9M6AuUYPADgHcb9hOGI=;
-        b=aorMvrYBh0DL62AxoObMj9Nj0wtiQWj92Oe3SnItltCQhIsVEkzXbeqg3y3AhrF3Jd
-         sjrOZ2lAnS5pZHcfsHBN4Xi2oaiZ+KcKzfX9RoufxSzw9joZSzQG5fjc9hy2xv1+l5hV
-         VEp64tPuMm0UcWCbsfngT52AvEAy5byIHC/2ixfGgWGEOGgHWUO4A+SdHSbqUH2xHBk5
-         KoUUNSarppBeS9z5IZ2KqW3O4QGgWGYXwltQbUVyNMTB/c/WkQBEm8S1+HnN3EXEAMRG
-         GMRvEcDuq3UCPGN34BNfkYgnh0Zzq2mCOP74fIupkRt4UP8Ntlwlhnt9/lPN6pLlFt31
-         Pogg==
-X-Gm-Message-State: APjAAAW2aED+E/P0Z+IFZFVKZEtqYqeOCDJ1YXJHF34KVkHUfS8nzvnb
-        /1woJhlJYGYZZfGEUUkxJnfJJvGxOhc=
-X-Google-Smtp-Source: APXvYqywVLA8NBLZK+B52f+aPAYdFjmDjZBB45nL6pBS4meWOjIdEMsW5kTuLIBVJyo2INO0+dyeFA==
-X-Received: by 2002:a6b:ba04:: with SMTP id k4mr11518305iof.127.1557330210591;
-        Wed, 08 May 2019 08:43:30 -0700 (PDT)
-Received: from x220t ([64.26.149.125])
-        by smtp.gmail.com with ESMTPSA id b8sm5902557ior.5.2019.05.08.08.43.29
-        (version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-        Wed, 08 May 2019 08:43:30 -0700 (PDT)
-Date:   Wed, 8 May 2019 11:43:21 -0400
-From:   Alexander Aring <aring@mojatatu.com>
-To:     Aditya Nath <nath46950@gmail.com>
-Cc:     linux-wpan@vger.kernel.org
-Subject: Re: wpan-ping not working for an initial setup of Openlabs 802.15.4
- modules connected to rapsberry pi.
-Message-ID: <20190508154321.34euz2ygus2qjbvv@x220t>
-References: <C17AA022-0F79-4663-877F-A4A0A62E141A@gmail.com>
+        id S1727524AbfEPLj6 (ORCPT <rfc822;lists+linux-wpan@lfdr.de>);
+        Thu, 16 May 2019 07:39:58 -0400
+Received: from mail.kernel.org ([198.145.29.99]:47978 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1727515AbfEPLj5 (ORCPT <rfc822;linux-wpan@vger.kernel.org>);
+        Thu, 16 May 2019 07:39:57 -0400
+Received: from sasha-vm.mshome.net (c-73-47-72-35.hsd1.nh.comcast.net [73.47.72.35])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id 2C5DE20833;
+        Thu, 16 May 2019 11:39:56 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1558006797;
+        bh=FRsqlhJ86Xm8rM/DwoFwEN6ZtybTAK/8JYVVl1LB7Jc=;
+        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+        b=RjOzhcxVFbJ6YsQSnknxsttbT39p8jMNQmzhoNu/lNp81FMFy7yhQCex/3CiI9fWV
+         RYSk/b85O4DaARKDtt0DLWWjv0RjEtaUfKwVauJkVRNV4bTFFaE4kdjE/wUnY17i5+
+         pmzPk8d9IkB0n7QI+5HX3MrNnvVo4oiup7L3wkPs=
+From:   Sasha Levin <sashal@kernel.org>
+To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
+Cc:     Kangjie Lu <kjlu@umn.edu>, Mukesh Ojha <mojha@codeaurora.org>,
+        Stefan Schmidt <stefan@datenfreihafen.org>,
+        Sasha Levin <sashal@kernel.org>, linux-wpan@vger.kernel.org,
+        netdev@vger.kernel.org
+Subject: [PATCH AUTOSEL 5.0 19/34] net: ieee802154: fix missing checks for regmap_update_bits
+Date:   Thu, 16 May 2019 07:39:16 -0400
+Message-Id: <20190516113932.8348-19-sashal@kernel.org>
+X-Mailer: git-send-email 2.20.1
+In-Reply-To: <20190516113932.8348-1-sashal@kernel.org>
+References: <20190516113932.8348-1-sashal@kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
+X-stable: review
+X-Patchwork-Hint: Ignore
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <C17AA022-0F79-4663-877F-A4A0A62E141A@gmail.com>
-User-Agent: NeoMutt/20170113 (1.7.2)
 Sender: linux-wpan-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-wpan.vger.kernel.org>
 X-Mailing-List: linux-wpan@vger.kernel.org
 
-Hi,
+From: Kangjie Lu <kjlu@umn.edu>
 
-On Fri, Apr 26, 2019 at 12:29:54AM -0400, Aditya Nath wrote:
-> Hi,
-> 
-> Sorry for creating another thread of mails, but I couldn’t figure out how to properly send the mail in the same chain using git-send-mail.
-> 
+[ Upstream commit 22e8860cf8f777fbf6a83f2fb7127f682a8e9de4 ]
 
-latest rpi kernel is known to have problems which I don't have with a
-mainline kernel.
+regmap_update_bits could fail and deserves a check.
 
-try:
+The patch adds the checks and if it fails, returns its error
+code upstream.
 
-sudo rpi-update 936a8dc3a605c20058fbb23672d6b47bca77b0d5
+Signed-off-by: Kangjie Lu <kjlu@umn.edu>
+Reviewed-by: Mukesh Ojha <mojha@codeaurora.org>
+Signed-off-by: Stefan Schmidt <stefan@datenfreihafen.org>
+Signed-off-by: Sasha Levin <sashal@kernel.org>
+---
+ drivers/net/ieee802154/mcr20a.c | 6 ++++++
+ 1 file changed, 6 insertions(+)
 
-which downgrades the kernel to a version where I heard from people that
-it works with the rpi kernel.
+diff --git a/drivers/net/ieee802154/mcr20a.c b/drivers/net/ieee802154/mcr20a.c
+index c589f5ae75bb5..8bb53ec8d9cf2 100644
+--- a/drivers/net/ieee802154/mcr20a.c
++++ b/drivers/net/ieee802154/mcr20a.c
+@@ -533,6 +533,8 @@ mcr20a_start(struct ieee802154_hw *hw)
+ 	dev_dbg(printdev(lp), "no slotted operation\n");
+ 	ret = regmap_update_bits(lp->regmap_dar, DAR_PHY_CTRL1,
+ 				 DAR_PHY_CTRL1_SLOTTED, 0x0);
++	if (ret < 0)
++		return ret;
+ 
+ 	/* enable irq */
+ 	enable_irq(lp->spi->irq);
+@@ -540,11 +542,15 @@ mcr20a_start(struct ieee802154_hw *hw)
+ 	/* Unmask SEQ interrupt */
+ 	ret = regmap_update_bits(lp->regmap_dar, DAR_PHY_CTRL2,
+ 				 DAR_PHY_CTRL2_SEQMSK, 0x0);
++	if (ret < 0)
++		return ret;
+ 
+ 	/* Start the RX sequence */
+ 	dev_dbg(printdev(lp), "start the RX sequence\n");
+ 	ret = regmap_update_bits(lp->regmap_dar, DAR_PHY_CTRL1,
+ 				 DAR_PHY_CTRL1_XCVSEQ_MASK, MCR20A_XCVSEQ_RX);
++	if (ret < 0)
++		return ret;
+ 
+ 	return 0;
+ }
+-- 
+2.20.1
 
-- Alex
