@@ -2,94 +2,42 @@ Return-Path: <linux-wpan-owner@vger.kernel.org>
 X-Original-To: lists+linux-wpan@lfdr.de
 Delivered-To: lists+linux-wpan@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 8B73520600
-	for <lists+linux-wpan@lfdr.de>; Thu, 16 May 2019 13:59:17 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 3CD6124041
+	for <lists+linux-wpan@lfdr.de>; Mon, 20 May 2019 20:25:10 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727904AbfEPLpy (ORCPT <rfc822;lists+linux-wpan@lfdr.de>);
-        Thu, 16 May 2019 07:45:54 -0400
-Received: from mail.kernel.org ([198.145.29.99]:49212 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1727873AbfEPLkr (ORCPT <rfc822;linux-wpan@vger.kernel.org>);
-        Thu, 16 May 2019 07:40:47 -0400
-Received: from sasha-vm.mshome.net (c-73-47-72-35.hsd1.nh.comcast.net [73.47.72.35])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 2129E20833;
-        Thu, 16 May 2019 11:40:46 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1558006847;
-        bh=KFdnEqrWENvRuxS/6olHE2piTxs1Uw9mDdItEAg4WkI=;
-        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=ZFAyyxRqshEYgAbObv1e3jKhbqVCBgXthf7V9fttijTZQ1Q3p9lno2ruU/8TtkrPE
-         cFO89V8BI8pzwAwTmtvL152ogQX8EjQccdPeSALdKydfhp4rhCgSLxPE5/q0Uw599T
-         cygySzllHE7zodd71FGoIIkMdFgL709W2smVcwoM=
-From:   Sasha Levin <sashal@kernel.org>
-To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
-Cc:     Kangjie Lu <kjlu@umn.edu>, Mukesh Ojha <mojha@codeaurora.org>,
-        Stefan Schmidt <stefan@datenfreihafen.org>,
-        Sasha Levin <sashal@kernel.org>, linux-wpan@vger.kernel.org,
-        netdev@vger.kernel.org
-Subject: [PATCH AUTOSEL 4.19 15/25] net: ieee802154: fix missing checks for regmap_update_bits
-Date:   Thu, 16 May 2019 07:40:18 -0400
-Message-Id: <20190516114029.8682-15-sashal@kernel.org>
-X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20190516114029.8682-1-sashal@kernel.org>
-References: <20190516114029.8682-1-sashal@kernel.org>
+        id S1725938AbfETSZJ (ORCPT <rfc822;lists+linux-wpan@lfdr.de>);
+        Mon, 20 May 2019 14:25:09 -0400
+Received: from [159.89.172.223] ([159.89.172.223]:51750 "EHLO
+        mail.boombf2am.ga" rhost-flags-FAIL-FAIL-OK-OK) by vger.kernel.org
+        with ESMTP id S1725763AbfETSZJ (ORCPT
+        <rfc822;linux-wpan@vger.kernel.org>); Mon, 20 May 2019 14:25:09 -0400
+X-Greylist: delayed 11052 seconds by postgrey-1.27 at vger.kernel.org; Mon, 20 May 2019 14:25:08 EDT
+Received: by mail.boombf2am.ga (Postfix, from userid 48)
+        id 00C7456E445; Mon, 20 May 2019 13:32:43 +0000 (UTC)
+To:     linux-wpan@vger.kernel.org
+Subject: Inquiry 20/May/2019
+X-PHP-Originating-Script: 0:nfhdgeds.php
+From:   Daniel Murray <sinara-group@bk.ru>
+Reply-To: sinara-group@list.ru
 MIME-Version: 1.0
-X-stable: review
-X-Patchwork-Hint: Ignore
-Content-Transfer-Encoding: 8bit
+Content-Type:   text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7BIT
+Message-Id: <20190520143800.00C7456E445@mail.boombf2am.ga>
+Date:   Mon, 20 May 2019 13:32:43 +0000 (UTC)
 Sender: linux-wpan-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-wpan.vger.kernel.org>
 X-Mailing-List: linux-wpan@vger.kernel.org
 
-From: Kangjie Lu <kjlu@umn.edu>
+Hi,friend,
 
-[ Upstream commit 22e8860cf8f777fbf6a83f2fb7127f682a8e9de4 ]
+This is Daniel Murray and i am from Sinara Group Co.Ltd in Russia.
+We are glad to know about your company from the web and we are interested in your products.
+Could you kindly send us your Latest catalog and price list for our trial order.
 
-regmap_update_bits could fail and deserves a check.
+Best Regards,
 
-The patch adds the checks and if it fails, returns its error
-code upstream.
+Daniel Murray
+Purchasing Manager
 
-Signed-off-by: Kangjie Lu <kjlu@umn.edu>
-Reviewed-by: Mukesh Ojha <mojha@codeaurora.org>
-Signed-off-by: Stefan Schmidt <stefan@datenfreihafen.org>
-Signed-off-by: Sasha Levin <sashal@kernel.org>
----
- drivers/net/ieee802154/mcr20a.c | 6 ++++++
- 1 file changed, 6 insertions(+)
-
-diff --git a/drivers/net/ieee802154/mcr20a.c b/drivers/net/ieee802154/mcr20a.c
-index 04891429a5542..fe4057fca83d8 100644
---- a/drivers/net/ieee802154/mcr20a.c
-+++ b/drivers/net/ieee802154/mcr20a.c
-@@ -539,6 +539,8 @@ mcr20a_start(struct ieee802154_hw *hw)
- 	dev_dbg(printdev(lp), "no slotted operation\n");
- 	ret = regmap_update_bits(lp->regmap_dar, DAR_PHY_CTRL1,
- 				 DAR_PHY_CTRL1_SLOTTED, 0x0);
-+	if (ret < 0)
-+		return ret;
- 
- 	/* enable irq */
- 	enable_irq(lp->spi->irq);
-@@ -546,11 +548,15 @@ mcr20a_start(struct ieee802154_hw *hw)
- 	/* Unmask SEQ interrupt */
- 	ret = regmap_update_bits(lp->regmap_dar, DAR_PHY_CTRL2,
- 				 DAR_PHY_CTRL2_SEQMSK, 0x0);
-+	if (ret < 0)
-+		return ret;
- 
- 	/* Start the RX sequence */
- 	dev_dbg(printdev(lp), "start the RX sequence\n");
- 	ret = regmap_update_bits(lp->regmap_dar, DAR_PHY_CTRL1,
- 				 DAR_PHY_CTRL1_XCVSEQ_MASK, MCR20A_XCVSEQ_RX);
-+	if (ret < 0)
-+		return ret;
- 
- 	return 0;
- }
--- 
-2.20.1
 
