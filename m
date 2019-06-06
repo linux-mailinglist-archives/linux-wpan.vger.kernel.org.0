@@ -2,85 +2,69 @@ Return-Path: <linux-wpan-owner@vger.kernel.org>
 X-Original-To: lists+linux-wpan@lfdr.de
 Delivered-To: lists+linux-wpan@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 32D233631F
-	for <lists+linux-wpan@lfdr.de>; Wed,  5 Jun 2019 20:10:45 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 8033838120
+	for <lists+linux-wpan@lfdr.de>; Fri,  7 Jun 2019 00:44:12 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726532AbfFESKo (ORCPT <rfc822;lists+linux-wpan@lfdr.de>);
-        Wed, 5 Jun 2019 14:10:44 -0400
-Received: from usa-sjc-mx-foss1.foss.arm.com ([217.140.101.70]:35778 "EHLO
-        foss.arm.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726421AbfFESKo (ORCPT <rfc822;linux-wpan@vger.kernel.org>);
-        Wed, 5 Jun 2019 14:10:44 -0400
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.72.51.249])
-        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 80482374;
-        Wed,  5 Jun 2019 11:10:43 -0700 (PDT)
-Received: from [10.37.8.36] (unknown [10.37.8.36])
-        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 9984F3F5AF;
-        Wed,  5 Jun 2019 11:10:37 -0700 (PDT)
-Subject: Re: [PATCH 10/13] drivers: Introduce variants of class_find_device()
-To:     gregkh@linuxfoundation.org
-Cc:     linux-kernel@vger.kernel.org, rafael@kernel.org,
-        a.zummo@towertech.it, alex.aring@gmail.com,
-        alexander.shishkin@linux.intel.com, alexandre.belloni@bootlin.com,
-        andrew@lunn.ch, arnd@arndb.de, dmurphy@ti.com, davem@davemloft.net,
-        f.fainelli@gmail.com, freude@linux.ibm.com,
-        heikki.krogerus@linux.intel.com, heiko.carstens@de.ibm.com,
-        hkallweit1@gmail.com, jacek.anaszewski@gmail.com, jslaby@suse.com,
-        lgirdwood@gmail.com, linux-leds@vger.kernel.org,
-        linux-rtc@vger.kernel.org, linux-usb@vger.kernel.org,
-        linux-wpan@vger.kernel.org, broonie@kernel.org,
-        mcoquelin.stm32@gmail.com, pavel@ucw.cz, peda@axentia.se,
-        stefan@datenfreihafen.org, tomas.winkler@intel.com,
-        rafael.j.wysocki@intel.com
-References: <1559747630-28065-1-git-send-email-suzuki.poulose@arm.com>
- <1559747630-28065-11-git-send-email-suzuki.poulose@arm.com>
- <20190605161439.GB17272@kroah.com>
-From:   Suzuki K Poulose <suzuki.poulose@arm.com>
-Message-ID: <24e8617f-2e15-bb6c-a6bb-bc9e6b32aa56@arm.com>
-Date:   Wed, 5 Jun 2019 19:13:19 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
- Thunderbird/52.7.0
+        id S1726667AbfFFWoM (ORCPT <rfc822;lists+linux-wpan@lfdr.de>);
+        Thu, 6 Jun 2019 18:44:12 -0400
+Received: from mail-lj1-f178.google.com ([209.85.208.178]:44157 "EHLO
+        mail-lj1-f178.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726427AbfFFWoL (ORCPT
+        <rfc822;linux-wpan@vger.kernel.org>); Thu, 6 Jun 2019 18:44:11 -0400
+Received: by mail-lj1-f178.google.com with SMTP id k18so33155ljc.11
+        for <linux-wpan@vger.kernel.org>; Thu, 06 Jun 2019 15:44:10 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=mime-version:from:date:message-id:subject:to;
+        bh=k+mXCXyDhMgo3tN/rz7nOgRy3110TgiJCfBnMtqTsms=;
+        b=MRaHIX0I8i70z1kpqeE+dqjaJh79l4c0Y2ZWC+xLYq68SuvHlR5lCB5JzrKaDpai9q
+         hXeTI4PrR4IMP76BEd9X/1H5BPgb20xU0oYYV/UBYirbqEqArnLlQzjTG0rqsX6qJaa9
+         2YRlN2V+9Rxjyjo5B+T/K5gbyssNIbvwUa+hW4uDRFk0gDe38u9tc+dDQet/aL5QUqzp
+         0cN5SKw0VZKEeZFFwvT9U5Xkdn+5MbyWVtAg75/XAJOsW54ZveQ0x4NjO9Ab7OPhFZMU
+         lrk45osvPwuRLKNGmTpQUPO+YJmqAGj06pEiXw5OsdbnLrbGtbEybE3uTTo/n6T2eDp8
+         /tbA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:from:date:message-id:subject:to;
+        bh=k+mXCXyDhMgo3tN/rz7nOgRy3110TgiJCfBnMtqTsms=;
+        b=VvQmcArhqPInHapB2IywZ3ET7BoXS30x79sWBYdi7/UMFOWf/6nMbJbV+4FXFlNWUD
+         pdy6vqHVzh6M/H0BBW+CBpU3XUO+UEGWsEfKhkEsTOnKiLZdl8yMWLc8jR1iZb7/HgyK
+         YOoqgYgUtn6gSvFqOXSrbEf5ta2+2TfMEgy5pJSh653diePNfpEtArhREzTs2joZ6ytO
+         NEkltgXggcCm51TZL4HEQLIOguxz32NKVD5pv51isMPvLT3I33VS3kbZWYQA+AWipAB/
+         T2cBf44/qHLk25zLZ6s0f03d7ZxlDUxJZVjGw8Gzww1gC3R1zqCGG7knt9WgnMqDXYbD
+         f9dA==
+X-Gm-Message-State: APjAAAXOL6bfBmLBzw0nwyG7S+zfkPJeB/EnXv+SiwE4UrDzmu8XK0p8
+        3CuVUakkBIDxPin95zCSyUdT8DLoUIElNJ+ZbNtVbFO0O3A=
+X-Google-Smtp-Source: APXvYqzGtdZtf9oTjDn2o4pSP8lFrv2oGjC7w3V3QY7j9s/x8j+RoHKVkB0AuyfPgJMaKx2/lezfsM9tgs0j2Pn8E2U=
+X-Received: by 2002:a2e:b0f0:: with SMTP id h16mr2268157ljl.21.1559861049752;
+ Thu, 06 Jun 2019 15:44:09 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <20190605161439.GB17272@kroah.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+From:   Ramon Fontes <ramonreisfontes@gmail.com>
+Date:   Thu, 6 Jun 2019 19:43:58 -0300
+Message-ID: <CAK8U23aMxHqVw7=vKdaLxQSC=n2pCLehbgoB4wCcft7Ui7Wm8A@mail.gmail.com>
+Subject: Simulating 6lowpan with mac802154_hwsim
+To:     linux-wpan@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-wpan-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-wpan.vger.kernel.org>
 X-Mailing-List: linux-wpan@vger.kernel.org
 
-Hi Greg,
+Hello all,
 
-On 06/05/2019 05:14 PM, Greg KH wrote:
-> On Wed, Jun 05, 2019 at 04:13:47PM +0100, Suzuki K Poulose wrote:
->> +/**
->> + * class_find_device_by_devt : device iterator for locating a particular device
->> + * matching the device type.
->> + * @class: class type
->> + * @start: device to start search from
->> + * @devt: device type of the device to match.
->> + */
->> +static inline struct device *class_find_device_by_devt(struct class *class,
->> +						       struct device *start,
->> +						       dev_t devt)
->> +{
->> +	return class_find_device(class, start, &devt, device_match_devt);
->> +}
-> 
-> Still has the start parameter, despite the changelog saying it would not
-> :(
-> 
+I've developed a wireless network emulator for IoT
+(https://github.com/ramonfontes/mininet-iot) in which I'm using
+mac802154_hwsim. Mininet-IoT extends Mininet-WiFi
+(https://github.com/intrig-unicamp/mininet-wifi) by simulating WiFi
+through mac80211_hwsim. Mininet-WiFi already supports 6lowpan with
+fakelb and I moving everything to mac802154_hwsim. Since I'm using
+iwpan with mac802154_hwsim and given the expertise of this community,
+I was wondering whether there is any work in which simulate the data
+rate based on the distance/rssi with 6lowpan. If the answer is no,
+what would be the best way to do so? I was thinking of doing this with
+TC, but TC wouldn't work well with multiple hops. Should I develop a
+wmediumd-like simulator (https://github.com/bcopeland/wmediumd) for
+mac802154_hwsim?
 
-Well, I kept the start parameter just for the _devt variants, as
-mentioned in the changelog:
-
-" The new wrappers except the lookup by devt, drops the "start" device 
-pointer as none of the existing users need it and the attributes are 
-usually unique. The idea is to stop the proliferation of custom match.."
-
-Somehow I thought the dev_t may be duplicate for devices, which is why
-I didn't change that alone. But that was silly of me to ignore the minor
-number part. I will respin it fixing that.
-
-Suzuki
+Best regards,
+Ramon Fontes
