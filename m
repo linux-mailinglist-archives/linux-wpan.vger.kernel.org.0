@@ -2,70 +2,172 @@ Return-Path: <linux-wpan-owner@vger.kernel.org>
 X-Original-To: lists+linux-wpan@lfdr.de
 Delivered-To: lists+linux-wpan@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id D649245D28
-	for <lists+linux-wpan@lfdr.de>; Fri, 14 Jun 2019 14:50:01 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id F0B774668C
+	for <lists+linux-wpan@lfdr.de>; Fri, 14 Jun 2019 19:57:36 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727592AbfFNMuB (ORCPT <rfc822;lists+linux-wpan@lfdr.de>);
-        Fri, 14 Jun 2019 08:50:01 -0400
-Received: from mail-wm1-f54.google.com ([209.85.128.54]:35876 "EHLO
-        mail-wm1-f54.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726874AbfFNMuB (ORCPT
-        <rfc822;linux-wpan@vger.kernel.org>); Fri, 14 Jun 2019 08:50:01 -0400
-Received: by mail-wm1-f54.google.com with SMTP id u8so2221358wmm.1
-        for <linux-wpan@vger.kernel.org>; Fri, 14 Jun 2019 05:49:59 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=trendyol.com; s=google;
-        h=from:content-transfer-encoding:mime-version:subject:message-id:date
-         :to;
-        bh=5RVbxHWN2KgDN1fpoYOFchIWzOv4m52LNZb3ykWmNaM=;
-        b=UgzrnA3W0rMMvBUabDR3a11G1kbVspb6iZWAsR96uiXBlYzUYdoeRe0qVgOwZjtz9S
-         dyAyyMr7B5030V2aWJZ1idSbSZVE91385lOzRi+cEPQvEOI1rSpNqUdybERXk0TleWrp
-         d9ExbT9UloFCvdiAp9L5qO0/ej9ORvWWJSBII=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:content-transfer-encoding:mime-version
-         :subject:message-id:date:to;
-        bh=5RVbxHWN2KgDN1fpoYOFchIWzOv4m52LNZb3ykWmNaM=;
-        b=gNGkzw7GoYRt/MyIa2e22jwcBDFCoHoXElrBvoX3acwnkjVRjJxQmNCp0hzRnjig/k
-         V22EBJleHimmbeJUi5UlxEGbJeKxrldUuOOS1Vtfc0CI98hS28V+KmKOcBnC224BcWct
-         i94nXvF+Z27d9jay8ujTrH7+zU7uH/OPLGfP05BTkYYd5Ll/ewYqwSHYZwkMdmYRj774
-         YK83YeO9381FlKoFpxrAJeAqoSEQRFvjWdyRODKHuzj8HH0wnIYYbcGvwVGN5EQb9997
-         OVirfPWNkOJPuEPClq6xPdYJXR38bn3xw+dTpkueZro5c5ZzrtscermczYTP+9qQ1Os4
-         0M4A==
-X-Gm-Message-State: APjAAAVgWrakZrwYPnjWjIrTSGzH5KSqKPJ8qwE5iNJ5kyUFcs2QZPFz
-        BBIizp2y4L31OtL7K2e/wjwzZd1p5Jg+fxbWA5M8N9u5sCXSSo+tYo6fUxDmEMMNTu0Vwa7a/u1
-        sVnpAe5InfdZ9v30Q+yzJ7SZIBdoTZMKQRsXJNyZfBp7BTMxsicO7NeFKhovg+6H+DCeXpsdhPo
-        aPwza2qh0msrIXew==
-X-Google-Smtp-Source: APXvYqztMEszC0Ky5djm8uuwuR/II2Mb1+Fwyq/KRit0H7IqoGm+DFO48F4wpUT/KyXVhmxseUknyg==
-X-Received: by 2002:a1c:3c8a:: with SMTP id j132mr7786636wma.172.1560516598910;
-        Fri, 14 Jun 2019 05:49:58 -0700 (PDT)
-Received: from [10.10.176.11] ([82.222.188.130])
-        by smtp.gmail.com with ESMTPSA id j123sm5387879wmb.32.2019.06.14.05.49.58
-        for <linux-wpan@vger.kernel.org>
-        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Fri, 14 Jun 2019 05:49:58 -0700 (PDT)
-From:   =?utf-8?B?TXVyYXQgS2F0xLFyY8Sxb8SfbHU=?= 
-        <murat.katircioglu@trendyol.com>
-Content-Type: text/plain;
-        charset=us-ascii
-Content-Transfer-Encoding: quoted-printable
-Mime-Version: 1.0 (Mac OS X Mail 12.4 \(3445.104.11\))
-Subject: wpan-ping not working for an initial setup of Openlabs 802.15.4
- modules connected to rpi 3 B+
-Message-Id: <1564A594-A50D-4FA2-9007-38C38522259A@trendyol.com>
-Date:   Fri, 14 Jun 2019 15:49:57 +0300
-To:     linux-wpan@vger.kernel.org
-X-Mailer: Apple Mail (2.3445.104.11)
+        id S1727465AbfFNRzH (ORCPT <rfc822;lists+linux-wpan@lfdr.de>);
+        Fri, 14 Jun 2019 13:55:07 -0400
+Received: from foss.arm.com ([217.140.110.172]:39448 "EHLO foss.arm.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1727434AbfFNRzH (ORCPT <rfc822;linux-wpan@vger.kernel.org>);
+        Fri, 14 Jun 2019 13:55:07 -0400
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 3123E346;
+        Fri, 14 Jun 2019 10:55:06 -0700 (PDT)
+Received: from en101.cambridge.arm.com (en101.cambridge.arm.com [10.1.196.93])
+        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPA id 302813F718;
+        Fri, 14 Jun 2019 10:55:03 -0700 (PDT)
+From:   Suzuki K Poulose <suzuki.poulose@arm.com>
+To:     linux-kernel@vger.kernel.org
+Cc:     gregkh@linuxfoundation.org, rafael@kernel.org,
+        suzuki.poulose@arm.com, Alessandro Zummo <a.zummo@towertech.it>,
+        Alexander Aring <alex.aring@gmail.com>,
+        Alexander Shishkin <alexander.shishkin@linux.intel.com>,
+        Alexandre Belloni <alexandre.belloni@bootlin.com>,
+        Arnd Bergmann <arnd@arndb.de>, Dan Murphy <dmurphy@ti.com>,
+        Harald Freudenberger <freude@linux.ibm.com>,
+        Heikki Krogerus <heikki.krogerus@linux.intel.com>,
+        Heiko Carstens <heiko.carstens@de.ibm.com>,
+        Jacek Anaszewski <jacek.anaszewski@gmail.com>,
+        Lee Jones <lee.jones@linaro.org>, linux-leds@vger.kernel.org,
+        linux-rtc@vger.kernel.org, linux-usb@vger.kernel.org,
+        linux-wpan@vger.kernel.org,
+        Martin Schwidefsky <schwidefsky@de.ibm.com>,
+        Maxime Coquelin <mcoquelin.stm32@gmail.com>,
+        Pavel Machek <pavel@ucw.cz>,
+        Peter Oberparleiter <oberpar@linux.ibm.com>,
+        Stefan Schmidt <stefan@datenfreihafen.org>,
+        "Rafael J. Wysocki" <rafael.j.wysocki@intel.com>
+Subject: [PATCH v2 10/28] drivers: Add generic helper to match by name
+Date:   Fri, 14 Jun 2019 18:54:05 +0100
+Message-Id: <1560534863-15115-11-git-send-email-suzuki.poulose@arm.com>
+X-Mailer: git-send-email 2.7.4
+In-Reply-To: <1560534863-15115-1-git-send-email-suzuki.poulose@arm.com>
+References: <1560534863-15115-1-git-send-email-suzuki.poulose@arm.com>
 Sender: linux-wpan-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-wpan.vger.kernel.org>
 X-Mailing-List: linux-wpan@vger.kernel.org
 
-Hi All;
+Add a helper to match the device name. Also reuse this generic
+exported helper for bus_find_device_by_name(). This will also be
+used to add similar interface for (driver/class)_find_device()
 
-I am trying to set up a 6lowpan network with the openlabs 802.15.4 =
-module and the rassperry pi 3 B +.=20
-The kernel was before 4.19. after 4.17 kernel downgfrade although I =
-could not install. Where could I have done wrong?
+Cc: Alessandro Zummo <a.zummo@towertech.it>
+Cc: Alexander Aring <alex.aring@gmail.com>
+Cc: Alexander Shishkin <alexander.shishkin@linux.intel.com>
+Cc: Alexandre Belloni <alexandre.belloni@bootlin.com>
+Cc: Arnd Bergmann <arnd@arndb.de>
+Cc: Dan Murphy <dmurphy@ti.com>
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: Harald Freudenberger <freude@linux.ibm.com>
+Cc: Heikki Krogerus <heikki.krogerus@linux.intel.com>
+Cc: Heiko Carstens <heiko.carstens@de.ibm.com>
+Cc: Jacek Anaszewski <jacek.anaszewski@gmail.com>
+Cc: Lee Jones <lee.jones@linaro.org>
+Cc: linux-leds@vger.kernel.org
+Cc: linux-rtc@vger.kernel.org
+Cc: linux-usb@vger.kernel.org
+Cc: linux-wpan@vger.kernel.org
+Cc: Martin Schwidefsky <schwidefsky@de.ibm.com>
+Cc: Maxime Coquelin <mcoquelin.stm32@gmail.com>
+Cc: Pavel Machek <pavel@ucw.cz>
+Cc: Peter Oberparleiter <oberpar@linux.ibm.com>
+Cc: "Rafael J. Wysocki" <rafael@kernel.org>
+Cc: Stefan Schmidt <stefan@datenfreihafen.org>
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: "Rafael J. Wysocki" <rafael.j.wysocki@intel.com>
+Signed-off-by: Suzuki K Poulose <suzuki.poulose@arm.com>
+---
+ drivers/base/bus.c     | 24 ------------------------
+ drivers/base/core.c    |  6 ++++++
+ include/linux/device.h | 18 +++++++++++++++---
+ 3 files changed, 21 insertions(+), 27 deletions(-)
 
-Thanks a lot.=
+diff --git a/drivers/base/bus.c b/drivers/base/bus.c
+index df3cac7..a1d1e82 100644
+--- a/drivers/base/bus.c
++++ b/drivers/base/bus.c
+@@ -342,30 +342,6 @@ struct device *bus_find_device(struct bus_type *bus,
+ }
+ EXPORT_SYMBOL_GPL(bus_find_device);
+ 
+-static int match_name(struct device *dev, const void *data)
+-{
+-	const char *name = data;
+-
+-	return sysfs_streq(name, dev_name(dev));
+-}
+-
+-/**
+- * bus_find_device_by_name - device iterator for locating a particular device of a specific name
+- * @bus: bus type
+- * @start: Device to begin with
+- * @name: name of the device to match
+- *
+- * This is similar to the bus_find_device() function above, but it handles
+- * searching by a name automatically, no need to write another strcmp matching
+- * function.
+- */
+-struct device *bus_find_device_by_name(struct bus_type *bus,
+-				       struct device *start, const char *name)
+-{
+-	return bus_find_device(bus, start, (void *)name, match_name);
+-}
+-EXPORT_SYMBOL_GPL(bus_find_device_by_name);
+-
+ /**
+  * subsys_find_device_by_id - find a device with a specific enumeration number
+  * @subsys: subsystem
+diff --git a/drivers/base/core.c b/drivers/base/core.c
+index 597095b..5724f93 100644
+--- a/drivers/base/core.c
++++ b/drivers/base/core.c
+@@ -3352,3 +3352,9 @@ int device_match_acpi_dev(struct device *dev, const void *adev)
+ 	return ACPI_COMPANION(dev) == adev;
+ }
+ EXPORT_SYMBOL(device_match_acpi_dev);
++
++int device_match_name(struct device *dev, const void *name)
++{
++	return sysfs_streq(dev_name(dev), name);
++}
++EXPORT_SYMBOL_GPL(device_match_name);
+diff --git a/include/linux/device.h b/include/linux/device.h
+index a03b50d..b9b82b7 100644
+--- a/include/linux/device.h
++++ b/include/linux/device.h
+@@ -167,15 +167,27 @@ int device_match_of_node(struct device *dev, const void *np);
+ int device_match_fwnode(struct device *dev, const void *fwnode);
+ int device_match_devt(struct device *dev, const void *pdevt);
+ int device_match_acpi_dev(struct device *dev, const void *adev);
++int device_match_name(struct device *dev, const void *name);
+ 
+ int bus_for_each_dev(struct bus_type *bus, struct device *start, void *data,
+ 		     int (*fn)(struct device *dev, void *data));
+ struct device *bus_find_device(struct bus_type *bus, struct device *start,
+ 			       const void *data,
+ 			       int (*match)(struct device *dev, const void *data));
+-struct device *bus_find_device_by_name(struct bus_type *bus,
+-				       struct device *start,
+-				       const char *name);
++/**
++ * bus_find_device_by_name - device iterator for locating a particular device
++ * of a specific name.
++ * @bus: bus type
++ * @start: Device to begin with
++ * @name: name of the device to match
++ */
++static inline struct device *bus_find_device_by_name(struct bus_type *bus,
++						     struct device *start,
++						     const char *name)
++{
++	return bus_find_device(bus, start, name, device_match_name);
++}
++
+ struct device *subsys_find_device_by_id(struct bus_type *bus, unsigned int id,
+ 					struct device *hint);
+ int bus_for_each_drv(struct bus_type *bus, struct device_driver *start,
+-- 
+2.7.4
+
