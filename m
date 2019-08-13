@@ -2,62 +2,75 @@ Return-Path: <linux-wpan-owner@vger.kernel.org>
 X-Original-To: lists+linux-wpan@lfdr.de
 Delivered-To: lists+linux-wpan@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id C72008BB7C
-	for <lists+linux-wpan@lfdr.de>; Tue, 13 Aug 2019 16:28:23 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 0C7E08C4C9
+	for <lists+linux-wpan@lfdr.de>; Wed, 14 Aug 2019 01:28:07 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728217AbfHMO2X (ORCPT <rfc822;lists+linux-wpan@lfdr.de>);
-        Tue, 13 Aug 2019 10:28:23 -0400
-Received: from youngberry.canonical.com ([91.189.89.112]:57512 "EHLO
-        youngberry.canonical.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727768AbfHMO2X (ORCPT
-        <rfc822;linux-wpan@vger.kernel.org>); Tue, 13 Aug 2019 10:28:23 -0400
-Received: from 1.general.cking.uk.vpn ([10.172.193.212] helo=localhost)
-        by youngberry.canonical.com with esmtpsa (TLS1.0:RSA_AES_256_CBC_SHA1:32)
-        (Exim 4.76)
-        (envelope-from <colin.king@canonical.com>)
-        id 1hxXmc-0001H7-F2; Tue, 13 Aug 2019 14:28:18 +0000
-From:   Colin King <colin.king@canonical.com>
-To:     Alexander Aring <alex.aring@gmail.com>,
-        Stefan Schmidt <stefan@datenfreihafen.org>,
+        id S1726186AbfHMX2G (ORCPT <rfc822;lists+linux-wpan@lfdr.de>);
+        Tue, 13 Aug 2019 19:28:06 -0400
+Received: from proxima.lasnet.de ([78.47.171.185]:45156 "EHLO
+        proxima.lasnet.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725923AbfHMX2G (ORCPT
+        <rfc822;linux-wpan@vger.kernel.org>); Tue, 13 Aug 2019 19:28:06 -0400
+Received: from localhost.localdomain (unknown [5.148.42.186])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        (Authenticated sender: stefan@datenfreihafen.org)
+        by proxima.lasnet.de (Postfix) with ESMTPSA id 77AC9CB70F;
+        Wed, 14 Aug 2019 01:28:03 +0200 (CEST)
+Subject: Re: [PATCH] net: ieee802154: remove redundant assignment to rc
+To:     Colin King <colin.king@canonical.com>,
+        Alexander Aring <alex.aring@gmail.com>,
         "David S . Miller" <davem@davemloft.net>,
         linux-wpan@vger.kernel.org, netdev@vger.kernel.org
 Cc:     kernel-janitors@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: [PATCH] net: ieee802154: remove redundant assignment to rc
-Date:   Tue, 13 Aug 2019 15:28:18 +0100
-Message-Id: <20190813142818.15022-1-colin.king@canonical.com>
-X-Mailer: git-send-email 2.20.1
+References: <20190813142818.15022-1-colin.king@canonical.com>
+From:   Stefan Schmidt <stefan@datenfreihafen.org>
+Message-ID: <a3262e25-209d-209d-59fc-a09511fb9280@datenfreihafen.org>
+Date:   Wed, 14 Aug 2019 01:28:02 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.6.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
+In-Reply-To: <20190813142818.15022-1-colin.king@canonical.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Sender: linux-wpan-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-wpan.vger.kernel.org>
 X-Mailing-List: linux-wpan@vger.kernel.org
 
-From: Colin Ian King <colin.king@canonical.com>
+Hello.
 
-Variable rc is initialized to a value that is never read and it is
-re-assigned later. The initialization is redundant and can be removed.
+On 13.08.19 16:28, Colin King wrote:
+> From: Colin Ian King <colin.king@canonical.com>
+> 
+> Variable rc is initialized to a value that is never read and it is
+> re-assigned later. The initialization is redundant and can be removed.
+> 
+> Addresses-Coverity: ("Unused value")
+> Signed-off-by: Colin Ian King <colin.king@canonical.com>
+> ---
+>  net/ieee802154/socket.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/net/ieee802154/socket.c b/net/ieee802154/socket.c
+> index dacbd58e1799..badc5cfe4dc6 100644
+> --- a/net/ieee802154/socket.c
+> +++ b/net/ieee802154/socket.c
+> @@ -1092,7 +1092,7 @@ static struct packet_type ieee802154_packet_type = {
+>  
+>  static int __init af_ieee802154_init(void)
+>  {
+> -	int rc = -EINVAL;
+> +	int rc;
+>  
+>  	rc = proto_register(&ieee802154_raw_prot, 1);
+>  	if (rc)
+> 
 
-Addresses-Coverity: ("Unused value")
-Signed-off-by: Colin Ian King <colin.king@canonical.com>
----
- net/ieee802154/socket.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/net/ieee802154/socket.c b/net/ieee802154/socket.c
-index dacbd58e1799..badc5cfe4dc6 100644
---- a/net/ieee802154/socket.c
-+++ b/net/ieee802154/socket.c
-@@ -1092,7 +1092,7 @@ static struct packet_type ieee802154_packet_type = {
- 
- static int __init af_ieee802154_init(void)
- {
--	int rc = -EINVAL;
-+	int rc;
- 
- 	rc = proto_register(&ieee802154_raw_prot, 1);
- 	if (rc)
--- 
-2.20.1
+This patch has been applied to the wpan tree and will be
+part of the next pull request to net. Thanks!
 
+regards
+Stefan Schmidt
