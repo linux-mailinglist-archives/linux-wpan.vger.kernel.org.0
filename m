@@ -2,170 +2,62 @@ Return-Path: <linux-wpan-owner@vger.kernel.org>
 X-Original-To: lists+linux-wpan@lfdr.de
 Delivered-To: lists+linux-wpan@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 8D71B88A9D
-	for <lists+linux-wpan@lfdr.de>; Sat, 10 Aug 2019 12:18:05 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id C72008BB7C
+	for <lists+linux-wpan@lfdr.de>; Tue, 13 Aug 2019 16:28:23 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726322AbfHJKSF (ORCPT <rfc822;lists+linux-wpan@lfdr.de>);
-        Sat, 10 Aug 2019 06:18:05 -0400
-Received: from mail.kernel.org ([198.145.29.99]:57886 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1725497AbfHJKSE (ORCPT <rfc822;linux-wpan@vger.kernel.org>);
-        Sat, 10 Aug 2019 06:18:04 -0400
-Received: from localhost (83-86-89-107.cable.dynamic.v4.ziggo.nl [83.86.89.107])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 35D5A20B7C;
-        Sat, 10 Aug 2019 10:18:03 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1565432283;
-        bh=lz2b1LiyJ8ZFWxw0CVE0PsoAtQjMZD413f/HgZuQA+o=;
-        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=JQlj0IJF2BM5gMfJd/m7oJAzhGVBpxxjeStEEdgC5pOXVFbBHuLP5TxqO2kokH1Uz
-         Tp61wODaFmzoXE2n1ocTagckWjuLAiHa+PSJpxaOhP35yYN1iBTtI+Q0rYc9V+rXAi
-         X3h4Oe3kX5FJd5D6NDHsRf8bBgAgyBmtKAAf1D8w=
-From:   Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To:     netdev@vger.kernel.org
-Cc:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Alexander Aring <alex.aring@gmail.com>,
-        "David S. Miller" <davem@davemloft.net>,
-        Harry Morris <h.morris@cascoda.com>,
-        linux-wpan@vger.kernel.org,
+        id S1728217AbfHMO2X (ORCPT <rfc822;lists+linux-wpan@lfdr.de>);
+        Tue, 13 Aug 2019 10:28:23 -0400
+Received: from youngberry.canonical.com ([91.189.89.112]:57512 "EHLO
+        youngberry.canonical.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727768AbfHMO2X (ORCPT
+        <rfc822;linux-wpan@vger.kernel.org>); Tue, 13 Aug 2019 10:28:23 -0400
+Received: from 1.general.cking.uk.vpn ([10.172.193.212] helo=localhost)
+        by youngberry.canonical.com with esmtpsa (TLS1.0:RSA_AES_256_CBC_SHA1:32)
+        (Exim 4.76)
+        (envelope-from <colin.king@canonical.com>)
+        id 1hxXmc-0001H7-F2; Tue, 13 Aug 2019 14:28:18 +0000
+From:   Colin King <colin.king@canonical.com>
+To:     Alexander Aring <alex.aring@gmail.com>,
         Stefan Schmidt <stefan@datenfreihafen.org>,
-        Michael Hennerich <michael.hennerich@analog.com>
-Subject: [PATCH v3 17/17] ieee802154: no need to check return value of debugfs_create functions
-Date:   Sat, 10 Aug 2019 12:17:32 +0200
-Message-Id: <20190810101732.26612-18-gregkh@linuxfoundation.org>
-X-Mailer: git-send-email 2.22.0
-In-Reply-To: <20190810101732.26612-1-gregkh@linuxfoundation.org>
-References: <20190810101732.26612-1-gregkh@linuxfoundation.org>
+        "David S . Miller" <davem@davemloft.net>,
+        linux-wpan@vger.kernel.org, netdev@vger.kernel.org
+Cc:     kernel-janitors@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: [PATCH] net: ieee802154: remove redundant assignment to rc
+Date:   Tue, 13 Aug 2019 15:28:18 +0100
+Message-Id: <20190813142818.15022-1-colin.king@canonical.com>
+X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
 Sender: linux-wpan-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-wpan.vger.kernel.org>
 X-Mailing-List: linux-wpan@vger.kernel.org
 
-When calling debugfs functions, there is no need to ever check the
-return value.  The function can work or not, but the code logic should
-never do something different based on this.
+From: Colin Ian King <colin.king@canonical.com>
 
-Cc: Alexander Aring <alex.aring@gmail.com>
-Cc: "David S. Miller" <davem@davemloft.net>
-Cc: Harry Morris <h.morris@cascoda.com>
-Cc: linux-wpan@vger.kernel.org
-Cc: netdev@vger.kernel.org
-Acked-by: Stefan Schmidt <stefan@datenfreihafen.org>
-Acked-by: Michael Hennerich <michael.hennerich@analog.com>
-Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Variable rc is initialized to a value that is never read and it is
+re-assigned later. The initialization is redundant and can be removed.
+
+Addresses-Coverity: ("Unused value")
+Signed-off-by: Colin Ian King <colin.king@canonical.com>
 ---
- drivers/net/ieee802154/adf7242.c   | 13 +++----------
- drivers/net/ieee802154/at86rf230.c | 20 +++++---------------
- drivers/net/ieee802154/ca8210.c    |  9 +--------
- 3 files changed, 9 insertions(+), 33 deletions(-)
+ net/ieee802154/socket.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/net/ieee802154/adf7242.c b/drivers/net/ieee802154/adf7242.c
-index c9392d70e639..5a37514e4234 100644
---- a/drivers/net/ieee802154/adf7242.c
-+++ b/drivers/net/ieee802154/adf7242.c
-@@ -1158,23 +1158,16 @@ static int adf7242_stats_show(struct seq_file *file, void *offset)
- 	return 0;
- }
+diff --git a/net/ieee802154/socket.c b/net/ieee802154/socket.c
+index dacbd58e1799..badc5cfe4dc6 100644
+--- a/net/ieee802154/socket.c
++++ b/net/ieee802154/socket.c
+@@ -1092,7 +1092,7 @@ static struct packet_type ieee802154_packet_type = {
  
--static int adf7242_debugfs_init(struct adf7242_local *lp)
-+static void adf7242_debugfs_init(struct adf7242_local *lp)
+ static int __init af_ieee802154_init(void)
  {
- 	char debugfs_dir_name[DNAME_INLINE_LEN + 1] = "adf7242-";
--	struct dentry *stats;
+-	int rc = -EINVAL;
++	int rc;
  
- 	strncat(debugfs_dir_name, dev_name(&lp->spi->dev), DNAME_INLINE_LEN);
- 
- 	lp->debugfs_root = debugfs_create_dir(debugfs_dir_name, NULL);
--	if (IS_ERR_OR_NULL(lp->debugfs_root))
--		return PTR_ERR_OR_ZERO(lp->debugfs_root);
- 
--	stats = debugfs_create_devm_seqfile(&lp->spi->dev, "status",
--					    lp->debugfs_root,
--					    adf7242_stats_show);
--	return PTR_ERR_OR_ZERO(stats);
--
--	return 0;
-+	debugfs_create_devm_seqfile(&lp->spi->dev, "status", lp->debugfs_root,
-+				    adf7242_stats_show);
- }
- 
- static const s32 adf7242_powers[] = {
-diff --git a/drivers/net/ieee802154/at86rf230.c b/drivers/net/ieee802154/at86rf230.c
-index 595cf7e2a651..7d67f41387f5 100644
---- a/drivers/net/ieee802154/at86rf230.c
-+++ b/drivers/net/ieee802154/at86rf230.c
-@@ -1626,24 +1626,16 @@ static int at86rf230_stats_show(struct seq_file *file, void *offset)
- }
- DEFINE_SHOW_ATTRIBUTE(at86rf230_stats);
- 
--static int at86rf230_debugfs_init(struct at86rf230_local *lp)
-+static void at86rf230_debugfs_init(struct at86rf230_local *lp)
- {
- 	char debugfs_dir_name[DNAME_INLINE_LEN + 1] = "at86rf230-";
--	struct dentry *stats;
- 
- 	strncat(debugfs_dir_name, dev_name(&lp->spi->dev), DNAME_INLINE_LEN);
- 
- 	at86rf230_debugfs_root = debugfs_create_dir(debugfs_dir_name, NULL);
--	if (!at86rf230_debugfs_root)
--		return -ENOMEM;
--
--	stats = debugfs_create_file("trac_stats", 0444,
--				    at86rf230_debugfs_root, lp,
--				    &at86rf230_stats_fops);
--	if (!stats)
--		return -ENOMEM;
- 
--	return 0;
-+	debugfs_create_file("trac_stats", 0444, at86rf230_debugfs_root, lp,
-+			    &at86rf230_stats_fops);
- }
- 
- static void at86rf230_debugfs_remove(void)
-@@ -1651,7 +1643,7 @@ static void at86rf230_debugfs_remove(void)
- 	debugfs_remove_recursive(at86rf230_debugfs_root);
- }
- #else
--static int at86rf230_debugfs_init(struct at86rf230_local *lp) { return 0; }
-+static void at86rf230_debugfs_init(struct at86rf230_local *lp) { }
- static void at86rf230_debugfs_remove(void) { }
- #endif
- 
-@@ -1751,9 +1743,7 @@ static int at86rf230_probe(struct spi_device *spi)
- 	/* going into sleep by default */
- 	at86rf230_sleep(lp);
- 
--	rc = at86rf230_debugfs_init(lp);
--	if (rc)
--		goto free_dev;
-+	at86rf230_debugfs_init(lp);
- 
- 	rc = ieee802154_register_hw(lp->hw);
+ 	rc = proto_register(&ieee802154_raw_prot, 1);
  	if (rc)
-diff --git a/drivers/net/ieee802154/ca8210.c b/drivers/net/ieee802154/ca8210.c
-index b188fce3f641..11402dc347db 100644
---- a/drivers/net/ieee802154/ca8210.c
-+++ b/drivers/net/ieee802154/ca8210.c
-@@ -3019,14 +3019,7 @@ static int ca8210_test_interface_init(struct ca8210_priv *priv)
- 		priv,
- 		&test_int_fops
- 	);
--	if (IS_ERR(test->ca8210_dfs_spi_int)) {
--		dev_err(
--			&priv->spi->dev,
--			"Error %ld when creating debugfs node\n",
--			PTR_ERR(test->ca8210_dfs_spi_int)
--		);
--		return PTR_ERR(test->ca8210_dfs_spi_int);
--	}
-+
- 	debugfs_create_symlink("ca8210", NULL, node_name);
- 	init_waitqueue_head(&test->readq);
- 	return kfifo_alloc(
 -- 
-2.22.0
+2.20.1
 
