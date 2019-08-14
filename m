@@ -2,75 +2,46 @@ Return-Path: <linux-wpan-owner@vger.kernel.org>
 X-Original-To: lists+linux-wpan@lfdr.de
 Delivered-To: lists+linux-wpan@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 0C7E08C4C9
-	for <lists+linux-wpan@lfdr.de>; Wed, 14 Aug 2019 01:28:07 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 1278E8CDBF
+	for <lists+linux-wpan@lfdr.de>; Wed, 14 Aug 2019 10:12:03 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726186AbfHMX2G (ORCPT <rfc822;lists+linux-wpan@lfdr.de>);
-        Tue, 13 Aug 2019 19:28:06 -0400
-Received: from proxima.lasnet.de ([78.47.171.185]:45156 "EHLO
-        proxima.lasnet.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725923AbfHMX2G (ORCPT
-        <rfc822;linux-wpan@vger.kernel.org>); Tue, 13 Aug 2019 19:28:06 -0400
-Received: from localhost.localdomain (unknown [5.148.42.186])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        (Authenticated sender: stefan@datenfreihafen.org)
-        by proxima.lasnet.de (Postfix) with ESMTPSA id 77AC9CB70F;
-        Wed, 14 Aug 2019 01:28:03 +0200 (CEST)
-Subject: Re: [PATCH] net: ieee802154: remove redundant assignment to rc
-To:     Colin King <colin.king@canonical.com>,
-        Alexander Aring <alex.aring@gmail.com>,
-        "David S . Miller" <davem@davemloft.net>,
-        linux-wpan@vger.kernel.org, netdev@vger.kernel.org
-Cc:     kernel-janitors@vger.kernel.org, linux-kernel@vger.kernel.org
-References: <20190813142818.15022-1-colin.king@canonical.com>
-From:   Stefan Schmidt <stefan@datenfreihafen.org>
-Message-ID: <a3262e25-209d-209d-59fc-a09511fb9280@datenfreihafen.org>
-Date:   Wed, 14 Aug 2019 01:28:02 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.6.1
+        id S1727167AbfHNIL6 convert rfc822-to-8bit (ORCPT
+        <rfc822;lists+linux-wpan@lfdr.de>); Wed, 14 Aug 2019 04:11:58 -0400
+Received: from slot0.abamarket.ga ([178.156.202.135]:60151 "EHLO
+        slot0.abamarket.ga" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725306AbfHNIL5 (ORCPT
+        <rfc822;linux-wpan@vger.kernel.org>); Wed, 14 Aug 2019 04:11:57 -0400
+X-Greylist: delayed 674 seconds by postgrey-1.27 at vger.kernel.org; Wed, 14 Aug 2019 04:11:56 EDT
+Content-Type: text/plain; charset="iso-8859-1"
 MIME-Version: 1.0
-In-Reply-To: <20190813142818.15022-1-colin.king@canonical.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8BIT
+Content-Description: Mail message body
+Subject: PLEASE CONFIRM PURCHASE ORDER
+To:     Recipients <mscarolynsmtih@gmail.com>
+From:   "Mr NARESH KUMAR" <mscarolynsmtih@gmail.com>
+Date:   Wed, 14 Aug 2019 15:50:50 +0800
+Reply-To: saiapex09@outlook.com
+Message-ID: <0.0.3.418.1D55274B5D25CF0.0@slot0.abamarket.ga>
 Sender: linux-wpan-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-wpan.vger.kernel.org>
 X-Mailing-List: linux-wpan@vger.kernel.org
 
-Hello.
+Could you please confirm if your recieved our purchase order last week.
 
-On 13.08.19 16:28, Colin King wrote:
-> From: Colin Ian King <colin.king@canonical.com>
-> 
-> Variable rc is initialized to a value that is never read and it is
-> re-assigned later. The initialization is redundant and can be removed.
-> 
-> Addresses-Coverity: ("Unused value")
-> Signed-off-by: Colin Ian King <colin.king@canonical.com>
-> ---
->  net/ieee802154/socket.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/net/ieee802154/socket.c b/net/ieee802154/socket.c
-> index dacbd58e1799..badc5cfe4dc6 100644
-> --- a/net/ieee802154/socket.c
-> +++ b/net/ieee802154/socket.c
-> @@ -1092,7 +1092,7 @@ static struct packet_type ieee802154_packet_type = {
->  
->  static int __init af_ieee802154_init(void)
->  {
-> -	int rc = -EINVAL;
-> +	int rc;
->  
->  	rc = proto_register(&ieee802154_raw_prot, 1);
->  	if (rc)
-> 
+If no please confirm let me resend it to you.
 
 
-This patch has been applied to the wpan tree and will be
-part of the next pull request to net. Thanks!
 
-regards
-Stefan Schmidt
+
+NARESH KUMAR
+
+Executive Purchase Saiapextrading Ltd
+
+Dubai, KSA.
+
+(T/F): +96-2667-264 777 / 778
+
+(Mo): +96 94284 02803
+
+Website - http://www.saiapexgeneraltrading.com
