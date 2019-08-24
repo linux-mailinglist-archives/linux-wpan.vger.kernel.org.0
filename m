@@ -2,91 +2,68 @@ Return-Path: <linux-wpan-owner@vger.kernel.org>
 X-Original-To: lists+linux-wpan@lfdr.de
 Delivered-To: lists+linux-wpan@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id CB6B89938C
-	for <lists+linux-wpan@lfdr.de>; Thu, 22 Aug 2019 14:30:44 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id B0E9A9BDA1
+	for <lists+linux-wpan@lfdr.de>; Sat, 24 Aug 2019 14:20:15 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1731752AbfHVMa2 (ORCPT <rfc822;lists+linux-wpan@lfdr.de>);
-        Thu, 22 Aug 2019 08:30:28 -0400
-Received: from mail-lj1-f194.google.com ([209.85.208.194]:47089 "EHLO
-        mail-lj1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1732812AbfHVMa2 (ORCPT
-        <rfc822;linux-wpan@vger.kernel.org>); Thu, 22 Aug 2019 08:30:28 -0400
-Received: by mail-lj1-f194.google.com with SMTP id f9so5330936ljc.13
-        for <linux-wpan@vger.kernel.org>; Thu, 22 Aug 2019 05:30:27 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:reply-to:from:date:message-id:subject:to
-         :content-transfer-encoding;
-        bh=aWwEGZ7IKPwlD1SyN53LweuoS+rG8j2WBRgPDxMagPA=;
-        b=Aup3/HeRe1A8c3M11ogk2frrKgdfcyl1LF7VIRKHU4wdfedW4K7Cb0x2GRdcAz52Rp
-         mjFST2KsmCK3tzzyd0EAiXoHM3SJHaG3uzQqhJ7wDoigDFx0FU8hAR/24cV8aMBXLRqJ
-         tqwpiyYj//P7ylZvua8LLwk/NmQ2++IK2BmFzlqTVP1OBkL1JbLTiQdfDfwi6jwnVZ3E
-         JGrHdzFdGTeLSCSk9eF0t1MpdpyQGjgt3sep8ioCKbaKkUlzE/uioaamClMoV6MkXTf9
-         OmAO3bmIQnaToEMTAt2IKoEM7Qeqt1zkkoKO/whqH+IgKgd0tg83efND+kaQtlumBUBs
-         xVTQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:reply-to:from:date:message-id
-         :subject:to:content-transfer-encoding;
-        bh=aWwEGZ7IKPwlD1SyN53LweuoS+rG8j2WBRgPDxMagPA=;
-        b=RX3t+p1jrhHa8PZsWtOvwAEYRfL2zyM6uG6Ye8oWk1fwPGDeZ0udRdhIaaBu1wmxso
-         NgkAu93KbApKr64q/NaFZvYAEN5HFQr0VCyHkkByg4XfLn5/jK65grGo2gWD4CESCX/O
-         i3SePP4VpCneEbH+etkdVOc23UJVOSHnu7Fi2LfxzpbB0isQk4xlWcZkfrNdkVAbJL2n
-         PlZzYF3sBY6j1wfiDPQo6cbsm5tVUC4tpD4I+BOPlJa4frlU8BZPT/+7dJ/dhIJF24Jj
-         biqLkTR5EmdZqlOBqnqk1n9kNSkIWehI1RnNopmo7jc1s7sevDwRpERnGhO6NdfEeW2K
-         nvYg==
-X-Gm-Message-State: APjAAAVMxdwdpJhVyZl4RrvOBlkF3doLL6V8vvZH/056kUKSQO+n1Sa1
-        JpLsD8J0BL4kQ7yZDD4S+mxFjRPTyZ0x1kjUFxE=
-X-Google-Smtp-Source: APXvYqyRITC2fvUqBp19t/1VS+ZVtoTKEYkfX9eEUp7/OtNDhWjL9xEtti8YoC5/b0Na3pg5TPvI89gtgLtnKq7OszU=
-X-Received: by 2002:a05:651c:95:: with SMTP id 21mr22171089ljq.128.1566477026397;
- Thu, 22 Aug 2019 05:30:26 -0700 (PDT)
+        id S1728231AbfHXMUA (ORCPT <rfc822;lists+linux-wpan@lfdr.de>);
+        Sat, 24 Aug 2019 08:20:00 -0400
+Received: from proxima.lasnet.de ([78.47.171.185]:45684 "EHLO
+        proxima.lasnet.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727894AbfHXMT7 (ORCPT
+        <rfc822;linux-wpan@vger.kernel.org>); Sat, 24 Aug 2019 08:19:59 -0400
+Received: from localhost.localdomain (p4FC2F3D7.dip0.t-ipconnect.de [79.194.243.215])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        (Authenticated sender: stefan@sostec.de)
+        by proxima.lasnet.de (Postfix) with ESMTPSA id F1EC1CB828;
+        Sat, 24 Aug 2019 14:19:57 +0200 (CEST)
+From:   Stefan Schmidt <stefan@datenfreihafen.org>
+To:     davem@davemloft.net
+Cc:     linux-wpan@vger.kernel.org, alex.aring@gmail.com,
+        netdev@vger.kernel.org
+Subject: pull-request: ieee802154 for net 2019-08-24
+Date:   Sat, 24 Aug 2019 14:19:53 +0200
+Message-Id: <20190824121953.27839-1-stefan@datenfreihafen.org>
+X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
-Received: by 2002:a19:dc4f:0:0:0:0:0 with HTTP; Thu, 22 Aug 2019 05:30:25
- -0700 (PDT)
-Reply-To: eku.lawfirm@gmail.com
-From:   "Law firm(Eku and Associates)" <elenabaltach66@gmail.com>
-Date:   Thu, 22 Aug 2019 12:30:25 +0000
-Message-ID: <CAOGpsp7CyMvDU7hRJw4n5yauXZ41ij7yEj5aAqmTnoB1+HZ-MQ@mail.gmail.com>
-Subject: MY $25,000,000.00 INVESTMENT PROPOSAL WITH YOU AND IN YOUR COUNTRY.
-To:     undisclosed-recipients:;
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 Sender: linux-wpan-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-wpan.vger.kernel.org>
 X-Mailing-List: linux-wpan@vger.kernel.org
 
---=20
-Dear,
-With due respect this is not spam or Scam mail, because I have
-contacted you before and there was no response from you,I apologise if
-the contents of this mail are contrary to your moral ethics, which I
-feel may be of great disturbance to your person, but please treat this
-with absolute confidentiality, believing that this email reaches you
-in good faith. My contacting you is not a mistake or a coincidence
-because God can use any person known or unknown to accomplish great
-things.
-I am a lawyer and I have an investment business proposal to offer you.
-It is not official but should be considered as legal and confidential
-business. I have a customer's deposit of $US25 million dollars ready
-to be moved for investment if you can partner with us. We are ready to
-offer you 10% of this total amount as your compensation for supporting
-the transaction to completion. If you are interested to help me please
-reply me with your full details as stated below:
-(1) Your full names:
-(2) Your address:
-(3) Your occupation:
-(4) Your mobile telephone number:
-(5) Your nationality:
-(6) Your present location:
-(7) Your age:
-So that I will provide you more details on what to do and what is
-required for successful completion.
-Note: DO NOT REPLY ME IF YOU ARE NOT INTERESTED AND WITHOUT THE ABOVE
-MENTIONED DETAILS
+Hello Dave.
 
-Sinc=C3=A8rement v=C3=B4tre,
-Avocat Etienne Eku Esq.(Lawfirm)
-Procureur principal. De Cabinet d=E2=80=99avocats de l=E2=80=99Afrique de l=
-=E2=80=99ouest.
-Skype:westafricalawfirm
+An update from ieee802154 for your *net* tree.
+
+Yue  Haibing fixed two bugs discovered by KASAN in the hwsim driver for
+ieee802154 and Colin Ian King cleaned up a redundant variable assignment.
+
+If there are any problems let me know.
+
+regards
+Stefan Schmidt
+
+The following changes since commit 6c0afef5fb0c27758f4d52b2210c61b6bd8b4470:
+
+  ipv6/flowlabel: wait rcu grace period before put_pid() (2019-04-29 23:30:13 -0400)
+
+are available in the Git repository at:
+
+  git://git.kernel.org/pub/scm/linux/kernel/git/sschmidt/wpan.git ieee802154-for-davem-2019-08-24
+
+for you to fetch changes up to 074014abdf2bd2a00da3dd14a6ae04cafc1d62cc:
+
+  net: ieee802154: remove redundant assignment to rc (2019-08-14 01:10:41 +0200)
+
+----------------------------------------------------------------
+Colin Ian King (1):
+      net: ieee802154: remove redundant assignment to rc
+
+YueHaibing (2):
+      ieee802154: hwsim: Fix error handle path in hwsim_init_module
+      ieee802154: hwsim: unregister hw while hwsim_subscribe_all_others fails
+
+ drivers/net/ieee802154/mac802154_hwsim.c | 8 +++++---
+ net/ieee802154/socket.c                  | 2 +-
+ 2 files changed, 6 insertions(+), 4 deletions(-)
