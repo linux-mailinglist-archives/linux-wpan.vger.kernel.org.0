@@ -2,132 +2,154 @@ Return-Path: <linux-wpan-owner@vger.kernel.org>
 X-Original-To: lists+linux-wpan@lfdr.de
 Delivered-To: lists+linux-wpan@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 1F377A2949
-	for <lists+linux-wpan@lfdr.de>; Thu, 29 Aug 2019 23:58:08 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 30E13A2B86
+	for <lists+linux-wpan@lfdr.de>; Fri, 30 Aug 2019 02:40:36 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727991AbfH2V6F (ORCPT <rfc822;lists+linux-wpan@lfdr.de>);
-        Thu, 29 Aug 2019 17:58:05 -0400
-Received: from mail-oi1-f193.google.com ([209.85.167.193]:34997 "EHLO
-        mail-oi1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727959AbfH2V6F (ORCPT
-        <rfc822;linux-wpan@vger.kernel.org>); Thu, 29 Aug 2019 17:58:05 -0400
-Received: by mail-oi1-f193.google.com with SMTP id a127so3820541oii.2;
-        Thu, 29 Aug 2019 14:58:04 -0700 (PDT)
+        id S1727041AbfH3Akf (ORCPT <rfc822;lists+linux-wpan@lfdr.de>);
+        Thu, 29 Aug 2019 20:40:35 -0400
+Received: from mail-pg1-f182.google.com ([209.85.215.182]:39682 "EHLO
+        mail-pg1-f182.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725826AbfH3Akf (ORCPT
+        <rfc822;linux-wpan@vger.kernel.org>); Thu, 29 Aug 2019 20:40:35 -0400
+Received: by mail-pg1-f182.google.com with SMTP id u17so2534142pgi.6;
+        Thu, 29 Aug 2019 17:40:34 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=mime-version:from:date:message-id:subject:to:cc;
-        bh=JByFaSedVJm/2cv0gwp6K7M2K2CazvyjJt9MUumRGx4=;
-        b=PGZWM/rWRRXrT7I69KY9OtlW0+bpycNW2Lz+I6v/54eGdukUFNGSFxX4amcUykbZ5C
-         yXWfg7gIlzAspW89k5F1UtF2/SGL1jCmtUd2h8K1yW2PZWXrVTijgCjKzGrPHl62ecRz
-         xY+iqnUzV6zlDWJFYn7pojo6jgPm8JlIbKb2NA0l2WSoyAq1owLnDewzvOKlZgvAahvs
-         mD5Wp78Mndf3PgCzZn2sgcoYkPKjd2wM0bD5FIjIQHkAxlHIivDVulUBfstRaZXplW1x
-         JPfs1lg6Le+b7QZc2MIflRAFQw5+4DsWlCMXDMsquy8GIjuY3whpSX4/5awQLDbTRHTN
-         qagw==
+        h=mime-version:subject:from:in-reply-to:date:cc
+         :content-transfer-encoding:message-id:references:to;
+        bh=dEzzK3ej0D2DdcrKMnr5GiDP31mC/4AEuzvK1xuDxvQ=;
+        b=q932OvW839kqnCTD+/UUQ5bHkpzRVLV8CY6Vu9mdp+4ItpgKcVBip46mW9SKWoDq7b
+         0QZm4Jw+aP8678Rei13/TiDivwFJktsM7Gpfv3MGjtz9vKkRCsbeEXximE1KWaPxXGJB
+         Y1Sq9BUGmxSKi3sLxldJwAuqNonn68LWir6uyJunvOngmG4Ivd1hEXGzxmweDNwd3yDl
+         3KUZn3z0iqi5oZFYkkK6J4Z4TojUZV38BcCMetY5iALx2KjTk4x6t7jQOBNehexc6sSu
+         D5y6BiUAXbsjE062f+KT20tbaTBHmTfzN35Vdhg8VVIVnKAft6bLFDTLXp3t8vN/aVAq
+         EZYA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:from:date:message-id:subject:to:cc;
-        bh=JByFaSedVJm/2cv0gwp6K7M2K2CazvyjJt9MUumRGx4=;
-        b=mgOfUjlpDHSmT3WdBHVMtt1bpV06qHiCQplM57pPaR1SHTVMHikoxCtKkZ51M2XPts
-         jc82IqKNryHPwU3BVaaLpQWAT+mOxauMixmesvHE86JMU/AzvuwN7BLO/sYff3+Qt/4y
-         Zlu8MZDWD+3/R5iI89CWscRtCuI46Gsc7DapPjLN30ph8sD3xeSwePPY7gUXdeq1zFfz
-         Tsft8kxg7GADfcrjTj/tTopOKr8SKkbky8KfY4+b6jyJiC1dAf3WjG+nb4+eax31ha0s
-         KO7d/FTle9jx4J4Fi4G+rI4E2ctBgS3F2CN0UOit2f5bGwyvYiywur89sWyDCS+bEQMr
-         kl4g==
-X-Gm-Message-State: APjAAAXUZapGYtDN9WwZwuCs1nrrJ1x9h52906+aUzH6g6zGkneCsxcA
-        yDpy3Pt324QeEjK+Y+q03q8McvJfk7NJAxVhifXTifWQ
-X-Google-Smtp-Source: APXvYqwBkhrUM1HWtTXSwhVRnycSbQQegydXxuZNDeDizEaJk3f+m/h+FjJ7hFwdpdBlZI4mz4tA2S8roWZpvfZ1IHI=
-X-Received: by 2002:aca:4b88:: with SMTP id y130mr8379252oia.157.1567115883743;
- Thu, 29 Aug 2019 14:58:03 -0700 (PDT)
-MIME-Version: 1.0
-From:   Alexander Aring <alex.aring@gmail.com>
-Date:   Thu, 29 Aug 2019 17:57:52 -0400
-Message-ID: <CAB_54W7h9ca0UJAZtk=ApPX-2ZCvzu4774BTFTaB5mtkobWCtw@mail.gmail.com>
-Subject: ANNOUNCE: rpld an another RPL implementation for Linux
-To:     "open list:NETWORKING [GENERAL]" <netdev@vger.kernel.org>
-Cc:     Michael Richardson <mcr@sandelman.ca>,
+        h=x-gm-message-state:mime-version:subject:from:in-reply-to:date:cc
+         :content-transfer-encoding:message-id:references:to;
+        bh=dEzzK3ej0D2DdcrKMnr5GiDP31mC/4AEuzvK1xuDxvQ=;
+        b=hv9vRShcisqxuAGkhJL0+OkJHZtqqfpxW9hQzzgatZDWh8OzwIfguftbzoGAMs7Cmk
+         61nXNhXDDJ2anQahli1+AVE6F3OfNUFDIZo43xPtQgdwFG/+HdSlO3qA3pcnHRmR6T/I
+         2K9tzdjiGv3CYHp6c7WbF6cTMjr/bw5JCpgF5EOOb+r7MNtU34vi/nbWmE4CqNIdZ1Xj
+         JlIdZNoAW+4K0rCEsVAuIfZJVq42hIV29P+ZpwODOQNOxuFoYDszrkhkUJqBb7I6tgCT
+         Eyf81tcr6Y7pQX+b5SXZiejRqD1adga/Nu5YTZwuV0fCUtdpFZgudPV2pDMUV2loSJaz
+         vbUg==
+X-Gm-Message-State: APjAAAWLU6n0wyhI914hyFoPYBJ4Bga14xUkvdyxZqtNoSpw54u22Vu1
+        0Su6qn9IWskt4I7Klr+NEiU=
+X-Google-Smtp-Source: APXvYqx2ufivqU/tZ7EaorHY4lT0vU8Du8aagsdvqLhRMb1BuJhFLb/D0CtfAOei+SqgWf1QCCzaHg==
+X-Received: by 2002:a17:90a:256d:: with SMTP id j100mr12764872pje.126.1567125634017;
+        Thu, 29 Aug 2019 17:40:34 -0700 (PDT)
+Received: from ?IPv6:2600:380:7030:d773:cdf3:ae60:8f6c:db60? ([2600:380:7030:d773:cdf3:ae60:8f6c:db60])
+        by smtp.gmail.com with ESMTPSA id t15sm4229652pfc.47.2019.08.29.17.40.32
+        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+        Thu, 29 Aug 2019 17:40:33 -0700 (PDT)
+Content-Type: text/plain;
+        charset=utf-8
+Mime-Version: 1.0 (1.0)
+Subject: Re: ANNOUNCE: rpld an another RPL implementation for Linux
+From:   Reuben Hawkins <reubenhwk@gmail.com>
+X-Mailer: iPhone Mail (16G77)
+In-Reply-To: <CAB_54W7h9ca0UJAZtk=ApPX-2ZCvzu4774BTFTaB5mtkobWCtw@mail.gmail.com>
+Date:   Thu, 29 Aug 2019 17:40:30 -0700
+Cc:     "open list:NETWORKING [GENERAL]" <netdev@vger.kernel.org>,
+        Michael Richardson <mcr@sandelman.ca>,
         Jamal Hadi Salim <jhs@mojatatu.com>,
         Robert Kaiser <robert.kaiser@hs-rm.de>,
         Martin Gergeleit <martin.gergeleit@hs-rm.de>,
         Kai Beckmann <kai.beckmann@hs-rm.de>, koen@bergzand.net,
         linux-wpan - ML <linux-wpan@vger.kernel.org>,
-        reubenhwk@gmail.com,
         BlueZ development <linux-bluetooth@vger.kernel.org>,
         Stefan Schmidt <stefan@datenfreihafen.org>,
         sebastian.meiling@haw-hamburg.de,
         Marcel Holtmann <marcel@holtmann.org>,
         Werner Almesberger <werner@almesberger.net>,
         Jukka Rissanen <jukka.rissanen@linux.intel.com>
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+Message-Id: <F9994340-5074-4CAB-9FCF-7CC5DAF48257@gmail.com>
+References: <CAB_54W7h9ca0UJAZtk=ApPX-2ZCvzu4774BTFTaB5mtkobWCtw@mail.gmail.com>
+To:     Alexander Aring <alex.aring@gmail.com>
 Sender: linux-wpan-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-wpan.vger.kernel.org>
 X-Mailing-List: linux-wpan@vger.kernel.org
 
-Hi,
+There is a COPYRIGHT file in radvd which I just read for the first time toda=
+y. It=E2=80=99s been there for 19+ years. Sounds very BSD to me. I=E2=80=99v=
+e been maintainer for 9 years. As far as I=E2=80=99m concerned, you can do w=
+ith the code whatever you like.  Good luck. =F0=9F=91=8D=20
 
-I had some free time, I wanted to know how RPL [0] works so I did a
-implementation. It's _very_ basic as it only gives you a "routable"
-(is that a word?) thing afterwards in a very constrained setup of RPL
-messages.
+Sent from my iPhone
 
-Took ~1 month to implement it and I reused some great code from radvd
-[1]. I released it under the same license (BSD?). Anyway, I know there
-exists a lot of memory leaks and the parameters are just crazy as not
-practical in a real environment BUT it works.
+> On Aug 29, 2019, at 2:57 PM, Alexander Aring <alex.aring@gmail.com> wrote:=
 
-I changed a little bit the dependencies from radvd (because fancy new things):
-
-- lua for config handling
-- libev for event loop handling
-- libmnl for netlink handling
-
-The code is available at:
-
-https://github.com/linux-wpan/rpld
-
-With a recent kernel (I think 4.19 and above) and necessary user space
-dependencies, just build it and run the start script. It will create
-some virtual IEEE 802.15.4 6LoWPAN interfaces and you can run
-traceroute from namespace ns0 (which is the RPL DODAG root) to any
-other node e.g. namespace ns5. With more knowledge of the scripts you
-can change the underlying topology, everybody is welcome to improve
-them.
-
-I will work more on it when I have time... to have at least something
-running means the real fun can begin (but it was already fun before).
-
-The big thing what everybody wants is source routing, which requires
-some control plane for RPL into the kernel to say how and when to put
-source routing headers in IPv6. I think somehow I know what's
-necessary now... but I didn't implemented it, this simple
-implementation just filling up routing tables as RPL supports storing
-(routing table) or non-storing (source routing) modes. People tells me
-to lookup frrouting to look how they do source routing, I will if I
-get the chance.
-
-It doesn't run on Bluetooth yet, I know there exists a lack of UAPI to
-figure out the linklayer which is used by 6LoWPAN. I need somehow a
-SLAVE_INFO attribute in netlink to figure this out and tell me some
-6LoWPAN specific attributes. I am sorry Bluetooth people, but I think
-you are also more interested in source routing because I heard
-somebody saying it's the more common approach outside (but I never saw
-any other RPL implementation than unstrung running).
-
-Also I did something in my masters thesis to make a better parent
-selection, if this implementation becomes stable I can look to get
-this migrated.
-
-Please, radvd maintainer let me know if everything is okay from your
-side. As I said I reused some code from radvd. I also operate on
-ICMPv6 sockets. The same to Michael Richardson unstrung [2]. If there
-is anything to talk or you have complains, I can change it.
-
-Thanks, I really only wanted to get more knowledge about routing
-protocols and how to implement such. Besides all known issues, I still
-think it's a good starting point.
-
-- Alex
-
-[0] https://tools.ietf.org/html/rfc6550
-[1] https://github.com/reubenhwk/radvd
-[2] https://github.com/AnimaGUS-minerva/unstrung
+>=20
+> Hi,
+>=20
+> I had some free time, I wanted to know how RPL [0] works so I did a
+> implementation. It's _very_ basic as it only gives you a "routable"
+> (is that a word?) thing afterwards in a very constrained setup of RPL
+> messages.
+>=20
+> Took ~1 month to implement it and I reused some great code from radvd
+> [1]. I released it under the same license (BSD?). Anyway, I know there
+> exists a lot of memory leaks and the parameters are just crazy as not
+> practical in a real environment BUT it works.
+>=20
+> I changed a little bit the dependencies from radvd (because fancy new thin=
+gs):
+>=20
+> - lua for config handling
+> - libev for event loop handling
+> - libmnl for netlink handling
+>=20
+> The code is available at:
+>=20
+> https://github.com/linux-wpan/rpld
+>=20
+> With a recent kernel (I think 4.19 and above) and necessary user space
+> dependencies, just build it and run the start script. It will create
+> some virtual IEEE 802.15.4 6LoWPAN interfaces and you can run
+> traceroute from namespace ns0 (which is the RPL DODAG root) to any
+> other node e.g. namespace ns5. With more knowledge of the scripts you
+> can change the underlying topology, everybody is welcome to improve
+> them.
+>=20
+> I will work more on it when I have time... to have at least something
+> running means the real fun can begin (but it was already fun before).
+>=20
+> The big thing what everybody wants is source routing, which requires
+> some control plane for RPL into the kernel to say how and when to put
+> source routing headers in IPv6. I think somehow I know what's
+> necessary now... but I didn't implemented it, this simple
+> implementation just filling up routing tables as RPL supports storing
+> (routing table) or non-storing (source routing) modes. People tells me
+> to lookup frrouting to look how they do source routing, I will if I
+> get the chance.
+>=20
+> It doesn't run on Bluetooth yet, I know there exists a lack of UAPI to
+> figure out the linklayer which is used by 6LoWPAN. I need somehow a
+> SLAVE_INFO attribute in netlink to figure this out and tell me some
+> 6LoWPAN specific attributes. I am sorry Bluetooth people, but I think
+> you are also more interested in source routing because I heard
+> somebody saying it's the more common approach outside (but I never saw
+> any other RPL implementation than unstrung running).
+>=20
+> Also I did something in my masters thesis to make a better parent
+> selection, if this implementation becomes stable I can look to get
+> this migrated.
+>=20
+> Please, radvd maintainer let me know if everything is okay from your
+> side. As I said I reused some code from radvd. I also operate on
+> ICMPv6 sockets. The same to Michael Richardson unstrung [2]. If there
+> is anything to talk or you have complains, I can change it.
+>=20
+> Thanks, I really only wanted to get more knowledge about routing
+> protocols and how to implement such. Besides all known issues, I still
+> think it's a good starting point.
+>=20
+> - Alex
+>=20
+> [0] https://tools.ietf.org/html/rfc6550
+> [1] https://github.com/reubenhwk/radvd
+> [2] https://github.com/AnimaGUS-minerva/unstrung
