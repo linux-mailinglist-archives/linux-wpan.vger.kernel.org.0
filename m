@@ -2,88 +2,92 @@ Return-Path: <linux-wpan-owner@vger.kernel.org>
 X-Original-To: lists+linux-wpan@lfdr.de
 Delivered-To: lists+linux-wpan@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 43F68B0DA1
-	for <lists+linux-wpan@lfdr.de>; Thu, 12 Sep 2019 13:15:02 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 3DBEBB5838
+	for <lists+linux-wpan@lfdr.de>; Wed, 18 Sep 2019 00:47:37 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730907AbfILLPB (ORCPT <rfc822;lists+linux-wpan@lfdr.de>);
-        Thu, 12 Sep 2019 07:15:01 -0400
-Received: from proxima.lasnet.de ([78.47.171.185]:47571 "EHLO
-        proxima.lasnet.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1730386AbfILLPB (ORCPT
-        <rfc822;linux-wpan@vger.kernel.org>); Thu, 12 Sep 2019 07:15:01 -0400
-Received: from localhost.localdomain (unknown [88.128.80.121])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        (Authenticated sender: stefan@datenfreihafen.org)
-        by proxima.lasnet.de (Postfix) with ESMTPSA id 74CEFC11ED;
-        Thu, 12 Sep 2019 13:14:57 +0200 (CEST)
-Subject: Re: ANNOUNCE: rpld an another RPL implementation for Linux
-To:     Alexander Aring <alex.aring@gmail.com>,
-        "open list:NETWORKING [GENERAL]" <netdev@vger.kernel.org>
-Cc:     Michael Richardson <mcr@sandelman.ca>,
-        Jamal Hadi Salim <jhs@mojatatu.com>,
-        Robert Kaiser <robert.kaiser@hs-rm.de>,
-        Martin Gergeleit <martin.gergeleit@hs-rm.de>,
-        Kai Beckmann <kai.beckmann@hs-rm.de>, koen@bergzand.net,
-        linux-wpan - ML <linux-wpan@vger.kernel.org>,
-        reubenhwk@gmail.com,
-        BlueZ development <linux-bluetooth@vger.kernel.org>,
-        sebastian.meiling@haw-hamburg.de,
-        Marcel Holtmann <marcel@holtmann.org>,
-        Werner Almesberger <werner@almesberger.net>,
-        Jukka Rissanen <jukka.rissanen@linux.intel.com>
-References: <CAB_54W7h9ca0UJAZtk=ApPX-2ZCvzu4774BTFTaB5mtkobWCtw@mail.gmail.com>
-From:   Stefan Schmidt <stefan@datenfreihafen.org>
-Message-ID: <78e83575-4bae-cb8b-be8c-c108ac488a37@datenfreihafen.org>
-Date:   Thu, 12 Sep 2019 13:14:55 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.8.0
-MIME-Version: 1.0
-In-Reply-To: <CAB_54W7h9ca0UJAZtk=ApPX-2ZCvzu4774BTFTaB5mtkobWCtw@mail.gmail.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+        id S1727469AbfIQWr2 (ORCPT <rfc822;lists+linux-wpan@lfdr.de>);
+        Tue, 17 Sep 2019 18:47:28 -0400
+Received: from mail-io1-f65.google.com ([209.85.166.65]:40309 "EHLO
+        mail-io1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727011AbfIQWr1 (ORCPT
+        <rfc822;linux-wpan@vger.kernel.org>); Tue, 17 Sep 2019 18:47:27 -0400
+Received: by mail-io1-f65.google.com with SMTP id h144so11555632iof.7;
+        Tue, 17 Sep 2019 15:47:27 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=from:to:cc:subject:date:message-id;
+        bh=5VqlgmEcpDNl3x/hruHj+kY7JbEaNQvrbJRA/5fQs/E=;
+        b=SH7v1obY8TSWmiqpJkDPSLoUDZaN8KB1U7FuZ3C7BoG9V73ytTD1e5J3TX/EYvjTa+
+         gFaQxzstHpK2DzA/lN/L1+M8c8bjyDNVLUKfC8GMO51r49kXCuckpJOOvW5f0hw7fEIZ
+         RFELv/7kR0jXb5w2sH9v+AlqDmbnvkOMfd1D3fdIiWLUbVHNfLmQaNBI8JRiZrbnpPrD
+         a80xNSDVon+UpKY7wQO1wbaZD7qESJZmVOfFld+hRaXBu6ot/Ms2YERsvPtun1WugM+K
+         a0FBfDwhYuQO6ipb2VuA5O3tVz9ux0EG/tvLvUAcpIPV0/4Nm4msaDO1HfhNFKBlhooy
+         qqMw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id;
+        bh=5VqlgmEcpDNl3x/hruHj+kY7JbEaNQvrbJRA/5fQs/E=;
+        b=bhZPBQ0YURdscVNY6LiE2xPsjgqfZx+mn3gxSCLjkin0ZroD+qWeD018aW+mmCAUcC
+         ZI9uZGEcn0rfs90w9G6TeerDkUQCvVjUmNscfga8Lmvyh2EdqsvD5DHyu4iH9YxnX4HL
+         Pdwe7g5iL9R0D8it/sg14LGaUL7p2/NnNeFzT/Mlcw2yYrsKDhrdeJacpBSOeUq3zXhH
+         uvc/IS+koyoj3AKZLlpodPwz4QFk78vu5OZaZswvdUloVwwdpZi9P4Mx/0Z0OnCcjQJ4
+         NhgxA8wDNIrcVo7hfEILBZavkBod4BqeKH1mdK+FWRVwydpZmTG40yyTToAPoQI+C4+s
+         N1wA==
+X-Gm-Message-State: APjAAAW4R1QnBsd5yETMZ7yi1djt4yX22pJvSHmzMXMncfw42U1u9r3K
+        0duScv6+bg1QODbFmpF3qEw=
+X-Google-Smtp-Source: APXvYqwbItfkQfOpXkoUPdAzexGLX/v678OXhG99WTPyfexi7c41btMn7SPpVuj7QJ8qK1yuACv7cw==
+X-Received: by 2002:a05:6638:681:: with SMTP id i1mr1248426jab.127.1568760446971;
+        Tue, 17 Sep 2019 15:47:26 -0700 (PDT)
+Received: from cs-dulles.cs.umn.edu (cs-dulles.cs.umn.edu. [128.101.35.54])
+        by smtp.googlemail.com with ESMTPSA id m9sm1533647ion.65.2019.09.17.15.47.26
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 17 Sep 2019 15:47:26 -0700 (PDT)
+From:   Navid Emamdoost <navid.emamdoost@gmail.com>
+Cc:     emamd001@umn.edu, smccaman@umn.edu, kjlu@umn.edu,
+        Navid Emamdoost <navid.emamdoost@gmail.com>,
+        Harry Morris <h.morris@cascoda.com>,
+        Alexander Aring <alex.aring@gmail.com>,
+        Stefan Schmidt <stefan@datenfreihafen.org>,
+        "David S. Miller" <davem@davemloft.net>,
+        linux-wpan@vger.kernel.org, netdev@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Subject: [PATCH] ieee802154: ca8210: prevent memory leak
+Date:   Tue, 17 Sep 2019 17:47:12 -0500
+Message-Id: <20190917224713.26371-1-navid.emamdoost@gmail.com>
+X-Mailer: git-send-email 2.17.1
+To:     unlisted-recipients:; (no To-header on input)
 Sender: linux-wpan-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-wpan.vger.kernel.org>
 X-Mailing-List: linux-wpan@vger.kernel.org
 
-Hello Alex.
+In ca8210_probe the allocated pdata needs to be assigned to
+spi_device->dev.platform_data before calling ca8210_get_platform_data. 
+Othrwise when ca8210_get_platform_data fails pdata cannot be released.
 
-On 29.08.19 23:57, Alexander Aring wrote:
-> Hi,
-> 
-> I had some free time, I wanted to know how RPL [0] works so I did a
-> implementation. It's _very_ basic as it only gives you a "routable"
-> (is that a word?) thing afterwards in a very constrained setup of RPL
-> messages.
-> 
-> Took ~1 month to implement it and I reused some great code from radvd
-> [1]. I released it under the same license (BSD?). Anyway, I know there
-> exists a lot of memory leaks and the parameters are just crazy as not
-> practical in a real environment BUT it works.
-> 
-> I changed a little bit the dependencies from radvd (because fancy new things):
-> 
-> - lua for config handling
-> - libev for event loop handling
-> - libmnl for netlink handling
-> 
-> The code is available at:
-> 
-> https://github.com/linux-wpan/rpld
+Signed-off-by: Navid Emamdoost <navid.emamdoost@gmail.com>
+---
+ drivers/net/ieee802154/ca8210.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-I finally had a first look at it and played around a little bit.
+diff --git a/drivers/net/ieee802154/ca8210.c b/drivers/net/ieee802154/ca8210.c
+index b188fce3f641..229d70a897ca 100644
+--- a/drivers/net/ieee802154/ca8210.c
++++ b/drivers/net/ieee802154/ca8210.c
+@@ -3152,12 +3152,12 @@ static int ca8210_probe(struct spi_device *spi_device)
+ 		goto error;
+ 	}
+ 
++	priv->spi->dev.platform_data = pdata;
+ 	ret = ca8210_get_platform_data(priv->spi, pdata);
+ 	if (ret) {
+ 		dev_crit(&spi_device->dev, "ca8210_get_platform_data failed\n");
+ 		goto error;
+ 	}
+-	priv->spi->dev.platform_data = pdata;
+ 
+ 	ret = ca8210_dev_com_init(priv);
+ 	if (ret) {
+-- 
+2.17.1
 
-How do you want to review patches for this? Pull requests on the github
-repo or patches send on the linux-wpan list?
-
-So far just some basic stuff I stumbled over when playing with it. Build
-fixes (SCOPE_ID and different lua pkgconfig namings), leak fixes to
-config.c as well as a travis setup to get building on CI as well as
-submitting to Coverity scan service (the later two are already tested in
-practice with some dev branches I pushed to the github repo, hope you
-don't mind).
-
-regards
-Stefan Schmidt
