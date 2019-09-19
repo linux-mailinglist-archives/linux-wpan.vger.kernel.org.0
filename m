@@ -2,31 +2,53 @@ Return-Path: <linux-wpan-owner@vger.kernel.org>
 X-Original-To: lists+linux-wpan@lfdr.de
 Delivered-To: lists+linux-wpan@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 656EFB6D1E
-	for <lists+linux-wpan@lfdr.de>; Wed, 18 Sep 2019 21:59:02 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 194CCB7901
+	for <lists+linux-wpan@lfdr.de>; Thu, 19 Sep 2019 14:13:01 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729601AbfIRT67 (ORCPT <rfc822;lists+linux-wpan@lfdr.de>);
-        Wed, 18 Sep 2019 15:58:59 -0400
-Received: from proxima.lasnet.de ([78.47.171.185]:46948 "EHLO
-        proxima.lasnet.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1732225AbfIRT67 (ORCPT
-        <rfc822;linux-wpan@vger.kernel.org>); Wed, 18 Sep 2019 15:58:59 -0400
-Received: from localhost.localdomain (p200300E9D7197EFAD2D4565022F53F4F.dip0.t-ipconnect.de [IPv6:2003:e9:d719:7efa:d2d4:5650:22f5:3f4f])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        (Authenticated sender: stefan@sostec.de)
-        by proxima.lasnet.de (Postfix) with ESMTPSA id 9B80AC1520;
-        Wed, 18 Sep 2019 21:58:57 +0200 (CEST)
-From:   Stefan Schmidt <stefan@datenfreihafen.org>
-To:     alex.aring@gmail.com
-Cc:     linux-wpan@vger.kernel.org,
-        Stefan Schmidt <stefan@datenfreihafen.org>
-Subject: [PATCH rpld 6/6] send: ensure we free the buffer after sending the message
-Date:   Wed, 18 Sep 2019 21:58:19 +0200
-Message-Id: <20190918195819.7492-7-stefan@datenfreihafen.org>
-X-Mailer: git-send-email 2.21.0
-In-Reply-To: <20190918195819.7492-1-stefan@datenfreihafen.org>
-References: <20190918195819.7492-1-stefan@datenfreihafen.org>
+        id S2388826AbfISMNA (ORCPT <rfc822;lists+linux-wpan@lfdr.de>);
+        Thu, 19 Sep 2019 08:13:00 -0400
+Received: from mail-lf1-f65.google.com ([209.85.167.65]:44585 "EHLO
+        mail-lf1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S2388792AbfISMNA (ORCPT
+        <rfc822;linux-wpan@vger.kernel.org>); Thu, 19 Sep 2019 08:13:00 -0400
+Received: by mail-lf1-f65.google.com with SMTP id q11so2160228lfc.11;
+        Thu, 19 Sep 2019 05:12:58 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=AAGhvqwd75jlWoyN7RtLuLmQlBabVo3K+eJUc/Gzlw8=;
+        b=I+fWSqLXskt+W9JCVUaVDdgxCjnHs9SngDhZ6ddtTpEHqRqALggs0Pzu9DGLeyUmlU
+         s5SntY7fIS15FYNNcS7Bgu8ZuXvdbUE1C0isqFYgjIdHMvI52zPc5si6SWtWbUHvPKI0
+         b0EXSvCx5+4/5aIMXUlky8wKD8nv3geoGMhf7Rn80LlcWTxVb8k/MBvu4ogIrQmTa1Bu
+         RXvZRgQqaMzIlwFvA+fueRmaT3PU3dgwXup/5ot7kwAgPgVQ4xDRgMJw8sWgHsPrEdkd
+         80Wbqpnjqske0K4nPjpA1l5wJdekIJV9rSXiSAbbXl6hJjXX+k/ZuhilCnnflRgBv2Tp
+         dhCw==
+X-Gm-Message-State: APjAAAUmCei2Y1na09s+VmqxpF5e9VLOhhYNyCng+upbeCL3Q/4uaBPK
+        qTO3LCZFmWVgzivdkTgT4Lzgac3/
+X-Google-Smtp-Source: APXvYqxkxMhx6AXLEzlWI2uF4kvz8bcFVDoGXg87MGyIpnW1DMdRhVl7Zz7XRH8wHiKEdibwpDoJ3Q==
+X-Received: by 2002:a05:6512:251:: with SMTP id b17mr5172700lfo.35.1568895177514;
+        Thu, 19 Sep 2019 05:12:57 -0700 (PDT)
+Received: from xi.terra (c-51f1e055.07-184-6d6c6d4.bbcust.telenor.se. [85.224.241.81])
+        by smtp.gmail.com with ESMTPSA id x76sm1859097ljb.81.2019.09.19.05.12.56
+        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+        Thu, 19 Sep 2019 05:12:56 -0700 (PDT)
+Received: from johan by xi.terra with local (Exim 4.92.2)
+        (envelope-from <johan@xi.terra>)
+        id 1iAvIu-0007yb-AS; Thu, 19 Sep 2019 14:12:57 +0200
+From:   Johan Hovold <johan@kernel.org>
+To:     Stefan Schmidt <stefan@datenfreihafen.org>
+Cc:     Alexander Aring <alex.aring@gmail.com>,
+        "David S. Miller" <davem@davemloft.net>,
+        linux-wpan@vger.kernel.org, netdev@vger.kernel.org,
+        linux-kernel@vger.kernel.org, andreyknvl@google.com,
+        syzkaller-bugs@googlegroups.com, Johan Hovold <johan@kernel.org>,
+        stable <stable@vger.kernel.org>,
+        syzbot+f4509a9138a1472e7e80@syzkaller.appspotmail.com
+Subject: [PATCH] ieee802154: atusb: fix use-after-free at disconnect
+Date:   Thu, 19 Sep 2019 14:12:34 +0200
+Message-Id: <20190919121234.30620-1-johan@kernel.org>
+X-Mailer: git-send-email 2.23.0
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Sender: linux-wpan-owner@vger.kernel.org
@@ -34,41 +56,38 @@ Precedence: bulk
 List-ID: <linux-wpan.vger.kernel.org>
 X-Mailing-List: linux-wpan@vger.kernel.org
 
-We have been leaking all buffers for every send so far.
+The disconnect callback was accessing the hardware-descriptor private
+data after having having freed it.
 
-Fixes Coverity IDs 250810, 250807, 250806, 250805
+Fixes: 7490b008d123 ("ieee802154: add support for atusb transceiver")
+Cc: stable <stable@vger.kernel.org>     # 4.2
+Cc: Alexander Aring <alex.aring@gmail.com>
+Reported-by: syzbot+f4509a9138a1472e7e80@syzkaller.appspotmail.com
+Signed-off-by: Johan Hovold <johan@kernel.org>
 ---
- send.c | 8 ++++++--
- 1 file changed, 6 insertions(+), 2 deletions(-)
 
-diff --git a/send.c b/send.c
-index d026f6a..50f73da 100644
---- a/send.c
-+++ b/send.c
-@@ -29,9 +29,10 @@
+#syz test: https://github.com/google/kasan.git f0df5c1b
+
+ drivers/net/ieee802154/atusb.c | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
+
+diff --git a/drivers/net/ieee802154/atusb.c b/drivers/net/ieee802154/atusb.c
+index ceddb424f887..0dd0ba915ab9 100644
+--- a/drivers/net/ieee802154/atusb.c
++++ b/drivers/net/ieee802154/atusb.c
+@@ -1137,10 +1137,11 @@ static void atusb_disconnect(struct usb_interface *interface)
  
- static int really_send(int sock, const struct iface *iface,
- 		       const struct in6_addr *dest,
--		       const struct safe_buffer *sb)
-+		       struct safe_buffer *sb)
- {
- 	struct sockaddr_in6 addr;
-+	int rc;
- 	memset((void *)&addr, 0, sizeof(addr));
- 	addr.sin6_family = AF_INET6;
- 	addr.sin6_port = htons(IPPROTO_ICMPV6);
-@@ -67,7 +68,10 @@ static int really_send(int sock, const struct iface *iface,
- 	mhdr.msg_control = (void *)cmsg;
- 	mhdr.msg_controllen = sizeof(chdr);
+ 	ieee802154_unregister_hw(atusb->hw);
  
--	return sendmsg(sock, &mhdr, 0);
-+	rc = sendmsg(sock, &mhdr, 0);
-+	safe_buffer_free(sb);
++	usb_put_dev(atusb->usb_dev);
 +
-+	return rc;
+ 	ieee802154_free_hw(atusb->hw);
+ 
+ 	usb_set_intfdata(interface, NULL);
+-	usb_put_dev(atusb->usb_dev);
+ 
+ 	pr_debug("%s done\n", __func__);
  }
- void send_dio(int sock, struct dag *dag)
- {
 -- 
-2.21.0
+2.23.0
 
