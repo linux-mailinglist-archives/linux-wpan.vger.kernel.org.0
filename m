@@ -2,67 +2,87 @@ Return-Path: <linux-wpan-owner@vger.kernel.org>
 X-Original-To: lists+linux-wpan@lfdr.de
 Delivered-To: lists+linux-wpan@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id ECC4EB7975
-	for <lists+linux-wpan@lfdr.de>; Thu, 19 Sep 2019 14:32:04 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 64743B7D48
+	for <lists+linux-wpan@lfdr.de>; Thu, 19 Sep 2019 16:56:08 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1731931AbfISMcD (ORCPT <rfc822;lists+linux-wpan@lfdr.de>);
-        Thu, 19 Sep 2019 08:32:03 -0400
-Received: from mail-io1-f70.google.com ([209.85.166.70]:36730 "EHLO
-        mail-io1-f70.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1731891AbfISMcD (ORCPT
-        <rfc822;linux-wpan@vger.kernel.org>); Thu, 19 Sep 2019 08:32:03 -0400
-Received: by mail-io1-f70.google.com with SMTP id g126so4990266iof.3
-        for <linux-wpan@vger.kernel.org>; Thu, 19 Sep 2019 05:32:01 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:date:in-reply-to:message-id:subject
-         :from:to;
-        bh=xRvATBd4vJz/ca0H8KHxwpk25gX5YP7T2VKX90zZjjY=;
-        b=r4b8huv0jEczurkyLMP2dEIWwr4KitU+5bMwtONGI4fniRbJJMjJwlm/4IjG67MGsh
-         CuJDNZmw3H9K4Or3GlL+4wjRMY7gZJ1Eg5B8bR5pWmyM5xVKldxOLCI6G7EbtC336n2B
-         SKADwig8I37U+uh9EySS79969Sj4KhBZ8CyGEVR34Nu1zhwOfG9g5Fmfq0lqyuFR5IZf
-         pC1Z+ThrpNRg+SuqHDGqwhQwbZISra4AEx2poq+ZBEuCXgNB8H4+Tn67jTzCftCw78bY
-         ETJUt6ctRNrAfgy46bjTGmK7/odoPWMm8xYh43W5k4RTmD4x9yuinGGwFDvcCWeZD0S5
-         RJ+w==
-X-Gm-Message-State: APjAAAXXx+EHVGGzuLEUEcUsLILz/ElHmSCEHdgj0PZunE4ZtgRFo9dI
-        o+lOefEap2vR2KctoTI/bRvZuLEiY5TgkF9HhW3mMEd22v7W
-X-Google-Smtp-Source: APXvYqznsY295KYp6iVKDsqG6sE+Z6Mre4W0acF8SRnsbhhSSg0DoispESLcXcx0yTSMXL8rH7pjSRc8Sz/uxP6+Ti76M+HxxP4c
-MIME-Version: 1.0
-X-Received: by 2002:a6b:b8c3:: with SMTP id i186mr12174261iof.194.1568896320918;
- Thu, 19 Sep 2019 05:32:00 -0700 (PDT)
-Date:   Thu, 19 Sep 2019 05:32:00 -0700
-In-Reply-To: <20190919121234.30620-1-johan@kernel.org>
-X-Google-Appengine-App-Id: s~syzkaller
-X-Google-Appengine-App-Id-Alias: syzkaller
-Message-ID: <000000000000e5e3c40592e723c4@google.com>
-Subject: Re: KASAN: use-after-free Read in atusb_disconnect
-From:   syzbot <syzbot+f4509a9138a1472e7e80@syzkaller.appspotmail.com>
-To:     alex.aring@gmail.com, andreyknvl@google.com, davem@davemloft.net,
-        johan@kernel.org, linux-kernel@vger.kernel.org,
+        id S2390690AbfISO4H (ORCPT <rfc822;lists+linux-wpan@lfdr.de>);
+        Thu, 19 Sep 2019 10:56:07 -0400
+Received: from proxima.lasnet.de ([78.47.171.185]:50654 "EHLO
+        proxima.lasnet.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S2388551AbfISO4H (ORCPT
+        <rfc822;linux-wpan@vger.kernel.org>); Thu, 19 Sep 2019 10:56:07 -0400
+Received: from localhost.localdomain (p200300E9D7197E1C5D26FA1D92192C91.dip0.t-ipconnect.de [IPv6:2003:e9:d719:7e1c:5d26:fa1d:9219:2c91])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        (Authenticated sender: stefan@datenfreihafen.org)
+        by proxima.lasnet.de (Postfix) with ESMTPSA id 3E21BC167A;
+        Thu, 19 Sep 2019 16:56:05 +0200 (CEST)
+Subject: Re: [PATCH] ieee802154: atusb: fix use-after-free at disconnect
+To:     Johan Hovold <johan@kernel.org>
+Cc:     Alexander Aring <alex.aring@gmail.com>,
+        "David S. Miller" <davem@davemloft.net>,
         linux-wpan@vger.kernel.org, netdev@vger.kernel.org,
-        stable@vger.kernel.org, stefan@datenfreihafen.org,
-        syzkaller-bugs@googlegroups.com
-Content-Type: text/plain; charset="UTF-8"; format=flowed; delsp=yes
+        linux-kernel@vger.kernel.org, andreyknvl@google.com,
+        syzkaller-bugs@googlegroups.com, stable <stable@vger.kernel.org>,
+        syzbot+f4509a9138a1472e7e80@syzkaller.appspotmail.com
+References: <20190919121234.30620-1-johan@kernel.org>
+From:   Stefan Schmidt <stefan@datenfreihafen.org>
+Message-ID: <fe42123b-d454-776e-759c-bf42c0a214c7@datenfreihafen.org>
+Date:   Thu, 19 Sep 2019 16:56:04 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.8.0
+MIME-Version: 1.0
+In-Reply-To: <20190919121234.30620-1-johan@kernel.org>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Sender: linux-wpan-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-wpan.vger.kernel.org>
 X-Mailing-List: linux-wpan@vger.kernel.org
 
-Hello,
+Hello.
 
-syzbot has tested the proposed patch and the reproducer did not trigger  
-crash:
+On 19.09.19 14:12, Johan Hovold wrote:
+> The disconnect callback was accessing the hardware-descriptor private
+> data after having having freed it.
+> 
+> Fixes: 7490b008d123 ("ieee802154: add support for atusb transceiver")
+> Cc: stable <stable@vger.kernel.org>     # 4.2
+> Cc: Alexander Aring <alex.aring@gmail.com>
+> Reported-by: syzbot+f4509a9138a1472e7e80@syzkaller.appspotmail.com
+> Signed-off-by: Johan Hovold <johan@kernel.org>
+> ---
+> 
+> #syz test: https://github.com/google/kasan.git f0df5c1b
+> 
+>  drivers/net/ieee802154/atusb.c | 3 ++-
+>  1 file changed, 2 insertions(+), 1 deletion(-)
+> 
+> diff --git a/drivers/net/ieee802154/atusb.c b/drivers/net/ieee802154/atusb.c
+> index ceddb424f887..0dd0ba915ab9 100644
+> --- a/drivers/net/ieee802154/atusb.c
+> +++ b/drivers/net/ieee802154/atusb.c
+> @@ -1137,10 +1137,11 @@ static void atusb_disconnect(struct usb_interface *interface)
+>  
+>  	ieee802154_unregister_hw(atusb->hw);
+>  
+> +	usb_put_dev(atusb->usb_dev);
+> +
+>  	ieee802154_free_hw(atusb->hw);
+>  
+>  	usb_set_intfdata(interface, NULL);
+> -	usb_put_dev(atusb->usb_dev);
+>  
+>  	pr_debug("%s done\n", __func__);
+>  }
+> 
 
-Reported-and-tested-by:  
-syzbot+f4509a9138a1472e7e80@syzkaller.appspotmail.com
 
-Tested on:
+This patch has been applied to the wpan tree and will be
+part of the next pull request to net.
 
-commit:         f0df5c1b usb-fuzzer: main usb gadget fuzzer driver
-git tree:       https://github.com/google/kasan.git
-kernel config:  https://syzkaller.appspot.com/x/.config?x=5c6633fa4ed00be5
-dashboard link: https://syzkaller.appspot.com/bug?extid=f4509a9138a1472e7e80
-compiler:       gcc (GCC) 9.0.0 20181231 (experimental)
-patch:          https://syzkaller.appspot.com/x/patch.diff?x=10f3ebb5600000
+Thanks a lot for having a look at this!
 
-Note: testing is done by a robot and is best-effort only.
+regards
+Stefan Schmidt
