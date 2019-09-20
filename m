@@ -2,78 +2,62 @@ Return-Path: <linux-wpan-owner@vger.kernel.org>
 X-Original-To: lists+linux-wpan@lfdr.de
 Delivered-To: lists+linux-wpan@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 4F4D8B7D4F
-	for <lists+linux-wpan@lfdr.de>; Thu, 19 Sep 2019 16:56:52 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 8DCF1B97F4
+	for <lists+linux-wpan@lfdr.de>; Fri, 20 Sep 2019 21:45:47 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730219AbfISO4q (ORCPT <rfc822;lists+linux-wpan@lfdr.de>);
-        Thu, 19 Sep 2019 10:56:46 -0400
-Received: from proxima.lasnet.de ([78.47.171.185]:50660 "EHLO
-        proxima.lasnet.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728720AbfISO4q (ORCPT
-        <rfc822;linux-wpan@vger.kernel.org>); Thu, 19 Sep 2019 10:56:46 -0400
-Received: from localhost.localdomain (p200300E9D7197E1C5D26FA1D92192C91.dip0.t-ipconnect.de [IPv6:2003:e9:d719:7e1c:5d26:fa1d:9219:2c91])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        (Authenticated sender: stefan@datenfreihafen.org)
-        by proxima.lasnet.de (Postfix) with ESMTPSA id 00C25C11CD;
-        Thu, 19 Sep 2019 16:56:43 +0200 (CEST)
-Subject: Re: [PATCH] ieee802154: ca8210: prevent memory leak
-To:     Navid Emamdoost <navid.emamdoost@gmail.com>
-Cc:     emamd001@umn.edu, smccaman@umn.edu, kjlu@umn.edu,
-        Harry Morris <h.morris@cascoda.com>,
-        Alexander Aring <alex.aring@gmail.com>,
-        "David S. Miller" <davem@davemloft.net>,
-        linux-wpan@vger.kernel.org, netdev@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-References: <20190917224713.26371-1-navid.emamdoost@gmail.com>
-From:   Stefan Schmidt <stefan@datenfreihafen.org>
-Message-ID: <5c53dd25-80de-86ce-5072-bdb6a54835bd@datenfreihafen.org>
-Date:   Thu, 19 Sep 2019 16:56:43 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.8.0
+        id S1729682AbfITTpm (ORCPT <rfc822;lists+linux-wpan@lfdr.de>);
+        Fri, 20 Sep 2019 15:45:42 -0400
+Received: from smtp13.smtpout.orange.fr ([80.12.242.135]:49395 "EHLO
+        smtp.smtpout.orange.fr" rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org
+        with ESMTP id S1727439AbfITTpm (ORCPT
+        <rfc822;linux-wpan@vger.kernel.org>); Fri, 20 Sep 2019 15:45:42 -0400
+Received: from localhost.localdomain ([93.22.134.255])
+        by mwinf5d70 with ME
+        id 3vlc210065Wn77903vlcTj; Fri, 20 Sep 2019 21:45:40 +0200
+X-ME-Helo: localhost.localdomain
+X-ME-Auth: Y2hyaXN0b3BoZS5qYWlsbGV0QHdhbmFkb28uZnI=
+X-ME-Date: Fri, 20 Sep 2019 21:45:40 +0200
+X-ME-IP: 93.22.134.255
+From:   Christophe JAILLET <christophe.jaillet@wanadoo.fr>
+To:     liuxuenetmail@gmail.com, alex.aring@gmail.com,
+        stefan@datenfreihafen.org, davem@davemloft.net
+Cc:     linux-wpan@vger.kernel.org, netdev@vger.kernel.org,
+        linux-kernel@vger.kernel.org, kernel-janitors@vger.kernel.org,
+        Christophe JAILLET <christophe.jaillet@wanadoo.fr>
+Subject: [PATCH] ieee802154: mcr20a: simplify a bit 'mcr20a_handle_rx_read_buf_complete()'
+Date:   Fri, 20 Sep 2019 21:45:33 +0200
+Message-Id: <20190920194533.5886-1-christophe.jaillet@wanadoo.fr>
+X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
-In-Reply-To: <20190917224713.26371-1-navid.emamdoost@gmail.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 Sender: linux-wpan-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-wpan.vger.kernel.org>
 X-Mailing-List: linux-wpan@vger.kernel.org
 
-Hello Harry.
+Use a 'skb_put_data()' variant instead of rewritting it.
+The __skb_put_data variant is safe here. It is obvious that the skb can
+not overflow. It has just been allocated a few lines above with the same
+'len'.
 
-On 18.09.19 00:47, Navid Emamdoost wrote:
-> In ca8210_probe the allocated pdata needs to be assigned to
-> spi_device->dev.platform_data before calling ca8210_get_platform_data. 
-> Othrwise when ca8210_get_platform_data fails pdata cannot be released.
-> 
-> Signed-off-by: Navid Emamdoost <navid.emamdoost@gmail.com>
-> ---
->  drivers/net/ieee802154/ca8210.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/drivers/net/ieee802154/ca8210.c b/drivers/net/ieee802154/ca8210.c
-> index b188fce3f641..229d70a897ca 100644
-> --- a/drivers/net/ieee802154/ca8210.c
-> +++ b/drivers/net/ieee802154/ca8210.c
-> @@ -3152,12 +3152,12 @@ static int ca8210_probe(struct spi_device *spi_device)
->  		goto error;
->  	}
->  
-> +	priv->spi->dev.platform_data = pdata;
->  	ret = ca8210_get_platform_data(priv->spi, pdata);
->  	if (ret) {
->  		dev_crit(&spi_device->dev, "ca8210_get_platform_data failed\n");
->  		goto error;
->  	}
-> -	priv->spi->dev.platform_data = pdata;
->  
->  	ret = ca8210_dev_com_init(priv);
->  	if (ret) {
-> 
+Signed-off-by: Christophe JAILLET <christophe.jaillet@wanadoo.fr>
+---
+ drivers/net/ieee802154/mcr20a.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-Could you review this patch for the ca8210 driver?
+diff --git a/drivers/net/ieee802154/mcr20a.c b/drivers/net/ieee802154/mcr20a.c
+index 17f2300e63ee..8dc04e2590b1 100644
+--- a/drivers/net/ieee802154/mcr20a.c
++++ b/drivers/net/ieee802154/mcr20a.c
+@@ -800,7 +800,7 @@ mcr20a_handle_rx_read_buf_complete(void *context)
+ 	if (!skb)
+ 		return;
+ 
+-	memcpy(skb_put(skb, len), lp->rx_buf, len);
++	__skb_put_data(skb, lp->rx_buf, len);
+ 	ieee802154_rx_irqsafe(lp->hw, skb, lp->rx_lqi[0]);
+ 
+ 	print_hex_dump_debug("mcr20a rx: ", DUMP_PREFIX_OFFSET, 16, 1,
+-- 
+2.20.1
 
-regards
-Stefan Schmidt
