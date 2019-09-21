@@ -2,62 +2,73 @@ Return-Path: <linux-wpan-owner@vger.kernel.org>
 X-Original-To: lists+linux-wpan@lfdr.de
 Delivered-To: lists+linux-wpan@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 8DCF1B97F4
-	for <lists+linux-wpan@lfdr.de>; Fri, 20 Sep 2019 21:45:47 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id DEFEBB9DB2
+	for <lists+linux-wpan@lfdr.de>; Sat, 21 Sep 2019 13:52:53 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729682AbfITTpm (ORCPT <rfc822;lists+linux-wpan@lfdr.de>);
-        Fri, 20 Sep 2019 15:45:42 -0400
-Received: from smtp13.smtpout.orange.fr ([80.12.242.135]:49395 "EHLO
-        smtp.smtpout.orange.fr" rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org
-        with ESMTP id S1727439AbfITTpm (ORCPT
-        <rfc822;linux-wpan@vger.kernel.org>); Fri, 20 Sep 2019 15:45:42 -0400
-Received: from localhost.localdomain ([93.22.134.255])
-        by mwinf5d70 with ME
-        id 3vlc210065Wn77903vlcTj; Fri, 20 Sep 2019 21:45:40 +0200
-X-ME-Helo: localhost.localdomain
-X-ME-Auth: Y2hyaXN0b3BoZS5qYWlsbGV0QHdhbmFkb28uZnI=
-X-ME-Date: Fri, 20 Sep 2019 21:45:40 +0200
-X-ME-IP: 93.22.134.255
-From:   Christophe JAILLET <christophe.jaillet@wanadoo.fr>
-To:     liuxuenetmail@gmail.com, alex.aring@gmail.com,
-        stefan@datenfreihafen.org, davem@davemloft.net
+        id S2406016AbfIULwx (ORCPT <rfc822;lists+linux-wpan@lfdr.de>);
+        Sat, 21 Sep 2019 07:52:53 -0400
+Received: from proxima.lasnet.de ([78.47.171.185]:59247 "EHLO
+        proxima.lasnet.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S2405770AbfIULwx (ORCPT
+        <rfc822;linux-wpan@vger.kernel.org>); Sat, 21 Sep 2019 07:52:53 -0400
+Received: from localhost.localdomain (unknown [IPv6:2003:e9:d742:d2ca:2f74:a255:7f82:cac1])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        (Authenticated sender: stefan@datenfreihafen.org)
+        by proxima.lasnet.de (Postfix) with ESMTPSA id 5EE4AC18BE;
+        Sat, 21 Sep 2019 13:52:48 +0200 (CEST)
+Subject: Re: [PATCH] ieee802154: mcr20a: simplify a bit
+ 'mcr20a_handle_rx_read_buf_complete()'
+To:     Christophe JAILLET <christophe.jaillet@wanadoo.fr>,
+        liuxuenetmail@gmail.com, alex.aring@gmail.com, davem@davemloft.net
 Cc:     linux-wpan@vger.kernel.org, netdev@vger.kernel.org,
-        linux-kernel@vger.kernel.org, kernel-janitors@vger.kernel.org,
-        Christophe JAILLET <christophe.jaillet@wanadoo.fr>
-Subject: [PATCH] ieee802154: mcr20a: simplify a bit 'mcr20a_handle_rx_read_buf_complete()'
-Date:   Fri, 20 Sep 2019 21:45:33 +0200
-Message-Id: <20190920194533.5886-1-christophe.jaillet@wanadoo.fr>
-X-Mailer: git-send-email 2.20.1
+        linux-kernel@vger.kernel.org, kernel-janitors@vger.kernel.org
+References: <20190920194533.5886-1-christophe.jaillet@wanadoo.fr>
+From:   Stefan Schmidt <stefan@datenfreihafen.org>
+Message-ID: <388f335a-a9ae-7230-1713-a1ecb682fecf@datenfreihafen.org>
+Date:   Sat, 21 Sep 2019 13:52:11 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.8.0
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+In-Reply-To: <20190920194533.5886-1-christophe.jaillet@wanadoo.fr>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Sender: linux-wpan-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-wpan.vger.kernel.org>
 X-Mailing-List: linux-wpan@vger.kernel.org
 
-Use a 'skb_put_data()' variant instead of rewritting it.
-The __skb_put_data variant is safe here. It is obvious that the skb can
-not overflow. It has just been allocated a few lines above with the same
-'len'.
+Hello Xue.
 
-Signed-off-by: Christophe JAILLET <christophe.jaillet@wanadoo.fr>
----
- drivers/net/ieee802154/mcr20a.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+On 20.09.19 21:45, Christophe JAILLET wrote:
+> Use a 'skb_put_data()' variant instead of rewritting it.
+> The __skb_put_data variant is safe here. It is obvious that the skb can
+> not overflow. It has just been allocated a few lines above with the same
+> 'len'.
+> 
+> Signed-off-by: Christophe JAILLET <christophe.jaillet@wanadoo.fr>
+> ---
+>  drivers/net/ieee802154/mcr20a.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/drivers/net/ieee802154/mcr20a.c b/drivers/net/ieee802154/mcr20a.c
+> index 17f2300e63ee..8dc04e2590b1 100644
+> --- a/drivers/net/ieee802154/mcr20a.c
+> +++ b/drivers/net/ieee802154/mcr20a.c
+> @@ -800,7 +800,7 @@ mcr20a_handle_rx_read_buf_complete(void *context)
+>  	if (!skb)
+>  		return;
+>  
+> -	memcpy(skb_put(skb, len), lp->rx_buf, len);
+> +	__skb_put_data(skb, lp->rx_buf, len);
+>  	ieee802154_rx_irqsafe(lp->hw, skb, lp->rx_lqi[0]);
+>  
+>  	print_hex_dump_debug("mcr20a rx: ", DUMP_PREFIX_OFFSET, 16, 1,
+> 
 
-diff --git a/drivers/net/ieee802154/mcr20a.c b/drivers/net/ieee802154/mcr20a.c
-index 17f2300e63ee..8dc04e2590b1 100644
---- a/drivers/net/ieee802154/mcr20a.c
-+++ b/drivers/net/ieee802154/mcr20a.c
-@@ -800,7 +800,7 @@ mcr20a_handle_rx_read_buf_complete(void *context)
- 	if (!skb)
- 		return;
- 
--	memcpy(skb_put(skb, len), lp->rx_buf, len);
-+	__skb_put_data(skb, lp->rx_buf, len);
- 	ieee802154_rx_irqsafe(lp->hw, skb, lp->rx_lqi[0]);
- 
- 	print_hex_dump_debug("mcr20a rx: ", DUMP_PREFIX_OFFSET, 16, 1,
--- 
-2.20.1
+Could you please review and ACK this? If you are happy I will take it
+through my tree.
 
+regards
+Stefan Schmidt
