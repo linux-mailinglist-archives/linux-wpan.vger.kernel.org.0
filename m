@@ -2,130 +2,71 @@ Return-Path: <linux-wpan-owner@vger.kernel.org>
 X-Original-To: lists+linux-wpan@lfdr.de
 Delivered-To: lists+linux-wpan@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id ACC0CD01C8
-	for <lists+linux-wpan@lfdr.de>; Tue,  8 Oct 2019 21:56:03 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 73065D052D
+	for <lists+linux-wpan@lfdr.de>; Wed,  9 Oct 2019 03:24:02 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730709AbfJHT4B (ORCPT <rfc822;lists+linux-wpan@lfdr.de>);
-        Tue, 8 Oct 2019 15:56:01 -0400
-Received: from mail-ed1-f68.google.com ([209.85.208.68]:37942 "EHLO
-        mail-ed1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1729933AbfJHT4B (ORCPT
-        <rfc822;linux-wpan@vger.kernel.org>); Tue, 8 Oct 2019 15:56:01 -0400
-Received: by mail-ed1-f68.google.com with SMTP id l21so16829554edr.5
-        for <linux-wpan@vger.kernel.org>; Tue, 08 Oct 2019 12:56:00 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:reply-to:from:date:message-id:subject:to;
-        bh=d9t6Rq0RbZ7PXIZmIcLbP2JTBMFny2QBILsKgMXZe9M=;
-        b=Nw5QEdlo56HHv75ebufO1xE7OJYJGB/ks38I0F1Wb/fItBckqxVn9kspxoClVya7wo
-         272z5Yh/4F8BtTKugP+e/QS6gWm38z8BJkZSaN+qYEH3sdeZGa9QqhucIAe9zx4PPnPn
-         y1DxXl17QxBf1CSj4hZZMjoBetSMmj5aPJh42P0JoBXnheMxn2RdAhW8w19Fk4I5or3r
-         gQczG2fNQIz9QLpNhMzwYIBqmIjg/UmlFm1ziM9Y6jaR5SZ3MRjBbzi8dHSqZA0n6eIM
-         3igJQVyq8L7LWvPKj8cC97Px/0H+YS85c5Fb1dKkomRtc2onmQV/LYXToN8oiHlARdlq
-         O6UQ==
+        id S1729960AbfJIBYB (ORCPT <rfc822;lists+linux-wpan@lfdr.de>);
+        Tue, 8 Oct 2019 21:24:01 -0400
+Received: from mail-io1-f71.google.com ([209.85.166.71]:40291 "EHLO
+        mail-io1-f71.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1729839AbfJIBYB (ORCPT
+        <rfc822;linux-wpan@vger.kernel.org>); Tue, 8 Oct 2019 21:24:01 -0400
+Received: by mail-io1-f71.google.com with SMTP id r20so1776668ioh.7
+        for <linux-wpan@vger.kernel.org>; Tue, 08 Oct 2019 18:24:01 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:reply-to:from:date:message-id
-         :subject:to;
-        bh=d9t6Rq0RbZ7PXIZmIcLbP2JTBMFny2QBILsKgMXZe9M=;
-        b=TBB2UEnGnOeG3D+GDEg7K8E25jbS//PGjYdRWLEH9CsKQ0N3Y9c4w4xb2zhyGtjMdA
-         4RuX8OttgFw+XlVY60XdUjgDa9dMu9ri0d4YR9Kq7OtpsZS9Uzy7jK9dWB4JSuaPt3Xh
-         etAC9eiYpo3TIo3b4szlY6IYK9u30BOd5t1EI6OxH0TuHXGaOpuGkpIU0GjJFCE59bVQ
-         SMloXFT1Jd1gt2ObcNNjjbtXmD23QNMOcXHwwbb/5o1c+PBuRTB2Ztg3tYRTpRrJ3lzP
-         tSysKcs5nORJ5NsjGVcBxuT9hF5jEmaJtv1VwjinjaAJO+oaQ2WsNQTEAt6V6Sie/CqQ
-         MRbQ==
-X-Gm-Message-State: APjAAAVU5I7TnDe6qk/yjVDVGbaXKKI6gZdurd4yvAdUOpHb94NRsX9n
-        dYkm87pHRuBC7lfPTvd7ow713lfYLxeHNLuaPUk=
-X-Google-Smtp-Source: APXvYqxwhCQ6zX6FhBdDog9G6PjHU5EwA3aadyf9i1uNik0q+vAIX6gV5dEnTsOUpcZrOljfzY8n5NHRT3gpNN7Yyes=
-X-Received: by 2002:a05:6402:32f:: with SMTP id q15mr35783586edw.143.1570564559602;
- Tue, 08 Oct 2019 12:55:59 -0700 (PDT)
+        h=x-gm-message-state:mime-version:date:in-reply-to:message-id:subject
+         :from:to;
+        bh=sTtRhHB+FIjWWxBw0tW/N10Uhy+DblHPCwc6eoAtz5k=;
+        b=WrWDmY69aAXoDxW85jG4R5zQcR7pLG2ibBh22tAdUS9y6mddYkLlHkPfp2cYg/fWhn
+         S+7BoZyXYjdEmQHu4q8RNm6/wPIHRHqZ2L59vE3f5lPCa25SI/WmXGeJqVTPPQZ6+8w1
+         xrw0yUgRj64TY1nMPG7uA+NC/+69o7eISlEQ6dW9zPpr6Mk64bdvEbFGVwEXlnZt4VhM
+         KuKiZt5wtEV1+T9fOhXMn4syZW0OYvRGheqiEfCScLQdd3+/c82OzEiuzbJv9Mxr9yts
+         x5Qesz4qMYJbNpHRBmAzGAdn1EhJxBs/+vMzYILvtoMknwhYy2Ea1/iakkwv00tuTDsG
+         PmLg==
+X-Gm-Message-State: APjAAAXRVtJgVPkf9ymqkT092rBt2yGCqNMdUetvWhlP4BipGzsmV9I5
+        uV3wOAuFcjxkDwucvqF0Cykonh5Ga3CRe8OJEP8zG6jLkTOI
+X-Google-Smtp-Source: APXvYqyml+7hac2zw8kA+I+beki59R3+vmtmhi38APoNrgs+TwehFpFdJXlSQvQdoHGpVepARpzBN69101g2pAxrteTrw07JUTF4
 MIME-Version: 1.0
-Received: by 2002:a17:906:cc89:0:0:0:0 with HTTP; Tue, 8 Oct 2019 12:55:59
- -0700 (PDT)
-Reply-To: moneygram.1820@outlook.fr
-From:   MONEY GRAM <currency1000000@gmail.com>
-Date:   Tue, 8 Oct 2019 20:55:59 +0100
-Message-ID: <CAPqfnSEr44Oq+keY6aSvGnDk5Eta-VLMOqEX1RgMPE_LUdd7+g@mail.gmail.com>
-Subject: HERE IS YOUR MONEY GRAM PAYMENT HAS BEEN SENT TO YOU HERE IS THE M.T.C.N:78393135
-To:     undisclosed-recipients:;
-Content-Type: text/plain; charset="UTF-8"
+X-Received: by 2002:a5e:d917:: with SMTP id n23mr1244594iop.28.1570584240714;
+ Tue, 08 Oct 2019 18:24:00 -0700 (PDT)
+Date:   Tue, 08 Oct 2019 18:24:00 -0700
+In-Reply-To: <000000000000ba89a9059456a51f@google.com>
+X-Google-Appengine-App-Id: s~syzkaller
+X-Google-Appengine-App-Id-Alias: syzkaller
+Message-ID: <000000000000c1f845059470233a@google.com>
+Subject: Re: KASAN: use-after-free Read in nl8NUM_dump_wpan_phy
+From:   syzbot <syzbot+495688b736534bb6c6ad@syzkaller.appspotmail.com>
+To:     alex.aring@gmail.com, davem@davemloft.net, jiri@mellanox.com,
+        linux-kernel@vger.kernel.org, linux-wpan@vger.kernel.org,
+        netdev@vger.kernel.org, stefan@datenfreihafen.org,
+        syzkaller-bugs@googlegroups.com
+Content-Type: text/plain; charset="UTF-8"; format=flowed; delsp=yes
 Sender: linux-wpan-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-wpan.vger.kernel.org>
 X-Mailing-List: linux-wpan@vger.kernel.org
 
-HERE IS YOUR MONEY GRAM PAYMENT HAS BEEN SENT TO YOU HERE IS THE
-M.T.C.N:78393135
+syzbot has bisected this bug to:
 
-Attn: Beneficiary,
+commit 75cdbdd089003cd53560ff87b690ae911fa7df8e
+Author: Jiri Pirko <jiri@mellanox.com>
+Date:   Sat Oct 5 18:04:37 2019 +0000
 
-This is to inform you that the America Embassy office was instructed
-to transfer your fund $980,000.00 U.S Dollars compensating all the
-SCAM VICTIMS and your email was found as one of the VICTIMS. by
-America security leading team and America representative officers so
-between today the 8th of October till 1ST Of December 2019 you will
-be receiving MONEY GRAM the sum of $6,000 dollars per day. However be informed
-that we have already sent the $6,000 dollars this morning to avoid
-cancellation of your payment, remain the total sum of $980,000.00.
+     net: ieee802154: have genetlink code to parse the attrs during dumpit
 
-You have only six hours to call this office upon the receipt of this
-email the maximum amount you will be receiving per a day starting from
-today's $6,000 and the Money Transfer Control Number of today is
-below.
+bisection log:  https://syzkaller.appspot.com/x/bisect.txt?x=14620210e00000
+start commit:   056ddc38 Merge branch 'stmmac-next'
+git tree:       net-next
+final crash:    https://syzkaller.appspot.com/x/report.txt?x=16620210e00000
+console output: https://syzkaller.appspot.com/x/log.txt?x=12620210e00000
+kernel config:  https://syzkaller.appspot.com/x/.config?x=d9be300620399522
+dashboard link: https://syzkaller.appspot.com/bug?extid=495688b736534bb6c6ad
+syz repro:      https://syzkaller.appspot.com/x/repro.syz?x=10e256c3600000
+C reproducer:   https://syzkaller.appspot.com/x/repro.c?x=175ecdfb600000
 
-NOTE; The sent $6,000 is on hold because of the instruction from IMF
-office, they asked us to place it on hold by requesting the (Clean
-Bill Record Certificate) which will cost you $25 in order to fulfill
-all the necessary obligation to avoid any hitches while sending you
-the payment through MONEY GRAM money transfer, the necessary
-obligation I mean here is to obtain the (Clean Bill Record
-Certificate)
+Reported-by: syzbot+495688b736534bb6c6ad@syzkaller.appspotmail.com
+Fixes: 75cdbdd08900 ("net: ieee802154: have genetlink code to parse the  
+attrs during dumpit")
 
-Below is the information of today track it in our
-
-websitehttps://moneygarm.com/asp/orderStatus.asp?country=global
-to see is available to pick up by the receiver, but if we didn't here
-from you soon we'll pickup it up from line for security reason to
-avoid hackers stealing the money online.
-
-Money Transfer Control Number M.T.C.N)::78393135
-SENDERS FIRST NAME: John
-SENDERS LAST NAME: Chun
-SENDERS COUNTRY...BENIN REPUBLIC
-TEXT QUESTION: A
-ANSWER: B
-AMOUNT: $6,000
-
-We need the below details from you, to enable us place the payment to
-your name and transfer the fund to you.
-
-(Full Receivers name)...................
-(You're Country)................................
-(Address)......................................
-(Phone NuMBER-...............................
-(You're Age)............................
-(OCCUPATION)..REAL ESTATE..................
-(A Copy of Your ID CARD).SEE ATTACHMENTS.............
-
-HOWEVER YOU HAVE TO PAY $25 FOR THE (Clean Bill Record Certificate)
-AND THAT IS ALL YOU HAVE TO DO ASAP.
-
-The payment will be sending to below information, such as:
-
-Receiver.............. ALAN UDE
-Country................Benin Republic
-Amount: ....................$25
-Question: .....................A
-Answer:................... B
-Sender...............Name:
-MTCN :..............
-
-According to the instruction and order we received from IMF the their
-requested $25 must be made directly to the above info's.
-
-Furthermore you are advised to call us as the instruction was passed
-that within 6hours without hearing from you, Count your payment
-canceled. Number to call is below listed manager director office of
-release order:
-DR.ALAN UDE
-Director MONEY GRAM-Benin
+For information about bisection process see: https://goo.gl/tpsmEJ#bisection
