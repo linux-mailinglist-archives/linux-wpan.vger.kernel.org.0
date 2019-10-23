@@ -2,61 +2,73 @@ Return-Path: <linux-wpan-owner@vger.kernel.org>
 X-Original-To: lists+linux-wpan@lfdr.de
 Delivered-To: lists+linux-wpan@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id E3E7AE0494
-	for <lists+linux-wpan@lfdr.de>; Tue, 22 Oct 2019 15:09:40 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 30FA7E12B0
+	for <lists+linux-wpan@lfdr.de>; Wed, 23 Oct 2019 09:06:41 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729869AbfJVNJg (ORCPT <rfc822;lists+linux-wpan@lfdr.de>);
-        Tue, 22 Oct 2019 09:09:36 -0400
-Received: from mail.keramplus.com ([212.3.124.226]:43092 "EHLO
-        trixbox1.localdomain" rhost-flags-OK-FAIL-OK-FAIL) by vger.kernel.org
-        with ESMTP id S1727805AbfJVNJg (ORCPT
-        <rfc822;linux-wpan@vger.kernel.org>); Tue, 22 Oct 2019 09:09:36 -0400
-Received: from 127.0.0.1 (trixbox1.localdomain [127.0.0.1])
-        by trixbox1.localdomain (Postfix) with SMTP id 2C442100F039;
-        Thu, 17 Oct 2019 23:13:05 +0300 (EEST)
-Received: from [70.248.131.63] by 127.0.0.1 id Vqh8uSNgpjp3; Fri, 18 Oct 2019 00:08:14 +0300
-Message-ID: <j$isj-df-s-$5@5dai8h61>
-From:   "Mr Barrister Hans Erich" <Barrister_Hans@stationlibraryjhelum.com>
-Reply-To: "Mr Barrister Hans Erich" <Barrister_Hans@stationlibraryjhelum.com>
-To:     ikhisloancompany@gmail.com
-Subject: RE:PERSONAL LETTER FROM MRS RASHIA AMIRA
-Date:   Fri, 18 Oct 19 00:08:14 GMT
-X-Mailer: The Bat! (v1.52f) Business
+        id S2388372AbfJWHGk (ORCPT <rfc822;lists+linux-wpan@lfdr.de>);
+        Wed, 23 Oct 2019 03:06:40 -0400
+Received: from szxga07-in.huawei.com ([45.249.212.35]:59022 "EHLO huawei.com"
+        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
+        id S1727574AbfJWHGk (ORCPT <rfc822;linux-wpan@vger.kernel.org>);
+        Wed, 23 Oct 2019 03:06:40 -0400
+Received: from DGGEMS414-HUB.china.huawei.com (unknown [172.30.72.60])
+        by Forcepoint Email with ESMTP id 83A6368F26DAF8233C58;
+        Wed, 23 Oct 2019 15:06:36 +0800 (CST)
+Received: from localhost (10.133.213.239) by DGGEMS414-HUB.china.huawei.com
+ (10.3.19.214) with Microsoft SMTP Server id 14.3.439.0; Wed, 23 Oct 2019
+ 15:06:26 +0800
+From:   YueHaibing <yuehaibing@huawei.com>
+To:     <varkabhadram@gmail.com>, <alex.aring@gmail.com>,
+        <stefan@datenfreihafen.org>, <davem@davemloft.net>
+CC:     <linux-wpan@vger.kernel.org>, <netdev@vger.kernel.org>,
+        <linux-kernel@vger.kernel.org>, YueHaibing <yuehaibing@huawei.com>
+Subject: [PATCH net-next] ieee802154: remove set but not used variable 'status'
+Date:   Wed, 23 Oct 2019 15:06:18 +0800
+Message-ID: <20191023070618.30044-1-yuehaibing@huawei.com>
+X-Mailer: git-send-email 2.10.2.windows.1
 MIME-Version: 1.0
-Content-Type: multipart/alternative;
-        boundary="E94AE35.BAB2EE.2"
-X-Priority: 3
-X-MSMail-Priority: Normal
+Content-Type: text/plain
+X-Originating-IP: [10.133.213.239]
+X-CFilter-Loop: Reflected
 Sender: linux-wpan-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-wpan.vger.kernel.org>
 X-Mailing-List: linux-wpan@vger.kernel.org
 
+Fixes gcc '-Wunused-but-set-variable' warning:
 
---E94AE35.BAB2EE.2
-Content-Type: text/plain;
-Content-Transfer-Encoding: quoted-printable
+drivers/net/ieee802154/cc2520.c:221:5: warning:
+ variable status set but not used [-Wunused-but-set-variable]
 
-Greetings
+It is never used, so can be removed.
 
-My name is Barrister Hans Erich.
+Signed-off-by: YueHaibing <yuehaibing@huawei.com>
+---
+ drivers/net/ieee802154/cc2520.c | 3 ---
+ 1 file changed, 3 deletions(-)
 
-I have a client who is interested to invest in your country, she is a well=
- known politician in her country and deserve a lucrative investment partne=
-rship with you outside her country without any delay   Please can you mana=
-ge such investment please Kindly reply for further details.
+diff --git a/drivers/net/ieee802154/cc2520.c b/drivers/net/ieee802154/cc2520.c
+index 4350694..89c046b 100644
+--- a/drivers/net/ieee802154/cc2520.c
++++ b/drivers/net/ieee802154/cc2520.c
+@@ -218,7 +218,6 @@ static int
+ cc2520_cmd_strobe(struct cc2520_private *priv, u8 cmd)
+ {
+ 	int ret;
+-	u8 status = 0xff;
+ 	struct spi_message msg;
+ 	struct spi_transfer xfer = {
+ 		.len = 0,
+@@ -236,8 +235,6 @@ cc2520_cmd_strobe(struct cc2520_private *priv, u8 cmd)
+ 		 priv->buf[0]);
+ 
+ 	ret = spi_sync(priv->spi, &msg);
+-	if (!ret)
+-		status = priv->buf[0];
+ 	dev_vdbg(&priv->spi->dev,
+ 		 "buf[0] = %02x\n", priv->buf[0]);
+ 	mutex_unlock(&priv->buffer_mutex);
+-- 
+2.7.4
 
-Your full names ---------
-
-
-Your urgent response will be appreciated
-
-Thank you and God bless you.
-
-Barrister Hans Erich
-
-Yours sincerely,
-Barrister Hans Erich
-
---E94AE35.BAB2EE.2--
 
