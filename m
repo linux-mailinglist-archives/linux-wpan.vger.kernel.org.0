@@ -2,29 +2,29 @@ Return-Path: <linux-wpan-owner@vger.kernel.org>
 X-Original-To: lists+linux-wpan@lfdr.de
 Delivered-To: lists+linux-wpan@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id EC944F6A5B
-	for <lists+linux-wpan@lfdr.de>; Sun, 10 Nov 2019 17:52:58 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 6249EF8055
+	for <lists+linux-wpan@lfdr.de>; Mon, 11 Nov 2019 20:41:23 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726778AbfKJQw5 (ORCPT <rfc822;lists+linux-wpan@lfdr.de>);
-        Sun, 10 Nov 2019 11:52:57 -0500
-Received: from static-dsl-170.87-197-152.telecom.sk ([87.197.152.170]:43296
+        id S1727348AbfKKTlW (ORCPT <rfc822;lists+linux-wpan@lfdr.de>);
+        Mon, 11 Nov 2019 14:41:22 -0500
+Received: from static-dsl-170.87-197-152.telecom.sk ([87.197.152.170]:54352
         "EHLO sldom.sldom" rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org
-        with ESMTP id S1726616AbfKJQw5 (ORCPT
-        <rfc822;linux-wpan@vger.kernel.org>); Sun, 10 Nov 2019 11:52:57 -0500
+        with ESMTP id S1727265AbfKKTlW (ORCPT
+        <rfc822;linux-wpan@vger.kernel.org>); Mon, 11 Nov 2019 14:41:22 -0500
 Received: from Shop01 (localhost [127.0.0.1])
-        by sldom.sldom (Postfix) with SMTP id 41A5F24C398;
-        Fri,  8 Nov 2019 16:02:41 +0100 (CET)
-Received: from (HELO hu1) [152.157.131.60] by Shop01 with SMTP; Fri, 08 Nov 2019 20:00:01 +0500
-Message-ID: <3-$-74d-5ni-64n62f5$-1su-$ms6@qyyw.2sgcg>
+        by sldom.sldom (Postfix) with SMTP id 2D63B1D5773;
+        Fri,  8 Nov 2019 11:47:58 +0100 (CET)
+Received: from [199.141.105.127] by Shop01 with ESMTP id 30699328; Fri, 08 Nov 2019 07:44:18 -0300
+Message-ID: <9fygd11$j9vb-f@hwy.otnq5>
 From:   "Simon Oliver" <olivia_simon@lihat.dds-akaun.com>
 Reply-To: "Simon Oliver" <olivia_simon@lihat.dds-akaun.com>
-To:     etewing@vt.edu
+To:     noguchi@cpan.org
 Subject: Seeking Investment Opportunities
-Date:   Fri, 08 Nov 19 20:00:01 GMT
-X-Mailer: AOL 7.0 for Windows US sub 118
+Date:   Fri, 08 Nov 19 07:44:18 GMT
+X-Mailer: Microsoft Outlook Express 6.00.2462.0000
 MIME-Version: 1.0
 Content-Type: multipart/alternative;
-        boundary="6B8._C..3_EBFAF.B_20"
+        boundary="E5__F261D_3AA9BD34"
 X-Priority: 3
 X-MSMail-Priority: Normal
 Sender: linux-wpan-owner@vger.kernel.org
@@ -33,7 +33,7 @@ List-ID: <linux-wpan.vger.kernel.org>
 X-Mailing-List: linux-wpan@vger.kernel.org
 
 
---6B8._C..3_EBFAF.B_20
+--E5__F261D_3AA9BD34
 Content-Type: text/plain;
 Content-Transfer-Encoding: quoted-printable
 
@@ -51,5 +51,5 @@ one number and Occupation.
 Thank you
 Oliver Simon
 
---6B8._C..3_EBFAF.B_20--
+--E5__F261D_3AA9BD34--
 
