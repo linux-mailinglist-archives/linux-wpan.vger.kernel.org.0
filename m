@@ -2,110 +2,85 @@ Return-Path: <linux-wpan-owner@vger.kernel.org>
 X-Original-To: lists+linux-wpan@lfdr.de
 Delivered-To: lists+linux-wpan@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id D3F39112B4F
-	for <lists+linux-wpan@lfdr.de>; Wed,  4 Dec 2019 13:22:23 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 93B8111CC56
+	for <lists+linux-wpan@lfdr.de>; Thu, 12 Dec 2019 12:35:09 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727445AbfLDMWW (ORCPT <rfc822;lists+linux-wpan@lfdr.de>);
-        Wed, 4 Dec 2019 07:22:22 -0500
-Received: from mail-ed1-f67.google.com ([209.85.208.67]:33854 "EHLO
-        mail-ed1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727828AbfLDMWS (ORCPT
-        <rfc822;linux-wpan@vger.kernel.org>); Wed, 4 Dec 2019 07:22:18 -0500
-Received: by mail-ed1-f67.google.com with SMTP id cx19so6485954edb.1
-        for <linux-wpan@vger.kernel.org>; Wed, 04 Dec 2019 04:22:18 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:reply-to:from:date:message-id:subject:to;
-        bh=SWzs3svZdfoJNhQZue5B0UPApGf3QNVhTsPQAsjB3v0=;
-        b=itksFv5A2JLOzo6XVqVzXmSzWKIpGqZTNHrb4xFvrqPmHJ7WwaeLkksg0/ZJSVtv31
-         pzvXZ3OHhHMsql2Vo9oheJQHErj5CDGd5ZvPVjxDn+I4JgVPrQl1nkJy5Nb7wvQoUvM+
-         46lpgbsOy0h7DJvRAy1OQQg0Oi/exT7Imiyfeu4Gtmu6VGYFysEjNlBfvwObnE6M1THW
-         GbhC/d5DVONSKdw6y/qH20L4wjeyxlxCBE+xa1i44NzWc0HgEODgSNCM/bGDvmjdXP55
-         pwYVn13D99Hhzzv+p4qHdhRZEM3zwIJF+S9QDszHcSxOoAqtygRSNU+xVzjWpE9QCD88
-         4SHA==
+        id S1728920AbfLLLfI (ORCPT <rfc822;lists+linux-wpan@lfdr.de>);
+        Thu, 12 Dec 2019 06:35:08 -0500
+Received: from mail-il1-f198.google.com ([209.85.166.198]:37384 "EHLO
+        mail-il1-f198.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1729021AbfLLLfB (ORCPT
+        <rfc822;linux-wpan@vger.kernel.org>); Thu, 12 Dec 2019 06:35:01 -0500
+Received: by mail-il1-f198.google.com with SMTP id t19so1396942ila.4
+        for <linux-wpan@vger.kernel.org>; Thu, 12 Dec 2019 03:35:01 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:reply-to:from:date:message-id
-         :subject:to;
-        bh=SWzs3svZdfoJNhQZue5B0UPApGf3QNVhTsPQAsjB3v0=;
-        b=YvZTOxqyK1E99chiBMxkwNYJoo8JICiSClVUQV0N9ufKRPNwHuOknypu9YJjV6wV0e
-         BoJqoAml/Vq/yYmoRzYXpemKXDKJh4/sIGkfbYp+LpYSoNhBoQU8HysC309Shbe224aD
-         HaWAyOA8TxLj9F5UW9i+ykkiDfrt22P65YHuk42n3W7W0PAA13/1feUhaBgQK0Vsmo3o
-         Nm/j2JIDo70M/JTs4eho6LBm0pEP1qMXdQiy490ydqOOz8gqQLKXkUbMZZCKmIgVrOlC
-         MXUyc33zvy9Bpz5iWfrQylpiQ/jOEKX35mLv3vKgfi32PnvXmqTPIDq4fFV1+St2nLt8
-         ZymA==
-X-Gm-Message-State: APjAAAU8bbkcpftE5QJBlAS0gT26mWQEmqZsSlpbvNmKsgJPZYUY5S5U
-        SvCuwvYRMcN7y2u69bFdCq1J91iIWmYYbpkBKLXib5Ow
-X-Google-Smtp-Source: APXvYqwlH4d/NgUk6+TTgeshJl/W0Z846j+vPwdmJMmvDKA5s5alEIOymc5OFboGvVzTvSBGNMpJNF0KpHbTN+gxpY4=
-X-Received: by 2002:aa7:d84b:: with SMTP id f11mr3689948eds.96.1575462136339;
- Wed, 04 Dec 2019 04:22:16 -0800 (PST)
+        h=x-gm-message-state:mime-version:date:in-reply-to:message-id:subject
+         :from:to;
+        bh=zFl6E7DmT67W68XqVzR2aCsqjcFpWexNUq+6/CXmVUk=;
+        b=KojX2UhOTXfuzUDCFXEvKcpJZOqZjO1p3XpEavgF7cHhvWluV4GuCgGW5Wj4tVM+7k
+         saik7ocSwMVEakGLakOPq+np9QSewmyBeZeEIA3A0BGIxph97Rhr9tCPRUWvye99HyZU
+         QKccVhl+o5bBciFt6HgdLAaJtfpgKGf3EfxCjPJEP6BLNjyalQjHLrF58UvI9E2sZfWo
+         A4HvE0lLS1p9WIi+YAX7QUDJ+2j3yjraoKlzdByA6KrEpccGSMX3t5K603J19FsVfOzc
+         B30HKUfDQDGV7w15yNvW22xHhVgLCcj2Xk4mG13wOREH+wu74+2yR5ZMD2O20md19SsR
+         Jfrg==
+X-Gm-Message-State: APjAAAV9JjSymNQJ9QXjj0mJNLE5LijAgyBQvavQaSxhz1Pv7vMSnxnh
+        Gw3FIytgjAADPNyDnd4npEBNupxZde5z+DsoKuv+pvOs5QWJ
+X-Google-Smtp-Source: APXvYqx7tAF42179GqyQGzxmn7mnoZxL7LgtxR3PNlsI/lOpd2FmYULEa+vakNib69tHnoQvSF7+iHISpB+uiby7hAsvBYRTiqDc
 MIME-Version: 1.0
-Received: by 2002:a05:6402:22dc:0:0:0:0 with HTTP; Wed, 4 Dec 2019 04:22:15
- -0800 (PST)
-Reply-To: moneygram.1820@outlook.fr
-From:   "Rev.Dr Emmanuel Okoye CEO Ecobank-benin" <eco.bank1204@gmail.com>
-Date:   Wed, 4 Dec 2019 13:22:15 +0100
-Message-ID: <CAOE+jABwsq4QTifFZJGuzmZ8p9kMY_tMmS5N39hvEALE6d=OJw@mail.gmail.com>
-Subject: God has remembered your prayers I have already sent you Money Gram
- payment of $5000.00 today, MG 1029-8096
-To:     undisclosed-recipients:;
-Content-Type: text/plain; charset="UTF-8"
+X-Received: by 2002:a92:3b19:: with SMTP id i25mr7844146ila.85.1576150500982;
+ Thu, 12 Dec 2019 03:35:00 -0800 (PST)
+Date:   Thu, 12 Dec 2019 03:35:00 -0800
+In-Reply-To: <000000000000b6b03205997b71cf@google.com>
+X-Google-Appengine-App-Id: s~syzkaller
+X-Google-Appengine-App-Id-Alias: syzkaller
+Message-ID: <000000000000b949ee0599802274@google.com>
+Subject: Re: BUG: corrupted list in __dentry_kill (2)
+From:   syzbot <syzbot+31043da7725b6ec210f1@syzkaller.appspotmail.com>
+To:     a@unstable.cc, alex.aring@gmail.com, allison@lohutok.net,
+        andrew@lunn.ch, andy@greyhouse.net, ap420073@gmail.com,
+        ast@domdv.de, ast@kernel.org, b.a.t.m.a.n@lists.open-mesh.org,
+        bpf@vger.kernel.org, bridge@lists.linux-foundation.org,
+        cleech@redhat.com, daniel@iogearbox.net, davem@davemloft.net,
+        dsa@cumulusnetworks.com, dsahern@gmail.com, dvyukov@google.com,
+        f.fainelli@gmail.com, fw@strlen.de, gregkh@linuxfoundation.org,
+        haiyangz@microsoft.com, hawk@kernel.org, hdanton@sina.com,
+        idosch@mellanox.com, info@metux.net, j.vosburgh@gmail.com, j@w1.fi,
+        jakub.kicinski@netronome.com, jhs@mojatatu.com, jiri@mellanox.com,
+        jiri@resnulli.us, johan.hedberg@gmail.com, johannes.berg@intel.com,
+        john.fastabend@gmail.com, john.hurley@netronome.com,
+        jwi@linux.ibm.com, kafai@fb.com, kstewart@linuxfoundation.org,
+        kvalo@codeaurora.org, kys@microsoft.com,
+        linux-bluetooth@vger.kernel.org, linux-fsdevel@vger.kernel.org,
+        linux-hams@vger.kernel.org, linux-hyperv@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-ppp@vger.kernel.org,
+        linux-wireless@vger.kernel.org, linux-wpan@vger.kernel.org,
+        liuhangbin@gmail.com, marcel@holtmann.org
+Content-Type: text/plain; charset="UTF-8"; format=flowed; delsp=yes
 Sender: linux-wpan-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-wpan.vger.kernel.org>
 X-Mailing-List: linux-wpan@vger.kernel.org
 
-Attn, dear Beneficiary.
+syzbot has bisected this bug to:
 
-God has remembered your prayers
-I have already sent you Money Gram payment of $5000.00 today, MG 1029-8096
-This is because we have finally concluded to effect your transfer
-funds of $4.8,000.000usd
-through MONEY GRAM International Fund transfer Service
-Each payment will be sending to you by $5000.00 daily until the
-($4.8,000.000usd) is completely transferred
-we have this morning sent  MONEY GRAM payment of $5,000.00 in your name today
-So contact the MONEY GRAM Agent to pick up this first payment of $5000 now
+commit ab92d68fc22f9afab480153bd82a20f6e2533769
+Author: Taehee Yoo <ap420073@gmail.com>
+Date:   Mon Oct 21 18:47:51 2019 +0000
 
-Contact person Mrs. Alan Ude
-Dir. MONEY GRAM Service,Benin
-Phone number: +229 98856728
-E-mail: moneygram.1820@outlook.fr
+     net: core: add generic lockdep keys
 
-Ask him to give you the complete mtcn, sender name, question and
-answer to enable you
-pick up the $5000.00 sent today,
-Also you are instructed to re-confirm your information's
-to Mrs.Alan Ude as listed below to avoid wrong transactions.
+bisection log:  https://syzkaller.appspot.com/x/bisect.txt?x=12d37cb6e00000
+start commit:   938f49c8 Add linux-next specific files for 20191211
+git tree:       linux-next
+final crash:    https://syzkaller.appspot.com/x/report.txt?x=11d37cb6e00000
+console output: https://syzkaller.appspot.com/x/log.txt?x=16d37cb6e00000
+kernel config:  https://syzkaller.appspot.com/x/.config?x=96834c884ba7bb81
+dashboard link: https://syzkaller.appspot.com/bug?extid=31043da7725b6ec210f1
+syz repro:      https://syzkaller.appspot.com/x/repro.syz?x=12dc83dae00000
+C reproducer:   https://syzkaller.appspot.com/x/repro.c?x=16ac8396e00000
 
-(1Your Full name:............................................
-(2 Phone number.....................................................
-(3 Contact address:.....................................
-(4 Age:..................................................................
-(5 Country..............................................
-(6) Sex .................................................................
-(7) your occupation...........................................
+Reported-by: syzbot+31043da7725b6ec210f1@syzkaller.appspotmail.com
+Fixes: ab92d68fc22f ("net: core: add generic lockdep keys")
 
-(8)Passport/By Attach or Drivers License Number:
-Contact Mrs. Alan Ude for your MONEY GRAM payment of $4.8,000.000usd
-Note please: I have paid service fees for you but the only money you
-are required
-to send to Mrs. Alan Ude is $90.00 only Transfer fee before you can
-pick up your transfer today.
-
-Send it to via Money Gram
-Receiver's Name-----Alan Ude
-Country----------Benin
-Address-----------Cotonou
-Quest--------Honest
-Ans-----------Trust
-
-I done all my best for you to receive your transfer now ok.
-We need your urgent reply
-Best Regards
-Rev.Dr Emmanuel Okoye
-CEO Ecobank-benin
-
-If we did not receive it urgent from you today,
-I will go ahead and release you funds to Mrs. Lyndia Ppaulson as your
-representative.
+For information about bisection process see: https://goo.gl/tpsmEJ#bisection
