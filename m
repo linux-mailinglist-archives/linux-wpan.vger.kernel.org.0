@@ -2,94 +2,96 @@ Return-Path: <linux-wpan-owner@vger.kernel.org>
 X-Original-To: lists+linux-wpan@lfdr.de
 Delivered-To: lists+linux-wpan@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 81B22124B31
-	for <lists+linux-wpan@lfdr.de>; Wed, 18 Dec 2019 16:14:21 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id B5F81128538
+	for <lists+linux-wpan@lfdr.de>; Fri, 20 Dec 2019 23:52:34 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727311AbfLRPOK (ORCPT <rfc822;lists+linux-wpan@lfdr.de>);
-        Wed, 18 Dec 2019 10:14:10 -0500
-Received: from mail-io1-f65.google.com ([209.85.166.65]:41066 "EHLO
-        mail-io1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727417AbfLRPOE (ORCPT
-        <rfc822;linux-wpan@vger.kernel.org>); Wed, 18 Dec 2019 10:14:04 -0500
-Received: by mail-io1-f65.google.com with SMTP id c16so2324062ioo.8
-        for <linux-wpan@vger.kernel.org>; Wed, 18 Dec 2019 07:14:04 -0800 (PST)
+        id S1726129AbfLTWwd (ORCPT <rfc822;lists+linux-wpan@lfdr.de>);
+        Fri, 20 Dec 2019 17:52:33 -0500
+Received: from mail-ot1-f66.google.com ([209.85.210.66]:38597 "EHLO
+        mail-ot1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726030AbfLTWwd (ORCPT
+        <rfc822;linux-wpan@vger.kernel.org>); Fri, 20 Dec 2019 17:52:33 -0500
+Received: by mail-ot1-f66.google.com with SMTP id d7so9362891otf.5
+        for <linux-wpan@vger.kernel.org>; Fri, 20 Dec 2019 14:52:33 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=mime-version:reply-to:from:date:message-id:subject:to
-         :content-transfer-encoding;
-        bh=R9l9mbjTMtC+3agOxuj88vgGSGUSi1shzIvbtHPQHDA=;
-        b=RfaUJbE64AqObBUWyZFAX00yFzfv+PMQBeMlfEbyOTSSIZSlP9dNPzblRe9C4/Xp5G
-         OOrfzjlEIPRCszaxaclLviha/Gl6J+8MNE2wJIlQr3g8uWJn+m5NNx6dyOIWXJDzHKAu
-         CFfw6ayoPSChbR+RAE0+B68G/pEf5o1uZqam8GCW/DM3JVJn1rrKg09G5nyaA4x8K46C
-         DidFmOGbhUnnebgzWtKvL2IYqcm0dJ4hRYsroJX5h4wZl5ygcdMBOrPylnEG0iZgtaC4
-         tctA6UVKTV1ZO7eaOpJeM3zJ9lY8Otzi6Az77Sm1wv6CYLTS/yvcKPbBaIHIL7wY9gk+
-         23sQ==
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=t/Ab5M8EhSP9EwQUbWSjA8eeoPkE4tsydjtQX/nzHqM=;
+        b=dm4jvguokl0dVpRLQb1o/a3I4OTjpavQI/W47EIGKEL/MG9Op0n3a/pbBWHk2EpOSw
+         Bp9sBJjQyc37P3ZOHkK5jA3YKOjLq7UG2gtpqT4fDTUfgNUKMwJblikzHVGcCbXn6sJX
+         dCj18gypGna6rocBH7iIU62C4SkVUhEl/BieQo+llzgoEHmX36VSqTG1/fGeZ3tWD9lQ
+         VjddVSv92QKmedw1OHSWqJwIlBE8GvZ6ippPGBSvptRdfgDcDwvvR4EtHixQfsiKQy4e
+         MCVrhQO6zUdVHHo9OLpi6NkUlk7D/eHH5egPqgnDzL7qKZePKazlZiOnAuO3feWLlS+H
+         V6aw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:reply-to:from:date:message-id
-         :subject:to:content-transfer-encoding;
-        bh=R9l9mbjTMtC+3agOxuj88vgGSGUSi1shzIvbtHPQHDA=;
-        b=efgr0RBAK7ftdhcrxCVPni77wmsyOtrcFCFePz0xqMDqwzpPUutq9N+2CgrdR+Zbcq
-         /FN3jG4pdIzXlGUNtTvgzRcrBNfBk41W1717VXkLqHtUtJqRMxy7Vbq1eiG6LPvlmYkr
-         vWLBttX9U9AfgnHy45clrwzRPlM2XCCYUJtAFyvCarJNuvia08iSUI3eReEalTr6anGM
-         bJA3gJs4lSxb8hQXZ54QoQU6Ox7aMi0P2E9wFimPX15PTq881uRMlE3wPVbahZ3Nr9iP
-         eh8C5mo6ApMz4fN9dPAxfnwYwrz2LvQ/feRj0V9ay94ZJbCWcsS+mNrSd5A8VC8faolk
-         4/Vg==
-X-Gm-Message-State: APjAAAVEvayXsUNJjeiSRhW+EIK1gDYrPcIjkMem1VISbIbrvoVy/HRy
-        haZnsZd0v6Ysu/AhCPWiBxP2fd34uJQJ2UpZwGqznLU=
-X-Google-Smtp-Source: APXvYqyIz9CrpHcrXivylieLEiE1VxRyGUw+E9DXz6VIYz+kYlOCef915g/qsmML8+OoqrwbsBK3G0eW6o6RBALrF/E=
-X-Received: by 2002:a05:6638:950:: with SMTP id f16mr2789501jad.107.1576682043767;
- Wed, 18 Dec 2019 07:14:03 -0800 (PST)
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=t/Ab5M8EhSP9EwQUbWSjA8eeoPkE4tsydjtQX/nzHqM=;
+        b=SzM3FQv/pkTfsqYl4dE9uK0Kzw7C7cuG99POz4JJjABwg6C1huDAw+21unTsRjXWUu
+         VLoQczLNU38Ofbr8AEA9qiqWfEX+OTqAMM8aMVGHveW93FMQqWo2Wg3mRTFL+Q/YY0VS
+         oogns0SYXP415RHPhu57UvyfqX6MuZ3nL/+QimlpEG2HJnoCnThNtkgROxOOVk0EoibU
+         /Z/l1FzCamDchLaUOfu7uv/J2kOMBQVxtLpafLCki/THIFrJb+UeLv/M6/TMU/HxZz1t
+         hvLxPuL+Y9mgpJdwoB42rBJt9+wMQ6fZIdHbS3jt9AketY+h31Y9PRTMydN9bwP3zxve
+         wD2Q==
+X-Gm-Message-State: APjAAAUDKVLRvf5VjdxNAkb8yMGfpNGAnU1oyvtFwU8oQrnu4PLlXxO3
+        vxMQ+m/ZHHkKWh/fRA9uQUa/Ro+baQzseSZykI2bPthh
+X-Google-Smtp-Source: APXvYqy0rHbeSYzyrMfnGPkCFBoqrsF2HzNq9wWirwN1U5ahmIgKmf90AcPMm1Qs6IiIS7rAsKQXrYWy39wRHADCiyo=
+X-Received: by 2002:a9d:6d81:: with SMTP id x1mr18337341otp.9.1576882352711;
+ Fri, 20 Dec 2019 14:52:32 -0800 (PST)
 MIME-Version: 1.0
-Received: by 2002:a02:6603:0:0:0:0:0 with HTTP; Wed, 18 Dec 2019 07:14:03
- -0800 (PST)
-Reply-To: dhl.expresscourier102156@outlook.fr
-From:   "MS. MARYANNA B. THOMASON" <info.zennitbankplcnigerian@gmail.com>
-Date:   Wed, 18 Dec 2019 16:14:03 +0100
-Message-ID: <CABHzvr=Pq7-TqhY8TPvFCsr+5-DhDQy=XOg-TM13qqbFWeemfQ@mail.gmail.com>
-Subject: =?UTF-8?Q?Urgent_delivery_Notification_of_your_ATM_MASTER_CARD?=
-        =?UTF-8?Q?_Amount=2C=2415=2E800=E2=80=99000=E2=80=9900=2C?=
-To:     undisclosed-recipients:;
+References: <20190918195819.7492-1-stefan@datenfreihafen.org> <20190918195819.7492-3-stefan@datenfreihafen.org>
+In-Reply-To: <20190918195819.7492-3-stefan@datenfreihafen.org>
+From:   Alexander Aring <alex.aring@gmail.com>
+Date:   Fri, 20 Dec 2019 17:52:21 -0500
+Message-ID: <CAB_54W7a8gsqWsSf-V9DjbhmKvqhwCVRu2z6dWDOSR3mp5zLLw@mail.gmail.com>
+Subject: Re: [PATCH rpld 2/6] send: make sure we check on scope id usage
+To:     Stefan Schmidt <stefan@datenfreihafen.org>
+Cc:     linux-wpan - ML <linux-wpan@vger.kernel.org>
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 Sender: linux-wpan-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-wpan.vger.kernel.org>
 X-Mailing-List: linux-wpan@vger.kernel.org
 
-Attn Dear.
+Hi Stefan,,
 
-Urgent delivery Notification of your ATM MASTER CARD, Dhl-Benin is
-ready for delivery of your ATM Master card worth $15.800=E2=80=99000=E2=80=
-=9900, as
-approved this morning, Date, 18/12/2019. Through the Intruction from
-INTERNATIONAL MONETARY FUNDS, I.M.F official Directors.
+On Wed, 18 Sep 2019 at 15:58, Stefan Schmidt <stefan@datenfreihafen.org> wrote:
+>
+> It fails on my machine and likely fails on others, better
+> check for it.
+> ---
+>  send.c | 4 +---
+>  1 file changed, 1 insertion(+), 3 deletions(-)
+>
+> diff --git a/send.c b/send.c
+> index 97c566d..d026f6a 100644
+> --- a/send.c
+> +++ b/send.c
+> @@ -53,11 +53,9 @@ static int really_send(int sock, const struct iface *iface,
+>         pkt_info->ipi6_ifindex = iface->ifindex;
+>         memcpy(&pkt_info->ipi6_addr, iface->ifaddr_src, sizeof(struct in6_addr));
+>
+> -#if 1
+> -//#ifdef HAVE_SIN6_SCOPE_ID
+> +#ifdef HAVE_SIN6_SCOPE_ID
 
-REGISTRATION NO :EG58945
-PARCEL NUMBER: 140479
-Delivery Schuleded now,
-Finally all we required from you is your ATM Card Proccessing Delivery
-fees $19.00 only which you must send to this DHL service to enable us
-dispatch the parcel to your destination today.
+This HAVE_ stuff is from autoconf where I took the code (radvd), so
+this will mostly end in #ifdef 0 because we use meson now and don't
+ask me how to check on this in meson but it's simple I think. :-)
+I think we can remove this code and see if we break something. The
+point here radvd is ported to BSD, Linux, etc. and this is some system
+thing. _Maybe_ it is really not necessary for Linux systems _because_
+we set above "pkt_info->ipi6_ifindex = iface->ifindex;" which is maybe
+enough on a Linux system... but it could also be to solve some UAPI
+messup.... just remove it. In a scope of link-local we must set the
+interface somehow, I am not sure how the correct API works here, as I
+said... look if it makes problems. Sorry but it means: I am too lazy
+too look it up why this is necessary in radvd (git blame is maybe
+enough?).
 
-Here is our receiving payment details.
-You are advised to send it Via Money Gram Service.
+Note: That it compiles on my Linux machine and not on your Linux
+machine, means there is something in Linux API headers.
 
-Receiver's Name--------Alan Ude
-Country-------Benin Republic.
-City/ Address--------Cotonou
-Test Question--------In God
-Answer-------We Trust
-Amount------------$US19.00 only
-Mtcn-------------
-Sender's Name-------
-
-Your delivery  ATM card worth $15.800=E2=80=99000=E2=80=9900,
-Is Due for delivery to your address today upon confirmation of
-required fee from you asap.
-
-Call us on this phone number for any inquiry. +229 62819378
-Awaiting your urgent response.
-
-MS. MARYANNA B. THOMASON, Shipment director, DHL Express
-Courier Company-Benin
+- Alex
