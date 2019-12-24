@@ -2,98 +2,58 @@ Return-Path: <linux-wpan-owner@vger.kernel.org>
 X-Original-To: lists+linux-wpan@lfdr.de
 Delivered-To: lists+linux-wpan@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 01514129028
-	for <lists+linux-wpan@lfdr.de>; Sun, 22 Dec 2019 23:12:30 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 23EB9129F2B
+	for <lists+linux-wpan@lfdr.de>; Tue, 24 Dec 2019 09:37:31 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726679AbfLVWM3 (ORCPT <rfc822;lists+linux-wpan@lfdr.de>);
-        Sun, 22 Dec 2019 17:12:29 -0500
-Received: from proxima.lasnet.de ([78.47.171.185]:54238 "EHLO
-        proxima.lasnet.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726162AbfLVWM3 (ORCPT
-        <rfc822;linux-wpan@vger.kernel.org>); Sun, 22 Dec 2019 17:12:29 -0500
-X-Greylist: delayed 317 seconds by postgrey-1.27 at vger.kernel.org; Sun, 22 Dec 2019 17:12:28 EST
-Received: from PC192.168.2.50 (p200300E9D73E1E02041365448C97F985.dip0.t-ipconnect.de [IPv6:2003:e9:d73e:1e02:413:6544:8c97:f985])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        (Authenticated sender: stefan@datenfreihafen.org)
-        by proxima.lasnet.de (Postfix) with ESMTPSA id DCD5CC03CA;
-        Sun, 22 Dec 2019 23:07:10 +0100 (CET)
-Subject: Re: [PATCH rpld 0/6] Mixed bag of rpld patches
-To:     Alexander Aring <alex.aring@gmail.com>
-Cc:     linux-wpan - ML <linux-wpan@vger.kernel.org>
-References: <20190918195819.7492-1-stefan@datenfreihafen.org>
- <CAB_54W5g137YQJRoVUrUF1ELoP_s1SWhocQ2sPLni6moHc4Tdw@mail.gmail.com>
-From:   Stefan Schmidt <stefan@datenfreihafen.org>
-Message-ID: <50906bc4-c27b-0f3d-352e-e1b3fd5613b9@datenfreihafen.org>
-Date:   Sun, 22 Dec 2019 23:07:10 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.1.1
+        id S1726116AbfLXIhS (ORCPT <rfc822;lists+linux-wpan@lfdr.de>);
+        Tue, 24 Dec 2019 03:37:18 -0500
+Received: from mail-il1-f193.google.com ([209.85.166.193]:34601 "EHLO
+        mail-il1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726160AbfLXIhS (ORCPT
+        <rfc822;linux-wpan@vger.kernel.org>); Tue, 24 Dec 2019 03:37:18 -0500
+Received: by mail-il1-f193.google.com with SMTP id s15so16122826iln.1
+        for <linux-wpan@vger.kernel.org>; Tue, 24 Dec 2019 00:37:18 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=mime-version:reply-to:from:date:message-id:subject:to;
+        bh=LcGU1mt+nAQIi3eKcWZpiy7DqrkNG23tK1MNYV9CB+M=;
+        b=thLznmLowQYlgCkXssGgqDu9lyH9UW6YjKmOssHb1tTK4hOQZrMXPmcN+NyMPf6FCl
+         UvREnc30T4YWVk+0sz5tUX66h6x9TrTk5PLAy+j6B7YQx87dbuBKpJdKp6vHEaeyv/Mk
+         +ugQax6dxzQYdZRO2RuhmUBXO0k1ex+ujK03f0IwAMz2143noOnX/n9FaaLqE/JawMIu
+         cAyyILMJ9qtw2dvj23jE86BJWZZAt8n9o0u6ZQ2NXyeUK9YTazBgzNeXTkC83D8e6w+y
+         LyuzLzl8dZr8HmmG/1asFn/Ndqg1z9wICefdZo1ski0C2gomR8pQBnx9Wa/071qwcZbY
+         xpeA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:reply-to:from:date:message-id
+         :subject:to;
+        bh=LcGU1mt+nAQIi3eKcWZpiy7DqrkNG23tK1MNYV9CB+M=;
+        b=pv92P3LuZtU3U4FaXXELEjjuOrqtI6wd2M7Ad2HME7l6yHYAYP1t2OqoobDNRkEQLm
+         75q50ruUtrbkqhBrNBuehKDf/byed14Q5FwFNr5lEJRAnSNDR80Ty2yQkKVLrzUf3QHo
+         82UFCDrfLR1iogvXaCYMiQhCDk79gzdiGjO0Q3O4LX7M6H0rQGhXRAPjrIN5uXBg8XYT
+         vEScAnp1BDBL1czMgcKTPkD1a5Oii5qnFScpyBoVw4lTyfsENHk/RuAY5U0jyhn/RTtQ
+         8gw93SE1b//veb4mJu5tHL1f4rjQGBvjHk8Hz+eqI+JWl6SQYXrdsRLtsf9Ix6ltxxtP
+         bxpQ==
+X-Gm-Message-State: APjAAAVbhefNslRFNMPR9hoj82PC1C8D9JshMCdh1b54Oxkpd29cW/3l
+        dIEZOjlwZDuS85H35jepcGrHHRc+RU/KPPnRWfo=
+X-Google-Smtp-Source: APXvYqz2tBa4QzKmO6wzSXUBWoAEt+AdW5keElYd0pxn2QCdUk0KRvhLw5nMwIzFzVTuSc6Cp+qr2Z5Nq+YfPm0LYgM=
+X-Received: by 2002:a92:3b98:: with SMTP id n24mr4582447ilh.108.1577176637594;
+ Tue, 24 Dec 2019 00:37:17 -0800 (PST)
 MIME-Version: 1.0
-In-Reply-To: <CAB_54W5g137YQJRoVUrUF1ELoP_s1SWhocQ2sPLni6moHc4Tdw@mail.gmail.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Received: by 2002:ac0:f302:0:0:0:0:0 with HTTP; Tue, 24 Dec 2019 00:37:16
+ -0800 (PST)
+Reply-To: bethnatividad9@gmail.com
+From:   Beth Nat <clementidibia1960@gmail.com>
+Date:   Tue, 24 Dec 2019 08:37:16 +0000
+Message-ID: <CAEG=icHSiKA+obxr5hSbrz+bX3f1O1rMyddMXXp8YnqnRrxBeQ@mail.gmail.com>
+Subject: 
+To:     undisclosed-recipients:;
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-wpan-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-wpan.vger.kernel.org>
 X-Mailing-List: linux-wpan@vger.kernel.org
 
-Hello.
-
-On 21.12.19 00:06, Alexander Aring wrote:
-> Hi Stefan,
-> 
-> On Wed, 18 Sep 2019 at 15:58, Stefan Schmidt <stefan@datenfreihafen.org> wrote:
->>
->> Hello.
->>
->> This series does really not have any theme, besides me starting
->> to look into rpld and playing around with it.
->>
->> I had to fix meson for my lua detection and make sure the ifdef
->> for SCOPE_ID is honoured. After getting it all building locally
->> I added Travis support and submitted builds to Coverity.
->> Afterwards I did a quick run through the reports from address
->> sanitizer and coverity scan.
->>
->> Not sure if you would prefer review for rpld as patches here on
->> the list or as pull requests on github. Up to you.
->>
-> 
-> I can't deal with the github gui! I click always the wrong buttons
-> there. Thanks for setting up this travis support, does it work like
-> wpan-tools to push it into branch "coverity_scan"?
-
-Yes
-
-> I would like to review patches via mail, what do you prefer? What is
-> the procedure when somebody submits pull requests on github then,
-> somebody of us send it via mail? Sounds more work... Can we do both as
-> "whatever you like"? Can github somehow send pull request via github
-> to this mailinglist? Would be nice to have something to connect the
-> whole github thing to a mailinglist and you can control it with that
-> as well... at least the commenting system but I think this isn't
-> possible and the new kids wants all pull request via github gui. We
-> didn't answered this question for wpan-tools as well and I once
-> clicked the "merge" button (actually not by accident).
-
-I do not mind any of the two methods. Getting Github and mailing lists 
-working together is to big of a task on its own for such a small project 
-to tackle in my opinion.
-
-Given the low volumes of patches we are seeing on wpan-tools and maybe 
-also rpld I would not mind if we say that we accept both ways. Mailing 
-patches as well as pull requests. That would ease the contributions for 
-some people I hope. And while it puts a bit more burden on us it should 
-not be to hard given the low volume.
-
-> 
-> Also how we do that with signed off by thing? I can still fix it
-> somehow what I did there...
-
-Signed off by makes only sense if we have a document descriping what we 
-mean by it. If we want it and use the one from the kernel we need to 
-communicate this clearly. If not, the sign offs are off no use.
-
-regards
-Stefan Schmidt
+How are you today my dear? i saw your profile and it interests me, i
+am a Military nurse from USA. Can we be friend? I want to know more
+about you.
