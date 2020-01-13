@@ -2,73 +2,72 @@ Return-Path: <linux-wpan-owner@vger.kernel.org>
 X-Original-To: lists+linux-wpan@lfdr.de
 Delivered-To: lists+linux-wpan@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 297BB13840D
-	for <lists+linux-wpan@lfdr.de>; Sun, 12 Jan 2020 00:38:40 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 34882138B5A
+	for <lists+linux-wpan@lfdr.de>; Mon, 13 Jan 2020 06:52:41 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1731674AbgAKXie (ORCPT <rfc822;lists+linux-wpan@lfdr.de>);
-        Sat, 11 Jan 2020 18:38:34 -0500
-Received: from mail-io1-f69.google.com ([209.85.166.69]:48560 "EHLO
-        mail-io1-f69.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1731710AbgAKXic (ORCPT
-        <rfc822;linux-wpan@vger.kernel.org>); Sat, 11 Jan 2020 18:38:32 -0500
-Received: by mail-io1-f69.google.com with SMTP id e15so3868779ioh.15
-        for <linux-wpan@vger.kernel.org>; Sat, 11 Jan 2020 15:38:32 -0800 (PST)
+        id S2387525AbgAMFwj (ORCPT <rfc822;lists+linux-wpan@lfdr.de>);
+        Mon, 13 Jan 2020 00:52:39 -0500
+Received: from mail-oi1-f193.google.com ([209.85.167.193]:45650 "EHLO
+        mail-oi1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S2387606AbgAMFwj (ORCPT
+        <rfc822;linux-wpan@vger.kernel.org>); Mon, 13 Jan 2020 00:52:39 -0500
+Received: by mail-oi1-f193.google.com with SMTP id n16so7171714oie.12
+        for <linux-wpan@vger.kernel.org>; Sun, 12 Jan 2020 21:52:38 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=mime-version:reply-to:from:date:message-id:subject:to;
+        bh=Rjbe3pVeMfYVPdmVklZ4b2stSqI32LIYp+bn/8NyJvk=;
+        b=MaFAR6FR5toOKNJiEvYgCYPSHBGxfYmCPV6emkC7SrII/5AmIWDAmjw+8MGyn64q68
+         9CsgcE1hGtq75I6+9hwFmyBssVlHG8xOr3te5U8HrnTcKEJc+7juFT9oooRvWt1+45DG
+         RPV96DxfwDihu0rCNOFyxk2ERywYRaBSesCO/LOAkwlbgAvaSG/6DM8RXOy3mUhyHVeM
+         sujmVe6N/DFa+La31T34jj9TMU+/zoHchXnntqs/45nixai6zXFC/Dj/ie9ONUNDdCBl
+         wLYFSBTuGG/E+CveKQ3ZD2EjJiiPHbBj9j2S1uTteq+3hmhBlvSgfLgtMc/1Q9R0Qp/9
+         wN7g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:date:in-reply-to:message-id:subject
-         :from:to:cc;
-        bh=HG8PSEk+Nu2G0yzQ1sauBjh8yX4UWlbofl1tNDseMog=;
-        b=dquS+RzddHuDM4udcrwhWbnpnJS3EZpqEPF2mq8wd0U571VvZ8B7+B77rgIRs68q4O
-         KEcyJgaQH1jsjMR9vPaTQut3I/6gYjS/M3M8C8EJv0hyzQMCybL2e1uCKeVYtKnevIDr
-         AyYvcXFbCo4DnXZEWbH/nvkBUzzuZX8bULbdnThl6ULAX4oqeVyJs5b8MxY7bdyNF1QT
-         8B3q5Yraj1c+221ws+n5F4c1kUUh8ELGqaxWITSrMoAxJHVzeTkNrwh44VSCZmlYg9Tn
-         Ig0aOYKEv3eaIDxSkXi3dCYD0gAG3rPis6wop0P1NKp4lmYPqZmKWY1sSF2Alb1kdwE5
-         k0ZA==
-X-Gm-Message-State: APjAAAXc6+FHVahmAiaCHKbnUa920cW0npGliqoknmRC+u/YzicMh4Co
-        89+C8XQLsHp9sSiyJCZT+cn9l556hgouCh82Rz5L9TwIQzhr
-X-Google-Smtp-Source: APXvYqzY3G/r7L2fdqmCj2j/h1C1sHPcBcM4PyU4coxfrfPzxUmQUqHGDBOKiBTJVPd2Dc1kvuMmxK6iFOuHlz4BJK9Zg+ciJv/g
+        h=x-gm-message-state:mime-version:reply-to:from:date:message-id
+         :subject:to;
+        bh=Rjbe3pVeMfYVPdmVklZ4b2stSqI32LIYp+bn/8NyJvk=;
+        b=X1C7uYbe2kQxZnMgkmRxTecluDNKNvRTf7DZM6RGuFQNltC0LWcqs5j6EgzrTVYZN9
+         lD5wfwYBUBm6H6KU0l+9D35dqGqEv+Ftzb3JY5TSjdHAzqGzGLFL5ZBUfXgP7AgsBUF7
+         0xMS6Qy8RFpk4ME3lWMvNsxQAOIaJvajBhsUNdzvm7nkvmOQA4ypBUefyHELxv1e2d4B
+         w6AaPFvns1Oh6N+D01sWwZhdLcR7D+pXUgkA2Pzro23CEnEdgwGchwW6oKZpJL0dlWtJ
+         02ufUr8MhXr4YHFGoFzrxRR6TGeyyx6wUASLHn2O/GxA4GJrw4Kz62WnW8W8kK4B4XBz
+         onRw==
+X-Gm-Message-State: APjAAAXmvXWJtQmZc1jD54LCxE2OkCE29zA/97dJ6JHMNHWo00GRriEj
+        OCt4Aurja8DRd5Ew73cco+CyvYV2OHfiWbTk1ro=
+X-Google-Smtp-Source: APXvYqxpLuvGBSXJi0LygFRWySu0TKIxqhta6upKSXVoj+SD3HVRl3hBir1/mczgV9iZ7wN0WQE0dauBJq3F3sofYg0=
+X-Received: by 2002:a54:4f04:: with SMTP id e4mr10830211oiy.111.1578894758224;
+ Sun, 12 Jan 2020 21:52:38 -0800 (PST)
 MIME-Version: 1.0
-X-Received: by 2002:a6b:c804:: with SMTP id y4mr7776396iof.210.1578785911931;
- Sat, 11 Jan 2020 15:38:31 -0800 (PST)
-Date:   Sat, 11 Jan 2020 15:38:31 -0800
-In-Reply-To: <CAM_iQpWN-SKjjrG_7EQ-x+7UMiu6foaNWMJuwQuwN0BGmayB+A@mail.gmail.com>
-X-Google-Appengine-App-Id: s~syzkaller
-X-Google-Appengine-App-Id-Alias: syzkaller
-Message-ID: <000000000000751268059be5bdfc@google.com>
-Subject: Re: Re: WARNING: bad unlock balance in __dev_queue_xmit
-From:   syzbot <syzbot+ad4ea1dd5d26131a58a6@syzkaller.appspotmail.com>
-To:     Cong Wang <xiyou.wangcong@gmail.com>
-Cc:     a@unstable.cc, alex.aring@gmail.com, allison@lohutok.net,
-        andrew@lunn.ch, andy@greyhouse.net, ap420073@gmail.com,
-        ast@domdv.de, b.a.t.m.a.n@lists.open-mesh.org,
-        bridge@lists.linux-foundation.org, cleech@redhat.com,
-        daniel@iogearbox.net, davem@davemloft.net, dsa@cumulusnetworks.com,
-        f.fainelli@gmail.com, fw@strlen.de, gregkh@linuxfoundation.org,
-        gustavo@embeddedor.com, haiyangz@microsoft.com, info@metux.net,
-        j.vosburgh@gmail.com, j@w1.fi, jakub.kicinski@netronome.com,
-        jhs@mojatatu.com, jiri@resnulli.us, johan.hedberg@gmail.com,
-        johannes.berg@intel.com, john.hurley@netronome.com,
-        jwi@linux.ibm.com, kstewart@linuxfoundation.org,
-        kuznet@ms2.inr.ac.ru, kvalo@codeaurora.org, kys@microsoft.com,
-        linmiaohe@huawei.com, linux-bluetooth@vger.kernel.org,
-        linux-hams@vger.kernel.org, linux-hyperv@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-ppp@vger.kernel.org,
-        linux-wireless@vger.kernel.org, linux-wpan@vger.kernel.org,
-        liuhangbin@gmail.com, marcel@holtmann.org,
-        mareklindner@neomailbox.ch, mkubecek@suse.cz,
-        mmanning@vyatta.att-mail.com, netdev@vger.kernel.org,
-        nikolay@cumulusnetworks.com, oss-drivers@netronome.com,
-        pabeni@redhat.com, paulus@samba.org,
-        syzkaller-bugs@googlegroups.com
-Content-Type: text/plain; charset="UTF-8"; format=flowed; delsp=yes
+Received: by 2002:a4a:41cb:0:0:0:0:0 with HTTP; Sun, 12 Jan 2020 21:52:37
+ -0800 (PST)
+Reply-To: rickschaech@gmail.com
+From:   Rick Schaech <cathben72@gmail.com>
+Date:   Mon, 13 Jan 2020 01:52:37 -0400
+Message-ID: <CAEcBxO=DoZZeZuHjVOxQpB8CM4fADYg6sCQVLkjP+qQwsNEH9A@mail.gmail.com>
+Subject: I wait for your swift response,
+To:     undisclosed-recipients:;
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-wpan-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-wpan.vger.kernel.org>
 X-Mailing-List: linux-wpan@vger.kernel.org
 
-> #syz dup: WARNING: bad unlock balance in sch_direct_xmit
+Dear, I'm Mr Rick Schaech, I am the General Account Auditor, Though i
+know we have not meet each other before but sometimes in life God have
+a reason of bringing two people from two different countries together
+as business partners or life partners.
 
-Your 'dup:' command is accepted, but please keep  
-syzkaller-bugs@googlegroups.com mailing list in CC next time. It serves as  
-a history of what happened with each bug report. Thank you.
+My dear friend, I have the sum of 15.7 Million USD i wish to put in
+your name due to the death of my late client who died several years
+ago as his next of kin column still remain blank. Though the internet
+medium is highly abuse these days but am assuring you that this
+transaction is legitimate and I am contacting you that we may have a
+deal, note for your cooperation and collaboration 40% of the sum will
+be for you while the other 60% will be for me as well. I wait for your
+swift response for more details. please forward your response to my
+personal E-mail: rickschaech@gmail.com
 
+Yours sincerely,
+Rick Schaech.
