@@ -2,39 +2,42 @@ Return-Path: <linux-wpan-owner@vger.kernel.org>
 X-Original-To: lists+linux-wpan@lfdr.de
 Delivered-To: lists+linux-wpan@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 941E713EBDC
-	for <lists+linux-wpan@lfdr.de>; Thu, 16 Jan 2020 18:53:15 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 312FF13F130
+	for <lists+linux-wpan@lfdr.de>; Thu, 16 Jan 2020 19:27:34 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2406089AbgAPRpJ (ORCPT <rfc822;lists+linux-wpan@lfdr.de>);
-        Thu, 16 Jan 2020 12:45:09 -0500
-Received: from mail.kernel.org ([198.145.29.99]:36650 "EHLO mail.kernel.org"
+        id S2392369AbgAPS1D (ORCPT <rfc822;lists+linux-wpan@lfdr.de>);
+        Thu, 16 Jan 2020 13:27:03 -0500
+Received: from mail.kernel.org ([198.145.29.99]:35372 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S2406083AbgAPRpI (ORCPT <rfc822;linux-wpan@vger.kernel.org>);
-        Thu, 16 Jan 2020 12:45:08 -0500
+        id S2403921AbgAPR0c (ORCPT <rfc822;linux-wpan@vger.kernel.org>);
+        Thu, 16 Jan 2020 12:26:32 -0500
 Received: from sasha-vm.mshome.net (c-73-47-72-35.hsd1.nh.comcast.net [73.47.72.35])
         (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id DA07C24773;
-        Thu, 16 Jan 2020 17:45:06 +0000 (UTC)
+        by mail.kernel.org (Postfix) with ESMTPSA id 7D8EF246BC;
+        Thu, 16 Jan 2020 17:26:30 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1579196707;
-        bh=UXa8m6DU4r8Aux3+ktngeVRdN4MC9pFpVAeuu6a93bo=;
+        s=default; t=1579195591;
+        bh=rn4pfLKM3XRU+IxIe6/WS+j0s2MfQwOgjyTvquAUgQk=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=FyTXd74eQomhb1X+h1rQrJJlNXkfKCCppJDskBEFHjZlO4Sco3yRDyTOhlh5Gy9SW
-         YTodSFMh4OeexXJxo/Mz19IfE5ALnU2Sae175Qpva0I6E1cBmSHcm+zPBo8j03Xa+y
-         q3CxZhF+KT/z33VlFvF7zHAC917uzEOH85c9QpD0=
+        b=stcOJe6T2M5WSwoPKWQYSpQzu8RCkZvbllZUvZIA4a2YUe5TQMpKuD9pqmk209a+O
+         BWdc0f34pZdvL8kIN7FVYRKl+NdqDTzjPkVri+rgaiHswAzryNc3VSO5wOtbyMgmmG
+         z7ZyKowlUWorkDkw3KAEqDS9D6vigkpq5XYkWhpU=
 From:   Sasha Levin <sashal@kernel.org>
 To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
-Cc:     Eric Dumazet <edumazet@google.com>,
-        "David S . Miller" <davem@davemloft.net>,
-        Sasha Levin <sashal@kernel.org>, linux-wpan@vger.kernel.org,
+Cc:     Dan Carpenter <dan.carpenter@oracle.com>,
+        Jukka Rissanen <jukka.rissanen@linux.intel.com>,
+        Alexander Aring <aring@mojatatu.com>,
+        Marcel Holtmann <marcel@holtmann.org>,
+        Sasha Levin <sashal@kernel.org>,
+        linux-bluetooth@vger.kernel.org, linux-wpan@vger.kernel.org,
         netdev@vger.kernel.org
-Subject: [PATCH AUTOSEL 4.4 098/174] inet: frags: call inet_frags_fini() after unregister_pernet_subsys()
-Date:   Thu, 16 Jan 2020 12:41:35 -0500
-Message-Id: <20200116174251.24326-98-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 4.14 169/371] 6lowpan: Off by one handling ->nexthdr
+Date:   Thu, 16 Jan 2020 12:20:41 -0500
+Message-Id: <20200116172403.18149-112-sashal@kernel.org>
 X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20200116174251.24326-1-sashal@kernel.org>
-References: <20200116174251.24326-1-sashal@kernel.org>
+In-Reply-To: <20200116172403.18149-1-sashal@kernel.org>
+References: <20200116172403.18149-1-sashal@kernel.org>
 MIME-Version: 1.0
 X-stable: review
 X-Patchwork-Hint: Ignore
@@ -44,54 +47,39 @@ Precedence: bulk
 List-ID: <linux-wpan.vger.kernel.org>
 X-Mailing-List: linux-wpan@vger.kernel.org
 
-From: Eric Dumazet <edumazet@google.com>
+From: Dan Carpenter <dan.carpenter@oracle.com>
 
-[ Upstream commit ae7352d384a552d8c799c242e74a934809990a71 ]
+[ Upstream commit f57c4bbf34439531adccd7d3a4ecc14f409c1399 ]
 
-Both IPv6 and 6lowpan are calling inet_frags_fini() too soon.
+NEXTHDR_MAX is 255.  What happens here is that we take a u8 value
+"hdr->nexthdr" from the network and then look it up in
+lowpan_nexthdr_nhcs[].  The problem is that if hdr->nexthdr is 0xff then
+we read one element beyond the end of the array so the array needs to
+be one element larger.
 
-inet_frags_fini() is dismantling a kmem_cache, that might be needed
-later when unregister_pernet_subsys() eventually has to remove
-frags queues from hash tables and free them.
-
-This fixes potential use-after-free, and is a prereq for the following patch.
-
-Fixes: d4ad4d22e7ac ("inet: frags: use kmem_cache for inet_frag_queue")
-Signed-off-by: Eric Dumazet <edumazet@google.com>
-Signed-off-by: David S. Miller <davem@davemloft.net>
+Fixes: 92aa7c65d295 ("6lowpan: add generic nhc layer interface")
+Signed-off-by: Dan Carpenter <dan.carpenter@oracle.com>
+Acked-by: Jukka Rissanen <jukka.rissanen@linux.intel.com>
+Acked-by: Alexander Aring <aring@mojatatu.com>
+Signed-off-by: Marcel Holtmann <marcel@holtmann.org>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- net/ieee802154/6lowpan/reassembly.c | 2 +-
- net/ipv6/reassembly.c               | 2 +-
- 2 files changed, 2 insertions(+), 2 deletions(-)
+ net/6lowpan/nhc.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/net/ieee802154/6lowpan/reassembly.c b/net/ieee802154/6lowpan/reassembly.c
-index 6183730d38db..e728dae467c3 100644
---- a/net/ieee802154/6lowpan/reassembly.c
-+++ b/net/ieee802154/6lowpan/reassembly.c
-@@ -634,7 +634,7 @@ int __init lowpan_net_frag_init(void)
+diff --git a/net/6lowpan/nhc.c b/net/6lowpan/nhc.c
+index 4fa2fdda174d..9e56fb98f33c 100644
+--- a/net/6lowpan/nhc.c
++++ b/net/6lowpan/nhc.c
+@@ -18,7 +18,7 @@
+ #include "nhc.h"
  
- void lowpan_net_frag_exit(void)
- {
--	inet_frags_fini(&lowpan_frags);
- 	lowpan_frags_sysctl_unregister();
- 	unregister_pernet_subsys(&lowpan_frags_ops);
-+	inet_frags_fini(&lowpan_frags);
- }
-diff --git a/net/ipv6/reassembly.c b/net/ipv6/reassembly.c
-index ec917f58d105..17e9ed2edb86 100644
---- a/net/ipv6/reassembly.c
-+++ b/net/ipv6/reassembly.c
-@@ -774,8 +774,8 @@ int __init ipv6_frag_init(void)
+ static struct rb_root rb_root = RB_ROOT;
+-static struct lowpan_nhc *lowpan_nexthdr_nhcs[NEXTHDR_MAX];
++static struct lowpan_nhc *lowpan_nexthdr_nhcs[NEXTHDR_MAX + 1];
+ static DEFINE_SPINLOCK(lowpan_nhc_lock);
  
- void ipv6_frag_exit(void)
- {
--	inet_frags_fini(&ip6_frags);
- 	ip6_frags_sysctl_unregister();
- 	unregister_pernet_subsys(&ip6_frags_ops);
- 	inet6_del_protocol(&frag_protocol, IPPROTO_FRAGMENT);
-+	inet_frags_fini(&ip6_frags);
- }
+ static int lowpan_nhc_insert(struct lowpan_nhc *nhc)
 -- 
 2.20.1
 
