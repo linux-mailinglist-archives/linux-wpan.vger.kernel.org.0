@@ -2,85 +2,84 @@ Return-Path: <linux-wpan-owner@vger.kernel.org>
 X-Original-To: lists+linux-wpan@lfdr.de
 Delivered-To: lists+linux-wpan@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id B0D18138C57
-	for <lists+linux-wpan@lfdr.de>; Mon, 13 Jan 2020 08:31:45 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id C495F13EC14
+	for <lists+linux-wpan@lfdr.de>; Thu, 16 Jan 2020 18:54:44 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728809AbgAMHbo (ORCPT <rfc822;lists+linux-wpan@lfdr.de>);
-        Mon, 13 Jan 2020 02:31:44 -0500
-Received: from mail02.vodafone.es ([217.130.24.81]:59058 "EHLO
-        mail02.vodafone.es" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728646AbgAMHbm (ORCPT
-        <rfc822;linux-wpan@vger.kernel.org>); Mon, 13 Jan 2020 02:31:42 -0500
-IronPort-SDR: leMqbdFVs3BD53Zbc/c5r4RyK5GurYV1A9V5rMMGdX8Bw0b7Tdr8KhdPdAVIL9y1E41HmEdRoL
- yHjRHIR6kbSQ==
-IronPort-PHdr: =?us-ascii?q?9a23=3AjRp4BxUnaQjZrnUGbgWYYMOCLQDV8LGtZVwlr6?=
- =?us-ascii?q?E/grcLSJyIuqrYbB2Et8tkgFKBZ4jH8fUM07OQ7/m7HzZesN3Y6ShKWacPfi?=
- =?us-ascii?q?dNsd8RkQ0kDZzNImzAB9muURYHGt9fXkRu5XCxPBsdMs//Y1rPvi/6tmZKSV?=
- =?us-ascii?q?3wOgVvO+v6BJPZgdip2OCu4Z3TZBhDiCagbb9oIxi6sAvcutMIjYZjLqs9xQ?=
- =?us-ascii?q?bFrmZUd+9L2W5mOFWfkgrm6Myt5pBj6SNQu/wg985ET6r3erkzQKJbAjo7LW?=
- =?us-ascii?q?07/dXnuhbfQwSB4HscSXgWnQFTAwfZ9hH6X4z+vTX8u+FgxSSVJ8z2TbQzWT?=
- =?us-ascii?q?S/86dmTQLjhSkbOzIl9mzcl8p8gKVGrh29vRN/xo7VbJiLOfp5ZKPdZdQaRX?=
- =?us-ascii?q?BbUcZNSSNNG52zb40WA+cdIeZYs5PyqEcOrRSgAAmjGuXvyiNRinDo2602yu?=
- =?us-ascii?q?MvEQbA3AM+H9MCqWrbrNPoP6sWX+250LXEwTDFYvhL2zny9ZLIfwgvr/+MR7?=
- =?us-ascii?q?J+b8nfx1QgGAzZgVudspDlMjGJ2egRr2SX8/RsWOSygGAnsQFxpT2vy982hI?=
- =?us-ascii?q?bXmoIa1ErE/jh5z4YyI924R1NwbNm8EJROqyGVKZF2Q80lQ2FutyY30b0GuY?=
- =?us-ascii?q?WgcycW0pgo2xnfa/mdf4iI4RLuTeCcKip7inJ9YL+zmQu+/Eq6xuHhWMS4zE?=
- =?us-ascii?q?xGojRKn9XWuH0A1xre4dWdRPRn5EeuwzOP2hjW6uFDPE87i7LWK4Ukwr4sjp?=
- =?us-ascii?q?oTtlnDHjPulEX2kqCWckIk9/Ct6+v9Y7XmooWcOJFwig3iPakigNK/AeMlPQ?=
- =?us-ascii?q?cUUWib/uK826P58ULnW7VGlvw2kq/Hv5DGPckXuLO1Dg1P3oo+5RuzEy2q3M?=
- =?us-ascii?q?oXkHUdIl9IeAqLj43zNFHPJPD4A+2/g1OpkDpz3/DJIKHhDYvXLnnNl7fhe7?=
- =?us-ascii?q?l95lVcyAoo1t9Q+4hYBa0GIPL2QEPxtN/YAgcjMwOo2+bnFMl91oQGVGKLA6?=
- =?us-ascii?q?+ZNr7SsFCR6uMhO+mDfokVtS3jK/gq+fHul2U1mVwDcqmz25sYdnS4Eu5hI0?=
- =?us-ascii?q?WDbnq/yusGRGMLuBcuCfPygVuqTzFefTCxUrg66zV9D5ipXr3OXoS8vLvU5C?=
- =?us-ascii?q?qnE4ceWWdABRjYCXr0ep+bXPEDaCGSOcVqujMBXLmlDYQm0Ef9mhX9zu9fI/?=
- =?us-ascii?q?bZ4GUnspTsnIxt6vHejw418zNcD9+X2CeGSGQynmBeFGx+57x2vUEokwTL6q?=
- =?us-ascii?q?N/mfENToQL6g=3D=3D?=
-X-IronPort-Anti-Spam-Filtered: true
-X-IronPort-Anti-Spam-Result: =?us-ascii?q?A2EGEgDeGxxeeiMYgtkUBjMYGgEBAQE?=
- =?us-ascii?q?BAQEBAQMBAQEBEQEBAQICAQEBAYF7AgEBFwEBgS6BTVIgEpNQgU0fg0OLY4E?=
- =?us-ascii?q?Agx4VhggTDIFbDQEBAQEBGxoCAQGEQE4BF4ESJDoEDQIDDQEBBQEBAQEBBQQ?=
- =?us-ascii?q?BAQIQAQEJDQsEK4VKgh0MHgEEAQEBAQMDAwEBDAGDXQcZDzlKTAEOAVOFTwE?=
- =?us-ascii?q?BM4UilzsBhASJAA0NAoUdgkcECoEJgRojgTYBjBgagUE/gSMhgisIAYIBgn8?=
- =?us-ascii?q?BEgFsgkiCWQSNQhIhgQeIKZgXgkEEdolMjAKCNwEPiAGEMQMQgkUPgQmIA4R?=
- =?us-ascii?q?OgX2jN1eBDA16cTMagiYagSBPGA2WSECBFhACT4kugjIBAQ?=
-X-IPAS-Result: =?us-ascii?q?A2EGEgDeGxxeeiMYgtkUBjMYGgEBAQEBAQEBAQMBAQEBE?=
- =?us-ascii?q?QEBAQICAQEBAYF7AgEBFwEBgS6BTVIgEpNQgU0fg0OLY4EAgx4VhggTDIFbD?=
- =?us-ascii?q?QEBAQEBGxoCAQGEQE4BF4ESJDoEDQIDDQEBBQEBAQEBBQQBAQIQAQEJDQsEK?=
- =?us-ascii?q?4VKgh0MHgEEAQEBAQMDAwEBDAGDXQcZDzlKTAEOAVOFTwEBM4UilzsBhASJA?=
- =?us-ascii?q?A0NAoUdgkcECoEJgRojgTYBjBgagUE/gSMhgisIAYIBgn8BEgFsgkiCWQSNQ?=
- =?us-ascii?q?hIhgQeIKZgXgkEEdolMjAKCNwEPiAGEMQMQgkUPgQmIA4ROgX2jN1eBDA16c?=
- =?us-ascii?q?TMagiYagSBPGA2WSECBFhACT4kugjIBAQ?=
-X-IronPort-AV: E=Sophos;i="5.69,428,1571695200"; 
-   d="scan'208";a="323892915"
-Received: from mailrel04.vodafone.es ([217.130.24.35])
-  by mail02.vodafone.es with ESMTP; 13 Jan 2020 08:31:40 +0100
-Received: (qmail 24632 invoked from network); 12 Jan 2020 05:00:22 -0000
-Received: from unknown (HELO 192.168.1.3) (quesosbelda@[217.217.179.17])
-          (envelope-sender <peterwong@hsbc.com.hk>)
-          by mailrel04.vodafone.es (qmail-ldap-1.03) with SMTP
-          for <linux-wpan@vger.kernel.org>; 12 Jan 2020 05:00:22 -0000
-Date:   Sun, 12 Jan 2020 06:00:20 +0100 (CET)
-From:   Peter Wong <peterwong@hsbc.com.hk>
-Reply-To: Peter Wong <peterwonghkhsbc@gmail.com>
-To:     linux-wpan@vger.kernel.org
-Message-ID: <10305085.460861.1578805222391.JavaMail.cash@217.130.24.55>
-Subject: Investment opportunity
+        id S2405940AbgAPRye (ORCPT <rfc822;lists+linux-wpan@lfdr.de>);
+        Thu, 16 Jan 2020 12:54:34 -0500
+Received: from mail.kernel.org ([198.145.29.99]:35814 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S2405928AbgAPRom (ORCPT <rfc822;linux-wpan@vger.kernel.org>);
+        Thu, 16 Jan 2020 12:44:42 -0500
+Received: from sasha-vm.mshome.net (c-73-47-72-35.hsd1.nh.comcast.net [73.47.72.35])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id 7FB9624770;
+        Thu, 16 Jan 2020 17:44:40 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1579196681;
+        bh=JBhNtFJ94R8C17PryEob3YDZloOshI0//2W6ZOtVMxU=;
+        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+        b=Xzh9U9velmeSev1R/cwzUo/oSz9AMbFf5zDjP8uupxE94wVRGSd1XvZ5CFfh8sYWz
+         MzhiaadVZYW43mV8OCC4xAUDNXXgTZ2e3pnOZwcfYgCuXh+7UYR4h8JG4uRzxaC46z
+         cXvxg+C55h8IY5dxGpS5ryON65bvgcX6AKxSEpY4=
+From:   Sasha Levin <sashal@kernel.org>
+To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
+Cc:     Dan Carpenter <dan.carpenter@oracle.com>,
+        Jukka Rissanen <jukka.rissanen@linux.intel.com>,
+        Alexander Aring <aring@mojatatu.com>,
+        Marcel Holtmann <marcel@holtmann.org>,
+        Sasha Levin <sashal@kernel.org>,
+        linux-bluetooth@vger.kernel.org, linux-wpan@vger.kernel.org,
+        netdev@vger.kernel.org
+Subject: [PATCH AUTOSEL 4.4 079/174] 6lowpan: Off by one handling ->nexthdr
+Date:   Thu, 16 Jan 2020 12:41:16 -0500
+Message-Id: <20200116174251.24326-79-sashal@kernel.org>
+X-Mailer: git-send-email 2.20.1
+In-Reply-To: <20200116174251.24326-1-sashal@kernel.org>
+References: <20200116174251.24326-1-sashal@kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Transfer-Encoding: 7bit
+X-stable: review
+X-Patchwork-Hint: Ignore
+Content-Transfer-Encoding: 8bit
 Sender: linux-wpan-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-wpan.vger.kernel.org>
 X-Mailing-List: linux-wpan@vger.kernel.org
 
-Greetings,
-Please read the attached investment proposal and reply for more details.
-Are you interested in loan?
-Sincerely: Peter Wong
+From: Dan Carpenter <dan.carpenter@oracle.com>
 
+[ Upstream commit f57c4bbf34439531adccd7d3a4ecc14f409c1399 ]
 
+NEXTHDR_MAX is 255.  What happens here is that we take a u8 value
+"hdr->nexthdr" from the network and then look it up in
+lowpan_nexthdr_nhcs[].  The problem is that if hdr->nexthdr is 0xff then
+we read one element beyond the end of the array so the array needs to
+be one element larger.
 
+Fixes: 92aa7c65d295 ("6lowpan: add generic nhc layer interface")
+Signed-off-by: Dan Carpenter <dan.carpenter@oracle.com>
+Acked-by: Jukka Rissanen <jukka.rissanen@linux.intel.com>
+Acked-by: Alexander Aring <aring@mojatatu.com>
+Signed-off-by: Marcel Holtmann <marcel@holtmann.org>
+Signed-off-by: Sasha Levin <sashal@kernel.org>
+---
+ net/6lowpan/nhc.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-----------------------------------------------------
-This email was sent by the shareware version of Postman Professional.
+diff --git a/net/6lowpan/nhc.c b/net/6lowpan/nhc.c
+index 7008d53e455c..e61679bf0908 100644
+--- a/net/6lowpan/nhc.c
++++ b/net/6lowpan/nhc.c
+@@ -18,7 +18,7 @@
+ #include "nhc.h"
+ 
+ static struct rb_root rb_root = RB_ROOT;
+-static struct lowpan_nhc *lowpan_nexthdr_nhcs[NEXTHDR_MAX];
++static struct lowpan_nhc *lowpan_nexthdr_nhcs[NEXTHDR_MAX + 1];
+ static DEFINE_SPINLOCK(lowpan_nhc_lock);
+ 
+ static int lowpan_nhc_insert(struct lowpan_nhc *nhc)
+-- 
+2.20.1
 
