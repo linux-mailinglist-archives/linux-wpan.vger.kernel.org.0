@@ -2,39 +2,39 @@ Return-Path: <linux-wpan-owner@vger.kernel.org>
 X-Original-To: lists+linux-wpan@lfdr.de
 Delivered-To: lists+linux-wpan@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 37BC413EE0C
-	for <lists+linux-wpan@lfdr.de>; Thu, 16 Jan 2020 19:07:09 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 5834713F510
+	for <lists+linux-wpan@lfdr.de>; Thu, 16 Jan 2020 19:54:08 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2405105AbgAPRjU (ORCPT <rfc822;lists+linux-wpan@lfdr.de>);
-        Thu, 16 Jan 2020 12:39:20 -0500
-Received: from mail.kernel.org ([198.145.29.99]:55560 "EHLO mail.kernel.org"
+        id S2389427AbgAPSyB (ORCPT <rfc822;lists+linux-wpan@lfdr.de>);
+        Thu, 16 Jan 2020 13:54:01 -0500
+Received: from mail.kernel.org ([198.145.29.99]:41128 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1729819AbgAPRjT (ORCPT <rfc822;linux-wpan@vger.kernel.org>);
-        Thu, 16 Jan 2020 12:39:19 -0500
+        id S2389278AbgAPRIF (ORCPT <rfc822;linux-wpan@vger.kernel.org>);
+        Thu, 16 Jan 2020 12:08:05 -0500
 Received: from sasha-vm.mshome.net (c-73-47-72-35.hsd1.nh.comcast.net [73.47.72.35])
         (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 02B71246EC;
-        Thu, 16 Jan 2020 17:39:17 +0000 (UTC)
+        by mail.kernel.org (Postfix) with ESMTPSA id 8CB592192A;
+        Thu, 16 Jan 2020 17:08:03 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1579196359;
-        bh=ygK505ucu28K+j2DmCyX0sygillEdeqRWh+0QpfzkLI=;
+        s=default; t=1579194484;
+        bh=oLW8bhEuqWvslr3yGFZ5KkqJyKsLCXsxNqmIHwnuDoc=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=gX1AtvSxRuJEJdJHWnOI3FzsFkNmTvQvfowTvAJ52WEYVgjbZg6csg5DWSXFbJCSe
-         lKkGEwQ8Flk7AFvo4YHMGZLHZCZLn+p2VvhPfjUWo0Z+ZUV9gYdMmjppCNktFOF/M2
-         ZgJLCrll/wC5i5ehqPVIg6NjQE4m67pxgxgx7ETs=
+        b=RxTH9/OEO6pTnNDPpRW5Ljx++8CFOvHD8pyatmLxZYVowwxb65MY/4cbKYIaF/PFw
+         JeC0/hnN584QHAX3QleO/xI5cBChVotPlj+67f40LURI2w/fVfU5Z5/D1wqZEvQttt
+         wypq/Qepnai5xOp4aSfAbrvrLbUcI9pkVWu6wEXg=
 From:   Sasha Levin <sashal@kernel.org>
 To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
 Cc:     Eric Dumazet <edumazet@google.com>,
         "David S . Miller" <davem@davemloft.net>,
         Sasha Levin <sashal@kernel.org>, linux-wpan@vger.kernel.org,
         netdev@vger.kernel.org
-Subject: [PATCH AUTOSEL 4.9 150/251] inet: frags: call inet_frags_fini() after unregister_pernet_subsys()
-Date:   Thu, 16 Jan 2020 12:34:59 -0500
-Message-Id: <20200116173641.22137-110-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 4.19 385/671] inet: frags: call inet_frags_fini() after unregister_pernet_subsys()
+Date:   Thu, 16 Jan 2020 12:00:23 -0500
+Message-Id: <20200116170509.12787-122-sashal@kernel.org>
 X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20200116173641.22137-1-sashal@kernel.org>
-References: <20200116173641.22137-1-sashal@kernel.org>
+In-Reply-To: <20200116170509.12787-1-sashal@kernel.org>
+References: <20200116170509.12787-1-sashal@kernel.org>
 MIME-Version: 1.0
 X-stable: review
 X-Patchwork-Hint: Ignore
@@ -66,10 +66,10 @@ Signed-off-by: Sasha Levin <sashal@kernel.org>
  2 files changed, 2 insertions(+), 2 deletions(-)
 
 diff --git a/net/ieee802154/6lowpan/reassembly.c b/net/ieee802154/6lowpan/reassembly.c
-index c01df341b5f6..5936bfafb1c4 100644
+index e7857a8ac86d..f3074249c6fc 100644
 --- a/net/ieee802154/6lowpan/reassembly.c
 +++ b/net/ieee802154/6lowpan/reassembly.c
-@@ -633,7 +633,7 @@ int __init lowpan_net_frag_init(void)
+@@ -629,7 +629,7 @@ int __init lowpan_net_frag_init(void)
  
  void lowpan_net_frag_exit(void)
  {
@@ -79,10 +79,10 @@ index c01df341b5f6..5936bfafb1c4 100644
 +	inet_frags_fini(&lowpan_frags);
  }
 diff --git a/net/ipv6/reassembly.c b/net/ipv6/reassembly.c
-index 4aed9c45a91a..3f488555999e 100644
+index 095825f964e2..c6132e39ab16 100644
 --- a/net/ipv6/reassembly.c
 +++ b/net/ipv6/reassembly.c
-@@ -592,8 +592,8 @@ int __init ipv6_frag_init(void)
+@@ -593,8 +593,8 @@ int __init ipv6_frag_init(void)
  
  void ipv6_frag_exit(void)
  {
