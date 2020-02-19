@@ -2,42 +2,62 @@ Return-Path: <linux-wpan-owner@vger.kernel.org>
 X-Original-To: lists+linux-wpan@lfdr.de
 Delivered-To: lists+linux-wpan@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 0BF6515FC28
-	for <lists+linux-wpan@lfdr.de>; Sat, 15 Feb 2020 02:46:05 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id C4FE816455F
+	for <lists+linux-wpan@lfdr.de>; Wed, 19 Feb 2020 14:25:43 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727849AbgBOBqE convert rfc822-to-8bit (ORCPT
-        <rfc822;lists+linux-wpan@lfdr.de>); Fri, 14 Feb 2020 20:46:04 -0500
-Received: from l37-192-35-170.novotelecom.ru ([37.192.35.170]:23838 "EHLO
-        glpak.ru" rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S1727740AbgBOBqE (ORCPT <rfc822;linux-wpan@vger.kernel.org>);
-        Fri, 14 Feb 2020 20:46:04 -0500
-X-Greylist: delayed 1997 seconds by postgrey-1.27 at vger.kernel.org; Fri, 14 Feb 2020 20:46:02 EST
-Received: from alex.glpak.ru (localhost [127.0.0.1])
-        by glpak.ru (Postfix) with ESMTP id 65E04A3DCA5
-        for <linux-wpan@vger.kernel.org>; Sat, 15 Feb 2020 08:08:06 +0700 (NOVT)
-X-Virus-Scanned: amavisd-new at glpak.ru
-Received: from glpak.ru ([127.0.0.1])
-        by alex.glpak.ru (glpak.ru [127.0.0.1]) (amavisd-new, port 10024)
-        with ESMTP id ijIrx-H+ayyA for <linux-wpan@vger.kernel.org>;
-        Sat, 15 Feb 2020 08:08:06 +0700 (NOVT)
-Received: from [192.168.88.250] (unknown [185.248.13.181])
-        by glpak.ru (Postfix) with ESMTPA id DB4D4A3DC86
-        for <linux-wpan@vger.kernel.org>; Sat, 15 Feb 2020 08:08:05 +0700 (NOVT)
+        id S1727912AbgBSNZl convert rfc822-to-8bit (ORCPT
+        <rfc822;lists+linux-wpan@lfdr.de>); Wed, 19 Feb 2020 08:25:41 -0500
+Received: from scm.imp.edu.mx ([132.247.16.103]:53009 "EHLO scm.imp.edu.mx"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1727786AbgBSNZk (ORCPT <rfc822;linux-wpan@vger.kernel.org>);
+        Wed, 19 Feb 2020 08:25:40 -0500
+Received: from localhost (localhost [127.0.0.1])
+        by scm.imp.edu.mx (Postfix) with ESMTP id 2330B187FA8;
+        Wed, 19 Feb 2020 06:11:30 -0600 (CST)
+X-Virus-Scanned: by SpamTitan at imp.edu.mx
+Received: from scm.imp.edu.mx (localhost [127.0.0.1])
+        by scm.imp.edu.mx (Postfix) with ESMTP id 5A14D1880A5;
+        Wed, 19 Feb 2020 04:51:49 -0600 (CST)
+Authentication-Results: scm.imp.edu.mx; none
+Received: from imp.edu.mx (unknown [10.249.93.105])
+        by scm.imp.edu.mx (Postfix) with ESMTP id 4DC2018DA05;
+        Wed, 19 Feb 2020 04:51:45 -0600 (CST)
+Received: from localhost (localhost [127.0.0.1])
+        by imp.edu.mx (Postfix) with ESMTP id 358EC180635F48;
+        Wed, 19 Feb 2020 04:51:46 -0600 (CST)
+Received: from imp.edu.mx ([127.0.0.1])
+        by localhost (imp.edu.mx [127.0.0.1]) (amavisd-new, port 10032)
+        with ESMTP id UIsgs9D7FS9M; Wed, 19 Feb 2020 04:51:46 -0600 (CST)
+Received: from localhost (localhost [127.0.0.1])
+        by imp.edu.mx (Postfix) with ESMTP id 15E38180635F44;
+        Wed, 19 Feb 2020 04:51:46 -0600 (CST)
+X-Virus-Scanned: amavisd-new at imp.edu.mx
+Received: from imp.edu.mx ([127.0.0.1])
+        by localhost (imp.edu.mx [127.0.0.1]) (amavisd-new, port 10026)
+        with ESMTP id W32SBc03HzNt; Wed, 19 Feb 2020 04:51:46 -0600 (CST)
+Received: from [45.147.4.119] (unknown [45.147.4.119])
+        by imp.edu.mx (Postfix) with ESMTPSA id AC97D180635F4B;
+        Wed, 19 Feb 2020 04:51:44 -0600 (CST)
 Content-Type: text/plain; charset="iso-8859-1"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8BIT
 Content-Description: Mail message body
-Subject: zionitld3@gmail.com
-To:     linux-wpan@vger.kernel.org
-From:   anna@glpak.ru
-Date:   Fri, 14 Feb 2020 17:09:50 -0800
-Reply-To: zionitld3@gmail.com
-X-Antivirus: Avast (VPS 200214-0, 02/14/2020), Outbound message
-X-Antivirus-Status: Clean
-Message-Id: <20200215010806.65E04A3DCA5@glpak.ru>
+Subject: 19-02-2020
+To:     Recipients <mucios@imp.edu.mx>
+From:   "urs portmann" <mucios@imp.edu.mx>
+Date:   Wed, 19 Feb 2020 21:51:42 +1100
+Reply-To: onube@qq.com
+Message-Id: <20200219105144.AC97D180635F4B@imp.edu.mx>
 Sender: linux-wpan-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-wpan.vger.kernel.org>
 X-Mailing-List: linux-wpan@vger.kernel.org
 
-Hello, We from Zion Finance Group currently offers loans to customers at a low interest rate of 3%. This is an opportunity that you cannot miss. We have a few questions to ask; Do you have debts? Do you want to pay off your debts? Do you want to be financially equipped? If so, request a loan today from Zion Finance Group. Interested, customers are expected to contact zionitld3@gmail.com for more information. We wish to assist you with a loan. Greetings, Mr. Bernard.
+Guten Morgen,
+                                          19-02-2020
+Wir haben versucht, Sie zu erreichen und haben noch nichts von Ihnen gehört. Haben Sie unsere letzte E-Mail über Ihre S.p.e.n.d.e erhalten? Wenn nicht, melden Sie sich bitte bei uns, um weitere Informationen zu erhalten.
+
+Wir warten darauf, von Ihnen zu hören, sobald Sie diese Nachricht erhalten, die Sie bei der weiteren Vorgehensweise unterstützt.
+
+Mfg
+urs portmann
