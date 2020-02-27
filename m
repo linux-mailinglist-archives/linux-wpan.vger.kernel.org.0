@@ -2,80 +2,92 @@ Return-Path: <linux-wpan-owner@vger.kernel.org>
 X-Original-To: lists+linux-wpan@lfdr.de
 Delivered-To: lists+linux-wpan@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id CE306165B44
-	for <lists+linux-wpan@lfdr.de>; Thu, 20 Feb 2020 11:13:03 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id EA91E171857
+	for <lists+linux-wpan@lfdr.de>; Thu, 27 Feb 2020 14:13:23 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726871AbgBTKND (ORCPT <rfc822;lists+linux-wpan@lfdr.de>);
-        Thu, 20 Feb 2020 05:13:03 -0500
-Received: from mail-pl1-f195.google.com ([209.85.214.195]:35544 "EHLO
-        mail-pl1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726837AbgBTKNC (ORCPT
-        <rfc822;linux-wpan@vger.kernel.org>); Thu, 20 Feb 2020 05:13:02 -0500
-Received: by mail-pl1-f195.google.com with SMTP id g6so1382351plt.2
-        for <linux-wpan@vger.kernel.org>; Thu, 20 Feb 2020 02:13:02 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:reply-to:from:date:message-id:subject:to;
-        bh=xsUbPWAhYtsZRE8nHbpZ90/dMr+6ACJOvf/o3gzcGwM=;
-        b=oEpQxlg+Vlj+ddnlxboNRFsfYFugoEJPO3zcx811KiVODmBjd1ov3FZaDIKDsYHL1n
-         dGMu5VKIVxONeL62RlS9lJuUyyEGiHum3kZcp9Nntdz/UI0o8jmPJY+/uTuqfFTR6Inx
-         6dVlE4MFD6787rJB70rT1R78woj3ewIol1NBbHeyb6mUlcberNaQse5VHAsGwT+g7C79
-         lkgcb811FQ7gfCd4cOFJyiw22vyQ/iafseR/JUl0oGvF5GYK7ic5ODqrxjLuFpKEAGoY
-         lCRt6jcCwqLcxoTXkRhByGw9VmH91jYy51dY2jCVNzcV1qKNJTwXChBCtWTKVyy+euNv
-         SfqQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:reply-to:from:date:message-id
-         :subject:to;
-        bh=xsUbPWAhYtsZRE8nHbpZ90/dMr+6ACJOvf/o3gzcGwM=;
-        b=iELN+neAxENwut8G4mWDG7Zs8xv/m8yB1RfJN0Opqur0R3ccwPNp0L9ULuYPC5acsP
-         9AJbbFzTaA7hz7jcXj92SfzdZl2nkVZGdvgSU6w4Ls0YxI9Xjdq2mVrE75+bg3ztf9tz
-         ZP2E5oTDS7IQyZkyZG8/zzk+5rsWiy5ILmhMKrDQXuFyIHtRCrG6uphckG5xGAYwfPZJ
-         Z2XNJL7Y8Nn7GsDFSyvUDEfm0wari8PnezZdxJsxcrDxI3gtgVpiJlc8oRbV7eUyNwnU
-         Xmd+wYR4XlxUCRvJRot8LfwOb8ZLX1PbyP6GNSXDiY4ab9UmiRVWIwf/XIR67ZibdFB4
-         GX5A==
-X-Gm-Message-State: APjAAAVCCBEWkL6XQkwN6IeUu4uAbo85Edw2zIWyF5ujoVp+YX5Gb/qP
-        QnTCpLdHsuMCLBnbnHAfQueW1RsPGL7bI15jswM=
-X-Google-Smtp-Source: APXvYqw+ySpeYtfjOUWzgEB195dl2xsdAHowJVYZR9GMgLV5W4Z71S7U5ooOCwn9krlz34dEHjzqTq0h3c0CQ+r6z4Y=
-X-Received: by 2002:a17:902:7b94:: with SMTP id w20mr30444374pll.257.1582193582226;
- Thu, 20 Feb 2020 02:13:02 -0800 (PST)
+        id S1729030AbgB0NNX (ORCPT <rfc822;lists+linux-wpan@lfdr.de>);
+        Thu, 27 Feb 2020 08:13:23 -0500
+Received: from mx0a-00128a01.pphosted.com ([148.163.135.77]:19292 "EHLO
+        mx0a-00128a01.pphosted.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1729032AbgB0NNX (ORCPT
+        <rfc822;linux-wpan@vger.kernel.org>);
+        Thu, 27 Feb 2020 08:13:23 -0500
+Received: from pps.filterd (m0167088.ppops.net [127.0.0.1])
+        by mx0a-00128a01.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id 01RDDFtN029179;
+        Thu, 27 Feb 2020 08:13:15 -0500
+Received: from nwd2mta4.analog.com ([137.71.173.58])
+        by mx0a-00128a01.pphosted.com with ESMTP id 2ydtrx370p-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Thu, 27 Feb 2020 08:13:15 -0500
+Received: from ASHBMBX8.ad.analog.com (ashbmbx8.ad.analog.com [10.64.17.5])
+        by nwd2mta4.analog.com (8.14.7/8.14.7) with ESMTP id 01RDD88T053299
+        (version=TLSv1/SSLv3 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=FAIL);
+        Thu, 27 Feb 2020 08:13:08 -0500
+Received: from ASHBMBX8.ad.analog.com (10.64.17.5) by ASHBMBX8.ad.analog.com
+ (10.64.17.5) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.1779.2; Thu, 27 Feb
+ 2020 08:13:07 -0500
+Received: from zeus.spd.analog.com (10.64.82.11) by ASHBMBX8.ad.analog.com
+ (10.64.17.5) with Microsoft SMTP Server id 15.1.1779.2 via Frontend
+ Transport; Thu, 27 Feb 2020 08:13:07 -0500
+Received: from analog.ad.analog.com ([10.48.65.180])
+        by zeus.spd.analog.com (8.15.1/8.15.1) with ESMTP id 01RDD2gD025942;
+        Thu, 27 Feb 2020 08:13:03 -0500
+From:   Sergiu Cuciurean <sergiu.cuciurean@analog.com>
+To:     <linux-kernel@vger.kernel.org>, <netdev@vger.kernel.org>,
+        <linux-wpan@vger.kernel.org>, <davem@davemloft.net>,
+        <stefan@datenfreihafen.org>, <alex.aring@gmail.com>,
+        <h.morris@cascoda.com>
+CC:     Sergiu Cuciurean <sergiu.cuciurean@analog.com>
+Subject: [PATCH] net: ieee802154: ca8210: Use new structure for SPI transfer delays
+Date:   Thu, 27 Feb 2020 15:12:45 +0200
+Message-ID: <20200227131245.30309-1-sergiu.cuciurean@analog.com>
+X-Mailer: git-send-email 2.17.1
 MIME-Version: 1.0
-Received: by 2002:a17:90a:90f:0:0:0:0 with HTTP; Thu, 20 Feb 2020 02:13:01
- -0800 (PST)
-Reply-To: cagesusan199@gmail.com
-From:   "Mrs. Susan S. Cage" <drgoodluckebelejonathan061@gmail.com>
-Date:   Thu, 20 Feb 2020 02:13:01 -0800
-Message-ID: <CALjo5=-tn2tBE_V=c483W+hMq-+eEq83zrCDD9HdJQ+wT0x7Dw@mail.gmail.com>
-Subject: Attention:Beneficiary
-To:     undisclosed-recipients:;
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain
+X-ADIRoutedOnPrem: True
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.138,18.0.572
+ definitions=2020-02-27_03:2020-02-26,2020-02-27 signatures=0
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 mlxscore=0 bulkscore=0
+ malwarescore=0 impostorscore=0 clxscore=1011 priorityscore=1501
+ lowpriorityscore=0 phishscore=0 spamscore=0 adultscore=0 mlxlogscore=999
+ suspectscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2001150001 definitions=main-2002270103
 Sender: linux-wpan-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-wpan.vger.kernel.org>
 X-Mailing-List: linux-wpan@vger.kernel.org
 
+In a recent change to the SPI subsystem [1], a new `delay` struct was added
+to replace the `delay_usecs`. This change replaces the current
+`delay_usecs` with `delay` for this driver.
+
+The `spi_transfer_delay_exec()` function [in the SPI framework] makes sure
+that both `delay_usecs` & `delay` are used (in this order to preserve
+backwards compatibility).
+
+[1] commit bebcfd272df6 ("spi: introduce `delay` field for
+`spi_transfer` + spi_transfer_delay_exec()")
+
+Signed-off-by: Sergiu Cuciurean <sergiu.cuciurean@analog.com>
+---
+ drivers/net/ieee802154/ca8210.c | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
+
+diff --git a/drivers/net/ieee802154/ca8210.c b/drivers/net/ieee802154/ca8210.c
+index 430c93786153..e04c3b60cae7 100644
+--- a/drivers/net/ieee802154/ca8210.c
++++ b/drivers/net/ieee802154/ca8210.c
+@@ -946,7 +946,8 @@ static int ca8210_spi_transfer(
+ 	cas_ctl->transfer.bits_per_word = 0; /* Use device setting */
+ 	cas_ctl->transfer.tx_buf = cas_ctl->tx_buf;
+ 	cas_ctl->transfer.rx_buf = cas_ctl->tx_in_buf;
+-	cas_ctl->transfer.delay_usecs = 0;
++	cas_ctl->transfer.delay.value = 0;
++	cas_ctl->transfer.delay.unit = SPI_DELAY_UNIT_USECS;
+ 	cas_ctl->transfer.cs_change = 0;
+ 	cas_ctl->transfer.len = sizeof(struct mac_message);
+ 	cas_ctl->msg.complete = ca8210_spi_transfer_complete;
 -- 
-Dearest Friend,
+2.17.1
 
-Sorry for invading your privacy, my name is Susan S. Cage I am 81
-years, citizen of United States and presently in hospital undergoing
-chromatography for bronchogenic carcinomas (Lung cancer) which
-affected both Lungs. The doctors said I have few days to live because
-the cancer has now affected my brain.
-
-My late husband left Fifteen Million, Five Hundred British Pounds
-Sterling in my account, I want to transfer the money to you and I want
-you to use it as a donate for charitable and help the needy,
-motherless, less privileged and widows within your location.
-
-I need your assurance that you will use the fund for charity, once I a
-favorable reply from you, will inform my Bank through my lawyer to
-transfer the fund to you as my Next of Kin and Sole Beneficiary. Once
-I receive your response, I will inform my bank in writing through my
-lawyer.
-
-
-
-Thank you and God bless you.
-
-Mrs. Susan S. Cage
