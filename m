@@ -2,63 +2,124 @@ Return-Path: <linux-wpan-owner@vger.kernel.org>
 X-Original-To: lists+linux-wpan@lfdr.de
 Delivered-To: lists+linux-wpan@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 129A717390F
-	for <lists+linux-wpan@lfdr.de>; Fri, 28 Feb 2020 14:53:50 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 884B31739B0
+	for <lists+linux-wpan@lfdr.de>; Fri, 28 Feb 2020 15:21:06 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726997AbgB1NxY (ORCPT <rfc822;lists+linux-wpan@lfdr.de>);
-        Fri, 28 Feb 2020 08:53:24 -0500
-Received: from coyote.holtmann.net ([212.227.132.17]:51459 "EHLO
-        mail.holtmann.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727398AbgB1NxU (ORCPT
-        <rfc822;linux-wpan@vger.kernel.org>); Fri, 28 Feb 2020 08:53:20 -0500
-Received: from marcel-macpro.fritz.box (p4FEFC5A7.dip0.t-ipconnect.de [79.239.197.167])
-        by mail.holtmann.org (Postfix) with ESMTPSA id 95871CECF9;
-        Fri, 28 Feb 2020 15:02:44 +0100 (CET)
-Content-Type: text/plain;
-        charset=us-ascii
-Mime-Version: 1.0 (Mac OS X Mail 13.0 \(3608.60.0.2.5\))
-Subject: Re: [PATCH 02/28] docs: networking: convert 6lowpan.txt to ReST
-From:   Marcel Holtmann <marcel@holtmann.org>
-In-Reply-To: <bfa773f25584a3939e0a3e1fc6bc0e91f415cd91.1581002063.git.mchehab+huawei@kernel.org>
-Date:   Fri, 28 Feb 2020 14:53:18 +0100
-Cc:     Linux Media Mailing List <linux-media@vger.kernel.org>,
-        Mauro Carvalho Chehab <mchehab@infradead.org>,
+        id S1726805AbgB1OVF (ORCPT <rfc822;lists+linux-wpan@lfdr.de>);
+        Fri, 28 Feb 2020 09:21:05 -0500
+Received: from gateway34.websitewelcome.com ([192.185.150.107]:49561 "EHLO
+        gateway34.websitewelcome.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1725796AbgB1OVF (ORCPT
+        <rfc822;linux-wpan@vger.kernel.org>);
+        Fri, 28 Feb 2020 09:21:05 -0500
+X-Greylist: delayed 1437 seconds by postgrey-1.27 at vger.kernel.org; Fri, 28 Feb 2020 09:21:04 EST
+Received: from cm12.websitewelcome.com (cm12.websitewelcome.com [100.42.49.8])
+        by gateway34.websitewelcome.com (Postfix) with ESMTP id 26C31127D8DF
+        for <linux-wpan@vger.kernel.org>; Fri, 28 Feb 2020 07:57:07 -0600 (CST)
+Received: from gator4166.hostgator.com ([108.167.133.22])
+        by cmsmtp with SMTP
+        id 7g8ZjJefbvBMd7g8ZjF4r1; Fri, 28 Feb 2020 07:57:07 -0600
+X-Authority-Reason: nr=8
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=embeddedor.com; s=default; h=Content-Type:MIME-Version:Message-ID:Subject:
+        Cc:To:From:Date:Sender:Reply-To:Content-Transfer-Encoding:Content-ID:
+        Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
+        :Resent-Message-ID:In-Reply-To:References:List-Id:List-Help:List-Unsubscribe:
+        List-Subscribe:List-Post:List-Owner:List-Archive;
+        bh=pJ55MoBgiHzpl8kAnbu/YiwbH1syaoq6Pgucy8z9yhQ=; b=sxaH/oyQ6D3/Y76B6w4QjSjS3i
+        oagEf+gooAwg7En6IhyrywYfqPaabNp6rnN2rj0vmobFvKcPxNZ0uLdxeDt+5sqOZdb71TEJTbGNH
+        BnJD6POBt560LnLA483c8JsJGM+g7Uknv209Y9sLz/vlyVSobSY2D5E2orhip4k3nCDu1vql4HksH
+        LO6+kxvRCaOB9SF/AShWe8uQsuefMvMe9IQd+jaU9UdHwWt22Pg7PbYD5cofLsVtT9P9q7wcMZ2Nd
+        KhnmaJNKalTcn5qzenynTqbWn5JD4HPMJHhcgPlhrbbvv+1Rx6X9CePcZbUTbqIiRPLlW9DRYBm56
+        4N2u8I+w==;
+Received: from [201.162.240.44] (port=3402 helo=embeddedor)
+        by gator4166.hostgator.com with esmtpa (Exim 4.92)
+        (envelope-from <gustavo@embeddedor.com>)
+        id 1j7g8X-001adL-6K; Fri, 28 Feb 2020 07:57:05 -0600
+Date:   Fri, 28 Feb 2020 07:59:59 -0600
+From:   "Gustavo A. R. Silva" <gustavo@embeddedor.com>
+To:     Alexander Aring <alex.aring@gmail.com>,
+        Stefan Schmidt <stefan@datenfreihafen.org>,
         "David S. Miller" <davem@davemloft.net>,
-        Jakub Kicinski <kuba@kernel.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Alexander Aring <alex.aring@gmail.com>,
-        Jukka Rissanen <jukka.rissanen@linux.intel.com>,
-        netdev@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-bluetooth@vger.kernel.org, linux-wpan@vger.kernel.org
-Content-Transfer-Encoding: 7bit
-Message-Id: <08E2C17F-6A9D-441A-AEF0-5E2810A60376@holtmann.org>
-References: <cover.1581002062.git.mchehab+huawei@kernel.org>
- <bfa773f25584a3939e0a3e1fc6bc0e91f415cd91.1581002063.git.mchehab+huawei@kernel.org>
-To:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-X-Mailer: Apple Mail (2.3608.60.0.2.5)
+        Jakub Kicinski <kuba@kernel.org>
+Cc:     linux-wpan@vger.kernel.org, netdev@vger.kernel.org,
+        linux-kernel@vger.kernel.org,
+        "Gustavo A. R. Silva" <gustavo@embeddedor.com>
+Subject: [PATCH][next] cfg802154: Replace zero-length array with
+ flexible-array member
+Message-ID: <20200228135959.GA30464@embeddedor>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+User-Agent: Mutt/1.9.4 (2018-02-28)
+X-AntiAbuse: This header was added to track abuse, please include it with any abuse report
+X-AntiAbuse: Primary Hostname - gator4166.hostgator.com
+X-AntiAbuse: Original Domain - vger.kernel.org
+X-AntiAbuse: Originator/Caller UID/GID - [47 12] / [47 12]
+X-AntiAbuse: Sender Address Domain - embeddedor.com
+X-BWhitelist: no
+X-Source-IP: 201.162.240.44
+X-Source-L: No
+X-Exim-ID: 1j7g8X-001adL-6K
+X-Source: 
+X-Source-Args: 
+X-Source-Dir: 
+X-Source-Sender: (embeddedor) [201.162.240.44]:3402
+X-Source-Auth: gustavo@embeddedor.com
+X-Email-Count: 70
+X-Source-Cap: Z3V6aWRpbmU7Z3V6aWRpbmU7Z2F0b3I0MTY2Lmhvc3RnYXRvci5jb20=
+X-Local-Domain: yes
 Sender: linux-wpan-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-wpan.vger.kernel.org>
 X-Mailing-List: linux-wpan@vger.kernel.org
 
-Hi Mauro,
+The current codebase makes use of the zero-length array language
+extension to the C90 standard, but the preferred mechanism to declare
+variable-length types such as these ones is a flexible array member[1][2],
+introduced in C99:
 
-> - add SPDX header;
-> - use document title markup;
-> - mark code blocks and literals as such;
-> - adjust identation, whitespaces and blank lines;
-> - add to networking/index.rst.
-> 
-> Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-> ---
-> .../networking/{6lowpan.txt => 6lowpan.rst}   | 29 ++++++++++---------
-> Documentation/networking/index.rst            |  1 +
-> 2 files changed, 17 insertions(+), 13 deletions(-)
-> rename Documentation/networking/{6lowpan.txt => 6lowpan.rst} (64%)
+struct foo {
+        int stuff;
+        struct boo array[];
+};
 
-patch has been applied to bluetooth-next tree.
+By making use of the mechanism above, we will get a compiler warning
+in case the flexible array does not occur last in the structure, which
+will help us prevent some kind of undefined behavior bugs from being
+inadvertently introduced[3] to the codebase from now on.
 
-Regards
+Also, notice that, dynamic memory allocations won't be affected by
+this change:
 
-Marcel
+"Flexible array members have incomplete type, and so the sizeof operator
+may not be applied. As a quirk of the original implementation of
+zero-length arrays, sizeof evaluates to zero."[1]
+
+This issue was found with the help of Coccinelle.
+
+[1] https://gcc.gnu.org/onlinedocs/gcc/Zero-Length.html
+[2] https://github.com/KSPP/linux/issues/21
+[3] commit 76497732932f ("cxgb3/l2t: Fix undefined behaviour")
+
+Signed-off-by: Gustavo A. R. Silva <gustavo@embeddedor.com>
+---
+ include/net/cfg802154.h | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/include/net/cfg802154.h b/include/net/cfg802154.h
+index 6f86073a5d7d..6ed07844eb24 100644
+--- a/include/net/cfg802154.h
++++ b/include/net/cfg802154.h
+@@ -214,7 +214,7 @@ struct wpan_phy {
+ 	/* the network namespace this phy lives in currently */
+ 	possible_net_t _net;
+ 
+-	char priv[0] __aligned(NETDEV_ALIGN);
++	char priv[] __aligned(NETDEV_ALIGN);
+ };
+ 
+ static inline struct net *wpan_phy_net(struct wpan_phy *wpan_phy)
+-- 
+2.25.0
 
