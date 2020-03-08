@@ -2,66 +2,37 @@ Return-Path: <linux-wpan-owner@vger.kernel.org>
 X-Original-To: lists+linux-wpan@lfdr.de
 Delivered-To: lists+linux-wpan@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 63479179098
-	for <lists+linux-wpan@lfdr.de>; Wed,  4 Mar 2020 13:47:51 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 8EBC917D5AE
+	for <lists+linux-wpan@lfdr.de>; Sun,  8 Mar 2020 19:58:15 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2388060AbgCDMrq (ORCPT <rfc822;lists+linux-wpan@lfdr.de>);
-        Wed, 4 Mar 2020 07:47:46 -0500
-Received: from coyote.holtmann.net ([212.227.132.17]:56073 "EHLO
-        mail.holtmann.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1729175AbgCDMrp (ORCPT
-        <rfc822;linux-wpan@vger.kernel.org>); Wed, 4 Mar 2020 07:47:45 -0500
-Received: from marcel-macbook.fritz.box (p4FEFC5A7.dip0.t-ipconnect.de [79.239.197.167])
-        by mail.holtmann.org (Postfix) with ESMTPSA id D47C7CECDC;
-        Wed,  4 Mar 2020 13:57:10 +0100 (CET)
+        id S1726426AbgCHS6O (ORCPT <rfc822;lists+linux-wpan@lfdr.de>);
+        Sun, 8 Mar 2020 14:58:14 -0400
+Received: from ns1.bdren.net.bd ([163.47.37.11]:43236 "EHLO dn1.bdren.net.bd"
+        rhost-flags-OK-FAIL-OK-FAIL) by vger.kernel.org with ESMTP
+        id S1726318AbgCHS6N (ORCPT <rfc822;linux-wpan@vger.kernel.org>);
+        Sun, 8 Mar 2020 14:58:13 -0400
+X-Greylist: delayed 4920 seconds by postgrey-1.27 at vger.kernel.org; Sun, 08 Mar 2020 14:58:06 EDT
+Received: from User ([156.96.45.188])
+        (authenticated bits=0)
+        by dn1.bdren.net.bd (8.14.4/8.14.4) with ESMTP id 028HWv59022119;
+        Sun, 8 Mar 2020 23:33:00 +0600
+Message-Id: <202003081733.028HWv59022119@dn1.bdren.net.bd>
+Reply-To: <francoispiniault@gmail.com>
+From:   "Francois Pinault" <francioispinaul@gmail.com>
+Subject: Re:
+Date:   Sun, 8 Mar 2020 13:33:22 -0400
+MIME-Version: 1.0
 Content-Type: text/plain;
-        charset=us-ascii
-Mime-Version: 1.0 (Mac OS X Mail 13.0 \(3608.60.0.2.5\))
-Subject: Re: [PATCH] MAINTAINERS: adjust to 6lowpan doc ReST conversion
-From:   Marcel Holtmann <marcel@holtmann.org>
-In-Reply-To: <20200304104717.5841-1-lukas.bulwahn@gmail.com>
-Date:   Wed, 4 Mar 2020 13:47:43 +0100
-Cc:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-        linux-doc@vger.kernel.org,
-        Stefan Schmidt <stefan@datenfreihafen.org>,
-        Bluez mailing list <linux-bluetooth@vger.kernel.org>,
-        Alexander Aring <alex.aring@gmail.com>,
-        Jukka Rissanen <jukka.rissanen@linux.intel.com>,
-        linux-wpan@vger.kernel.org, linux-fsdevel@vger.kernel.org,
-        Joe Perches <joe@perches.com>, kernel-janitors@vger.kernel.org,
-        linux-kernel@vger.kernel.org
+        charset="Windows-1251"
 Content-Transfer-Encoding: 7bit
-Message-Id: <D2D045E0-180D-4F76-93D5-735A5600E62B@holtmann.org>
-References: <20200304104717.5841-1-lukas.bulwahn@gmail.com>
-To:     Lukas Bulwahn <lukas.bulwahn@gmail.com>
-X-Mailer: Apple Mail (2.3608.60.0.2.5)
+X-Priority: 3
+X-MSMail-Priority: Normal
+X-Mailer: Microsoft Outlook Express 6.00.2600.0000
+X-MimeOLE: Produced By Microsoft MimeOLE V6.00.2600.0000
+To:     unlisted-recipients:; (no To-header on input)
 Sender: linux-wpan-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-wpan.vger.kernel.org>
 X-Mailing-List: linux-wpan@vger.kernel.org
 
-Hi Lukas,
-
-> Commit 107db7ec7838 ("docs: networking: convert 6lowpan.txt to ReST")
-> renamed 6lowpan.txt to 6lowpan.rst for the ReST conversion.
-> 
-> Since then, ./scripts/get_maintainer.pl --self-test complains:
-> 
->  warning: no file matches F: Documentation/networking/6lowpan.txt
-> 
-> Adjust 6LOWPAN GENERIC (BTLE/IEEE 802.15.4) entry in MAINTAINERS.
-> 
-> Signed-off-by: Lukas Bulwahn <lukas.bulwahn@gmail.com>
-> ---
-> Mauro, please ack.
-> Marcel, please pick for bluetooth-next.
-> 
-> MAINTAINERS | 2 +-
-> 1 file changed, 1 insertion(+), 1 deletion(-)
-
-patch has been applied to bluetooth-next tree.
-
-Regards
-
-Marcel
-
+A donation was made in your favour by Francois Pinault, reply for more details.
