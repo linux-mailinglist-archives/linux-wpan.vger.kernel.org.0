@@ -2,69 +2,62 @@ Return-Path: <linux-wpan-owner@vger.kernel.org>
 X-Original-To: lists+linux-wpan@lfdr.de
 Delivered-To: lists+linux-wpan@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 4EAD2185917
-	for <lists+linux-wpan@lfdr.de>; Sun, 15 Mar 2020 03:32:52 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 6CC3718830E
+	for <lists+linux-wpan@lfdr.de>; Tue, 17 Mar 2020 13:09:47 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726781AbgCOCcv (ORCPT <rfc822;lists+linux-wpan@lfdr.de>);
-        Sat, 14 Mar 2020 22:32:51 -0400
-Received: from mail-pf1-f193.google.com ([209.85.210.193]:42887 "EHLO
-        mail-pf1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726667AbgCOCcv (ORCPT
-        <rfc822;linux-wpan@vger.kernel.org>); Sat, 14 Mar 2020 22:32:51 -0400
-Received: by mail-pf1-f193.google.com with SMTP id x2so7360212pfn.9
-        for <linux-wpan@vger.kernel.org>; Sat, 14 Mar 2020 19:32:51 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:sender:from:date:message-id:subject:to;
-        bh=rySLrb6e8pdxDloLytBEUWmIP8HvBNLPxIuJLcg1j9c=;
-        b=sYgn5elmUDO5uZ/fMSAUxFVaeywOMqToMYdBcHXQ3NTKeAzVJhXLXyOaF3BrSD4BqO
-         5UV6XMxjKOVNmfFsZDzzTj9qa6YW2BQ7mV/12OjB8jG9aPVyLNqi21Ab9AEUit+HRCno
-         9Ra4JTgZO05D8FmR1caDZV9nUhftgeWd9Z4h3MJ08MRvl680DqDVDgx8t37S4oKUAstp
-         2FOQ7rwpz1ScpcJ7aZVjNv+lJjSPov3S9ibEgJ5aX9P3eGCWe82b/YGbWaYTuHGWnQqx
-         h4Eo+UeFwBRrklnWrrTVpK++m8SrqZSs9PjgG0/YNYThUoKGoxi5J1cZtbANuxrqPROv
-         If9g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:sender:from:date:message-id:subject
-         :to;
-        bh=rySLrb6e8pdxDloLytBEUWmIP8HvBNLPxIuJLcg1j9c=;
-        b=lJty5Rw/io7ILemknBg/QhfOymbv5pDB3N9uGp1DG8JyNZtTH0XMyJgZhWmcvUBhSc
-         naCck6omIYuICOwYFrB9Ltlg+6Nv1yJo0F4GP/bqDKBiYk3F3wicMotoQlfUrFex1WiS
-         V841d0mLFbWZIWJ+mzMqVJi0sBRUFt52bFBCd4ccJW8SU8MNJaeWzZmvdupH3nFSsRBU
-         qyNy92pTl+QH3naMGrUgj52qJq6rb7mc0w00nm7HXsHVKUThngs3lm0TXHKr3Uj75X0P
-         dCg7AxWj82kCq3+wEWjbWOxV4Jzk0dLRxLzEkqW74HkAjLuvebNv5PaTRstTUkDn2ifM
-         7asg==
-X-Gm-Message-State: ANhLgQ0ovbnfM2Uwu6/Zv8vs//wb4KE2wdfAG9vLglnOwVjTzNibNy9l
-        B9uHbJHrQYYuHSFAD+crIwwEXE+C+qla92K/iYK5MIbu
-X-Google-Smtp-Source: ADFU+vvQjbMqpyd1i6FWi+Ntfw7OW0UHKja3v2unEsJC4od3bFsv/vTqTsIhbP/8XYLwoAJH1uwnvJRLYgGlP6tuDqk=
-X-Received: by 2002:a92:d842:: with SMTP id h2mr17949783ilq.34.1584206428751;
- Sat, 14 Mar 2020 10:20:28 -0700 (PDT)
+        id S1726903AbgCQMJZ (ORCPT <rfc822;lists+linux-wpan@lfdr.de>);
+        Tue, 17 Mar 2020 08:09:25 -0400
+Received: from sonic308-2.consmr.mail.ne1.yahoo.com ([66.163.187.121]:45971
+        "EHLO sonic308-2.consmr.mail.ne1.yahoo.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1726893AbgCQMJY (ORCPT
+        <rfc822;linux-wpan@vger.kernel.org>);
+        Tue, 17 Mar 2020 08:09:24 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yahoo.com; s=s2048; t=1584446963; bh=kcevCRoll2+Bsa3FDERpIV72LVcB1A4YV1b5N2AWYBk=; h=Date:From:Reply-To:Subject:References:From:Subject; b=LKXOn4M0j5u4cAGJEZR3toF99ATt65AAiQHRzms7P5pK/dyyDOOemxRA/Td8nnTXIMJ0Dse9IdpOxwzhXHMp8WfA89ZmdV+f0yVxoovPh89GHsuRf9RQFmQiFyPQP5TkzbG6z45Ve6D+EfMulbIFkXkJhu9aj6oPSTYtDaHoZNP2hTNXsYceT6asMnOaSsujAVLbavn9AapWzLrR8/UnMyFA7MHgHtrpiyrkl0HidDiiMULKFZx3V76N/cw3N1J9gF49XKq68i0m9V6CbdmbggGDASkdMlrl610PYlrwcc+8zgJKHfDSovRHC2YCjNYY+5dLmammeCSsby9cScQmng==
+X-YMail-OSG: j32Ad0wVM1njmsdmxGTWnxZPSwUgi2gt4h6B_66IO_poOsdaw5QyOe0B.DC4iYT
+ SBZuw76ouWZfxotzBkaOiolzygojjZyxfO9tlLvC97.l7egvz88hSdoWwcVubU40dbb6p2K2QxNb
+ RqpiHcIlHfLubICX0Wx3Gc4020VCQL0ECBwfUCQNapgpzj1Wjkq4NWKlujBdevzipQYywoDnrUk9
+ SLvJKaakYCUvOEBpzc9wITe03ElvML3uF_0upUzEZIWr1dVo.GEFb1BeXcq1r5WIsESPis_HQnIS
+ c65QeJteoUih8_bDdVP05JAVv9Dyc2hc0QhQthz.CmPGag0pfknbfwmiQD59l9gRO3wvBlX4UKsB
+ bRZI2oEXIJ9WrXTOCfdkWa703kw.1BW1Q3oV465vmuTKVeNr4HgcCi7tr3HuNlm2qsDIFeVeJlJi
+ cUe.t6F31BDpLW9tO.ISNlTE9g9q16tSDzZJZaMZ0H3JTqNQ15_Ze5FCjnS9SwLvFnOJW5_lFUe2
+ .NiTBFls4mN1PZ1wzAOqb4vFsoSloN26K2yFM2ohiYc8h2YNtKrRpahA_chckQADTR47RiTlrYZN
+ sCFWV6YGULBJqCwg2IOrB4nCdZp0NhKNtqkSLvvEmS1bljOHmlJbpAU5317Wo7..lZNLPPj4bl8q
+ PCFvPYi1C58OjGBswVJQRz3nZ_7R4bwGOK5WbjFuEKDp_VKPmbQXhgMGTew7BHH8Ksi6UBaWKxAP
+ SzxdIqIGfLdU92cauX5wtbrbFuGUmx36_9fXla5tqoB2bWQhetD5Kk8hD2SMYdLweeh3xZajMWQ_
+ t1HcaaFXTpIx5q5oWb4RMtt_9eykgItvdOSaneASdFiF6ZCmlII_mZwrCsZuse1bAZMnmWjQuEoD
+ fTFp91f8EX15bMRmlj39wJvkNKHlLp02dw.arrQlUfKeYgfGt5NPW2SDZKFskV__bX58ErZsRY.2
+ 2jYm9d.k81jx0WlUQ5AgEqEm7UfoVj93Wz1VIMHlFd4__zdNYGMXn.xlrz31B08jw39QLUeTdQ7r
+ WSydyoMeWlkRyuZi.FzSKn7EUY5mHWRyTFgLEoNk_R9YFIMDawrDOHoFNpm.dLuodg4jZOmKrXwl
+ IFUmMWmWOD1QwQdWxRZ54u5V_iugkD0yw03ayEvtKbrv3l.QoRmsRlT_DoTqp43olJXb4Uby0okZ
+ 6pWA8BAMSs6yLqJkoad2nox6Vt4a7CdfT.vQchyP683op51t4CwEQtRYUxX6nfbdelCDKL._eB5v
+ 9GpzHgOIcw6o77Nw83FsmU7FBsu6BVqkGUxamoZ5tk0MoEd9V9U.G5eCpoyJS4yEfe6nMXHTjheM
+ 1tR5_cwCVlOLkvNZC06OtMmOqYXtZDus2
+Received: from sonic.gate.mail.ne1.yahoo.com by sonic308.consmr.mail.ne1.yahoo.com with HTTP; Tue, 17 Mar 2020 12:09:23 +0000
+Date:   Tue, 17 Mar 2020 12:07:22 +0000 (UTC)
+From:   Stephen Li <stenn7@gabg.net>
+Reply-To: stephli947701@gmail.com
+Message-ID: <1992313604.1815720.1584446842907@mail.yahoo.com>
+Subject: REF
 MIME-Version: 1.0
-Received: by 2002:a02:63c1:0:0:0:0:0 with HTTP; Sat, 14 Mar 2020 10:20:28
- -0700 (PDT)
-From:   Omar Ousman <omarousman25@gmail.com>
-Date:   Sat, 14 Mar 2020 18:20:28 +0100
-X-Google-Sender-Auth: VNfZ5GidMpY66VRDRhna379s7FA
-Message-ID: <CAOdk3H=iqtzP9LMZSea9eyACfmkiPiG9wKD-_H9R1g2DpwKnkg@mail.gmail.com>
-Subject: You received my last mail,,,,
-To:     undisclosed-recipients:;
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+References: <1992313604.1815720.1584446842907.ref@mail.yahoo.com>
+X-Mailer: WebService/1.1.15342 YMailNodin Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/80.0.3987.132 Safari/537.36
+To:     unlisted-recipients:; (no To-header on input)
 Sender: linux-wpan-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-wpan.vger.kernel.org>
 X-Mailing-List: linux-wpan@vger.kernel.org
 
-I am Mr.Omar Ousman, a regional managing director (CORIS BANK
-INTERNATIONAL) Ouagadougou Burkina Faso, in my department we have
-US$9,500.0000 million united state dollars, to transfer into your
-account as a dormant fund.If you are interested to use this fund to
-help the orphans around the world contact and send me your personal
-information for more details to my email omarousman25@gmail.com
 
-Your full names..........
-Your country of origin..........
-Your occupation..........
-Your Age..........
-Your Mobile Number..........
 
-Best Regards,
+Greetings,
+I was searching through a local business directory when I found your
+profile. I am Soliciting On-Behalf of my private client who is
+interested in having a serious business investment in your country. If
+you have a valid business, investment or project he can invest
+back to me for more details. Your swift response is highly needed.
+Sincerely
+Stephen Li
+Please response back to me with is my private email below for more details
+stephli947701@gmail.com
