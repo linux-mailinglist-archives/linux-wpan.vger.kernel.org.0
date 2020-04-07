@@ -2,51 +2,48 @@ Return-Path: <linux-wpan-owner@vger.kernel.org>
 X-Original-To: lists+linux-wpan@lfdr.de
 Delivered-To: lists+linux-wpan@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 46A0C1979C4
-	for <lists+linux-wpan@lfdr.de>; Mon, 30 Mar 2020 12:52:48 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 4B0541A0669
+	for <lists+linux-wpan@lfdr.de>; Tue,  7 Apr 2020 07:15:26 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729672AbgC3Kwq (ORCPT <rfc822;lists+linux-wpan@lfdr.de>);
-        Mon, 30 Mar 2020 06:52:46 -0400
-Received: from mail-vs1-f65.google.com ([209.85.217.65]:41584 "EHLO
-        mail-vs1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1729664AbgC3Kwq (ORCPT
-        <rfc822;linux-wpan@vger.kernel.org>); Mon, 30 Mar 2020 06:52:46 -0400
-Received: by mail-vs1-f65.google.com with SMTP id a63so10660834vsa.8
-        for <linux-wpan@vger.kernel.org>; Mon, 30 Mar 2020 03:52:45 -0700 (PDT)
+        id S1727002AbgDGFPS (ORCPT <rfc822;lists+linux-wpan@lfdr.de>);
+        Tue, 7 Apr 2020 01:15:18 -0400
+Received: from mail-vk1-f194.google.com ([209.85.221.194]:40532 "EHLO
+        mail-vk1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727077AbgDGFPQ (ORCPT
+        <rfc822;linux-wpan@vger.kernel.org>); Tue, 7 Apr 2020 01:15:16 -0400
+Received: by mail-vk1-f194.google.com with SMTP id k63so510264vka.7
+        for <linux-wpan@vger.kernel.org>; Mon, 06 Apr 2020 22:15:15 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=mime-version:reply-to:from:date:message-id:subject:to;
-        bh=82B0OONv9gwbZlPp43NzThDz2fRV+KRFwafOQ16joDw=;
-        b=I2bZK+Edwp7f1bl38ZDsYZ8gkHoLOp7N+SgwKjOSdbsqnWhmYlKKFyWTTwwdBuA4Vg
-         rwBHnP7ed1EksF/Uo6wi0daOtai1jA53B5b9RrMCwInP8fTj6xlf+N87Jxy7Sxa+QbUF
-         l2GP0Lv6JzwuZiPJAzgKXNfvaR6mAHzPBfBvakflfZ8B4h5bL4zPFQy+qXgn4TFvbTXz
-         A1ohkR077EumDiarvC1dhS/fXXyUHKbnnxfkdMVlwSlZiAQJvL50ZQklv05R+GT0yrBC
-         3q/4vjuGZ1FGpK3Ogg0O4Ce18OqauZECfFoMpKCzkd0qt9LKtlmIkWUwZqPjuntycFFN
-         I7DQ==
+        h=mime-version:from:date:message-id:subject:to;
+        bh=38NlpNEbzNFWb7RFQtfvRASB+B576yw7dNc7pozf3pc=;
+        b=MfHDvIBIt69xqysjTBYVVNc0kV20i2uh+5pM5bA0kgqzaY38Y8DWEj01Pvo2lprKBQ
+         GeMPmsDw8mI8JPS3USlc7fo909SxPcbTvuuO8fmlDj3Epr1eVDtR360WKQPQyhZWRFR1
+         e2AVs/X8xmnpyFeBVbEpWkW/7xUX6BkoKcBNjhVPYru9i1s3MQXqsGzojyz2OPT8Gzuk
+         eAsRgBBtJfCcoxVL23nq2mmza5GNfLtG1Vewilonxc/7to20Va10m3hSWyxvaqvjeUuq
+         +R1bw/nay987q2JQWtF8qmoAYape5iyXc2fGu9oueeJmEOdg+02io2ZWkJnJglNvfVbH
+         fVHQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:reply-to:from:date:message-id
-         :subject:to;
-        bh=82B0OONv9gwbZlPp43NzThDz2fRV+KRFwafOQ16joDw=;
-        b=RE8cEN6LAFPeexqs6+LtwHtKkynYP+KnnaskHXWHLqTml7lLuDd4/efEgfsX0Z7qd3
-         RE3TuruagT4tq+dFhWfugEw9gImvt4GFPUQdemmd2NA3FBlyS9k8gmWz8iPorq2MjiyB
-         N5Zfc3WZqazZi4FoBVuMsYe7HCwMnzi2m60gRue2UsnTOGCv+ADxW97l1XKikTLrC/N4
-         rBxM6D5nzo/tt2T4/p5p2zF422qDJV6G8vm4wRH/f78Vrw2UlBLcAK/PwrynfuwFbduF
-         47KFUeUI1YOuifS8aK7nPK8Beas5OC0kR5lMFjFUrAmqGCVLCqaFQ/V70A12DvVAqOCz
-         NiYw==
-X-Gm-Message-State: AGi0Pua2t7DosKCwoeZGNMCf3VAWKuhfgO8ygSA6vnZOZh2GMpaGTIGE
-        c5Lf9g8MjOz9iuliobAgdex4Za2pMOg2PDP4SzM=
-X-Google-Smtp-Source: APiQypIWKERkhJyfw3nllppwlKx4Kg5tACX7YV91IKVmdYpKGJw8tan3l05zjbxOy64C+jzvYjD6e0YtF987t4KsIjw=
-X-Received: by 2002:a67:e24c:: with SMTP id w12mr8442912vse.153.1585565563772;
- Mon, 30 Mar 2020 03:52:43 -0700 (PDT)
+        h=x-gm-message-state:mime-version:from:date:message-id:subject:to;
+        bh=38NlpNEbzNFWb7RFQtfvRASB+B576yw7dNc7pozf3pc=;
+        b=NoK566g/7qvaf3NKryyrzD8f5kZdJQeLwTIRWgUEa40C3pp0gQpjEUh+TqT4VuEPFR
+         v5ZBLEwJQMHDZ5q9kpVcehta4gKhTugsk9Va28al5iMJZ3X9oRiGC9KpFucNSs0gFM5A
+         LTjpXCP5gqCylxJB7jtr73SGnQl/c9l9HVV4QbxQoUuVcJW4QZTZd0KhBeEd1O5+eDjT
+         fDTDAEx9ixXvxh7umBYhahP/h4BmUbTHWIotYarFMxX+kFI+v50GY9rHgCexvxtbCgH5
+         yV/J7cmuCpMqpfmNXRtr0tvCTbgpZ6g6454N4mJiDDgPUfliCVFf6naSl0CEC+E4eIya
+         Mfwg==
+X-Gm-Message-State: AGi0PuYGj+Pk6Vl/ev6xKKcsk+hoDD+F1pLOn381LovMYYdxQvNf92wO
+        ukBMGnqNhACkyX1s5PauiO5+q+2sRVoi1GH0g0NU2feXigY=
+X-Google-Smtp-Source: APiQypL+ArhsKP1HCJpJZSuqqOKzmqGe03VSBcvbyU5XLwMdkDIdNu0ELlIqojTyqMNnJA6AEodSyvd4rSFXD4DVz/E=
+X-Received: by 2002:a67:fa85:: with SMTP id f5mr495699vsq.65.1586236514277;
+ Mon, 06 Apr 2020 22:15:14 -0700 (PDT)
 MIME-Version: 1.0
-Received: by 2002:a67:c005:0:0:0:0:0 with HTTP; Mon, 30 Mar 2020 03:52:43
- -0700 (PDT)
-Reply-To: maryalice00.12@postribe.com
-From:   Maryalice Williams <maryalicewilliams730@gmail.com>
-Date:   Mon, 30 Mar 2020 08:52:43 -0200
-Message-ID: <CAKwdjsr+YKgJk7z-UHX7Zo55cx5RUN3-bw03sWcArP4vbM2B5g@mail.gmail.com>
-Subject: Reply For More Details.
+Received: by 2002:ab0:254a:0:0:0:0:0 with HTTP; Mon, 6 Apr 2020 22:15:12 -0700 (PDT)
+From:   SANDRA DEWI <sdewisandra@gmail.com>
+Date:   Tue, 7 Apr 2020 05:15:12 +0000
+Message-ID: <CALe9-EdG2aBp2yBY=t79ZuBObzzfY6nuVfAsra6+wc2BAYMhcg@mail.gmail.com>
+Subject: whether this is your correct email address or not
 To:     undisclosed-recipients:;
 Content-Type: text/plain; charset="UTF-8"
 Sender: linux-wpan-owner@vger.kernel.org
@@ -54,15 +51,31 @@ Precedence: bulk
 List-ID: <linux-wpan.vger.kernel.org>
 X-Mailing-List: linux-wpan@vger.kernel.org
 
--- 
-My dear,
+Dear ,Pastor
 
-I am Mrs Maryalice Williams, I want to send you donation of two
-million seven hundred thousand Dollars ($2.7M) for volunteer projects
-in your country due to my ill health that could not permit me. Kindly
-reply for more details, and also send me the following details, as per
-below, your full Name ..........,  Address...........,
-Age...............,  Occupation ...............
 
-Remain blessed,
-Mrs. Maryalice Williams.
+
+I have a client who is an oil business man and he made a fixed deposit
+of $26 million USD in my bank, where I am the director of the branch,
+My client died with his entire family in Jordanian
+
+50% of the fund will be for the church  for the work of God,the
+balance 50% we share it in the ratio of 50/50. Meaning 50% to you and
+50% for me
+
+intervention in the Syrian Civil War 2014 leaving behind no next of
+kin. I Propose to present you as next of kin to claim the funds, if
+interested reply me for full details and how we are to
+
+
+
+proceed to close this deal.
+
+
+
+
+Mrs. Sandra Dewi
+
+
+
+Email  mrsdewi@gmx.com
