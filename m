@@ -2,60 +2,55 @@ Return-Path: <linux-wpan-owner@vger.kernel.org>
 X-Original-To: lists+linux-wpan@lfdr.de
 Delivered-To: lists+linux-wpan@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 32AEF1CBDB8
-	for <lists+linux-wpan@lfdr.de>; Sat,  9 May 2020 07:26:59 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 35D3B1D7745
+	for <lists+linux-wpan@lfdr.de>; Mon, 18 May 2020 13:35:38 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725820AbgEIF06 (ORCPT <rfc822;lists+linux-wpan@lfdr.de>);
-        Sat, 9 May 2020 01:26:58 -0400
-Received: from mail.kernel.org ([198.145.29.99]:56208 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1725795AbgEIF06 (ORCPT <rfc822;linux-wpan@vger.kernel.org>);
-        Sat, 9 May 2020 01:26:58 -0400
-Received: from kicinski-fedora-pc1c0hjn.dhcp.thefacebook.com (unknown [163.114.132.4])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id AA1A920736;
-        Sat,  9 May 2020 05:26:57 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1589002017;
-        bh=2FbqU8bZl6w9cLuF4MoPItMpUp61yEjmaaPsancdiBA=;
-        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-        b=rhxvvpBnzcB5zKzm7pZqXc6VWM5yV8OgUv6yVT/8j9OT40YqRJZjIGI6JyERzHkf0
-         3bHLNHHk2UDpT/X6QRnuJ6gtc4LoEVCnhact2U/CZgJi57lqxSpHhMBMRwwmlbNhfY
-         ZQRofNb0LM0Y9aBWpdWzlA9fvpdIa6BevMQo7SpA=
-Date:   Fri, 8 May 2020 22:26:55 -0700
-From:   Jakub Kicinski <kuba@kernel.org>
-To:     Stefan Schmidt <stefan@datenfreihafen.org>,
-        Yang Yingliang <yangyingliang@huawei.com>
-Cc:     alex.aring@gmail.com, davem@davemloft.net, netdev@vger.kernel.org,
-        linux-wpan@vger.kernel.org
-Subject: Re: [PATCH net-next] ieee802154: 6lowpan: remove unnecessary
- comparison
-Message-ID: <20200508222655.71369682@kicinski-fedora-pc1c0hjn.dhcp.thefacebook.com>
-In-Reply-To: <e9ce1e47-79aa-aca2-e182-b9063d17fad8@datenfreihafen.org>
-References: <1588909928-58230-1-git-send-email-yangyingliang@huawei.com>
-        <e9ce1e47-79aa-aca2-e182-b9063d17fad8@datenfreihafen.org>
+        id S1727975AbgERLfd (ORCPT <rfc822;lists+linux-wpan@lfdr.de>);
+        Mon, 18 May 2020 07:35:33 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58702 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726739AbgERLfc (ORCPT
+        <rfc822;linux-wpan@vger.kernel.org>); Mon, 18 May 2020 07:35:32 -0400
+X-Greylist: delayed 1618 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Mon, 18 May 2020 04:35:32 PDT
+Received: from vps.dvp24.com (unknown [IPv6:2a02:348:36:5b8c::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8C69CC061A0C;
+        Mon, 18 May 2020 04:35:32 -0700 (PDT)
+Received: from localhost ([127.0.0.1] helo=dvp24.com)
+        by vps.dvp24.com with esmtpa (Exim 4.77)
+        (envelope-from <abhay@dvp24.com>)
+        id 1jadYS-0006r4-97; Mon, 18 May 2020 13:03:32 +0200
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=UTF-8;
+ format=flowed
+Content-Transfer-Encoding: 8bit
+Date:   Mon, 18 May 2020 12:03:32 +0100
+From:   pedro hills <abhay@dvp24.com>
+To:     undisclosed-recipients:;
+Subject: (DONATION) $2 Million Has Been Donated
+Reply-To: <pedrohills@outlook.es>
+Mail-Reply-To: <pedrohills@outlook.es>
+Message-ID: <4f8b251c274cf8e27d8c41dd4ed99b52@dvp24.com>
+X-Sender: abhay@dvp24.com
+User-Agent: Roundcube Webmail/0.7.1
 Sender: linux-wpan-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-wpan.vger.kernel.org>
 X-Mailing-List: linux-wpan@vger.kernel.org
 
-On Fri, 8 May 2020 17:09:43 +0200 Stefan Schmidt wrote:
->On 08.05.20 05:52, Yang Yingliang wrote:
-> > The type of dispatch is u8 which is always '<=' 0xff, so the
-> > dispatch <= 0xff is always true, we can remove this comparison.
-> > 
-> > Reported-by: Hulk Robot <hulkci@huawei.com>
-> > Signed-off-by: Yang Yingliang <yangyingliang@huawei.com>
->
-> This looks good to me. Thanks for fixing this.
-> 
-> Signed-off-by: Stefan Schmidt <stefan@datenfreihafen.org>
-> 
-> Dave, can you apply this directly to your net tree? I have no other 
-> ieee802154 fixes pending to fill a pull request.
 
-I'm sitting in for Dave today, applied to net-next, thank you!
+
+-- 
+$2 Million Has Been Donated To You,By PEDRO this is Real For More Info
+  Contact PEDRO immediately for your clame This Email:
+  pedrohills@outlook.es
+
+  Contact phone number +34632232897
+  Send Your Response To: pedrohills@outlook.es
+
+  2 Millionen US-Dollar wurden an Sie gespendet. Von PEDRO ist dies für
+weitere Informationen real
+  Wenden Sie sich umgehend an PEDRO. Diese E-Mail:
+  pedrohills@outlook.es
+
+  Kontakttelefonnummer +34632232897
+  Senden Sie Ihre Antwort an: pedrohills@outlook.es
