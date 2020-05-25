@@ -2,65 +2,74 @@ Return-Path: <linux-wpan-owner@vger.kernel.org>
 X-Original-To: lists+linux-wpan@lfdr.de
 Delivered-To: lists+linux-wpan@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 3D8FF1DFA05
-	for <lists+linux-wpan@lfdr.de>; Sat, 23 May 2020 20:00:55 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id D92941E0E8F
+	for <lists+linux-wpan@lfdr.de>; Mon, 25 May 2020 14:39:42 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2388272AbgEWSAx (ORCPT <rfc822;lists+linux-wpan@lfdr.de>);
-        Sat, 23 May 2020 14:00:53 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55856 "EHLO
+        id S2390534AbgEYMjm (ORCPT <rfc822;lists+linux-wpan@lfdr.de>);
+        Mon, 25 May 2020 08:39:42 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57396 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726948AbgEWSAm (ORCPT
-        <rfc822;linux-wpan@vger.kernel.org>); Sat, 23 May 2020 14:00:42 -0400
-Received: from mail-qt1-x843.google.com (mail-qt1-x843.google.com [IPv6:2607:f8b0:4864:20::843])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id F1062C0258F0
-        for <linux-wpan@vger.kernel.org>; Sat, 23 May 2020 11:00:39 -0700 (PDT)
-Received: by mail-qt1-x843.google.com with SMTP id p12so10917940qtn.13
-        for <linux-wpan@vger.kernel.org>; Sat, 23 May 2020 11:00:39 -0700 (PDT)
+        with ESMTP id S2390488AbgEYMjl (ORCPT
+        <rfc822;linux-wpan@vger.kernel.org>); Mon, 25 May 2020 08:39:41 -0400
+Received: from mail-io1-xd2c.google.com (mail-io1-xd2c.google.com [IPv6:2607:f8b0:4864:20::d2c])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9E942C061A0E
+        for <linux-wpan@vger.kernel.org>; Mon, 25 May 2020 05:39:41 -0700 (PDT)
+Received: by mail-io1-xd2c.google.com with SMTP id c16so18487337iol.3
+        for <linux-wpan@vger.kernel.org>; Mon, 25 May 2020 05:39:41 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=mime-version:reply-to:from:date:message-id:subject:to;
-        bh=F3NMDrR9dummcUXdRfruEEfbIS6yB2vx68nB8Asq/5Q=;
-        b=vhvRG4iP0p/cCM0/gHqK0xx0MaMNF3/azTtn5P0fCT1b4XLjGRAoR85FXgvwYtowP6
-         J1ev3dPiedOMtPyOzUYmKFEqsj6BkIi2lR8s0YRNLylOZ8MbeWQpwNTWDXPX57LUrKeO
-         FLL54WToKnc9WyFCTQNZdn8yjuqVF61dsdwJrbIWn1f8+mXNgwQXd1Xox425XdFJLCTr
-         UNYtD5Mkr7J8HytQpl125rrGiBWdOVTtdeDic18s2v1Ex5H4EMrCDseWe8z8QJUA2DPl
-         pMcmWf9nM5lni1dYRbVMyTKtLHSFCzrJM5oRvB7Hp9K31CMWsqtaG47ZQbJG6ZEre6uU
-         kwNQ==
+        h=mime-version:from:date:message-id:subject:to;
+        bh=pxHotUkcyFOHbcQKUf+Xj5LrOiEv/2gWXvynvhtr+ag=;
+        b=LcBsZoeCoXK8Fhme2V6bgdwkHHaxFRHJc/ScV3ITU4ffm4XDpXK43K4rueG6v3q3dl
+         XOQ85B1+Os51Zpey3PG5/GiP1Etfy9vkkkVJ92kkEXWI3ZM1zHyC2GChfyoGJOoPg4dV
+         QPT0X1d9YTUOvJ4he3WLQZo5DuCaeJYt8FyFa9oc1jZRnxqObZjz6T6SNYOMfhYhoVyx
+         0GsYHdWYxTtzrq/9iQJGT1TAAWPG/nl6wHYv8Qzz3NGzd9BBHz5HUohINKTt7YdgjyCB
+         9t9NUW68ZUwlD9I4HP4/3rPB0DowXE65Jazf7ZorWxij/eUFThH92Mc4abeItGxFlhdK
+         3yEw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:reply-to:from:date:message-id
-         :subject:to;
-        bh=F3NMDrR9dummcUXdRfruEEfbIS6yB2vx68nB8Asq/5Q=;
-        b=UWjsMymcXgzxbbZGXse4qTu19o75Wux0ZZmzfHzO/nybstKGTSCez01x5Nvf6wbL8J
-         7sJypXA8LDkrYF7H1q1Y+U1ieJH+/3NOGlPgoA2gUwfTl6zDmcOpGZr5qwUINI65EkU7
-         K26QxrasVcEQJ9RGuggH7wMsmzH1Ht8ZeiBl5expeYQoWvEcR7S4XRPZujc1zWxDnegK
-         cZBTjIXV7d1HbV5sm9rmekloB7OYWh8JFtw8gMPKzf8txSyqSeUYgty6AdZ7s04IWX7R
-         uOT6NyqzABjR6KkFdy2K4gbKagwLT4gibMGge14r95L7XBO4lzWrpEdAQFcfmrK6xeqm
-         LZiw==
-X-Gm-Message-State: AOAM533WIYzfmU/Z5ZW0sspXhZNTU53rJmg/0XcM7JSJRlcBM5N9+zaC
-        l4E+oesvV+BL6YOMkwputGHeEMB5zJhqIgKc9+s=
-X-Google-Smtp-Source: ABdhPJw4JSLl4s8hKmdikxPHOZTjp7LuShJQWo5DKJXfhdyHNpRWrWLXX1iWw/azZwGF2Nz0kU5bTrWvyq5YmK6naS0=
-X-Received: by 2002:ac8:1e16:: with SMTP id n22mr21502226qtl.78.1590256838401;
- Sat, 23 May 2020 11:00:38 -0700 (PDT)
+        h=x-gm-message-state:mime-version:from:date:message-id:subject:to;
+        bh=pxHotUkcyFOHbcQKUf+Xj5LrOiEv/2gWXvynvhtr+ag=;
+        b=JXZDIuIAplS+cEBsREBFq4u15Njg5qIaezEa+3/6l/PUrWXBYH8+JJyUIee/J+QTcS
+         X2WCFlBZxsJLkM8klGW8yYeglgf5NLYqtNnRwFTlWzjpEhDTwHu9OIH5LQebE4UTBvqu
+         4QBAIEv57ObewdnihjeFD/QSMZLjfcVQ41tQu9544gOb4Er/CgEHw+TxxrjNXyuEjmFD
+         wC2KzDPvdLAqjdaUvExbVX6HQn5bVuOEiGS9NVSG5BYFzHhHctksMIbYpSvVo9AjkaPn
+         b9tprySJq/YJDHZL04PKDmpjT1+fXzf+maR7MSV7K+shupwA6D50oeunbzeyQHE9r5Ea
+         kthw==
+X-Gm-Message-State: AOAM530vIrhDdWrAznz8Lwo3zJIEJeLjZZxg+rH+MH6XuwZFhPh3K53Q
+        JP18nmyb3QKPVicNB98wG9scDz4WBGsI/8i1BtlWeYyShs4=
+X-Google-Smtp-Source: ABdhPJxsNj8kpRPwUgfDUYyqlNT5EBjOaGD4Tor0eXyM9Jv9SOwPRSIRQ+z5e5Q0pRARAWZSkZTVJrzWZrM6qBHZVbE=
+X-Received: by 2002:a6b:8d44:: with SMTP id p65mr5717360iod.24.1590410380803;
+ Mon, 25 May 2020 05:39:40 -0700 (PDT)
 MIME-Version: 1.0
-Received: by 2002:a37:9fd3:0:0:0:0:0 with HTTP; Sat, 23 May 2020 11:00:37
- -0700 (PDT)
-Reply-To: mrs.chantala2055@gmail.com
-From:   mrs chantal <mrs.chantalas1@gmail.com>
-Date:   Sat, 23 May 2020 18:00:37 +0000
-Message-ID: <CAMdkyyDY_0O7YgysHCjgRTJ=8-B7XurK7o1razRHDVOjgr2V2g@mail.gmail.com>
-Subject: jjCompliment
-To:     undisclosed-recipients:;
+From:   Christopher Friedt <chrisfriedt@gmail.com>
+Date:   Mon, 25 May 2020 08:39:30 -0400
+Message-ID: <CAF4BF-SFHA=mPHLxpDHGMLvgu0UKO-6ujfYB+n2a6=XhFvT6DA@mail.gmail.com>
+Subject: wpanusb?
+To:     linux-wpan@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
 Sender: linux-wpan-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-wpan.vger.kernel.org>
 X-Mailing-List: linux-wpan@vger.kernel.org
 
-     Compliment of the day to you. I am Mrs.CHANTAL I am sending this brief
-    letter to solicit your partnership to transfer $13.5 Million US
-    Dollars.I shall send you more information and procedures when I receive
-    positive response From you. Please send me a message in My private
-    email address is ( mrschantal066@gmail.com  )
-    Best Regards
-    MrS.Chantal
+Hi all,
+
+Bouncing around a bit, but in Zephyr, there is reference to a
+"wpanusb" Linux kernel driver here:
+
+https://docs.zephyrproject.org/latest/samples/net/wpanusb/README.html
+
+This *might* be the driver in question:
+
+https://github.com/finikorg/wpanusb
+
+Just wondering if anyone has made any attempts to submit that, or
+would that go directly upstream these days?
+
+Hope you are well.
+
+Incidentally, we're hoping to do a microconference at Linux Plumbers
+again this year again, virtually of course.
+
+C
