@@ -2,85 +2,101 @@ Return-Path: <linux-wpan-owner@vger.kernel.org>
 X-Original-To: lists+linux-wpan@lfdr.de
 Delivered-To: lists+linux-wpan@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 44C9C1E98C2
-	for <lists+linux-wpan@lfdr.de>; Sun, 31 May 2020 18:13:30 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 08B0E1ED13E
+	for <lists+linux-wpan@lfdr.de>; Wed,  3 Jun 2020 15:49:10 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726081AbgEaQN3 (ORCPT <rfc822;lists+linux-wpan@lfdr.de>);
-        Sun, 31 May 2020 12:13:29 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51256 "EHLO
+        id S1726109AbgFCNs7 (ORCPT <rfc822;lists+linux-wpan@lfdr.de>);
+        Wed, 3 Jun 2020 09:48:59 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50100 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725912AbgEaQN3 (ORCPT
-        <rfc822;linux-wpan@vger.kernel.org>); Sun, 31 May 2020 12:13:29 -0400
-Received: from mail-io1-xd2a.google.com (mail-io1-xd2a.google.com [IPv6:2607:f8b0:4864:20::d2a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A9A02C061A0E
-        for <linux-wpan@vger.kernel.org>; Sun, 31 May 2020 09:13:27 -0700 (PDT)
-Received: by mail-io1-xd2a.google.com with SMTP id k18so4484213ion.0
-        for <linux-wpan@vger.kernel.org>; Sun, 31 May 2020 09:13:27 -0700 (PDT)
+        with ESMTP id S1726092AbgFCNsx (ORCPT
+        <rfc822;linux-wpan@vger.kernel.org>); Wed, 3 Jun 2020 09:48:53 -0400
+Received: from mail-wr1-x443.google.com (mail-wr1-x443.google.com [IPv6:2a00:1450:4864:20::443])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 29474C0085CC
+        for <linux-wpan@vger.kernel.org>; Wed,  3 Jun 2020 06:48:50 -0700 (PDT)
+Received: by mail-wr1-x443.google.com with SMTP id c3so2422593wru.12
+        for <linux-wpan@vger.kernel.org>; Wed, 03 Jun 2020 06:48:50 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=bw/H7QoV8NHn/s7KdcXvsc20GBzOrcKatAEWro6ZLsQ=;
-        b=JuLicpB/MIjhO1Kp8UjUgP5+K+DDcdxYR5HLfTcx7c+fni2p0xfTZR9wcB05PRiuwR
-         5oON4LanOTUSfnO5bvW0mzN9rS6qoNKhywpL3gTph8cUrmukFF5zXe5CmDXfnQYFskOK
-         L5AU9MvKcL29bAdBQPSW3Wr5usGP8vYPOACm5bno/2gR+BbN5ze7vPhGc69StEC6akq9
-         oLpSQy7ff8f3W03zIUW/nMC8j2i1BCbevq/1wvlUKvGt2Tg/MVZwHQsYdYFIR8BwIOMP
-         A9ml5zGN9cMkpbV0pAgjXuA37ivoiKBXOYD/p3Zr8DHXxuzkEN9ueTFF7Dhrai7pT6J3
-         vBgw==
+        h=mime-version:reply-to:sender:from:date:message-id:subject:to;
+        bh=H8rDQEJouwBJIElP/Vpqq+PrvTZxQQy2H7A/MvyMMB0=;
+        b=LImzFWfFZ5MGhzJT1qzCsgEXVo7xW37sUIdrDLCKiXHQE0/Tq0rYX6Af/ld5dvlhmE
+         opFt8B8vUrhAfyxGIRs7eIQZmnu+cHCt7Dz4gEu/fnBWHDlMa8iVHDbM7XgqJUtNcgor
+         I4Oj1yGJ3ygOniFn6Dr+FHDS5BV48N/ldz+eBwWbR5/ADnYCL6KuztRZu9mrKJOxMODU
+         fmVICwwGmTYXXsgICTxE6unupuMdGq6+YZvkWKysZVLYK3Wwxrg7U2ecMo3WGycHWcU1
+         w35jxyjuynpm30G3kj/I18A4vO2Y2WN0kfTajUkGc1Xe9t84eQuWhnB4AGlAS8dbrawc
+         iC3A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=bw/H7QoV8NHn/s7KdcXvsc20GBzOrcKatAEWro6ZLsQ=;
-        b=nWC5ifFlgHQweDhdafqMHIN7VeUvjYm637ww2yOaBpZ1Y1cWJtWlV+2wDihlQwA/Do
-         IEKX4t4TTuAm5PPyiW7RzboFi6cNCPpste1ZtAJxxFQFqsxExDPhHnbESCFPjHH5rBmN
-         7jyMVc8sWf896ZQkHWaCvuUjT7pLpoBy2drX5rhAbDqiZ2PAdqGI/jtQ9gx6c0eBlLf1
-         ZFcK3+MPOxKUzZ/KCBElzwRc0E4O+L9OBNGWZTXmY5dE9pHaEo/mLaDONYMwpum6MWlu
-         jWtsr94W+DbJk1ZcPB5nyaOcxw4PkrvzylZQsmI2AX0RbBiDQDBphiGDSIWdh4RyfsB2
-         HKoA==
-X-Gm-Message-State: AOAM530X2OfGdZKkb9LH0N8f9UI+SGUSbJsBffx4vfpVUHcX873ucgV7
-        m2SMrpykcyjXmsPR6YwqkWbihNzpErFY6PWRuXusCyr4
-X-Google-Smtp-Source: ABdhPJxyNrwfCNr6JnHDSxux6uRFFw4bXFDJeDJ1r+HZYgs5hVkjUpNhzRWjmQ09SXdTB/8PILoO1yagFuvL1d2fw9A=
-X-Received: by 2002:a6b:8d44:: with SMTP id p65mr15310339iod.24.1590941606963;
- Sun, 31 May 2020 09:13:26 -0700 (PDT)
+        h=x-gm-message-state:mime-version:reply-to:sender:from:date
+         :message-id:subject:to;
+        bh=H8rDQEJouwBJIElP/Vpqq+PrvTZxQQy2H7A/MvyMMB0=;
+        b=o5RjL87Ssgf+f2cwhc+RpD4fz92cQkW/+duQ4APAFg9ha57Fsvrdf9y50Z2I9Pf5eP
+         knfUkYlzplF6znx9SJLJS3SFDVbBdKErlJM5SmBOvwTvap03beJ1wTtQjSVpL7c9C21t
+         15ElecRnY/gTz6zoKSoksXnoe/8ANTR6Oi1KiRfsVIRD3IrsqQ4JhDWSYcS3c13y+gzC
+         Fg20IyJHxWPz4qJ4N+CdPm07CkG1Shl6INT47n1yNtXnfIWsbTyDdlbwammQLVLUHlQQ
+         8WIEbUbRALf7wW4uMM677qFi2azno628LxzzAI90+zDtvCsE5LDKhLVtVG08M3G28Ppi
+         G3sw==
+X-Gm-Message-State: AOAM5328PszxJQ69epZsntIw5+NsBB6+cbccjP83KliJ9XC/8HjF/b1U
+        ZZH854swruFEsURhFfOSzdSyZAgLaEs2UTW5svEaPjs8BPA=
+X-Google-Smtp-Source: ABdhPJzc66PsPJ7uf2JiXrqj7zfh07Ra5BpBms0TPKeexmxkWkfXYY+ch/Os+E85wJbdOE6Lm+0ANdybV/7KRG4HAcU=
+X-Received: by 2002:a05:6512:308e:: with SMTP id z14mr2566308lfd.29.1591192127287;
+ Wed, 03 Jun 2020 06:48:47 -0700 (PDT)
 MIME-Version: 1.0
-References: <CAF4BF-SFHA=mPHLxpDHGMLvgu0UKO-6ujfYB+n2a6=XhFvT6DA@mail.gmail.com>
- <b009a2a8-64a5-fe66-a53e-5a93135cf1f8@datenfreihafen.org> <CAF4BF-SNRyXQzUBqx5k014nZou4q7=Gd8=dbUyK7JiDkaEEvFA@mail.gmail.com>
- <f98b4515-9570-ad48-2d8f-dcc5482a21a1@datenfreihafen.org> <CAF4BF-SipApoY=7CY8fWs8cSi8rKZaYMxOZHAqoKv=poAgVm=Q@mail.gmail.com>
- <61ffa93d-f8cf-b059-358c-84a6e04b96ac@bergzand.net>
-In-Reply-To: <61ffa93d-f8cf-b059-358c-84a6e04b96ac@bergzand.net>
-From:   Christopher Friedt <chrisfriedt@gmail.com>
-Date:   Sun, 31 May 2020 12:13:16 -0400
-Message-ID: <CAF4BF-Re1CoR8abM=hvKN=TojDoLL_PRAJTvjWzB-Ak8tKTvRg@mail.gmail.com>
-Subject: Re: wpanusb?
-To:     Koen Zandberg <koen@bergzand.net>
-Cc:     Stefan Schmidt <stefan@datenfreihafen.org>,
-        linux-wpan@vger.kernel.org
+Reply-To: susanjones.wife@gmail.com
+Received: by 2002:a19:a405:0:0:0:0:0 with HTTP; Wed, 3 Jun 2020 06:48:46 -0700 (PDT)
+From:   "Mrs.Susan Jones" <joneswife.susan@gmail.com>
+Date:   Wed, 3 Jun 2020 14:48:46 +0100
+X-Google-Sender-Auth: aH2vam-ZraP3yG1gz3ryctMgTE4
+Message-ID: <CALBhdBfusXWup1N4iFuTS3D1AZxWbZbTDS_qa-wA3FkbkE7MrQ@mail.gmail.com>
+Subject: HELLO: I AM MRS SUSAN JONES
+To:     undisclosed-recipients:;
 Content-Type: text/plain; charset="UTF-8"
 Sender: linux-wpan-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-wpan.vger.kernel.org>
 X-Mailing-List: linux-wpan@vger.kernel.org
 
-Hi Koen,
+-- 
+OUR GOLDEN OPPORTUNITY
 
-On Sat, May 30, 2020 at 2:10 PM Koen Zandberg <koen@bergzand.net> wrote:
->
-> Hello all,
->
-> Long term RIOT maintainer here.
->
-> I'm willing to work on this for a RIOT implementation, assuming there is
-> some documentation available on the USB protocol side :)
-> I think I should be able to get a relative generic firmware application
-> able to run on any of our hardware boards as long as they have a radio
-> and a USB interface.
+Hello Dear Friend,
 
-That's great news!
+Complement of the day, i hope you are doing great today. However, I am
+Mrs.Susan Jones, an auditor with one of the new generation banks here
+in Burkina Faso.
 
-Also, I heard from the original wpanusb author and he said he'll put
-submitting a patch any day now.
+I am writing you this letter based on the latest development at my
+Department. i discovered some abandoned huge amount of money, Ten
+Million, Five hundred thousand  United States Dollars.($10.500.000).
+Now I am only contacting you as a foreigner because this money cannot
+be approved to a local bank account here, but can only be approved to
+any foreign account and foreign beneficiary because the money is in US
+dollars
 
-Cheers,
+This will be  a legitimate transaction once you accept to build trust
+with me and follow simple instruction doing the transfer process,
+until the total sum transfer out of the bank here to your own bank
+account any where in the world, and I agreed to share the total money
+50/50 with you once you successful confirmed it in your bank account.
+But any expenses doing the transfer process will be deduct from the
+amount before sharing, If you are interested to work with me and
+provide a good receiving bank account, get back to me as soon as
+possible with the following details below.
 
-C
+Your full name
+Your Profession
+Your direct mobile phone number
+Your Scanned International passport or any of your identity
+
+NOTE: PLEASE IT YOU ARE NOT INTERESTED DON'T BORDER TO RESPOND BACK TO
+AVOID TIME WASTED.
+
+As soon as I receive these data's, I will forward to you the
+application form which you will send to the bank for the claim and
+transfer of the fund into your bank account as the  new beneficial.
+
+I am waiting to hear from you soon
+
+Yours
+Mrs.Susan Jones
