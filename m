@@ -2,51 +2,97 @@ Return-Path: <linux-wpan-owner@vger.kernel.org>
 X-Original-To: lists+linux-wpan@lfdr.de
 Delivered-To: lists+linux-wpan@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id CEC6222510D
-	for <lists+linux-wpan@lfdr.de>; Sun, 19 Jul 2020 12:05:05 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 544BF2251A0
+	for <lists+linux-wpan@lfdr.de>; Sun, 19 Jul 2020 13:31:53 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726067AbgGSKFA (ORCPT <rfc822;lists+linux-wpan@lfdr.de>);
-        Sun, 19 Jul 2020 06:05:00 -0400
-Received: from sonic314-13.consmr.mail.bf2.yahoo.com ([74.6.132.123]:39667
-        "EHLO sonic314-13.consmr.mail.bf2.yahoo.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1726505AbgGSKFA (ORCPT
-        <rfc822;linux-wpan@vger.kernel.org>);
-        Sun, 19 Jul 2020 06:05:00 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yahoo.com; s=s2048; t=1595153099; bh=qXBWf2EoWT9gmJgm/3NiogFnv3V/rxlq5ApKE+Dow4k=; h=Date:From:Reply-To:Subject:References:From:Subject; b=K/YcAjYk4TvQWaBwnMLFJcDqfvvcXv59nP2+IWEntIwmoRgRsNO05gCxGp2/nbbTXQR6jROAL75Tq5qivY9fixjfkBJQ0mA/paykAHzEz/pBnAhLctBdRl45sHJIdU8Ec2YlSgd5/s0Wjp3Pv0Ohjq92JImdnIVTc4RbGlaj0In2PQOBgp52faRBTCePGlh26rWsnAoaKmUGTOSI267MyNO9P8QiVVBkQUi6nVeUXRciu0XS6QLqP1h0s4R+/5KQ3bDSBCFWlasB/m1qWH4wvZuuP27d6FZ4r4FAL5pS8pNnsLbjDsvWJfDAJpQ9khYVDu3x+mVbqfTUvLSM44tdrw==
-X-YMail-OSG: vx0zszsVM1kxDqbotIPx00qKNUpRdDbVKPw829FURANzMC5wJ2Q.hCx9.sAsMH7
- ndt_U_oUrZpLJgOgOqb6zWHGyqBQ2Podqr0IZS8ieTq5Afodz_xGTy1n1IvY9Q5h6tMO9mgHQzXm
- ZKcoDux8V429JyaJgqBiVT7oeWVwYowd1rFb7IxWoDAZY5fbTUIC.6avrH9Hiy1CN7fCYPwnuFJX
- tpYVEnQCYAfAvBNhhfoCAwHgF4joz6IXEwmAB4Pwdf0FzWJBsndWqoLW9WwxrNg2e1ymQ3c9BFwk
- kjCR89dXTt_M18sqT7psAdbi.NQU4N7jIsnesNtyLSerIHxwC32jLupCOZ8kDWQBXuSbBPuJcFXE
- 1qXyX3shjKCYP6w.1sy.YtXVFmwIgq7iPwKkV96ukIpxr.vvTgsp1VRhDT4mPhAXS.zsQkYUXg7q
- 3u3SXEftVmsgiFm63j0gm_tBSVddwOVqQwfy2hXLgo0R2vSgUZg0BfYr_WerHujq4NeUAqPhQSSf
- 3O..9RnaXYCyaD5A8TQluqnSwvg3Yc5mRU3_Wc3i2.PFe3OcxGaiZySIhDp.esbSrr6fFnmgdWRE
- .ekHQCsywXOtOGHtxlHl1aFZDyPqHlkwD6C54zwOs.0Bf4uJEkhbhkyR5zAR0q9aH8x68y2ArAdS
- k9N.tBbA7mUw1wlnydG_q2732hCggZd61WskD3gxsgIDrWqlG3jzD5p3_kYIx.h7Ca1EqzCd7KrX
- ryBDHySKhU_KesH0W8DQ.2.SqLlGTwiis51qLbiT2OugjnUxa.tgsKL9bRbZDIlaBWSvUuQRB2Mw
- gA78HAyQx2kg3pXtFXtusayjTjz5gCkuS5ie.VX8g7TZ1mtIFkGM7Xeq8S.HhKtQ7xg1duT_pUB2
- rxq3XtMWCrZhWGImqMRZfLNylVyMekDtmSi4U8GiTnAJjE1t0HEd0Y3f47jwRS25DsOgKjijIbl4
- 6qLaMpLWLZ3lTIpPgUgm7CXCAKliauKy6N6BDoMNlF8vmIcwK4jlMXZ7RAIEf3hQMF8_9IuMj.Og
- 5rFaDiKFBRHGXGv1jgf9kjw761efEX59Pyy0uV8sYzmr8x_d49OVlXQ_SaobFmcRfedH17inpuLk
- QrkoubvyL7W23zgPQIl6jG1t3L6Lu1mj0ww5CYk4TCYm2oiRxoi6oPqLTAHmACU3H_60e5UQ6_0n
- X5358RL3vFIWv5oUMrmRthDt3u4RDRtcMxqsX7_jd6cBWx.pbpjSWqMM7Z812sJKqE8gDEoDaQU7
- 0d8zEpsSzXIPPW.5kPPSAzba_ixdCPI2kC9yQavVd_7llPLpkJ13I0BtKGOGHWqUx4qc9BnkVDA-
- -
-Received: from sonic.gate.mail.ne1.yahoo.com by sonic314.consmr.mail.bf2.yahoo.com with HTTP; Sun, 19 Jul 2020 10:04:59 +0000
-Date:   Sun, 19 Jul 2020 10:04:55 +0000 (UTC)
-From:   Monica Render <prender1226@gmx.com>
-Reply-To: mrender377@gmail.com
-Message-ID: <1955651903.2694416.1595153095326@mail.yahoo.com>
-Subject: Nice to meet you!
+        id S1726024AbgGSLbw (ORCPT <rfc822;lists+linux-wpan@lfdr.de>);
+        Sun, 19 Jul 2020 07:31:52 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34020 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726012AbgGSLbw (ORCPT
+        <rfc822;linux-wpan@vger.kernel.org>); Sun, 19 Jul 2020 07:31:52 -0400
+Received: from smtp.al2klimov.de (smtp.al2klimov.de [IPv6:2a01:4f8:c0c:1465::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D8A7CC0619D2;
+        Sun, 19 Jul 2020 04:31:51 -0700 (PDT)
+Received: from authenticated-user (PRIMARY_HOSTNAME [PUBLIC_IP])
+        by smtp.al2klimov.de (Postfix) with ESMTPA id 59B4DBC063;
+        Sun, 19 Jul 2020 11:31:48 +0000 (UTC)
+From:   "Alexander A. Klimov" <grandmaster@al2klimov.de>
+To:     michael.hennerich@analog.com, alex.aring@gmail.com,
+        stefan@datenfreihafen.org, davem@davemloft.net, kuba@kernel.org,
+        linux-wpan@vger.kernel.org, netdev@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Cc:     "Alexander A. Klimov" <grandmaster@al2klimov.de>
+Subject: [PATCH for v5.9] net: ieee802154: adf7242: Replace HTTP links with HTTPS ones
+Date:   Sun, 19 Jul 2020 13:31:42 +0200
+Message-Id: <20200719113142.58304-1-grandmaster@al2klimov.de>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-References: <1955651903.2694416.1595153095326.ref@mail.yahoo.com>
-X-Mailer: WebService/1.1.16271 YMailNodin Mozilla/5.0 (Windows NT 6.1; Win64; x64; rv:77.0) Gecko/20100101 Firefox/77.0
-To:     unlisted-recipients:; (no To-header on input)
+Content-Transfer-Encoding: 8bit
+X-Spamd-Bar: ++++++
+X-Spam-Level: ******
+Authentication-Results: smtp.al2klimov.de;
+        auth=pass smtp.auth=aklimov@al2klimov.de smtp.mailfrom=grandmaster@al2klimov.de
+X-Spam: Yes
 Sender: linux-wpan-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-wpan.vger.kernel.org>
 X-Mailing-List: linux-wpan@vger.kernel.org
 
-Please do you speak english?
+Rationale:
+Reduces attack surface on kernel devs opening the links for MITM
+as HTTPS traffic is much harder to manipulate.
+
+Deterministic algorithm:
+For each file:
+  If not .svg:
+    For each line:
+      If doesn't contain `\bxmlns\b`:
+        For each link, `\bhttp://[^# \t\r\n]*(?:\w|/)`:
+	  If neither `\bgnu\.org/license`, nor `\bmozilla\.org/MPL\b`:
+            If both the HTTP and HTTPS versions
+            return 200 OK and serve the same content:
+              Replace HTTP with HTTPS.
+
+Signed-off-by: Alexander A. Klimov <grandmaster@al2klimov.de>
+---
+ Continuing my work started at 93431e0607e5.
+ See also: git log --oneline '--author=Alexander A. Klimov <grandmaster@al2klimov.de>' v5.7..master
+ (Actually letting a shell for loop submit all this stuff for me.)
+
+ If there are any URLs to be removed completely
+ or at least not (just) HTTPSified:
+ Just clearly say so and I'll *undo my change*.
+ See also: https://lkml.org/lkml/2020/6/27/64
+
+ If there are any valid, but yet not changed URLs:
+ See: https://lkml.org/lkml/2020/6/26/837
+
+ If you apply the patch, please let me know.
+
+ Sorry again to all maintainers who complained about subject lines.
+ Now I realized that you want an actually perfect prefixes,
+ not just subsystem ones.
+ I tried my best...
+ And yes, *I could* (at least half-)automate it.
+ Impossible is nothing! :)
+
+
+ drivers/net/ieee802154/adf7242.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/drivers/net/ieee802154/adf7242.c b/drivers/net/ieee802154/adf7242.c
+index 5a37514e4234..60a016a6806a 100644
+--- a/drivers/net/ieee802154/adf7242.c
++++ b/drivers/net/ieee802154/adf7242.c
+@@ -4,7 +4,7 @@
+  *
+  * Copyright 2009-2017 Analog Devices Inc.
+  *
+- * http://www.analog.com/ADF7242
++ * https://www.analog.com/ADF7242
+  */
+ 
+ #include <linux/kernel.h>
+-- 
+2.27.0
+
