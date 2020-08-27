@@ -2,96 +2,81 @@ Return-Path: <linux-wpan-owner@vger.kernel.org>
 X-Original-To: lists+linux-wpan@lfdr.de
 Delivered-To: lists+linux-wpan@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 1D95B2514FC
-	for <lists+linux-wpan@lfdr.de>; Tue, 25 Aug 2020 11:07:45 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id D05C5254B51
+	for <lists+linux-wpan@lfdr.de>; Thu, 27 Aug 2020 19:00:04 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729214AbgHYJHn (ORCPT <rfc822;lists+linux-wpan@lfdr.de>);
-        Tue, 25 Aug 2020 05:07:43 -0400
-Received: from sonic303-1.consmr.mail.bf2.yahoo.com ([74.6.131.40]:40398 "EHLO
-        sonic303-1.consmr.mail.bf2.yahoo.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1729195AbgHYJHn (ORCPT
-        <rfc822;linux-wpan@vger.kernel.org>);
-        Tue, 25 Aug 2020 05:07:43 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yahoo.com; s=s2048; t=1598346461; bh=hkYSfrxTonACfliPSB6IYnWC0p+Veg0756S5roQpVX8=; h=Date:From:Reply-To:Subject:References:From:Subject; b=jtOwt1cGUPU8PikXMo3ltYAwNu+YsrBfsVmDM7mZqnlX0qcU9ZWaTu6rmT7PSmzSMKUT7DpLdxh5oHmuHD3a5z3saNoftmwhyW9+VimH1nu6TlpGvtUxKlMOT2ofqU9TYvq9VMxZiQmRpE2no/mixDoxEpJ8aoCFuvGvuw1J0CU75V5nA30hdcYmceESoegLXJzuuiJLyqGsa6jF/UuYt7QU60tNZPRGb4pIjsJ8UNqlqWhWqez+I6J18zMPSok6G16WaoJYBanKdzqvGIexYUqpoWIs6OI99NVYNH4tSlw0QnDgl3iO+sckiDX1Za3weqk2YuTKz9r+MWYYZHBajA==
-X-YMail-OSG: a.csGUIVM1nRs5yjgFfqWmdHXm4zibTWJCs9FyC802tkhMRJ6tdPgn3eX2WkOHO
- .aVFaILlx9bOOXRgItdy3LM2LOhbwrJKcXSJzbHDNl.cHRwUkowU4TX23lvUOe98K38.XBy89.wx
- .2ZBzfHBfviL.87uMJX6FMGwsCYK5CuZlg7jtrcR4u7grUFOK.RuChOZ3z4OrEueuf8eNi1Lu_5U
- Ao.LSQB26QJxPRKoCm8d0a0WZt46MPVagDGOQwc0A_YYOTgW3iMu.xw.8QZJYeUaf7TjTrVXs7kj
- ggrqSb3FlKs1GNsLA7yZlNfBJ5W8OrZ8Hh5kGJKGCc1af2zsBmTsy_Qz5gKbieGMjuwgqBKu7YL5
- DjuB6yyx5WiUM4yxPnONcnQGKIHtYIxi.AxfnYXPZEvT.Nat4nnpWHdcKAx9cFZ4BLYTMfChX9JU
- VW9pg_7kXTLERcOQGhRrA8P1ySySrjtNB35HNNTnlESWltKdWMWUaaihB6D9ly_1A40tPSqwNUhV
- IxljG5V6i7s6FZzE3BEc5vYkmu4TjVWgQq9I.hsh_nvr8ZosXfIrlf5ggfPonM_XxQoMabo9QEzh
- RC9YBRBMmRCZWIBT5sAXLiYrTkhSAGeR92gf99eQ8MtehkXy4VvtRCrpgUUGIgPk9GS2Fs102zeI
- lJ4Fs8omc4bIASMZa1tii2mNoxyqqB12KVn0XydwnMczmuCclkbmlIYrZwx_rXae.fRs0j_SjxbZ
- yNdbMkI.rchXnmiBRXYKwuz8A22TyJPj3M0MdvojKIQkWYD9v_3umXQaroWIM79Ay0NTz8zWVcJy
- xFW0YCNSh57ex4Ia7E1ffTn669LLfq5TxfZ5zWxdgK1GSElAmmhNAnFbU3JQwVKmz53tbqnugRdP
- hGdlXRGMxsHBZf37xJtZvA0QgqvfNHoBBhJ7iqnId0aOGyMObXThgXPehBUFas2yO_Wt2EXKbd46
- Dz0qJQ1nnCFiGHHC._tmwNSehlT2OZ13IuvoahEzQlEXZFcUx7F2Muab3cU.GWCt3aS9iTvgY8ZU
- ru.CxkesIG4pZ18.bzGpFw9MZuqKM0E3VtCPbOrfZJjbwPlkEvVLeaQ8CgR4PtxhK3izwWGHZ_SM
- fImkepKPelOg8r9S9MZSycczyiXbcDhPWlQYpt3yLbcNbwoUWXWEUvv_pscs8AfKXwkBJHB01o1e
- aWeJg78K6vC8a1miwH9WNz.Efu_VuTCPybMjIfbvU7OAPEsglp6HOS_7JCrey0ToQdZyUXHufX0R
- DdtL.Iw1BCZVXdABnMb39lkzq8xpxgvEQFp9mk7irc8SYAnZ09aP0ngDXRSpnebMKzKFWekSJs6x
- EbDuzWwCegmDGXlwmKcpNpRXfgp28qewgjUF81Wtz.z1Xxb9fLRUHc.XaUCe1gxKnhnpQmHYij7i
- aIb2FTDafb.sL5ipg2libaHlWWPNx_OsiHdabNWo2M0HfEy8oG1c-
-Received: from sonic.gate.mail.ne1.yahoo.com by sonic303.consmr.mail.bf2.yahoo.com with HTTP; Tue, 25 Aug 2020 09:07:41 +0000
-Date:   Tue, 25 Aug 2020 09:07:38 +0000 (UTC)
-From:   Sgt Vivian Robert <sgtvivarob@gmail.com>
-Reply-To: sgtvivarob@gmail.com
-Message-ID: <560999273.5272175.1598346458271@mail.yahoo.com>
-Subject:  kindly respond to my mail
+        id S1726157AbgH0RAE (ORCPT <rfc822;lists+linux-wpan@lfdr.de>);
+        Thu, 27 Aug 2020 13:00:04 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53530 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726009AbgH0RAD (ORCPT
+        <rfc822;linux-wpan@vger.kernel.org>); Thu, 27 Aug 2020 13:00:03 -0400
+Received: from mail-il1-x12e.google.com (mail-il1-x12e.google.com [IPv6:2607:f8b0:4864:20::12e])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A751DC061264
+        for <linux-wpan@vger.kernel.org>; Thu, 27 Aug 2020 10:00:03 -0700 (PDT)
+Received: by mail-il1-x12e.google.com with SMTP id o16so1511230ilq.0
+        for <linux-wpan@vger.kernel.org>; Thu, 27 Aug 2020 10:00:03 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=mime-version:from:date:message-id:subject:to:cc;
+        bh=6mq2FEi+WqwW7ZVXUBQUyw7vCnNJsuOO4NMyDxtKng8=;
+        b=trXHqllCLMpceQkqJFwaIf3M/aHMzS+10nKhTc59s4aC6eNCPC0yXPWeRId7K/DEu0
+         hAa5c4MZK6ob5l7QBCiSIIAjEynsmEDVHjEcvBAfEXgllT9oEVtHVKDA4aPNuBNlwuFh
+         UCE3KsCeqA4ubb3t/6pmDVIT4yUUR7ld2o2a4YerbrWfToBdP2JAHJpxVNrjW/EvESIz
+         v3edx+j6P2VkGxw2uS96r82U9gFVLMlB/gjQ/Vg4t1xPoSFwgNZQfq4kc+1UARVCaiTx
+         MUxXrIbZRsjofp/KVCKa8+nIUDUWTI1pLM9H/iztB5pKgy9fapaoC5Uwp/ACS9gvDCPP
+         R1Mg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:from:date:message-id:subject:to:cc;
+        bh=6mq2FEi+WqwW7ZVXUBQUyw7vCnNJsuOO4NMyDxtKng8=;
+        b=NpNgjuBz7mT6ylLzz/LwMiPlmUd0QnX88YVJRKMGLweMSSlzZdIhR04D59kznlGPi2
+         ehJLOnHKzRxWuh2wyvGJcorMUhR1nBNEyMUTyudTndueM7L7j4kBByGW7O3vmG9H9ytV
+         peyZ8IOnCVJ4z2xyHGT+Rh6AOcT6UfAQp28IArbh3FgPwC3OQFXzgoloc5wdYzU2EPX8
+         6/a3OhGNpKQhDPI1ql5iVyhUJyFfRnRY1DIyHOZCfJL5YQO9L/F1pNGan7Br/xo6HnA3
+         NrrdcyIwWRfeflzoRygmj0d+JoxjiI+5l2jxWR92mWQi6vQzcQ7O1Rr0WRBtUZeQ3B5i
+         OuTQ==
+X-Gm-Message-State: AOAM531aL0OqADlTPauFTHh7NwZcqUoj5A93gHEPqPj9uKnOCoEFgueG
+        wX77CtBcuJTLow3WLGHQtHHbrRhQ3xPwhGf5TNC7H2FaEW2Sew==
+X-Google-Smtp-Source: ABdhPJz5xK8ryrrInXk5d2ui1MPw8ss/VA9xdZWv4b6JSGBdWYdBy8rFiDBS4Ca884GyWaseCiRfvCyEfkXzjrby9Yw=
+X-Received: by 2002:a05:6e02:d52:: with SMTP id h18mr1437472ilj.215.1598547602141;
+ Thu, 27 Aug 2020 10:00:02 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-References: <560999273.5272175.1598346458271.ref@mail.yahoo.com>
-X-Mailer: WebService/1.1.16455 YMailNodin Mozilla/5.0 (Windows NT 6.1; rv:79.0) Gecko/20100101 Firefox/79.0
-To:     unlisted-recipients:; (no To-header on input)
+From:   Christopher Friedt <chrisfriedt@gmail.com>
+Date:   Thu, 27 Aug 2020 12:59:51 -0400
+Message-ID: <CAF4BF-TVe09FUdWZLw9dQf1=d0q-2w=Ey7LXx61rHBOtvczmBw@mail.gmail.com>
+Subject: MAC Layer Beacon / Scan Code
+To:     linux-wpan@vger.kernel.org
+Cc:     Stefan Schmidt <stefan@datenfreihafen.org>,
+        Michael Magyar <michael.magyarm@gmail.com>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-wpan-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-wpan.vger.kernel.org>
 X-Mailing-List: linux-wpan@vger.kernel.org
 
+Hi everyone,
 
+I thought it was lost after I moved on to a different employer, but my
+former colleague Michael Magyar managed to dig up some work that we
+had done back in 2015.
 
-Good=C2=A0Day,=C2=A0I=C2=A0am=C2=A0glad=C2=A0to=C2=A0contact=C2=A0you=C2=A0=
-through=C2=A0this=C2=A0medium=C2=A0I=E2=80=99m=C2=A0Sgt=C2=A0Vivian=C2=A0Ro=
-bert=C2=A0am=C2=A0from=C2=A0united=C2=A0state,=C2=A028=C2=A0years=C2=A0old=
-=C2=A0single=C2=A0I=C2=A0am=C2=A0the=C2=A0only=C2=A0surviving=C2=A0child=C2=
-=A0of=C2=A0my=C2=A0late=C2=A0parents,=C2=A0I=C2=A0am=C2=A0America=C2=A0fema=
-le=C2=A0soldier=C2=A0presently=C2=A0in=C2=A0Afghanistan=C2=A0for=C2=A0the=
-=C2=A0training,=C2=A0advising=C2=A0the=C2=A0Afghan=C2=A0forces=C2=A0and=C2=
-=A0also=C2=A0helping=C2=A0in=C2=A0stabilizing=C2=A0the=C2=A0country=C2=A0ag=
-ainst=C2=A0security=C2=A0challenges,=C2=A0am=C2=A0Actually=C2=A0seeking=C2=
-=A0your=C2=A0assistance=C2=A0to=C2=A0evacuate=C2=A0the=C2=A0sum=C2=A0of=C2=
-=A0$3.5=C2=A0million,=C2=A0This=C2=A0money=C2=A0I=C2=A0got=C2=A0it=C2=A0as=
-=C2=A0my=C2=A0reward=C2=A0in=C2=A0service=C2=A0by=C2=A0Afghanistan=C2=A0gov=
-ernment=C2=A0to=C2=A0support=C2=A0me=C2=A0for=C2=A0my=C2=A0Good=C2=A0job=C2=
-=A0in=C2=A0their=C2=A0land.=C2=A0Right=C2=A0now,=C2=A0I=C2=A0want=C2=A0you=
-=C2=A0to=C2=A0stand=C2=A0as=C2=A0my=C2=A0beneficiary=C2=A0and=C2=A0receive=
-=C2=A0the=C2=A0fund=C2=A0my=C2=A0certificate=C2=A0of=C2=A0deposit=C2=A0from=
-=C2=A0the=C2=A0Bank=C2=A0where=C2=A0this=C2=A0fund=C2=A0deposited=C2=A0and=
-=C2=A0my=C2=A0authorization=C2=A0letter=C2=A0is=C2=A0with=C2=A0me=C2=A0now.=
-My=C2=A0contact=C2=A0with=C2=A0you=C2=A0is=C2=A0not=C2=A0by=C2=A0my=C2=A0po=
-wer=C2=A0but=C2=A0it=C2=A0is=C2=A0divinely=C2=A0made=C2=A0for=C2=A0God's=C2=
-=A0purpose=C2=A0to=C2=A0be=C2=A0fulfilled=C2=A0in=C2=A0our=C2=A0lives.=C2=
-=A0I=C2=A0want=C2=A0you=C2=A0to=C2=A0be=C2=A0rest=C2=A0assured=C2=A0that=C2=
-=A0this=C2=A0transaction=C2=A0is=C2=A0legitimate=C2=A0and=C2=A0a=C2=A0100%=
-=C2=A0risk=C2=A0free=C2=A0involvement,=C2=A0all=C2=A0you=C2=A0have=C2=A0to=
-=C2=A0do=C2=A0is=C2=A0to=C2=A0keep=C2=A0it=C2=A0secret=C2=A0and=C2=A0confid=
-ential=C2=A0to=C2=A0yourself=C2=A0,=C2=A0this=C2=A0transaction=C2=A0will=C2=
-=A0not=C2=A0take=C2=A0more=C2=A0than=C2=A07=C2=A0working=C2=A0banking=C2=A0=
-days=C2=A0for=C2=A0the=C2=A0money=C2=A0to=C2=A0get=C2=A0into=C2=A0your=C2=
-=A0account=C2=A0based=C2=A0on=C2=A0your=C2=A0sincerity=C2=A0and=C2=A0cooper=
-ation.=C2=A0i=C2=A0want=C2=A0you=C2=A0to=C2=A0take=C2=A040%=C2=A0Percent=C2=
-=A0of=C2=A0the=C2=A0total=C2=A0money=C2=A0for=C2=A0your=C2=A0personal=C2=A0=
-use=C2=A0While=C2=A020%=C2=A0Percent=C2=A0of=C2=A0the=C2=A0money=C2=A0will=
-=C2=A0go=C2=A0to=C2=A0charity,=C2=A0people=C2=A0in=C2=A0the=C2=A0street=C2=
-=A0and=C2=A0helping=C2=A0the=C2=A0orphanage=C2=A0the=C2=A0remaining=C2=A040=
-%=C2=A0percent=C2=A0of=C2=A0the=C2=A0total=C2=A0money=C2=A0.you=C2=A0will=
-=C2=A0assist=C2=A0me=C2=A0to=C2=A0invest=C2=A0it=C2=A0in=C2=A0a=C2=A0good=
-=C2=A0profitable=C2=A0Venture=C2=A0or=C2=A0you=C2=A0keep=C2=A0it=C2=A0for=
-=C2=A0me=C2=A0until=C2=A0I=C2=A0arrive=C2=A0your=C2=A0country.=C2=A0If=C2=
-=A0you=E2=80=99re=C2=A0willing=C2=A0to=C2=A0assist=C2=A0me=C2=A0contact=C2=
-=A0me=C2=A0through=C2=A0my=C2=A0email=C2=A0address=C2=A0=E2=80=9Csgtvivarob=
-@gmail.com.
+I unfortunately do not know if my branch still exists, but it looks
+like his copy of it is still intact.
 
-Sgt=C2=A0Vivian=C2=A0Robert
+https://github.com/magyarm/bluetooth-next/tree/feature/nl802154-get-active-scan-req
+https://github.com/magyarm/bluetooth-next/tree/feature/nl802154-beacon
+
+We had some additional changes for wpan-tools. Hopefully we can find
+those as well.
+
+These changes should allow us to create something along the lines of
+Network Manager for IEEE 802.15.4 or even to do some automated channel
+joining, etc.
+
+Let's keep this thread open and try to rebase patches & get some
+patches posted for review soon.
+
+Cheers,
+
+C
