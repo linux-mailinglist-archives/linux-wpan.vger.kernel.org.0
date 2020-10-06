@@ -2,64 +2,150 @@ Return-Path: <linux-wpan-owner@vger.kernel.org>
 X-Original-To: lists+linux-wpan@lfdr.de
 Delivered-To: lists+linux-wpan@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 8EF01281BCA
-	for <lists+linux-wpan@lfdr.de>; Fri,  2 Oct 2020 21:23:17 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 53299284D36
+	for <lists+linux-wpan@lfdr.de>; Tue,  6 Oct 2020 16:06:52 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2388577AbgJBTXP convert rfc822-to-8bit (ORCPT
-        <rfc822;lists+linux-wpan@lfdr.de>); Fri, 2 Oct 2020 15:23:15 -0400
-Received: from mx.metalurgs.lv ([81.198.125.103]:65054 "EHLO mx.metalurgs.lv"
+        id S1726596AbgJFOG3 (ORCPT <rfc822;lists+linux-wpan@lfdr.de>);
+        Tue, 6 Oct 2020 10:06:29 -0400
+Received: from mail.kernel.org ([198.145.29.99]:33130 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S2388567AbgJBTXN (ORCPT <rfc822;linux-wpan@vger.kernel.org>);
-        Fri, 2 Oct 2020 15:23:13 -0400
-X-Greylist: delayed 537 seconds by postgrey-1.27 at vger.kernel.org; Fri, 02 Oct 2020 15:23:13 EDT
-Received: from mx.metalurgs.lv (localhost [127.0.0.1])
-        by mx.metalurgs.lv (Postfix) with ESMTP id 692FC62A89
-        for <linux-wpan@vger.kernel.org>; Fri,  2 Oct 2020 22:14:14 +0300 (EEST)
-Received: from kas30pipe.localhost (localhost [127.0.0.1])
-        by mx.metalurgs.lv (Postfix) with ESMTP id 496FD62A82
-        for <linux-wpan@vger.kernel.org>; Fri,  2 Oct 2020 22:14:14 +0300 (EEST)
-Received: by mx.metalurgs.lv (Postfix, from userid 1005)
-        id B36BF621F5; Fri,  2 Oct 2020 22:14:13 +0300 (EEST)
-Received: from [100.64.1.74] (unknown [190.15.125.50])
-        (Authenticated sender: admin)
-        by mx.metalurgs.lv (Postfix) with ESMTPA id 60954622E9;
-        Fri,  2 Oct 2020 22:14:07 +0300 (EEST)
+        id S1726442AbgJFODz (ORCPT <rfc822;linux-wpan@vger.kernel.org>);
+        Tue, 6 Oct 2020 10:03:55 -0400
+Received: from mail.kernel.org (ip5f5ad5bd.dynamic.kabel-deutschland.de [95.90.213.189])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id 64ABF2176B;
+        Tue,  6 Oct 2020 14:03:54 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1601993034;
+        bh=uyw81/CIQor1pw1d+F+O72/KMytUqBcsX5jPSTgoByE=;
+        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+        b=07u6uLr4K2/jmMzuPigBhxJvEZBMCPMFCJjkl08Xe9JEkoi1TOE/YuLvDsFgqMhnE
+         i2jDBa5Ov195yQcV72Sd4gyEbj3+20S3TVoMjQnxJo60szGTJwjYePAInrRI5DadeX
+         rlL96RCb+a3byDHxtyujBnqNFuRhhTbYxpd9vpQo=
+Received: from mchehab by mail.kernel.org with local (Exim 4.94)
+        (envelope-from <mchehab@kernel.org>)
+        id 1kPnZI-0019Fd-79; Tue, 06 Oct 2020 16:03:52 +0200
+From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+To:     Linux Doc Mailing List <linux-doc@vger.kernel.org>,
+        Jonathan Corbet <corbet@lwn.net>
+Cc:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
+        "David S. Miller" <davem@davemloft.net>,
+        Alexander Aring <alex.aring@gmail.com>,
+        Jakub Kicinski <kuba@kernel.org>,
+        Stefan Schmidt <stefan@datenfreihafen.org>,
+        linux-kernel@vger.kernel.org, linux-wpan@vger.kernel.org,
+        netdev@vger.kernel.org
+Subject: [PATCH v5 25/52] docs: net: ieee802154.rst: fix C expressions
+Date:   Tue,  6 Oct 2020 16:03:22 +0200
+Message-Id: <6ba1d137516e4a144a4fd398934d62b94d31446d.1601992016.git.mchehab+huawei@kernel.org>
+X-Mailer: git-send-email 2.26.2
+In-Reply-To: <cover.1601992016.git.mchehab+huawei@kernel.org>
+References: <cover.1601992016.git.mchehab+huawei@kernel.org>
 MIME-Version: 1.0
-Content-Description: Mail message body
-To:     Recipients <financialcapability6@gmail.com>
-From:   "Mr. Hashim Bin" <financialcapability6@gmail.com>
-Date:   Fri, 02 Oct 2020 16:14:00 -0300
-Reply-To: binmurrah@gmail.com
-X-SpamTest-Envelope-From: financialcapability6@gmail.com
-X-SpamTest-Group-ID: 00000000
-X-SpamTest-Info: Profiles 71303 [Jan 01 2015]
-X-SpamTest-Info: {TO: forged address, i.e. recipient, investors, public, etc.}
-X-SpamTest-Info: {DATE: unreal year}
-X-SpamTest-Method: none
-X-SpamTest-Rate: 55
-X-SpamTest-Status: Not detected
-X-SpamTest-Status-Extended: not_detected
-X-SpamTest-Version: SMTP-Filter Version 3.0.0 [0284], KAS30/Release
-Message-ID: <20201002191413.B36BF621F5@mx.metalurgs.lv>
-Content-Type: text/plain; charset="iso-8859-1"
-Content-Transfer-Encoding: 8BIT
-Subject: Low Rate Loan.
-X-Anti-Virus: Kaspersky Anti-Virus for Linux Mail Server 5.6.39/RELEASE,
-         bases: 20140401 #7726142, check: 20201002 notchecked
+Content-Transfer-Encoding: 8bit
+Sender: Mauro Carvalho Chehab <mchehab@kernel.org>
 Precedence: bulk
 List-ID: <linux-wpan.vger.kernel.org>
 X-Mailing-List: linux-wpan@vger.kernel.org
 
-Hello Dear,
+There are some warnings produced with Sphinx 3.x:
 
-We are Investment Company offering Corporate and Personal
-Loan at 3% Interest Rate for a duration of 10Years.
+	Documentation/networking/ieee802154.rst:29: WARNING: Error in declarator or parameters
+	Invalid C declaration: Expecting "(" in parameters. [error at 7]
+	  int sd = socket(PF_IEEE802154, SOCK_DGRAM, 0);
+	  -------^
+	Documentation/networking/ieee802154.rst:134: WARNING: Invalid C declaration: Expected end of definition. [error at 81]
+	  void ieee802154_rx_irqsafe(struct ieee802154_hw *hw, struct sk_buff *skb, u8 lqi):
+	  ---------------------------------------------------------------------------------^
+	Documentation/networking/ieee802154.rst:139: WARNING: Invalid C declaration: Expected end of definition. [error at 95]
+	  void ieee802154_xmit_complete(struct ieee802154_hw *hw, struct sk_buff *skb, bool ifs_handling):
+	  -----------------------------------------------------------------------------------------------^
+	Documentation/networking/ieee802154.rst:158: WARNING: Invalid C declaration: Expected end of definition. [error at 35]
+	  int start(struct ieee802154_hw *hw):
+	  -----------------------------------^
+	Documentation/networking/ieee802154.rst:162: WARNING: Invalid C declaration: Expected end of definition. [error at 35]
+	  void stop(struct ieee802154_hw *hw):
+	  -----------------------------------^
+	Documentation/networking/ieee802154.rst:166: WARNING: Invalid C declaration: Expected end of definition. [error at 61]
+	  int xmit_async(struct ieee802154_hw *hw, struct sk_buff *skb):
+	  -------------------------------------------------------------^
+	Documentation/networking/ieee802154.rst:171: WARNING: Invalid C declaration: Expected end of definition. [error at 43]
+	  int ed(struct ieee802154_hw *hw, u8 *level):
+	  -------------------------------------------^
+	Documentation/networking/ieee802154.rst:176: WARNING: Invalid C declaration: Expected end of definition. [error at 62]
+	  int set_channel(struct ieee802154_hw *hw, u8 page, u8 channel):
+	  --------------------------------------------------------------^
 
-We also pay 1% commission to brokers, who introduce project
-owners for finance or other opportunities.
+Caused by some bad c:function: prototypes. Fix them.
 
-Please get back to me if you are interested for more
-details.
+Acked-by: David S. Miller <davem@davemloft.net>
+Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+---
+ Documentation/networking/ieee802154.rst | 18 ++++++++++--------
+ 1 file changed, 10 insertions(+), 8 deletions(-)
 
-Yours faithfully,
-Hashim Bin 
+diff --git a/Documentation/networking/ieee802154.rst b/Documentation/networking/ieee802154.rst
+index 6f4bf8447a21..f27856d77c8b 100644
+--- a/Documentation/networking/ieee802154.rst
++++ b/Documentation/networking/ieee802154.rst
+@@ -26,7 +26,9 @@ The stack is composed of three main parts:
+ Socket API
+ ==========
+ 
+-.. c:function:: int sd = socket(PF_IEEE802154, SOCK_DGRAM, 0);
++::
++
++    int sd = socket(PF_IEEE802154, SOCK_DGRAM, 0);
+ 
+ The address family, socket addresses etc. are defined in the
+ include/net/af_ieee802154.h header or in the special header
+@@ -131,12 +133,12 @@ Register PHY in the system.
+ 
+ Freeing registered PHY.
+ 
+-.. c:function:: void ieee802154_rx_irqsafe(struct ieee802154_hw *hw, struct sk_buff *skb, u8 lqi):
++.. c:function:: void ieee802154_rx_irqsafe(struct ieee802154_hw *hw, struct sk_buff *skb, u8 lqi)
+ 
+ Telling 802.15.4 module there is a new received frame in the skb with
+ the RF Link Quality Indicator (LQI) from the hardware device.
+ 
+-.. c:function:: void ieee802154_xmit_complete(struct ieee802154_hw *hw, struct sk_buff *skb, bool ifs_handling):
++.. c:function:: void ieee802154_xmit_complete(struct ieee802154_hw *hw, struct sk_buff *skb, bool ifs_handling)
+ 
+ Telling 802.15.4 module the frame in the skb is or going to be
+ transmitted through the hardware device
+@@ -155,25 +157,25 @@ operations structure at least::
+         ...
+    };
+ 
+-.. c:function:: int start(struct ieee802154_hw *hw):
++.. c:function:: int start(struct ieee802154_hw *hw)
+ 
+ Handler that 802.15.4 module calls for the hardware device initialization.
+ 
+-.. c:function:: void stop(struct ieee802154_hw *hw):
++.. c:function:: void stop(struct ieee802154_hw *hw)
+ 
+ Handler that 802.15.4 module calls for the hardware device cleanup.
+ 
+-.. c:function:: int xmit_async(struct ieee802154_hw *hw, struct sk_buff *skb):
++.. c:function:: int xmit_async(struct ieee802154_hw *hw, struct sk_buff *skb)
+ 
+ Handler that 802.15.4 module calls for each frame in the skb going to be
+ transmitted through the hardware device.
+ 
+-.. c:function:: int ed(struct ieee802154_hw *hw, u8 *level):
++.. c:function:: int ed(struct ieee802154_hw *hw, u8 *level)
+ 
+ Handler that 802.15.4 module calls for Energy Detection from the hardware
+ device.
+ 
+-.. c:function:: int set_channel(struct ieee802154_hw *hw, u8 page, u8 channel):
++.. c:function:: int set_channel(struct ieee802154_hw *hw, u8 page, u8 channel)
+ 
+ Set radio for listening on specific channel of the hardware device.
+ 
+-- 
+2.26.2
+
