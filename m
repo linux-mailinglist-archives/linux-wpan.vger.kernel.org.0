@@ -2,78 +2,150 @@ Return-Path: <linux-wpan-owner@vger.kernel.org>
 X-Original-To: lists+linux-wpan@lfdr.de
 Delivered-To: lists+linux-wpan@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 69A162863BC
-	for <lists+linux-wpan@lfdr.de>; Wed,  7 Oct 2020 18:23:28 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 75B1028CD90
+	for <lists+linux-wpan@lfdr.de>; Tue, 13 Oct 2020 14:02:24 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728250AbgJGQXY (ORCPT <rfc822;lists+linux-wpan@lfdr.de>);
-        Wed, 7 Oct 2020 12:23:24 -0400
-Received: from sonic309-14.consmr.mail.bf2.yahoo.com ([74.6.129.124]:35207
-        "EHLO sonic309-14.consmr.mail.bf2.yahoo.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1728267AbgJGQXS (ORCPT
-        <rfc822;linux-wpan@vger.kernel.org>); Wed, 7 Oct 2020 12:23:18 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yahoo.com; s=s2048; t=1602087796; bh=PxMwWzXvs+dqOoH0/FHvFmQpYH2JguaCUHYAVLLmaiw=; h=Date:From:Reply-To:Subject:References:From:Subject; b=OpD6sdWmMpCqHH9mdd6ZvDXA8BMNItdBBEhuwaMT76h/ZLwAekJxmf3sL5Tm7F6u5J5Cwz3tNhOynMD0jOIXwmaFKMMySfkal/fGH8C3frbWm3GjElucUfyWIfoQLs+2Acqjwxi8XBSg7us+PxpuSmwx44NQ14JudcHftB4hVpWbttBe4fAY4BfnjSftQacVGKmJzRyL2FbE8Gaw8zXbhokDV7l5wpcFqxc9SWnIBNYmyCEGgU2Vp9OwY9jVjBgFQU3r4J9VcUICkltohTAWyw647+t6CbThr29420FmwAJctvWmP4r3ngo51sgMI//J7rAYi/YTvjIjEPMgLI9DQw==
-X-YMail-OSG: qdWaPgcVM1nuXamhTbr65jyGHWDsrGkhJB.qfE.Lfo2FpLfQyyasqNkGf1j47_q
- OJvYA2b6MUUnf9.6qujXe3GeKTTp_MYBehMMmR8oSMUwEkTynKoUjb4klILw5ADfUwW39yqq5xFx
- eUtvnjHRN807W8dSJpFHCTEbJS5XJqvv7k1KMITaVe6OC1wEqpii_1dz5tz7e51Vk0vIG9_Bd_GK
- _TULgsBB844J9ZzJrTwXWorQNmL1jETFenupE9YitzsxHMe3ZaXTNTAzgRfWHrD881PEISLj2KhF
- F0QD3D2DHsEGEg1sV7hoqsJdPm8_tx972v1V.dZk5AfZ6H_rv_W_lKt.nuDTLzkpAaR4qkQHrys4
- ukGn3NqmJw6sBP.ZK53Xf3Blew.gdsdZDg7INoJWCyvkCkAyk6JAhm07wmK3Q7Q0iEgHHesNYRAz
- qJIHop5k0MGBVdIgWf1x0yDbLxKSSHNVuHCnaWvghfkPhenBEHKOREuLxjBdI8v.lEFTkoglm_um
- 6YnVPGTU3r.TR8vW6XgA2sN4UdER_JsYoewZlV78qxupoXIozNaoHbA6ucd.Yef4p2_BVHPNTJ70
- vG6YE7aL1ILvluIlRv5lxS77YyFnCHwonGpVHXdaOjcv3pHbUCIGiFHLkv.jUHEQTdJ6KpgxQq2L
- gdBmhuG8T2YkdCB1vv.ZZsQDfGhU50ZzancfNiYVC3i8ca5HGiYOnLmc_4gKN1NGcjFHSwPw_.Rm
- BXHA9w0si3QMc38ea7m16_N8oTx9IEwq.BQJ_1Wjzp7sEQv4J8BxOHlA1ZrOGozutPTbHXLrGr0E
- L_ZLjYhAum7Fh1dHObJgzvogElKK4W5kMy8Q2curCohzVy7mwZqpIk3JZuwUiU3j1sacsOly7iPY
- fJtIz3k11_O1GOYi.wJby7cbFemBwUE82ZDltiNysuKWOhxX0ufGSRjneyt9U6ZVK5a8UxeGHyIX
- __lElV24E72BlLlcPIsh9fXG5YFkeOv78kOi59kVdOB0shwj4cB9Y1x9OIsnG8H.jWqeNTFjSDch
- K6.n8yDBoWyc0g9cdWhZZpQKskoUUUlHwwQkg39gsiEg0vmHwVBcMpflUsO3INGl_yIRmLyo_Rc4
- ivYQ9JVu3YpaNvvCXvdGmLGkGdFlvBYjfgC4zKpNbjojlUB7UvrI7VhiLwxtYRE6NYP1Oa2vDOO5
- .Hh7KZC1SU9vQzQOFJkr8Cd6.FEeE5Tuj0R_CB1JhQXpvtYbPNIetCm1lO7VULS7bjP11BBjiaZA
- d95CwwdG1tHb7J.LnPVBB1C3qNPWEN5U7jSeMrkX.UAI2Vsmy7LUUYH16mQRKSg_rg0y6PWI.mom
- 4rR2SzMtRlOZG6j7U_gn95yzLVSc1mpVtw9qC8qHt4C7KJOTKXzNFvx7C5hVvttFe8Gz3hUNCayX
- XRTWYNSirxrh7a9DIALhjNDavLEWMzKLo6MmP
-Received: from sonic.gate.mail.ne1.yahoo.com by sonic309.consmr.mail.bf2.yahoo.com with HTTP; Wed, 7 Oct 2020 16:23:16 +0000
-Date:   Wed, 7 Oct 2020 16:23:14 +0000 (UTC)
-From:   Marilyn Robert <fredodinga22@gmail.com>
-Reply-To: marilyobert@gmail.com
-Message-ID: <851832897.153495.1602087794366@mail.yahoo.com>
-Subject: =?UTF-8?B?0J3QsNGY0LzQuNC70LAg0LrQsNGYINCz0L7RgdC/0L7QtNCw0YDQvtGC?=
+        id S1728276AbgJMMA3 (ORCPT <rfc822;lists+linux-wpan@lfdr.de>);
+        Tue, 13 Oct 2020 08:00:29 -0400
+Received: from mail.kernel.org ([198.145.29.99]:57432 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1727451AbgJMLym (ORCPT <rfc822;linux-wpan@vger.kernel.org>);
+        Tue, 13 Oct 2020 07:54:42 -0400
+Received: from mail.kernel.org (ip5f5ad5b2.dynamic.kabel-deutschland.de [95.90.213.178])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id 8B0E4222C8;
+        Tue, 13 Oct 2020 11:54:40 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1602590080;
+        bh=uyw81/CIQor1pw1d+F+O72/KMytUqBcsX5jPSTgoByE=;
+        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+        b=UG2vO65eqVkBKAnAhL+JdEyNxErQmO0597qfesKYR05pbPxvdd2m74Cwc0AhcDITB
+         wAJlIQfkpOidDJElNIDpMd1Engk93aH39qFnmuElMbdMMkQewD5F3YMTojsRKFoQCD
+         7GB2CvTycFN6ZVJG3V1J7/mA1Lz7/lkd10kJtVig=
+Received: from mchehab by mail.kernel.org with local (Exim 4.94)
+        (envelope-from <mchehab@kernel.org>)
+        id 1kSIt4-006CUM-Bo; Tue, 13 Oct 2020 13:54:38 +0200
+From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+To:     Linux Doc Mailing List <linux-doc@vger.kernel.org>
+Cc:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
+        "David S. Miller" <davem@davemloft.net>,
+        "Jonathan Corbet" <corbet@lwn.net>,
+        Alexander Aring <alex.aring@gmail.com>,
+        Jakub Kicinski <kuba@kernel.org>,
+        Stefan Schmidt <stefan@datenfreihafen.org>,
+        linux-kernel@vger.kernel.org, linux-wpan@vger.kernel.org,
+        netdev@vger.kernel.org
+Subject: [PATCH v6 26/80] docs: net: ieee802154.rst: fix C expressions
+Date:   Tue, 13 Oct 2020 13:53:41 +0200
+Message-Id: <e9a94add62e184ce5a3b2fd49b2c217b4dc77e7b.1602589096.git.mchehab+huawei@kernel.org>
+X-Mailer: git-send-email 2.26.2
+In-Reply-To: <cover.1602589096.git.mchehab+huawei@kernel.org>
+References: <cover.1602589096.git.mchehab+huawei@kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: base64
-References: <851832897.153495.1602087794366.ref@mail.yahoo.com>
-X-Mailer: WebService/1.1.16795 YMailNodin Mozilla/5.0 (Windows NT 6.1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/84.0.4147.125 Safari/537.36
-To:     unlisted-recipients:; (no To-header on input)
+Content-Transfer-Encoding: 8bit
+Sender: Mauro Carvalho Chehab <mchehab@kernel.org>
 Precedence: bulk
 List-ID: <linux-wpan.vger.kernel.org>
 X-Mailing-List: linux-wpan@vger.kernel.org
 
-DQoNCtCd0LDRmNC80LjQu9CwINC60LDRmCDQs9C+0YHQv9C+0LTQsNGA0L7Rgg0KDQrQiNCw0YEg
-0YHRg9C8IDY4LdCz0L7QtNC40YjQvdCwINC20LXQvdCwLCDQutC+0ZjQsCDRgdGC0YDQsNC00LAg
-0L7QtCDQv9GA0L7QtNC+0LvQttC10L0g0LrQsNGA0YbQuNC90L7QvCDQvdCwINC00L7RmNC60LAs
-INC+0LQg0YHQuNGC0LUg0LzQtdC00LjRhtC40L3RgdC60Lgg0LjQvdC00LjQutCw0YbQuNC4LCDQ
-vNC+0ZjQsNGC0LAg0YHQvtGB0YLQvtGY0LHQsCDQvdCw0LLQuNGB0YLQuNC90LAg0YHQtSDQstC7
-0L7RiNC4INC4INC+0YfQuNCz0LvQtdC00L3QviDQtSDQtNC10LrQsCDQvNC+0LbQtdCx0Lgg0L3Q
-tdC80LAg0LTQsCDQttC40LLQtdCw0Lwg0L/QvtCy0LXRnNC1INC+0LQg0YjQtdGB0YIg0LzQtdGB
-0LXRhtC4INC60LDQutC+INGA0LXQt9GD0LvRgtCw0YIg0L3QsCDQsdGA0LfQuNC+0YIg0YDQsNGB
-0YIg0Lgg0LHQvtC70LrQsNGC0LAg0YjRgtC+INGB0LUg0ZjQsNCy0YPQstCwINC60LDRmCDQvdC1
-0LAuINCc0L7RmNC+0YIg0YHQvtC/0YDRg9CzINC/0L7Rh9C40L3QsCDQvdC10LrQvtC70LrRgyDQ
-s9C+0LTQuNC90Lgg0L3QsNC90LDQt9Cw0LQg0Lgg0L3QsNGI0LjRgtC1INC00L7Qu9Cz0Lgg0LPQ
-vtC00LjQvdC4INCx0YDQsNC6INC90LUg0LHQtdCwINCx0LvQsNCz0L7RgdC70L7QstC10L3QuCDR
-gdC+INC90LjRgtGDINC10LTQvdC+INC00LXRgtC1LCDQv9C+INC90LXQs9C+0LLQsNGC0LAg0YHQ
-vNGA0YIg0LPQviDQvdCw0YHQu9C10LTQuNCyINGG0LXQu9C+0YLQviDQvdC10LPQvtCy0L4g0LHQ
-vtCz0LDRgtGB0YLQstC+Lg0KDQrQlNC+0LDRk9Cw0Lwg0LrQsNGYINCy0LDRgSDQvtGC0LrQsNC6
-0L4g0YHQtSDQv9C+0LzQvtC70LjQsiDQt9CwINGC0L7QsCwg0L/QvtC00LPQvtGC0LLQtdC9INGB
-0YPQvCDQtNCwINC00L7QvdC40YDQsNC8INGB0YPQvNCwINC+0LQgMiwgMzAwLCAwMDAg0LXQstGA
-0LAg0LfQsCDQv9C+0LzQvtGIINC90LAg0YHQuNGA0L7QvNCw0YjQvdC40YLQtSwg0YHQuNGA0L7Q
-vNCw0YjQvdC40YLQtSDQuCDQv9C+0LzQsNC70LrRgyDQv9GA0LjQstC40LvQtdCz0LjRgNCw0L3Q
-uNGC0LUg0LzQtdGT0YMg0LLQsNGI0LjRgtC1INGB0L7QsdGA0LDQvdC40ZjQsCAvINC+0L/RiNGC
-0LXRgdGC0LLQvi4g0JfQsNCx0LXQu9C10LbQtdGC0LUg0LTQtdC60LAg0L7QstC+0Zgg0YTQvtC9
-0LQg0LUg0LTQtdC/0L7QvdC40YDQsNC9INCy0L4g0LHQsNC90LrQsCDQutCw0LTQtSDRiNGC0L4g
-0YDQsNCx0L7RgtC10YjQtSDQvNC+0ZjQvtGCINGB0L7Qv9GA0YPQsy4gQXBwcmVjaWF0ZdC1INGG
-0LXQvdCw0Lwg0LDQutC+INC+0LHRgNC90LXRgtC1INCy0L3QuNC80LDQvdC40LUg0L3QsCDQvNC+
-0LXRgtC+INCx0LDRgNCw0ZrQtSDQt9CwINC/0YDQvtC/0LDQs9C40YDQsNGa0LUg0L3QsCDQvNCw
-0YHQsNC20LDRgtCwINC90LAg0LrRgNCw0LvRgdGC0LLQvtGC0L4sINGc0LUg0LLQuCDQtNCw0LTQ
-sNC8INC/0L7QstC10ZzQtSDQtNC10YLQsNC70Lgg0LfQsCDRgtC+0LAg0LrQsNC60L4g0LTQsCDQ
-v9C+0YHRgtCw0L/QuNGC0LUuDQoNCtCR0LvQsNCz0L7QtNCw0YDQsNC8DQrQky3Rk9CwINCc0LXR
-gNC40LvQuNC9INCg0L7QsdC10YDRgg==
+There are some warnings produced with Sphinx 3.x:
+
+	Documentation/networking/ieee802154.rst:29: WARNING: Error in declarator or parameters
+	Invalid C declaration: Expecting "(" in parameters. [error at 7]
+	  int sd = socket(PF_IEEE802154, SOCK_DGRAM, 0);
+	  -------^
+	Documentation/networking/ieee802154.rst:134: WARNING: Invalid C declaration: Expected end of definition. [error at 81]
+	  void ieee802154_rx_irqsafe(struct ieee802154_hw *hw, struct sk_buff *skb, u8 lqi):
+	  ---------------------------------------------------------------------------------^
+	Documentation/networking/ieee802154.rst:139: WARNING: Invalid C declaration: Expected end of definition. [error at 95]
+	  void ieee802154_xmit_complete(struct ieee802154_hw *hw, struct sk_buff *skb, bool ifs_handling):
+	  -----------------------------------------------------------------------------------------------^
+	Documentation/networking/ieee802154.rst:158: WARNING: Invalid C declaration: Expected end of definition. [error at 35]
+	  int start(struct ieee802154_hw *hw):
+	  -----------------------------------^
+	Documentation/networking/ieee802154.rst:162: WARNING: Invalid C declaration: Expected end of definition. [error at 35]
+	  void stop(struct ieee802154_hw *hw):
+	  -----------------------------------^
+	Documentation/networking/ieee802154.rst:166: WARNING: Invalid C declaration: Expected end of definition. [error at 61]
+	  int xmit_async(struct ieee802154_hw *hw, struct sk_buff *skb):
+	  -------------------------------------------------------------^
+	Documentation/networking/ieee802154.rst:171: WARNING: Invalid C declaration: Expected end of definition. [error at 43]
+	  int ed(struct ieee802154_hw *hw, u8 *level):
+	  -------------------------------------------^
+	Documentation/networking/ieee802154.rst:176: WARNING: Invalid C declaration: Expected end of definition. [error at 62]
+	  int set_channel(struct ieee802154_hw *hw, u8 page, u8 channel):
+	  --------------------------------------------------------------^
+
+Caused by some bad c:function: prototypes. Fix them.
+
+Acked-by: David S. Miller <davem@davemloft.net>
+Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+---
+ Documentation/networking/ieee802154.rst | 18 ++++++++++--------
+ 1 file changed, 10 insertions(+), 8 deletions(-)
+
+diff --git a/Documentation/networking/ieee802154.rst b/Documentation/networking/ieee802154.rst
+index 6f4bf8447a21..f27856d77c8b 100644
+--- a/Documentation/networking/ieee802154.rst
++++ b/Documentation/networking/ieee802154.rst
+@@ -26,7 +26,9 @@ The stack is composed of three main parts:
+ Socket API
+ ==========
+ 
+-.. c:function:: int sd = socket(PF_IEEE802154, SOCK_DGRAM, 0);
++::
++
++    int sd = socket(PF_IEEE802154, SOCK_DGRAM, 0);
+ 
+ The address family, socket addresses etc. are defined in the
+ include/net/af_ieee802154.h header or in the special header
+@@ -131,12 +133,12 @@ Register PHY in the system.
+ 
+ Freeing registered PHY.
+ 
+-.. c:function:: void ieee802154_rx_irqsafe(struct ieee802154_hw *hw, struct sk_buff *skb, u8 lqi):
++.. c:function:: void ieee802154_rx_irqsafe(struct ieee802154_hw *hw, struct sk_buff *skb, u8 lqi)
+ 
+ Telling 802.15.4 module there is a new received frame in the skb with
+ the RF Link Quality Indicator (LQI) from the hardware device.
+ 
+-.. c:function:: void ieee802154_xmit_complete(struct ieee802154_hw *hw, struct sk_buff *skb, bool ifs_handling):
++.. c:function:: void ieee802154_xmit_complete(struct ieee802154_hw *hw, struct sk_buff *skb, bool ifs_handling)
+ 
+ Telling 802.15.4 module the frame in the skb is or going to be
+ transmitted through the hardware device
+@@ -155,25 +157,25 @@ operations structure at least::
+         ...
+    };
+ 
+-.. c:function:: int start(struct ieee802154_hw *hw):
++.. c:function:: int start(struct ieee802154_hw *hw)
+ 
+ Handler that 802.15.4 module calls for the hardware device initialization.
+ 
+-.. c:function:: void stop(struct ieee802154_hw *hw):
++.. c:function:: void stop(struct ieee802154_hw *hw)
+ 
+ Handler that 802.15.4 module calls for the hardware device cleanup.
+ 
+-.. c:function:: int xmit_async(struct ieee802154_hw *hw, struct sk_buff *skb):
++.. c:function:: int xmit_async(struct ieee802154_hw *hw, struct sk_buff *skb)
+ 
+ Handler that 802.15.4 module calls for each frame in the skb going to be
+ transmitted through the hardware device.
+ 
+-.. c:function:: int ed(struct ieee802154_hw *hw, u8 *level):
++.. c:function:: int ed(struct ieee802154_hw *hw, u8 *level)
+ 
+ Handler that 802.15.4 module calls for Energy Detection from the hardware
+ device.
+ 
+-.. c:function:: int set_channel(struct ieee802154_hw *hw, u8 page, u8 channel):
++.. c:function:: int set_channel(struct ieee802154_hw *hw, u8 page, u8 channel)
+ 
+ Set radio for listening on specific channel of the hardware device.
+ 
+-- 
+2.26.2
+
