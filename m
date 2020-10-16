@@ -2,93 +2,86 @@ Return-Path: <linux-wpan-owner@vger.kernel.org>
 X-Original-To: lists+linux-wpan@lfdr.de
 Delivered-To: lists+linux-wpan@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 5CA6F28FA03
-	for <lists+linux-wpan@lfdr.de>; Thu, 15 Oct 2020 22:16:54 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id BB58F290265
+	for <lists+linux-wpan@lfdr.de>; Fri, 16 Oct 2020 12:02:53 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2392202AbgJOUQx (ORCPT <rfc822;lists+linux-wpan@lfdr.de>);
-        Thu, 15 Oct 2020 16:16:53 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54730 "EHLO
+        id S2406463AbgJPKBw (ORCPT <rfc822;lists+linux-wpan@lfdr.de>);
+        Fri, 16 Oct 2020 06:01:52 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40976 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2392167AbgJOUQw (ORCPT
-        <rfc822;linux-wpan@vger.kernel.org>); Thu, 15 Oct 2020 16:16:52 -0400
-Received: from mail-oo1-xc44.google.com (mail-oo1-xc44.google.com [IPv6:2607:f8b0:4864:20::c44])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B82EAC061755
-        for <linux-wpan@vger.kernel.org>; Thu, 15 Oct 2020 13:16:50 -0700 (PDT)
-Received: by mail-oo1-xc44.google.com with SMTP id z1so83110ooj.3
-        for <linux-wpan@vger.kernel.org>; Thu, 15 Oct 2020 13:16:50 -0700 (PDT)
+        with ESMTP id S2404732AbgJPKBw (ORCPT
+        <rfc822;linux-wpan@vger.kernel.org>); Fri, 16 Oct 2020 06:01:52 -0400
+Received: from mail-il1-x143.google.com (mail-il1-x143.google.com [IPv6:2607:f8b0:4864:20::143])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 39DB4C061755
+        for <linux-wpan@vger.kernel.org>; Fri, 16 Oct 2020 03:01:52 -0700 (PDT)
+Received: by mail-il1-x143.google.com with SMTP id t18so1880085ilo.12
+        for <linux-wpan@vger.kernel.org>; Fri, 16 Oct 2020 03:01:52 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=pmTKSVtQ/tB16qDQx3xK18DhUlZdOCpgk1USPCfSSnA=;
-        b=CBvgGvkoXpSgA+oVqIj45v64t201GeJ38yqlgG1lYz6XFD7AO1VkBGBXeILQ5jL0WF
-         Qh4qs+IgoadzWa3yExMrFu/Q3MAB5qVb1wcTgON05ohGeGq2xsDPF16SFSBTQdE+M90Y
-         CZ0sHTCPUrZSMD4r/5bbdSoUT+UbURa8E+9tuGI6y5wnRaLe27zFORPnQUpZZ+/UVrhf
-         ovGxate/mzlJR+lSunIwEI9mw4TrLpm0E/sHdObMofN1qIKW1rEKk5PSt7RcaiXxaAU0
-         0WiBPFVBjSKN/OsVOibme/V6Oyvk8H2zO2N5IDngmAoyG+MxWyf7noyFsQtB56gvk0kp
-         Ta9w==
+        h=mime-version:reply-to:from:date:message-id:subject:to
+         :content-transfer-encoding;
+        bh=cvCOy9gmWwEIGoAvKN1wTgWgmqeY7BJZiB7+75Zr3Co=;
+        b=VVldiOk8oq8kYrPwagrSCebMbGdc+eNT5XsEMEtvGSBZx5FZa8mDTT4xi2V/aarWbR
+         DfdecSUhsDjPmt5esRWTekqzISQW+SKcBNOaNSFNGvNS8h3TMjZQbm/9LizVi7LoBOOh
+         uwspdJgvThlxvaMtbAoV32xqy+/v52noAjnhCIV6uJBa56N8yfvHY6edyt3B0rw2XTsH
+         Km1AQnMBRqVbDx/659iCuZAwOZrlJPiA6cwRNInkD0by81D6+8kkrYQjihVmzZE1A+vm
+         X1pJW+CW3Td760s2elu/gPEdALpZpxicSbQUZkQTBaN8tkynKJ3xMxoy0VfnySja4ykY
+         xj0Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=pmTKSVtQ/tB16qDQx3xK18DhUlZdOCpgk1USPCfSSnA=;
-        b=ZWas8mR5jq2x9XCGWML8fvFKr9ySBWvcDc4e78K5XRS4ga8lUsNTSFEg72fCBZheC0
-         zqUV4jOOqW1KTtzqz0C/fn5yIvdGA7xHkbEfOsXJPYRk44T3syxL4wUIZnSdriNewZdB
-         EyJdJsLzDQ1yp4rPvce8uVbU94a1eNGtMuNslKkq5LetH6MPHpHj466PxhbFb9ymTMZI
-         ukqpfgvlrN/z6us8eo9RU1SHZUfoLPB2FL6vWQpz1o4DeFlScHyoTDd5SUxOW9kSpihD
-         i7yh8a2FW1yQnn9ZROfxjNKpMu56BWzAaZqA92TKA29H/LvkwT+uOJG8vwOMIIJwFc+G
-         LxKg==
-X-Gm-Message-State: AOAM532cOJyX6rnUuh74sOzErx/pRXTfuIyRSaXboIdpXnhdENt5L0P0
-        16nfwAqbgPCcYnz53WJ03jFnOcjqxkv8yx+sZzUS3pnreZ5y4Q==
-X-Google-Smtp-Source: ABdhPJzGJCjwjF1dVyh5a8P8p5+MGLD1Gk3XSb9Tjyc1MakoLVOq6DE4RMe8DBjIA4NceSXIt4ECo9XW5PkoanO7mgA=
-X-Received: by 2002:a4a:d0a4:: with SMTP id t4mr170825oor.21.1602793008688;
- Thu, 15 Oct 2020 13:16:48 -0700 (PDT)
+        h=x-gm-message-state:mime-version:reply-to:from:date:message-id
+         :subject:to:content-transfer-encoding;
+        bh=cvCOy9gmWwEIGoAvKN1wTgWgmqeY7BJZiB7+75Zr3Co=;
+        b=Pl+hfG4qccDvXWeBQ1RB+JxtJ+Nqk+KZBo0qZgNhU4Uk4738aenm2xkuMbCbZWxZr4
+         1e7UuNbWgLyZxYQ6lPYZH0NDeCUnTTNKd9taJIRBueWmgCiNd0l3SicsVxZBcxr+/4BM
+         G0TcUWtSXSNeEH8+F88K7r5n38zmJ0tOunLgZjHigLxgylN6jCbzTAFhlC3UK5vTEDax
+         t5e50M7I49D031VBqlNiVo5vtN6dwE5rh1eUz9Nc7pj3QG62Hn3pPkGBmMoc9EP3NTES
+         1CJ3y+1APqOLUen6oQ6ahyGaTfowmQNO3ZUUnldu2WGuA07kVPiqTrRRUnlQULjNH4YK
+         CKcw==
+X-Gm-Message-State: AOAM533uG39GO1o8e0ltJnAnrreuqJHRCOH2Cm1EEyHRG4CT0RQO5WRE
+        lYH7sce59jxSXfwVz/Tw+ANNoNcVesyv7KGD4oY=
+X-Google-Smtp-Source: ABdhPJw3IWA1y2JP8ySXyOAQsgLNedAa0y+yxfCbUEqXJmBe6vecsQVABicw6uxoViJ8hLC+QCySrW8EObsJX9CgRPw=
+X-Received: by 2002:a92:9e94:: with SMTP id s20mr2248512ilk.102.1602842511555;
+ Fri, 16 Oct 2020 03:01:51 -0700 (PDT)
 MIME-Version: 1.0
-References: <CAF4BF-SFHA=mPHLxpDHGMLvgu0UKO-6ujfYB+n2a6=XhFvT6DA@mail.gmail.com>
- <b009a2a8-64a5-fe66-a53e-5a93135cf1f8@datenfreihafen.org> <CAF4BF-SNRyXQzUBqx5k014nZou4q7=Gd8=dbUyK7JiDkaEEvFA@mail.gmail.com>
- <f98b4515-9570-ad48-2d8f-dcc5482a21a1@datenfreihafen.org> <CAF4BF-SipApoY=7CY8fWs8cSi8rKZaYMxOZHAqoKv=poAgVm=Q@mail.gmail.com>
- <61ffa93d-f8cf-b059-358c-84a6e04b96ac@bergzand.net> <CAF4BF-Re1CoR8abM=hvKN=TojDoLL_PRAJTvjWzB-Ak8tKTvRg@mail.gmail.com>
- <e5d22300-fccc-5a0f-6776-5438bfad57e1@datenfreihafen.org> <0ccbc151-cf8e-cd56-28f8-f1594d226056@bergzand.net>
- <6d787a84-56ba-2dcf-af5c-6f05cec6194a@datenfreihafen.org> <71f4ce0f-5614-6410-9c8b-72a87ab7473d@datenfreihafen.org>
- <CAF4BF-TG4wpX8TdEXY=EeTz4HV0b-nceFwKb=VkFBkMjfSLPew@mail.gmail.com> <e75f3fd8-fa0c-7708-e914-f757965920c0@datenfreihafen.org>
-In-Reply-To: <e75f3fd8-fa0c-7708-e914-f757965920c0@datenfreihafen.org>
-From:   Christopher Friedt <chrisfriedt@gmail.com>
-Date:   Thu, 15 Oct 2020 16:16:37 -0400
-Message-ID: <CAF4BF-TYYF_FU7dKFR+VXfYKFUfWes4euLPY3UMOL_f62_4hAQ@mail.gmail.com>
-Subject: Re: wpanusb?
-To:     Stefan Schmidt <stefan@datenfreihafen.org>
-Cc:     Koen Zandberg <koen@bergzand.net>, linux-wpan@vger.kernel.org,
-        Andrei Emeltchenko <andrei.emeltchenko@intel.com>,
-        erik@statropy.com
+Received: by 2002:a6b:3b15:0:0:0:0:0 with HTTP; Fri, 16 Oct 2020 03:01:49
+ -0700 (PDT)
+Reply-To: bukarmangora@hotmail.com
+From:   Bukar Mangora <bukarmangora@gmail.com>
+Date:   Fri, 16 Oct 2020 10:01:49 +0000
+Message-ID: <CAJLrak8Gz=sbdVGE+hwSHfB_RsEb_8X4-dFQz2C9k0Hqe-kd7A@mail.gmail.com>
+Subject: From Bukar Mangora, Hello Friend Please Treat Urgent
+To:     undisclosed-recipients:;
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 List-ID: <linux-wpan.vger.kernel.org>
 X-Mailing-List: linux-wpan@vger.kernel.org
 
-On Sun, Sep 27, 2020 at 4:59 AM Stefan Schmidt
-<stefan@datenfreihafen.org> wrote:
-> > Also, somewhat annoying, but a shoddy USB hub damaged my ATUSB :( I
-> > ordered 2 more, so hopefully they get to me shortly!
+Good day my good friend.
+How are you doing today? It has been long i hear from you, what is
+going on your side? Today i am very much happy to inform you about my
+success in getting those inheritance funds transferred under the
+co-operation of a new partner from India Asia. He is a Canadian but
+based in India, but presently I'm in India for investment projects
+with my own share of the total sum of Millions of dollars. meanwhile,
+i didn't forget your past efforts and attempts to assist me in
+transferring those inheritance funds despite that it failed us
+somehow, i want you to contact my Secretary in Lom=C3=A9 Togo, his name is
+Mr. Paul Agwa, this is his email address (paulagwad@aol.com ), ask him
+to contact Ecobank were i kept the sum of $350,000.00, for your
+compensation, this compensation fund is for all the past efforts and
+attempts to assist me in the past transaction. I appreciated your
+efforts at that time very much.  so, feel free and contact my
+secretary, and instruct him where Ecobank will transfer the total sum
+of $350,000.00.
 
-I received my 2 ATUSB :-)
+Please do let me know immediately Ecobank transfer the fund
+$350.000.00 into your own bank account, in the moment, I am too busy
+here because of the investment projects which i am having with my new
+partner at hand, so get in touch with Mr. Paul Agwa on his email
+address, he will contact Ecobank on your behalf without any delay.
+Stay safe of Covid 19.
 
-Here is a question though - the cc1352r supports 802.15.4g (GFSK /
-2-FSK / 4-FSK / OQPSK) and does not support BPSK for 868 MHz or 915
-Mhz.
-
-Erik confirmed today that our wpanusb solution is working today both
-at 2.4 GHz and SubGHz, but we are using channels 0-11 for SubGHz. I
-think those are reserved for the BPSK phy though.
-
-Do we have pages / channels that cover the 802.15.4g PHYs in the wpan
-stack? Are there any suggestions for which page / channels to use? We
-have been looking through the spec, but of course it's quite dense
-nowadays.
-
-Also, since these radios can theoretically work simultaneously, we are
-considering exposing that as two separate and simultaneous PHYs and
-data paths. Is that something that would be desirable in wpanusb?
-
-Cheers,
-
-C
+Best regards,
+Bukar Mangora.
