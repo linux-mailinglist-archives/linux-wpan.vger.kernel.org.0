@@ -2,89 +2,53 @@ Return-Path: <linux-wpan-owner@vger.kernel.org>
 X-Original-To: lists+linux-wpan@lfdr.de
 Delivered-To: lists+linux-wpan@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id BF59D2AEF86
-	for <lists+linux-wpan@lfdr.de>; Wed, 11 Nov 2020 12:24:18 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 96B5E2AFEB0
+	for <lists+linux-wpan@lfdr.de>; Thu, 12 Nov 2020 06:39:43 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726360AbgKKLYR (ORCPT <rfc822;lists+linux-wpan@lfdr.de>);
-        Wed, 11 Nov 2020 06:24:17 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33674 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726303AbgKKLYM (ORCPT
-        <rfc822;linux-wpan@vger.kernel.org>); Wed, 11 Nov 2020 06:24:12 -0500
-Received: from mail-qk1-x744.google.com (mail-qk1-x744.google.com [IPv6:2607:f8b0:4864:20::744])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4F6AAC0613D6
-        for <linux-wpan@vger.kernel.org>; Wed, 11 Nov 2020 03:24:12 -0800 (PST)
-Received: by mail-qk1-x744.google.com with SMTP id v143so1290236qkb.2
-        for <linux-wpan@vger.kernel.org>; Wed, 11 Nov 2020 03:24:12 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=9xuuackRiUtSlBLGiQKxEWTouJw8FNaN4sTCD1uCgDI=;
-        b=V784RG0ZxTqWeGqccapJoQKyASlqnIeTcLEt2WHsTCnwpYl87gsvLifzB7MSEEeZXl
-         GcSqETlsdOXus3WAznjJPOxZvxnMkDZPw6zqqE6Ux0TpGzhsZOk5InJ5xSdmaJyVPSTt
-         OYSkEZ1lbSvh8tKeXmNU6lbcRJ2nqhyvqVb1Kf72ilGwhh9GnIfsjvzNV+PU+sImaJoa
-         G58OsJ9a1YUmO5V0Tqtf3rJDRfF3OOv/ykSVKaHtBX8PHgMZ+RgiJOGz9v0jxdeUcBeu
-         JwSxieds2pqwEe3Mznw7R/vQi5dEa6CxcUI/m24vJ0uZ6CmnJwsMLJrz7UdxbgQA8641
-         u6Kw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=9xuuackRiUtSlBLGiQKxEWTouJw8FNaN4sTCD1uCgDI=;
-        b=SWyIbCBlxMSQ4MT7qSE88lZsEIFPUdLe2qOcQ3PYFGxMuWGd1cPW1z0bJI6tr3WqB4
-         qUQnCRBw2PeVBV5+gw1yv7s41I/vLqOnfB2ahTP+uU7j7ZGb3BOC+PZY2Gn+7BohsmKd
-         wsCkdy160om64aM0mLlttVnNpYUAVw1gAV652DV7nMmk/B69w9n1J8YszNkwVxaQ6Dm1
-         KurpURQckNZlpN2CRGhGfaDTQ+1rEm62ti7+sl0XZWVq5Rk/QsbbICBM/mQELCGuughL
-         Kk2rAkLWy+3Z6fOkmjOWOPcYZMYzE5STpPye0ire/XQaJyJNFB5ZXSZBhgMki8AEC4DT
-         JJhw==
-X-Gm-Message-State: AOAM532c1EZASzwxF436X5i+LrPrRJGoSOM9HpibA036aDzi3e1Sk7q1
-        K4yZlDVVkgBPt0yFVizJSbc/yBEnAB0M+ziFXbkrqQ==
-X-Google-Smtp-Source: ABdhPJxz85C1QiSraIe+0/ik6klqSjxR0dhVn3yUQJMS8OEiywLd9K3IYTCQYGHlsh9E1uvMS4jje7Dsi/of7RrzgOI=
-X-Received: by 2002:a37:49d6:: with SMTP id w205mr24434650qka.501.1605093851351;
- Wed, 11 Nov 2020 03:24:11 -0800 (PST)
+        id S1729591AbgKLFjR (ORCPT <rfc822;lists+linux-wpan@lfdr.de>);
+        Thu, 12 Nov 2020 00:39:17 -0500
+Received: from mail-proxy101.phy.heteml.jp ([157.7.189.101]:38188 "EHLO
+        mail-proxy101.phy.heteml.jp" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1728344AbgKLDkS (ORCPT
+        <rfc822;linux-wpan@vger.kernel.org>);
+        Wed, 11 Nov 2020 22:40:18 -0500
+X-Greylist: delayed 888 seconds by postgrey-1.27 at vger.kernel.org; Wed, 11 Nov 2020 22:40:14 EST
+Received: from mail-proxy101.phy.heteml.jp (localhost [127.0.0.1])
+        by mail-proxy101.phy.heteml.jp (Postfix) with ESMTP id 5D4F41661124;
+        Thu, 12 Nov 2020 12:25:22 +0900 (JST)
+Received: from 127.0.0.1 (127.0.0.1)
+ by mail-proxy101.phy.heteml.jp (HETEML-Fsecure);
+ Thu, 12 Nov 2020 12:25:22 +0900 (JST)
+X-Virus-Status: clean(HETEML-Fsecure)
+Received: from User (unknown [52.231.203.57])
+        (Authenticated sender: form@healingart-n.jp)
+        by mail-proxy101.phy.heteml.jp (Postfix) with ESMTPA;
+        Thu, 12 Nov 2020 12:25:22 +0900 (JST)
+Reply-To: <reemhashimymail@gmail.com>
+From:   "Reem" <form@healingart-n.jp>
+Subject: Hello Friend  12/11/2020
+Date:   Thu, 12 Nov 2020 03:25:24 -0000
 MIME-Version: 1.0
-References: <00000000000053e07805a9b61e09@google.com> <000000000000ba6a2d05ac300953@google.com>
-In-Reply-To: <000000000000ba6a2d05ac300953@google.com>
-From:   Dmitry Vyukov <dvyukov@google.com>
-Date:   Wed, 11 Nov 2020 12:24:00 +0100
-Message-ID: <CACT4Y+ZFqCBRhnJxv09QEZqm3eNym5vyLUHGpZfHY58DQ=YLKQ@mail.gmail.com>
-Subject: Re: KASAN: use-after-free Read in __cfg8NUM_wpan_dev_from_attrs (2)
-To:     syzbot <syzbot+14e0e4960091ffae7cf7@syzkaller.appspotmail.com>
-Cc:     alex.aring@gmail.com, David Miller <davem@davemloft.net>,
-        Jakub Kicinski <kuba@kernel.org>,
-        LKML <linux-kernel@vger.kernel.org>, linux-wpan@vger.kernel.org,
-        netdev <netdev@vger.kernel.org>, stefan@datenfreihafen.org,
-        syzkaller-bugs <syzkaller-bugs@googlegroups.com>,
-        Cong Wang <xiyou.wangcong@gmail.com>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain;
+        charset="Windows-1251"
+Content-Transfer-Encoding: 7bit
+X-Priority: 3
+X-MSMail-Priority: Normal
+X-Mailer: Microsoft Outlook Express 6.00.2600.0000
+X-MimeOLE: Produced By Microsoft MimeOLE V6.00.2600.0000
+Message-Id: <20201112032522.5D4F41661124@mail-proxy101.phy.heteml.jp>
+To:     unlisted-recipients:; (no To-header on input)
 Precedence: bulk
 List-ID: <linux-wpan.vger.kernel.org>
 X-Mailing-List: linux-wpan@vger.kernel.org
 
-On Thu, Aug 6, 2020 at 9:00 AM syzbot
-<syzbot+14e0e4960091ffae7cf7@syzkaller.appspotmail.com> wrote:
->
-> syzbot suspects this issue was fixed by commit:
->
-> commit bf64ff4c2aac65d680dc639a511c781cf6b6ec08
-> Author: Cong Wang <xiyou.wangcong@gmail.com>
-> Date:   Sat Jun 27 07:12:24 2020 +0000
->
->     genetlink: get rid of family->attrbuf
->
-> bisection log:  https://syzkaller.appspot.com/x/bisect.txt?x=12069494900000
-> start commit:   e44f65fd xen-netfront: remove redundant assignment to vari..
-> git tree:       net-next
-> kernel config:  https://syzkaller.appspot.com/x/.config?x=829871134ca5e230
-> dashboard link: https://syzkaller.appspot.com/bug?extid=14e0e4960091ffae7cf7
-> syz repro:      https://syzkaller.appspot.com/x/repro.syz?x=11818aa7100000
-> C reproducer:   https://syzkaller.appspot.com/x/repro.c?x=10f997d3100000
->
-> If the result looks correct, please mark the issue as fixed by replying with:
->
-> #syz fix: genetlink: get rid of family->attrbuf
->
-> For information about bisection process see: https://goo.gl/tpsmEJ#bisection
+My name is Reem Hashimy, the Emirates Minister of State and Managing Director of the United Arab Emirates (Dubai) World Expo 2020 Committee which has been postponed to October 2021 to March 2022 because of the Covid-19 pandemic.
+ 
+I am writing to you to manage the funds I received as financial gratification from various foreign companies I assisted to receive a participation approval to the coming event. The amount is $44,762,906.00 United States dollars. But I can not personally manage the fund in my country because of the sensitive nature of my office and the certain restriction on married Muslim women.
 
-#syz fix: genetlink: get rid of family->attrbuf
+For this reason, an agreement was reached with a consulting firm to direct the various financial gifts into an open beneficiary account in my name with a bank where it will be possible for me to instruct the transfer of ownership right to a third party for investment purpose; which is the reason I am contacting you to receive the fund and manage it as my investment partner. Note that the fund is NOT connected to any criminal or terrorist activity.
+ 
+On your indication of interest with your information to include your name, your phone number and contact mailing address; I will instruct the consulting firm to process the fund from the bank to your country for investment purposes.
+
+Regards.
+Reem Hashimy.
