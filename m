@@ -2,53 +2,91 @@ Return-Path: <linux-wpan-owner@vger.kernel.org>
 X-Original-To: lists+linux-wpan@lfdr.de
 Delivered-To: lists+linux-wpan@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 96B5E2AFEB0
-	for <lists+linux-wpan@lfdr.de>; Thu, 12 Nov 2020 06:39:43 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id D52442B336D
+	for <lists+linux-wpan@lfdr.de>; Sun, 15 Nov 2020 11:28:06 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729591AbgKLFjR (ORCPT <rfc822;lists+linux-wpan@lfdr.de>);
-        Thu, 12 Nov 2020 00:39:17 -0500
-Received: from mail-proxy101.phy.heteml.jp ([157.7.189.101]:38188 "EHLO
-        mail-proxy101.phy.heteml.jp" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1728344AbgKLDkS (ORCPT
-        <rfc822;linux-wpan@vger.kernel.org>);
-        Wed, 11 Nov 2020 22:40:18 -0500
-X-Greylist: delayed 888 seconds by postgrey-1.27 at vger.kernel.org; Wed, 11 Nov 2020 22:40:14 EST
-Received: from mail-proxy101.phy.heteml.jp (localhost [127.0.0.1])
-        by mail-proxy101.phy.heteml.jp (Postfix) with ESMTP id 5D4F41661124;
-        Thu, 12 Nov 2020 12:25:22 +0900 (JST)
-Received: from 127.0.0.1 (127.0.0.1)
- by mail-proxy101.phy.heteml.jp (HETEML-Fsecure);
- Thu, 12 Nov 2020 12:25:22 +0900 (JST)
-X-Virus-Status: clean(HETEML-Fsecure)
-Received: from User (unknown [52.231.203.57])
-        (Authenticated sender: form@healingart-n.jp)
-        by mail-proxy101.phy.heteml.jp (Postfix) with ESMTPA;
-        Thu, 12 Nov 2020 12:25:22 +0900 (JST)
-Reply-To: <reemhashimymail@gmail.com>
-From:   "Reem" <form@healingart-n.jp>
-Subject: Hello Friend  12/11/2020
-Date:   Thu, 12 Nov 2020 03:25:24 -0000
-MIME-Version: 1.0
-Content-Type: text/plain;
-        charset="Windows-1251"
-Content-Transfer-Encoding: 7bit
-X-Priority: 3
-X-MSMail-Priority: Normal
-X-Mailer: Microsoft Outlook Express 6.00.2600.0000
-X-MimeOLE: Produced By Microsoft MimeOLE V6.00.2600.0000
-Message-Id: <20201112032522.5D4F41661124@mail-proxy101.phy.heteml.jp>
-To:     unlisted-recipients:; (no To-header on input)
+        id S1726537AbgKOK1X (ORCPT <rfc822;lists+linux-wpan@lfdr.de>);
+        Sun, 15 Nov 2020 05:27:23 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40840 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726230AbgKOK1W (ORCPT
+        <rfc822;linux-wpan@vger.kernel.org>); Sun, 15 Nov 2020 05:27:22 -0500
+Received: from mail-pg1-x544.google.com (mail-pg1-x544.google.com [IPv6:2607:f8b0:4864:20::544])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 80151C0613D1;
+        Sun, 15 Nov 2020 02:27:22 -0800 (PST)
+Received: by mail-pg1-x544.google.com with SMTP id m9so678565pgb.4;
+        Sun, 15 Nov 2020 02:27:22 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=from:to:cc:subject:date:message-id;
+        bh=rMHvhhCmzGV9BISyaqavP076DKPv4LbP5/GgC+7100M=;
+        b=fQrq0ITAskjPmYBsKXipLYR+elBVHv30YNSVWbS/5Ez+mKlBCTsTBtWWJGZBqZd47t
+         Eu4vfptam1ag5tdtTLztsaJjNj/x2UBxPuXmNWODJ3dVU8crkR60AN7UxmjvHQ+fRfa8
+         Lb2WwEWEdsBmqaXgob2x8QrOr/7FjfMFlIDeH79Azp0zdpLC7deSYcJZYlvWCAGB+8/0
+         u16ApGgpqntEEye5M1WoL2TpQl9b8SEZCE5mP50PsBGak4bM4Q9yGAL6TGZuyBsGiAeg
+         mBmqo403L48IH26OTJZ6fCUl7G82QR1laun547ddOBJGWQ6szCQSKuaKuchkyLhBnKi8
+         /K3A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id;
+        bh=rMHvhhCmzGV9BISyaqavP076DKPv4LbP5/GgC+7100M=;
+        b=lIrVMnT0a8jTGbdtnILNKE0xWXGs8/6RKsIVSknO2KY2/HiyQRImsRNUuU4+MfysFg
+         m4HYFZeMZjjFqpjg6Oo4NooncrPLHW1gOzK1Kdx8t5S0bL2sm3648ItjQNB1tfnYUzZj
+         aDLL685RKk7kc4GTWjzAF1urzwDzzVYIHtazhNxrBGSVTmXhD6AlO9kiO/3DG6z0I73O
+         LaIBtMjH6VmjoAa5leSbBDGv6fwnS93L/YhdGkQRU53+s9250zJ949atAlb98nWGxhu+
+         xqwywQyr1c0Vr6Xgr5lRSkpNRrSdQXXBNjmHmdVMT+eqHUnj7aABWAx7xnTOXdFGCtUa
+         65qA==
+X-Gm-Message-State: AOAM530Op/ZVK+pucMJy626yDTOsrVeXKdTXznGqolibXm/3OaYMpHK4
+        bD1/Lux+smC2tW5v7sajcQO9xwu+Gzs=
+X-Google-Smtp-Source: ABdhPJxJ3nX0S9cyu+NF375zhDK8QY1W+TKLGnKX6lNVRJSbjl2ZbORa0PSVNVJNGGGKgPrJV6PrRw==
+X-Received: by 2002:a62:de44:0:b029:18a:ae59:4d74 with SMTP id h65-20020a62de440000b029018aae594d74mr9225816pfg.72.1605436042033;
+        Sun, 15 Nov 2020 02:27:22 -0800 (PST)
+Received: from localhost.localdomain ([49.173.165.44])
+        by smtp.gmail.com with ESMTPSA id j1sm7211117pji.22.2020.11.15.02.27.19
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 15 Nov 2020 02:27:21 -0800 (PST)
+From:   Taehee Yoo <ap420073@gmail.com>
+To:     alex.aring@gmail.com, jukka.rissanen@linux.intel.com,
+        linux-bluetooth@vger.kernel.org, linux-wpan@vger.kernel.org
+Cc:     ap420073@gmail.com
+Subject: [PATCH v3 net] 6lowpan: set .owner to THIS_MODULE
+Date:   Sun, 15 Nov 2020 10:27:14 +0000
+Message-Id: <20201115102714.30412-1-ap420073@gmail.com>
+X-Mailer: git-send-email 2.17.1
 Precedence: bulk
 List-ID: <linux-wpan.vger.kernel.org>
 X-Mailing-List: linux-wpan@vger.kernel.org
 
-My name is Reem Hashimy, the Emirates Minister of State and Managing Director of the United Arab Emirates (Dubai) World Expo 2020 Committee which has been postponed to October 2021 to March 2022 because of the Covid-19 pandemic.
- 
-I am writing to you to manage the funds I received as financial gratification from various foreign companies I assisted to receive a participation approval to the coming event. The amount is $44,762,906.00 United States dollars. But I can not personally manage the fund in my country because of the sensitive nature of my office and the certain restriction on married Muslim women.
+If THIS_MODULE is not set, the module would be removed while debugfs is
+being used.
+It eventually makes kernel panic.
 
-For this reason, an agreement was reached with a consulting firm to direct the various financial gifts into an open beneficiary account in my name with a bank where it will be possible for me to instruct the transfer of ownership right to a third party for investment purpose; which is the reason I am contacting you to receive the fund and manage it as my investment partner. Note that the fund is NOT connected to any criminal or terrorist activity.
- 
-On your indication of interest with your information to include your name, your phone number and contact mailing address; I will instruct the consulting firm to process the fund from the bank to your country for investment purposes.
+Fixes: 5609c185f24d ("6lowpan: iphc: add support for stateful compression")
+Signed-off-by: Taehee Yoo <ap420073@gmail.com>
+---
 
-Regards.
-Reem Hashimy.
+v3:
+ - Separate from one big series
+
+v2:
+ - Change headline
+ - Squash patches into per-driver/subsystem
+
+ net/6lowpan/debugfs.c | 1 +
+ 1 file changed, 1 insertion(+)
+
+diff --git a/net/6lowpan/debugfs.c b/net/6lowpan/debugfs.c
+index 1c140af06d52..2f791ccc783b 100644
+--- a/net/6lowpan/debugfs.c
++++ b/net/6lowpan/debugfs.c
+@@ -161,6 +161,7 @@ static const struct file_operations lowpan_ctx_pfx_fops = {
+ 	.write		= lowpan_ctx_pfx_write,
+ 	.llseek		= seq_lseek,
+ 	.release	= single_release,
++	.owner          = THIS_MODULE,
+ };
+ 
+ static void lowpan_dev_debugfs_ctx_init(struct net_device *dev,
+-- 
+2.17.1
+
