@@ -2,73 +2,64 @@ Return-Path: <linux-wpan-owner@vger.kernel.org>
 X-Original-To: lists+linux-wpan@lfdr.de
 Delivered-To: lists+linux-wpan@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 7E54530172F
-	for <lists+linux-wpan@lfdr.de>; Sat, 23 Jan 2021 18:28:19 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 7351430CF19
+	for <lists+linux-wpan@lfdr.de>; Tue,  2 Feb 2021 23:37:05 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726149AbhAWR1h (ORCPT <rfc822;lists+linux-wpan@lfdr.de>);
-        Sat, 23 Jan 2021 12:27:37 -0500
-Received: from [201.76.146.12] ([201.76.146.12]:55007 "EHLO
-        portalandrecury.com.br" rhost-flags-FAIL-FAIL-OK-OK)
-        by vger.kernel.org with ESMTP id S1726119AbhAWR1f (ORCPT
-        <rfc822;linux-wpan@vger.kernel.org>);
-        Sat, 23 Jan 2021 12:27:35 -0500
-X-Greylist: delayed 10445 seconds by postgrey-1.27 at vger.kernel.org; Sat, 23 Jan 2021 12:27:31 EST
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=portalandrecury.com.br; s=default; h=Content-Transfer-Encoding:Content-Type
-        :Message-ID:Reply-To:Subject:To:From:Date:MIME-Version:Sender:Cc:Content-ID:
-        Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
-        :Resent-Message-ID:In-Reply-To:References:List-Id:List-Help:List-Unsubscribe:
-        List-Subscribe:List-Post:List-Owner:List-Archive;
-        bh=aaeuXV98CCTt7v+FHcmLelF/UQ+pmIXURxeIiAglFQw=; b=K/5Zphf5kU7wRij3WVPB1cwF0F
-        zGeC9YRClEtTayTV45UFQmC+fdLIN39VtSrDNbdme29X43DcypN5HH9QR9u0j8s0PQ/h5TG8mHReL
-        szvsFzPf8jpwO+GbCpxHzm0mV8P0n39D+CAE1j6aaAyKCaDz0dd+z0X7JeJQAb1ywQmrPLrB8GeO0
-        tSKJjJgzT7h5FFua+nKAvqRtMEERSbac9jDtBNwuj4DfMcnU2t0p/6JGPx3Wwg1PVF9kZ6A93LAi5
-        M6vHIdSeIM2C2fXCuyvpN12ERBqurMo4j50P90u+yoC3eOXVPRyxawTAMkeMB5/jhLlmrOMPhS3cd
-        LaAh+Ygw==;
-Received: from [::1] (port=40136 helo=srv-cpanel.hybriddc.com.br)
-        by srv-cpanel.hybriddc.com.br with esmtpa (Exim 4.93)
-        (envelope-from <contato@portalandrecury.com.br>)
-        id 1l3Jv9-000H6P-8J; Sat, 23 Jan 2021 11:29:52 -0300
+        id S235914AbhBBWee (ORCPT <rfc822;lists+linux-wpan@lfdr.de>);
+        Tue, 2 Feb 2021 17:34:34 -0500
+Received: from [20.39.40.203] ([20.39.40.203]:61037 "EHLO optinix.in"
+        rhost-flags-FAIL-FAIL-OK-OK) by vger.kernel.org with ESMTP
+        id S230091AbhBBWeU (ORCPT <rfc822;linux-wpan@vger.kernel.org>);
+        Tue, 2 Feb 2021 17:34:20 -0500
+dkim-signature: v=1; a=rsa-sha256; d=digitalsol.in; s=dkim;
+        c=relaxed/relaxed; q=dns/txt; h=From:Reply-To:Subject:Date:Message-ID:MIME-Version:Content-Type:Content-Transfer-Encoding;
+        bh=wK2neTcOXNiSQ+RBxrnFed+mRrGUU/ndLGEgvo8IMCc=;
+        b=Z/qoYR5e93G/1E5Uh8tLreepyziGYShILI7fcXozE97A3DqZKBadv9kcBZBcmHZnqAUcLkt0g+COxgI6WqJ5gdfKqksQSW540KJaAE4DNiZ+EZYtErJhsiZnZCgjfp9yI8W2dpgN2EsH5zUvgVY6Bl2MWU8ziaGqy1DCXSk4DXXi+2CTtkJX9uQrf2ohPvP7bhav6zr4dJxTQjQYoopWjV3h9j7RqQq/UIXqX3VBjVDZARoXQTZUB0KN0A
+        F7X8DeijiSCFEdYkkdQwasjHi3K0B6KloKBXegK0TgQ39PHt5t2MVnmtmeZadY0DbdImfujjk25mqjLTG700JJRoTl9A==
+Received: from User (Unknown [52.231.31.5])
+        by optinix.in with ESMTP
+        ; Sat, 30 Jan 2021 02:14:15 +0000
+Message-ID: <B0CC978E-0149-4652-A2D0-17DE1F49BCC1@optinix.in>
+Reply-To: <ms.reem@yandex.com>
+From:   "Ms. Reem" <support@digitalsol.in>
+Subject: Re:read
+Date:   Sat, 30 Jan 2021 02:14:13 -0000
 MIME-Version: 1.0
-Date:   Sat, 23 Jan 2021 11:29:46 -0300
-From:   Francois Pinault <contato@portalandrecury.com.br>
-To:     undisclosed-recipients:;
-Subject: Read Your Email
-Reply-To: francoispinault1936@outlook.com
-User-Agent: Roundcube Webmail/1.4.10
-Message-ID: <867a87e3f538fac987b32e16246ab590@portalandrecury.com.br>
-X-Sender: contato@portalandrecury.com.br
-Organization: Donation
-Content-Type: text/plain; charset=UTF-8;
- format=flowed
-Content-Transfer-Encoding: 8bit
-X-OutGoing-Spam-Status: No, score=2.8
-X-AntiAbuse: This header was added to track abuse, please include it with any abuse report
-X-AntiAbuse: Primary Hostname - srv-cpanel.hybriddc.com.br
-X-AntiAbuse: Original Domain - vger.kernel.org
-X-AntiAbuse: Originator/Caller UID/GID - [47 12] / [47 12]
-X-AntiAbuse: Sender Address Domain - portalandrecury.com.br
-X-Get-Message-Sender-Via: srv-cpanel.hybriddc.com.br: authenticated_id: contato@portalandrecury.com.br
-X-Authenticated-Sender: srv-cpanel.hybriddc.com.br: contato@portalandrecury.com.br
-X-Source: 
-X-Source-Args: 
-X-Source-Dir: 
+Content-Type: text/plain;
+        charset="Windows-1251"
+Content-Transfer-Encoding: 7bit
+X-Priority: 3
+X-MSMail-Priority: Normal
+X-Mailer: Microsoft Outlook Express 6.00.2600.0000
+X-MimeOLE: Produced By Microsoft MimeOLE V6.00.2600.0000
+To:     unlisted-recipients:; (no To-header on input)
 Precedence: bulk
 List-ID: <linux-wpan.vger.kernel.org>
 X-Mailing-List: linux-wpan@vger.kernel.org
 
+Hello,
 
+My name is Ms. Reem Ebrahim Al-Hashimi, I am the "Minister of state
+and Petroleum" also "Minister of State for International Cooperation"
+in UAE. I write to you on behalf of my other "three (3) colleagues"
+who has approved me to solicit for your "partnership in claiming of
+{us$47=Million}" from a Financial Home in Cambodia on their behalf and
+for our "Mutual Benefits".
 
--- 
-Hello, I am Mr. François Pinault, I made a donation to you. You can 
-verify my profile on wikipedia or forbes:
+The Fund {us$47=Million} is our share from the (over-invoiced) Oil/Gas
+deal with Cambodian/Vietnam Government within 2013/2014, however, we
+don't want our government to know about the fund. If this proposal
+interests you, let me know, by sending me an email and I will send to
+you detailed information on how this business would be successfully
+transacted. Be informed that nobody knows about the secret of this
+fund except us, and we know how to carry out the entire transaction.
+So I am compelled to ask, that you will stand on our behalf and
+receive this fund into any account that is solely controlled by you.
 
-https://www.forbes.com/profile/francois-pinault/
-or
-https://en.wikipedia.org/wiki/Fran%C3%A7ois_Pinault
+We will compensate you with 15% of the total amount involved as
+gratification for being our partner in this transaction. Reply to:
+ms.reem@yandex.com
 
-For more information and donation claim, Kindly contact me as soon as 
-possible on this email: francoispinaultmail@orange.fr
+Regards,
+Ms. Reem.
 
-Yours sincerely,
-Mr. François Pinault
