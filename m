@@ -2,58 +2,86 @@ Return-Path: <linux-wpan-owner@vger.kernel.org>
 X-Original-To: lists+linux-wpan@lfdr.de
 Delivered-To: lists+linux-wpan@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 1D43E3234DE
-	for <lists+linux-wpan@lfdr.de>; Wed, 24 Feb 2021 02:20:21 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 406CE3240A1
+	for <lists+linux-wpan@lfdr.de>; Wed, 24 Feb 2021 16:29:24 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232384AbhBXBGP (ORCPT <rfc822;lists+linux-wpan@lfdr.de>);
-        Tue, 23 Feb 2021 20:06:15 -0500
-Received: from mail.kernel.org ([198.145.29.99]:33978 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S233253AbhBXAuJ (ORCPT <rfc822;linux-wpan@vger.kernel.org>);
-        Tue, 23 Feb 2021 19:50:09 -0500
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 5BC06614A7;
-        Wed, 24 Feb 2021 00:49:27 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1614127768;
-        bh=wlubzpWgvnu0LkdUcpm43QontFBvWFgIA554YvBAuhc=;
-        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-        b=n8QTUWe5/IKXHhXC9FEXhIMP5ea1OS7j7IaW4acio6j7fXq7CV9vTFz+NYoD5A/WA
-         EXKFIwwr/0t2Qjlletof3k87VvKt+lF5m2G2ypIlFlPswUDMe7japOfWhzq3qWRuX1
-         jfRDgkCmU/PzJ2c5EHwLUAryVhj3pP3CF4jYRBPjguVI6lYzcdNw9tB9hNKw8d8dxK
-         ty+KfAryWh4u/eNgFwpmkl7gyxkIRLQOvby/kbaBQB6Kz/eMOgRQcgvv5fRnMaaKeC
-         6oONx2yiQmIuoPv0/7Sjo6CrcxvVBRZbe5f3HptRU+FMwJODTZ3JKBBHlvgiN3m8kD
-         gL8TFcu07DXsA==
-Date:   Tue, 23 Feb 2021 16:49:24 -0800
-From:   Jakub Kicinski <kuba@kernel.org>
-To:     Alexander Aring <alex.aring@gmail.com>
-Cc:     syzbot <syzbot+7bf7b22759195c9a21e9@syzkaller.appspotmail.com>,
-        "David S. Miller" <davem@davemloft.net>,
-        kernel list <linux-kernel@vger.kernel.org>,
-        linux-wpan - ML <linux-wpan@vger.kernel.org>,
-        "open list:NETWORKING [GENERAL]" <netdev@vger.kernel.org>,
-        Stefan Schmidt <stefan@datenfreihafen.org>,
-        syzkaller-bugs@googlegroups.com
-Subject: Re: UBSAN: shift-out-of-bounds in nl802154_new_interface
-Message-ID: <20210223164924.080fa605@kicinski-fedora-pc1c0hjn.dhcp.thefacebook.com>
-In-Reply-To: <CAB_54W6FL2vDto3_1=0kAa8qo_qTduCfULLCfvD_XbS4=+VZyw@mail.gmail.com>
-References: <000000000000e37c9805bbe843c1@google.com>
-        <20210223154855.669413bb@kicinski-fedora-pc1c0hjn.dhcp.thefacebook.com>
-        <CAB_54W6FL2vDto3_1=0kAa8qo_qTduCfULLCfvD_XbS4=+VZyw@mail.gmail.com>
+        id S232818AbhBXPRP (ORCPT <rfc822;lists+linux-wpan@lfdr.de>);
+        Wed, 24 Feb 2021 10:17:15 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46836 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S238036AbhBXNuF (ORCPT
+        <rfc822;linux-wpan@vger.kernel.org>); Wed, 24 Feb 2021 08:50:05 -0500
+X-Greylist: delayed 55484 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Wed, 24 Feb 2021 05:37:28 PST
+Received: from proxima.lasnet.de (proxima.lasnet.de [IPv6:2a01:4f8:121:31eb:3::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 90807C06174A;
+        Wed, 24 Feb 2021 05:37:28 -0800 (PST)
+Received: from [IPv6:2003:e9:d72b:2a0f:18df:1c4d:541:33a8] (p200300e9d72b2a0f18df1c4d054133a8.dip0.t-ipconnect.de [IPv6:2003:e9:d72b:2a0f:18df:1c4d:541:33a8])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+        (No client certificate requested)
+        (Authenticated sender: stefan@datenfreihafen.org)
+        by proxima.lasnet.de (Postfix) with ESMTPSA id 4B7EDC05A1;
+        Wed, 24 Feb 2021 14:37:23 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=datenfreihafen.org;
+        s=2021; t=1614173843;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=Amkvf5qN9XKmH8/Ok3kxmyekG+LXaF6QYue28yqqkfQ=;
+        b=hBs388VN355Xc0NYGtvkPYh8h9CjMLb74SbrjdWZblOS1bgnoCHGbcjV8rj102tfGnHXls
+        PucLO4LAfKExsOVvQXOlgh7KSOqspO9cA8cw3YVSOU90rYlWOwZ09/VgsdkHKddfv7KOLB
+        bkvDm1Fciw+aoShw47bt+gXq8O4dYB+nXN4obdPDs12fPlPrbXNvWqidrQCHpdzy2QypWX
+        NW2GOf6er3db4NGLONFJ9wNN2wwOtmQWjVmY2keNiYyVG8d+PSabesYudt7a0p3zgwZHMX
+        4XDnClmT/OZWH0Qerjt2XgqiEi0FjA9kE5S924bp+iVlFgcztz3Rzj5Z1dQSpA==
+Subject: Re: [PATCH wpan 1/4] net: ieee802154: fix nl802154 del llsec key
+To:     Alexander Aring <aahringo@redhat.com>
+Cc:     linux-wpan@vger.kernel.org, netdev@vger.kernel.org
+References: <20210221174321.14210-1-aahringo@redhat.com>
+From:   Stefan Schmidt <stefan@datenfreihafen.org>
+Message-ID: <469c5201-a93e-a3d5-1b0c-39519f4e267e@datenfreihafen.org>
+Date:   Wed, 24 Feb 2021 14:37:19 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.6.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
+In-Reply-To: <20210221174321.14210-1-aahringo@redhat.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
 Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-wpan.vger.kernel.org>
 X-Mailing-List: linux-wpan@vger.kernel.org
 
-On Tue, 23 Feb 2021 19:26:26 -0500 Alexander Aring wrote:
-> Hi,
-> 
-> On Tue, 23 Feb 2021 at 18:48, Jakub Kicinski <kuba@kernel.org> wrote:
-> >
-> > Alex, there seems to be a few more syzbot reports for nl802154 beyond
-> > what you posted fixes for. Are you looking at these?  
-> 
-> Yes, I have it on my list. I will try to fix them at the weekend.
+Hello.
 
-Great, thank you!
+On 21.02.21 18:43, Alexander Aring wrote:
+> This patch fixes a nullpointer dereference if NL802154_ATTR_SEC_KEY is
+> not set by the user. If this is the case nl802154 will return -EINVAL.
+> 
+> Reported-by: syzbot+ac5c11d2959a8b3c4806@syzkaller.appspotmail.com
+> Signed-off-by: Alexander Aring <aahringo@redhat.com>
+> ---
+>   net/ieee802154/nl802154.c | 3 ++-
+>   1 file changed, 2 insertions(+), 1 deletion(-)
+> 
+> diff --git a/net/ieee802154/nl802154.c b/net/ieee802154/nl802154.c
+> index 7c5a1aa5adb4..2f0a138bd5eb 100644
+> --- a/net/ieee802154/nl802154.c
+> +++ b/net/ieee802154/nl802154.c
+> @@ -1592,7 +1592,8 @@ static int nl802154_del_llsec_key(struct sk_buff *skb, struct genl_info *info)
+>   	struct nlattr *attrs[NL802154_KEY_ATTR_MAX + 1];
+>   	struct ieee802154_llsec_key_id id;
+>   
+> -	if (nla_parse_nested_deprecated(attrs, NL802154_KEY_ATTR_MAX, info->attrs[NL802154_ATTR_SEC_KEY], nl802154_key_policy, info->extack))
+> +	if (!info->attrs[NL802154_ATTR_SEC_KEY] ||
+> +	    nla_parse_nested_deprecated(attrs, NL802154_KEY_ATTR_MAX, info->attrs[NL802154_ATTR_SEC_KEY], nl802154_key_policy, info->extack))
+>   		return -EINVAL;
+>   
+>   	if (ieee802154_llsec_parse_key_id(attrs[NL802154_KEY_ATTR_ID], &id) < 0)
+> 
+
+This patch has been applied to the wpan tree and will be
+part of the next pull request to net. Thanks!
+
+regards
+Stefan Schmidt
