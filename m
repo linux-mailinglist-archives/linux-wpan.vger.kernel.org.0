@@ -2,81 +2,90 @@ Return-Path: <linux-wpan-owner@vger.kernel.org>
 X-Original-To: lists+linux-wpan@lfdr.de
 Delivered-To: lists+linux-wpan@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id B71F13272F5
-	for <lists+linux-wpan@lfdr.de>; Sun, 28 Feb 2021 16:21:15 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 0353A327660
+	for <lists+linux-wpan@lfdr.de>; Mon,  1 Mar 2021 04:17:47 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230396AbhB1PUb (ORCPT <rfc822;lists+linux-wpan@lfdr.de>);
-        Sun, 28 Feb 2021 10:20:31 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:34207 "EHLO
-        us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S231129AbhB1PUB (ORCPT
-        <rfc822;linux-wpan@vger.kernel.org>);
-        Sun, 28 Feb 2021 10:20:01 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1614525515;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=2Bjh3DgtlYNb9J1LAYIfqCcgtyxWNouNwOMSlbNTffo=;
-        b=OvC95dhDjQMhXSpf5Omwss4eu0TJssY53urd9+XpMh814WgvtPYJDb3Ul2i++lDlJu6A0g
-        1K77NhEqo+L7lJ1S47JipNkd0CJ52szdduS+tu87NvsyCO+jiT1BFalHGzX9kJpczBVDb7
-        0rLooruXz47vNOoYKQNF7Sq7KJvJtBY=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-264-xrVApX3ZPwmrq5exfDTYpA-1; Sun, 28 Feb 2021 10:18:33 -0500
-X-MC-Unique: xrVApX3ZPwmrq5exfDTYpA-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com [10.5.11.16])
-        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
-        (No client certificate requested)
-        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id ED1948030C2;
-        Sun, 28 Feb 2021 15:18:31 +0000 (UTC)
-Received: from carbon.redhat.com (ovpn-112-225.rdu2.redhat.com [10.10.112.225])
-        by smtp.corp.redhat.com (Postfix) with ESMTP id 87E7B5C1D5;
-        Sun, 28 Feb 2021 15:18:31 +0000 (UTC)
-From:   Alexander Aring <aahringo@redhat.com>
-To:     stefan@datenfreihafen.org
-Cc:     linux-wpan@vger.kernel.org, netdev@vger.kernel.org
-Subject: [PATCH wpan 17/17] net: ieee802154: stop dump llsec params for monitors
-Date:   Sun, 28 Feb 2021 10:18:17 -0500
-Message-Id: <20210228151817.95700-18-aahringo@redhat.com>
-In-Reply-To: <20210228151817.95700-1-aahringo@redhat.com>
-References: <20210228151817.95700-1-aahringo@redhat.com>
+        id S230222AbhCADRc (ORCPT <rfc822;lists+linux-wpan@lfdr.de>);
+        Sun, 28 Feb 2021 22:17:32 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36508 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S230215AbhCADRa (ORCPT
+        <rfc822;linux-wpan@vger.kernel.org>); Sun, 28 Feb 2021 22:17:30 -0500
+Received: from mail-ot1-x333.google.com (mail-ot1-x333.google.com [IPv6:2607:f8b0:4864:20::333])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3292AC06174A;
+        Sun, 28 Feb 2021 19:16:50 -0800 (PST)
+Received: by mail-ot1-x333.google.com with SMTP id g8so11465940otk.4;
+        Sun, 28 Feb 2021 19:16:50 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=trM9Hw6F/8BdnuCHEMW3BcGPyI0dBakVgMcEAabB39c=;
+        b=OpBe4h7RXJZfLfeGas1y+gfHJChx3UikyHMtAHXrwapnv9piV4ucMppKQNHzd8UWxO
+         cU71Hejufg3OwsozHy/OcHbFUMJcxNiMylHqQHGv51qk/D6AF8xb2wO/XgBLa685PhD1
+         bTaVvM14jyhm9LEFz+wvt9WtDI/IePyt7eD94+I+0Z5oIA9E1yVriY179Fg3mWH2Vetc
+         ARBSNApQbfEaDOCproHFC3sr1jpQJ2kN/N0yElb55M/5sA1e/j/ezPIC5lyTd5WdBlDr
+         Nkv5ITdCjFEcO82Pdx15lzjanYnrwCFqVS3k5M7jDCS0sLiibWUElsMlxNG0WL/cZltJ
+         DcUw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=trM9Hw6F/8BdnuCHEMW3BcGPyI0dBakVgMcEAabB39c=;
+        b=gRCWes95MJT1qjHMqabAEJ1ORnJBKLy9+DctIEPdLVv1gTlCpW4/KBq3C/4hYDrulV
+         l0epC6d9vEa2550JfJDjyRPTj/Onx3bthgiAzB0FMXTITgqcyKh9EuDOxUo8kXC/VjXM
+         uygV785WjLK6ZS/AiIKwKTDSIJwyUxrVIukINcAKdmHK3qrxGcWKUVJImE/PGBruD9aW
+         6Yws0gZDDtB3nwjNzGTn4puIA7L+2xae9d5kg9qhaz+PuP4MqW2Oflr8cLuiRbt/fx4a
+         ICTHDzRPbAIrJjg2GVefcjlWDYCbJaFmMSHFJe5v8gT20447PYzndT+IvL8CN/OWqss/
+         +B0w==
+X-Gm-Message-State: AOAM532Ro0uXmLnX+sqJpjuvbH6Kt/KZvhuhSowe6vRfEUloYOOdPymk
+        OvLOtsx2fOSPMjPMI6v9/dfSPFTMnTlL7JrhNWJnKr31V68hhw==
+X-Google-Smtp-Source: ABdhPJyITr121oeGVjWZWoCM41JlRGzYN9E81U0RQ1iMRMDSHJORCpq7VoR85XiMvKeGPJ70w0uTWkvY72EDKUS+T24=
+X-Received: by 2002:a9d:63d1:: with SMTP id e17mr11835784otl.183.1614568609597;
+ Sun, 28 Feb 2021 19:16:49 -0800 (PST)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+References: <20210228151817.95700-1-aahringo@redhat.com> <20210228151817.95700-3-aahringo@redhat.com>
+In-Reply-To: <20210228151817.95700-3-aahringo@redhat.com>
+From:   Alexander Aring <alex.aring@gmail.com>
+Date:   Sun, 28 Feb 2021 22:16:38 -0500
+Message-ID: <CAB_54W4Lo7TKnqWm_xH=SncTYXTrvT3JCGxTNamagPQ4e0Vs0g@mail.gmail.com>
+Subject: Re: [PATCH wpan 02/17] net: ieee802154: fix memory leak when deliver
+ monitor skbs
+To:     Alexander Aring <aahringo@redhat.com>
+Cc:     Stefan Schmidt <stefan@datenfreihafen.org>,
+        linux-wpan - ML <linux-wpan@vger.kernel.org>,
+        "open list:NETWORKING [GENERAL]" <netdev@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-wpan.vger.kernel.org>
 X-Mailing-List: linux-wpan@vger.kernel.org
 
-This patch stops dumping llsec params for monitors which we don't support
-yet. Otherwise we will access llsec mib which isn't initialized for
-monitors.
+Hi Stefan,
 
-Reported-by: syzbot+cde43a581a8e5f317bc2@syzkaller.appspotmail.com
-Signed-off-by: Alexander Aring <aahringo@redhat.com>
----
- net/ieee802154/nl802154.c | 5 +++++
- 1 file changed, 5 insertions(+)
+On Sun, 28 Feb 2021 at 10:21, Alexander Aring <aahringo@redhat.com> wrote:
+>
+> This patch adds a missing consume_skb() when deliver a skb to upper
+> monitor interfaces of a wpan phy.
+>
+> Reported-by: syzbot+44b651863a17760a893b@syzkaller.appspotmail.com
+> Signed-off-by: Alexander Aring <aahringo@redhat.com>
+> ---
+>  net/mac802154/rx.c | 2 ++
+>  1 file changed, 2 insertions(+)
+>
+> diff --git a/net/mac802154/rx.c b/net/mac802154/rx.c
+> index b8ce84618a55..18abc1f49323 100644
+> --- a/net/mac802154/rx.c
+> +++ b/net/mac802154/rx.c
+> @@ -244,6 +244,8 @@ ieee802154_monitors_rx(struct ieee802154_local *local, struct sk_buff *skb)
+>                         sdata->dev->stats.rx_bytes += skb->len;
+>                 }
+>         }
+> +
+> +       consume_skb(skb);
 
-diff --git a/net/ieee802154/nl802154.c b/net/ieee802154/nl802154.c
-index 576e418cf5aa..ca8e17a81a4f 100644
---- a/net/ieee802154/nl802154.c
-+++ b/net/ieee802154/nl802154.c
-@@ -820,8 +820,13 @@ nl802154_send_iface(struct sk_buff *msg, u32 portid, u32 seq, int flags,
- 		goto nla_put_failure;
- 
- #ifdef CONFIG_IEEE802154_NL802154_EXPERIMENTAL
-+	if (wpan_dev->iftype == NL802154_IFTYPE_MONITOR)
-+		goto out;
-+
- 	if (nl802154_get_llsec_params(msg, rdev, wpan_dev) < 0)
- 		goto nla_put_failure;
-+
-+out:
- #endif /* CONFIG_IEEE802154_NL802154_EXPERIMENTAL */
- 
- 	genlmsg_end(msg, hdr);
--- 
-2.26.2
+Please drop this patch. It's not correct. I will look next weekend at
+this one again.
+The other patches should be fine, I hope.
 
+- Alex
