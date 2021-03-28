@@ -2,69 +2,62 @@ Return-Path: <linux-wpan-owner@vger.kernel.org>
 X-Original-To: lists+linux-wpan@lfdr.de
 Delivered-To: lists+linux-wpan@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id F163B348626
-	for <lists+linux-wpan@lfdr.de>; Thu, 25 Mar 2021 02:00:56 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 4CDB834BE24
+	for <lists+linux-wpan@lfdr.de>; Sun, 28 Mar 2021 20:08:36 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S239461AbhCYBAY (ORCPT <rfc822;lists+linux-wpan@lfdr.de>);
-        Wed, 24 Mar 2021 21:00:24 -0400
-Received: from mail.kernel.org ([198.145.29.99]:51062 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S239444AbhCYBAJ (ORCPT <rfc822;linux-wpan@vger.kernel.org>);
-        Wed, 24 Mar 2021 21:00:09 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPS id BBADC61A13;
-        Thu, 25 Mar 2021 01:00:08 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1616634008;
-        bh=c1GsxziC1SL/5Zo/0LfKJx/xYjd+9aMHtvY+RB2yUm0=;
-        h=Subject:From:Date:References:In-Reply-To:To:Cc:From;
-        b=jLyMYnJ65yDa41x7HeNc3IwlcJtvfjJ0UWO54PtbIuFKBY49WNVrxlO7jWGbcSz2i
-         dmxKbn0j9W/eQ2X0QKceB0PVWAkDHkS8oAP+CRXFgN0vPlWkF7CCthy4mUNZ+b87De
-         +9Hk8wGtm1T+MznCQZ0ssFaFat+LVkvGrrj7iXPxeJIf2ycqJwtTcrUVXfHmfK3wVA
-         fs2Dxdy5bVlBX15JKvajLJ8X0XrouX4yQzegbGjrbcqnrzmwkFoVXyfFulYFyfz1Ju
-         UbDlD77dJupfhh0aUC2DotNWIP0wYC1w55nQNPGhf6VPhTYchWqTcjUvDeF1l3cSBg
-         OOucnSM57Z9TQ==
-Received: from pdx-korg-docbuild-2.ci.codeaurora.org (localhost.localdomain [127.0.0.1])
-        by pdx-korg-docbuild-2.ci.codeaurora.org (Postfix) with ESMTP id AB69060A6A;
-        Thu, 25 Mar 2021 01:00:08 +0000 (UTC)
-Content-Type: text/plain; charset="utf-8"
+        id S231570AbhC1SID (ORCPT <rfc822;lists+linux-wpan@lfdr.de>);
+        Sun, 28 Mar 2021 14:08:03 -0400
+Received: from mail.hanoi.gov.vn ([113.160.32.33]:32049 "EHLO
+        mx01.hanoi.gov.vn" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S231492AbhC1SHi (ORCPT
+        <rfc822;linux-wpan@vger.kernel.org>); Sun, 28 Mar 2021 14:07:38 -0400
+X-Greylist: delayed 483 seconds by postgrey-1.27 at vger.kernel.org; Sun, 28 Mar 2021 14:07:32 EDT
+Received: from mx01.hanoi.gov.vn (localhost [127.0.0.1])
+        by IMSVA (Postfix) with ESMTP id 4B597EC3DB;
+        Mon, 29 Mar 2021 00:58:07 +0700 (+07)
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=hanoi.gov.vn;
+        s=default; t=1616954288;
+        bh=FuW10Z6fSdeNlf/0u/BQ1jcwkjYBw0uHUPQgn0LGo7I=; h=Date:From:To;
+        b=MnJpubbCOoNzrGbdl4opA9pGiqD1qL1TzNpy60QO4II5VnNpsotVl818lYgRa6I3d
+         Omzy1cLH1+oH7hvhrvWFGEjWO4Du7emM//yWycfTmkwXhJBSFfgFLpRpJNgbPUcm37
+         IfeanaeGGyboioiPWx6i9EzzU+DQGarsjKQF0WLA=
+X-IMSS-DKIM-Authentication-Result: mx01.hanoi.gov.vn; sigcount=0
+Received: from mx01.hanoi.gov.vn (localhost [127.0.0.1])
+        by IMSVA (Postfix) with ESMTP id 713EBEC3DD;
+        Mon, 29 Mar 2021 00:58:05 +0700 (+07)
+Received: from mail.hanoi.gov.vn (mail.hanoi.gov.vn [10.1.1.25])
+        by mx01.hanoi.gov.vn (Postfix) with ESMTPS;
+        Mon, 29 Mar 2021 00:58:05 +0700 (+07)
+Received: from mail.hanoi.gov.vn (localhost [127.0.0.1])
+        by mail.hanoi.gov.vn (Postfix) with ESMTPS id 7EB1F7F41B5D;
+        Mon, 29 Mar 2021 00:57:59 +0700 (+07)
+Received: from localhost (localhost [127.0.0.1])
+        by mail.hanoi.gov.vn (Postfix) with ESMTP id 9F9587F41B42;
+        Mon, 29 Mar 2021 00:57:56 +0700 (+07)
+Received: from mail.hanoi.gov.vn ([127.0.0.1])
+        by localhost (mail.hanoi.gov.vn [127.0.0.1]) (amavisd-new, port 10026)
+        with ESMTP id 5aziPsZZzTJX; Mon, 29 Mar 2021 00:57:52 +0700 (+07)
+Received: from mail.hanoi.gov.vn (mail.hanoi.gov.vn [10.1.1.25])
+        by mail.hanoi.gov.vn (Postfix) with ESMTP id 923357F41B59;
+        Mon, 29 Mar 2021 00:57:49 +0700 (+07)
+Date:   Mon, 29 Mar 2021 00:57:49 +0700 (ICT)
+From:   Mackenzie Scott <ttptqd_thanhoai@hanoi.gov.vn>
+Reply-To: Mackenzie Scott <propack@propck.net>
+Message-ID: <338153864.25920933.1616954269522.JavaMail.zimbra@hanoi.gov.vn>
+Subject: Congratulations ($ 100,800,000.00)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Subject: Re: [PATCH net-next] 6lowpan: Fix some typos in nhc_udp.c
-From:   patchwork-bot+netdevbpf@kernel.org
-Message-Id: <161663400869.21739.6444031329527811807.git-patchwork-notify@kernel.org>
-Date:   Thu, 25 Mar 2021 01:00:08 +0000
-References: <20210324062224.13032-1-wanghai38@huawei.com>
-In-Reply-To: <20210324062224.13032-1-wanghai38@huawei.com>
-To:     Wang Hai <wanghai38@huawei.com>
-Cc:     alex.aring@gmail.com, jukka.rissanen@linux.intel.com,
-        davem@davemloft.net, kuba@kernel.org,
-        linux-bluetooth@vger.kernel.org, linux-wpan@vger.kernel.org,
-        netdev@vger.kernel.org, linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [185.107.80.217]
+X-Mailer: Zimbra 8.8.15_GA_3894 (zclient/8.8.15_GA_3894)
+Thread-Index: /8qcKB84H/IsUnGyWvfkptZHVH6P1Q==
+Thread-Topic: Congratulations ($ 100,800,000.00)
+To:     undisclosed-recipients:;
+X-TM-AS-GCONF: 00
 Precedence: bulk
 List-ID: <linux-wpan.vger.kernel.org>
 X-Mailing-List: linux-wpan@vger.kernel.org
 
-Hello:
-
-This patch was applied to netdev/net-next.git (refs/heads/master):
-
-On Wed, 24 Mar 2021 14:22:24 +0800 you wrote:
-> s/Orignal/Original/
-> s/infered/inferred/
-> 
-> Reported-by: Hulk Robot <hulkci@huawei.com>
-> Signed-off-by: Wang Hai <wanghai38@huawei.com>
-> ---
->  net/6lowpan/nhc_udp.c | 4 ++--
->  1 file changed, 2 insertions(+), 2 deletions(-)
-
-Here is the summary with links:
-  - [net-next] 6lowpan: Fix some typos in nhc_udp.c
-    https://git.kernel.org/netdev/net-next/c/da1da87fa7fc
-
-You are awesome, thank you!
---
-Deet-doot-dot, I am a bot.
-https://korg.docs.kernel.org/patchwork/pwbot.html
 
 
+Hello,i&#39;m Mackenzie Scott,Ex-wife of Amazon founder i&#39;m donating $4 billion to charities,individuals,universities across the Globe from my divorce funds,i&#39;m donating part of it to provide immediate support to people suffering economically during the COVID-19 pandemic,i have a donation worth $100,800,000.00 Dollars for you,you can contact me for more information if you&#39;re interested.
