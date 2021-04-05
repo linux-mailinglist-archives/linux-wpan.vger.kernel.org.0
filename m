@@ -2,96 +2,82 @@ Return-Path: <linux-wpan-owner@vger.kernel.org>
 X-Original-To: lists+linux-wpan@lfdr.de
 Delivered-To: lists+linux-wpan@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 6CF9D3536F2
-	for <lists+linux-wpan@lfdr.de>; Sun,  4 Apr 2021 06:57:21 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id ECE27353A43
+	for <lists+linux-wpan@lfdr.de>; Mon,  5 Apr 2021 02:31:17 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229565AbhDDE5X (ORCPT <rfc822;lists+linux-wpan@lfdr.de>);
-        Sun, 4 Apr 2021 00:57:23 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60030 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229562AbhDDE5X (ORCPT
-        <rfc822;linux-wpan@vger.kernel.org>); Sun, 4 Apr 2021 00:57:23 -0400
-Received: from mail-pj1-x102b.google.com (mail-pj1-x102b.google.com [IPv6:2607:f8b0:4864:20::102b])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1B837C061756
-        for <linux-wpan@vger.kernel.org>; Sat,  3 Apr 2021 21:57:18 -0700 (PDT)
-Received: by mail-pj1-x102b.google.com with SMTP id s21so4503578pjq.1
-        for <linux-wpan@vger.kernel.org>; Sat, 03 Apr 2021 21:57:18 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=5wePQzm+fjHwIolbQ+55diGyg4mHT6kViQ0QEVhszlY=;
-        b=ei4/vejrSnAjUxIlTxPVkg0WrxHoQ5U9aScBlTx3qfmgyWwiWpUVeNTw2EeiCB5VmT
-         xBsHmOmr53OifwsFgFFMz9DjVT2TLs6Af1ghYIeqb2UvEgMuYpU2Y6M4gSzS5WGofIwe
-         w3ZplM+b3m7Q2hA1AsOkQKntQ7yYVWE2zgeSuErKB33gzKEhmIqeZ0Fx8DDaVQ0yLguL
-         /hsmgoYxRARZ84a4kdytNm1+EsWNXW2sFutISC2FgPyPTMZcIwr8hC89YxKIbu9LBXIm
-         4AtMFwj3uEmbN0HL8Xy67aw7A+kuvxwDqpfMRF48feac5pcPfvwBlDJ1+2Aqm76LM87u
-         /puw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=5wePQzm+fjHwIolbQ+55diGyg4mHT6kViQ0QEVhszlY=;
-        b=U9uIOqooW+qAjtrug5M2HIas24bYaQMx6q/nqNndIDp1DDRZQEWyE15VNtexGvzvWw
-         QZK9XjUVIcBXJGsodQWr2aEiIom03Ykv2JzRYDoE0mJT+yay30qNA9iDMVWbKy1bwpNn
-         7y5Bm3xjkUBYfVtY9PnH+Py9zXXOpHkCGTrD/qNyACT9Y/7Gpy6dGnGySlVDJUbDp+2C
-         qC9fKcc5ALLzronsQct2ztUy+hThZu78s3TYWIyCbOsfMK2oYpTEVxlSb7xhg4rWvYzk
-         hSx4hyyq8hxVMBn/HpVLEw/C1Pt99D/LhmpZ1x9eUX1My9aTC3RpHwJny++rvJ63GuvR
-         g7SQ==
-X-Gm-Message-State: AOAM53125Xz6aXmRl2+ooG4w06weev7G7w/gGEn5PDrISDaY0Gd/TiUH
-        FkHZjKHulnzBhDMjz54/GLE=
-X-Google-Smtp-Source: ABdhPJxlCsF6yOg9WXBnLo1XFuwOqFX7AwibiW/DwhGBlVoMAIcmS3sATbb8Gvc/oB6l1h/5bNXb/A==
-X-Received: by 2002:a17:90a:5d14:: with SMTP id s20mr21004578pji.6.1617512237558;
-        Sat, 03 Apr 2021 21:57:17 -0700 (PDT)
-Received: from nuc.c.rabbit-hole-integration-007.internal ([202.133.196.154])
-        by smtp.gmail.com with ESMTPSA id w23sm12230872pgi.63.2021.04.03.21.57.15
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 03 Apr 2021 21:57:17 -0700 (PDT)
-From:   Du Cheng <ducheng2@gmail.com>
-To:     Alexander Aring <alex.aring@gmail.com>,
-        Stefan Schmidt <stefan@datenfreihafen.org>
-Cc:     linux-wpan@vger.kernel.org, gregkh@linuxfoundation.org,
-        skhan@linuxfoundation.org, Du Cheng <ducheng2@gmail.com>,
-        syzbot+cde43a581a8e5f317bc2@syzkaller.appspotmail.com
-Subject: [PATCH] net:mac802154: add init of .sec and .sec_mtx for sdata in ieee802154_setup_sdata
-Date:   Sun,  4 Apr 2021 12:57:12 +0800
-Message-Id: <20210404045712.50954-1-ducheng2@gmail.com>
-X-Mailer: git-send-email 2.30.2
+        id S231748AbhDEAbO (ORCPT <rfc822;lists+linux-wpan@lfdr.de>);
+        Sun, 4 Apr 2021 20:31:14 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:45526 "EHLO
+        us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S231735AbhDEAbN (ORCPT
+        <rfc822;linux-wpan@vger.kernel.org>); Sun, 4 Apr 2021 20:31:13 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1617582668;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:
+         content-transfer-encoding:content-transfer-encoding;
+        bh=iSJ3pKh1BivwXCh+A/1gJQXkiIPD6okedKlGIxFuIhA=;
+        b=J3Fep6MCUc/pk9gZq76SeI8cGSG9efP1oWcs7GEWhPp0O6ygx73AMCFV5f/NxW9ArVK95P
+        EzniRLnmg3m+IVE9fw1DQdiCuK7buLIWVEFkqse2YelO/AokMKKmSBQDkXH6QP8FpJkg3i
+        +K0vuaXMGyWlNqrVu9NXGmh4BqFyRGE=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-421-sPF1MGPDOoyiR4pz-sy-UQ-1; Sun, 04 Apr 2021 20:31:04 -0400
+X-MC-Unique: sPF1MGPDOoyiR4pz-sy-UQ-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com [10.5.11.12])
+        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+        (No client certificate requested)
+        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 21222817469;
+        Mon,  5 Apr 2021 00:31:03 +0000 (UTC)
+Received: from carbon.redhat.com (ovpn-113-102.rdu2.redhat.com [10.10.113.102])
+        by smtp.corp.redhat.com (Postfix) with ESMTP id A00A42B189;
+        Mon,  5 Apr 2021 00:31:01 +0000 (UTC)
+From:   Alexander Aring <aahringo@redhat.com>
+To:     stefan@datenfreihafen.org
+Cc:     linux-wpan@vger.kernel.org, netdev@vger.kernel.org
+Subject: [PATCH RESEND wpan 00/15] net: ieee802154: forbid sec params for monitors
+Date:   Sun,  4 Apr 2021 20:30:39 -0400
+Message-Id: <20210405003054.256017-1-aahringo@redhat.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
 Precedence: bulk
 List-ID: <linux-wpan.vger.kernel.org>
 X-Mailing-List: linux-wpan@vger.kernel.org
 
-add mutex_init(&sdata->sec_mtx) and mac802154_llsec_init(&sdata->sec) for
-NL802154_IFTYPE_MONITOR inside ieee802154_setup_sdata. As the unintiated
-mutex and sec data structure were used in ieee802154_get_llsec_params
-which would cause a kernel crash. BUG reported by syzkaller.
+Hi,
 
-Reported-by: syzbot+cde43a581a8e5f317bc2@syzkaller.appspotmail.com
-Signed-off-by: Du Cheng <ducheng2@gmail.com>
----
-link to syzkaller bug:
-https://syzkaller.appspot.com/bug?id=a9cc0c65e7bb15be7143107d4215ebc8ef047528
-This patch has passed syzbot testing.
+this patch series contains fixes to forbid various security parameters
+settings for monitor types. Monitor types doesn't use the llsec security
+currently and we don't support it. With this patch series the user will
+be notified with a EOPNOTSUPP error that for monitor interfaces security
+is not supported yet. However there might be a possibility in future
+that the kernel will decrypt frames with llsec information for sniffing
+frames and deliver plaintext to userspace, but this isn't supported yet.
 
- net/mac802154/iface.c | 3 +++
- 1 file changed, 3 insertions(+)
+- Alex
 
-diff --git a/net/mac802154/iface.c b/net/mac802154/iface.c
-index 1cf5ac09edcb..bec903e98db0 100644
---- a/net/mac802154/iface.c
-+++ b/net/mac802154/iface.c
-@@ -602,6 +602,9 @@ ieee802154_setup_sdata(struct ieee802154_sub_if_data *sdata,
- 		sdata->dev->needs_free_netdev = true;
- 		sdata->dev->netdev_ops = &mac802154_monitor_ops;
- 		wpan_dev->promiscuous_mode = true;
-+
-+		mutex_init(&sdata->sec_mtx);
-+		mac802154_llsec_init(&sdata->sec);
- 		break;
- 	default:
- 		BUG();
+Alexander Aring (15):
+  net: ieee802154: nl-mac: fix check on panid
+  net: ieee802154: forbid monitor for set llsec params
+  net: ieee802154: stop dump llsec keys for monitors
+  net: ieee802154: forbid monitor for add llsec key
+  net: ieee802154: forbid monitor for del llsec key
+  net: ieee802154: stop dump llsec devs for monitors
+  net: ieee802154: forbid monitor for add llsec dev
+  net: ieee802154: forbid monitor for del llsec dev
+  net: ieee802154: stop dump llsec devkeys for monitors
+  net: ieee802154: forbid monitor for add llsec devkey
+  net: ieee802154: forbid monitor for del llsec devkey
+  net: ieee802154: stop dump llsec seclevels for monitors
+  net: ieee802154: forbid monitor for add llsec seclevel
+  net: ieee802154: forbid monitor for del llsec seclevel
+  net: ieee802154: stop dump llsec params for monitors
+
+ net/ieee802154/nl-mac.c   |  7 +++---
+ net/ieee802154/nl802154.c | 52 +++++++++++++++++++++++++++++++++++++++
+ 2 files changed, 56 insertions(+), 3 deletions(-)
+
 -- 
-2.30.2
+2.26.3
 
