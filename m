@@ -2,41 +2,38 @@ Return-Path: <linux-wpan-owner@vger.kernel.org>
 X-Original-To: lists+linux-wpan@lfdr.de
 Delivered-To: lists+linux-wpan@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 182D935CC40
-	for <lists+linux-wpan@lfdr.de>; Mon, 12 Apr 2021 18:28:26 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 68F3135CC71
+	for <lists+linux-wpan@lfdr.de>; Mon, 12 Apr 2021 18:28:48 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S244410AbhDLQ16 (ORCPT <rfc822;lists+linux-wpan@lfdr.de>);
-        Mon, 12 Apr 2021 12:27:58 -0400
-Received: from mail.kernel.org ([198.145.29.99]:56864 "EHLO mail.kernel.org"
+        id S244629AbhDLQ2x (ORCPT <rfc822;lists+linux-wpan@lfdr.de>);
+        Mon, 12 Apr 2021 12:28:53 -0400
+Received: from mail.kernel.org ([198.145.29.99]:57066 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S244423AbhDLQZ4 (ORCPT <rfc822;linux-wpan@vger.kernel.org>);
-        Mon, 12 Apr 2021 12:25:56 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 07B286136F;
-        Mon, 12 Apr 2021 16:24:48 +0000 (UTC)
+        id S243299AbhDLQ0y (ORCPT <rfc822;linux-wpan@vger.kernel.org>);
+        Mon, 12 Apr 2021 12:26:54 -0400
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 6224961371;
+        Mon, 12 Apr 2021 16:25:03 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1618244689;
-        bh=C5cisYo0+cKjilV5bFZSqCOdDhRtn0udHul/3J7cQlI=;
-        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=ckPZec3rIjM8ezfTNsrGy0f510ufZRyTU7Vuyvd2ymPhX8NADL+7KmNVKR+2r6zYa
-         zukr/C3+pKOg82iFMP7s+eJOsWlTCoAO7c51pbBTav5bdhst05lg6i4tzJrQ/0bhlg
-         A1B1ICpTMfaSLWti1YCfbH1/RYqxvesI5G9o1ztsZpilbD/QUuOM8aiK7eFBeHq2Tr
-         KIdYpVvdxkZNheDOkHa+78mDN1/mub6ymuQ6xIVa8lRq/3DTr4RxcRiAgaeCWYUApn
-         wcvGfKvKKlc/Xks2XZP6bDnqudZWs2qyxTeshOfex+kR2gwFEDZMgn7VtK7QRXHXd5
-         u4FK9LmT3LmKQ==
+        s=k20201202; t=1618244704;
+        bh=b0XojnXsO9Hyyecq96fEMRKMafR34w5GEc7zCToFUOU=;
+        h=From:To:Cc:Subject:Date:From;
+        b=rDb19yRC54w/qhqznXBC6OZDUD/7/NF6nPp5RmKRCXdf3FzsVgvvBq0avK1x6Lvnn
+         48+Ve+snhb40c2e+YFZSM4e7DFQVM2P2alvS4Qqaap2pey3vhidjU5s88AyF3cUHrI
+         XceZJ9DO6PZg27mP9Smtdv36hGCL0ODXnAyN/5+GjChPRCnCjISW27QqhIDJOpmyn8
+         p1YOe6WXUrfgC2b0asg23rsaQmY9NuPGSz+TDdSc7v45IsYbvB1qrmDXR0KDmUBFwt
+         246KCZnLwuIcn++AxAj7KqAPKCFZkfp/EFBfdOoyvE8DrxqEQqps/lUg2CPi01iu+t
+         BCr/MCK2PdVRA==
 From:   Sasha Levin <sashal@kernel.org>
 To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
-Cc:     Pavel Skripkin <paskripkin@gmail.com>,
-        syzbot+9ec037722d2603a9f52e@syzkaller.appspotmail.com,
-        Alexander Aring <aahringo@redhat.com>,
+Cc:     Alexander Aring <aahringo@redhat.com>,
+        syzbot+ac5c11d2959a8b3c4806@syzkaller.appspotmail.com,
         Stefan Schmidt <stefan@datenfreihafen.org>,
         Sasha Levin <sashal@kernel.org>, linux-wpan@vger.kernel.org,
         netdev@vger.kernel.org
-Subject: [PATCH AUTOSEL 5.10 38/46] net: mac802154: Fix general protection fault
-Date:   Mon, 12 Apr 2021 12:23:53 -0400
-Message-Id: <20210412162401.314035-38-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 5.4 01/39] net: ieee802154: fix nl802154 del llsec key
+Date:   Mon, 12 Apr 2021 12:24:23 -0400
+Message-Id: <20210412162502.314854-1-sashal@kernel.org>
 X-Mailer: git-send-email 2.30.2
-In-Reply-To: <20210412162401.314035-1-sashal@kernel.org>
-References: <20210412162401.314035-1-sashal@kernel.org>
 MIME-Version: 1.0
 X-stable: review
 X-Patchwork-Hint: Ignore
@@ -45,61 +42,36 @@ Precedence: bulk
 List-ID: <linux-wpan.vger.kernel.org>
 X-Mailing-List: linux-wpan@vger.kernel.org
 
-From: Pavel Skripkin <paskripkin@gmail.com>
+From: Alexander Aring <aahringo@redhat.com>
 
-[ Upstream commit 1165affd484889d4986cf3b724318935a0b120d8 ]
+[ Upstream commit 37feaaf5ceb2245e474369312bb7b922ce7bce69 ]
 
-syzbot found general protection fault in crypto_destroy_tfm()[1].
-It was caused by wrong clean up loop in llsec_key_alloc().
-If one of the tfm array members is in IS_ERR() range it will
-cause general protection fault in clean up function [1].
+This patch fixes a nullpointer dereference if NL802154_ATTR_SEC_KEY is
+not set by the user. If this is the case nl802154 will return -EINVAL.
 
-Call Trace:
- crypto_free_aead include/crypto/aead.h:191 [inline] [1]
- llsec_key_alloc net/mac802154/llsec.c:156 [inline]
- mac802154_llsec_key_add+0x9e0/0xcc0 net/mac802154/llsec.c:249
- ieee802154_add_llsec_key+0x56/0x80 net/mac802154/cfg.c:338
- rdev_add_llsec_key net/ieee802154/rdev-ops.h:260 [inline]
- nl802154_add_llsec_key+0x3d3/0x560 net/ieee802154/nl802154.c:1584
- genl_family_rcv_msg_doit+0x228/0x320 net/netlink/genetlink.c:739
- genl_family_rcv_msg net/netlink/genetlink.c:783 [inline]
- genl_rcv_msg+0x328/0x580 net/netlink/genetlink.c:800
- netlink_rcv_skb+0x153/0x420 net/netlink/af_netlink.c:2502
- genl_rcv+0x24/0x40 net/netlink/genetlink.c:811
- netlink_unicast_kernel net/netlink/af_netlink.c:1312 [inline]
- netlink_unicast+0x533/0x7d0 net/netlink/af_netlink.c:1338
- netlink_sendmsg+0x856/0xd90 net/netlink/af_netlink.c:1927
- sock_sendmsg_nosec net/socket.c:654 [inline]
- sock_sendmsg+0xcf/0x120 net/socket.c:674
- ____sys_sendmsg+0x6e8/0x810 net/socket.c:2350
- ___sys_sendmsg+0xf3/0x170 net/socket.c:2404
- __sys_sendmsg+0xe5/0x1b0 net/socket.c:2433
- do_syscall_64+0x2d/0x70 arch/x86/entry/common.c:46
- entry_SYSCALL_64_after_hwframe+0x44/0xae
-
-Signed-off-by: Pavel Skripkin <paskripkin@gmail.com>
-Reported-by: syzbot+9ec037722d2603a9f52e@syzkaller.appspotmail.com
-Acked-by: Alexander Aring <aahringo@redhat.com>
-Link: https://lore.kernel.org/r/20210304152125.1052825-1-paskripkin@gmail.com
+Reported-by: syzbot+ac5c11d2959a8b3c4806@syzkaller.appspotmail.com
+Signed-off-by: Alexander Aring <aahringo@redhat.com>
+Link: https://lore.kernel.org/r/20210221174321.14210-1-aahringo@redhat.com
 Signed-off-by: Stefan Schmidt <stefan@datenfreihafen.org>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- net/mac802154/llsec.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ net/ieee802154/nl802154.c | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
-diff --git a/net/mac802154/llsec.c b/net/mac802154/llsec.c
-index 585d33144c33..55550ead2ced 100644
---- a/net/mac802154/llsec.c
-+++ b/net/mac802154/llsec.c
-@@ -152,7 +152,7 @@ llsec_key_alloc(const struct ieee802154_llsec_key *template)
- 	crypto_free_sync_skcipher(key->tfm0);
- err_tfm:
- 	for (i = 0; i < ARRAY_SIZE(key->tfm); i++)
--		if (key->tfm[i])
-+		if (!IS_ERR_OR_NULL(key->tfm[i]))
- 			crypto_free_aead(key->tfm[i]);
+diff --git a/net/ieee802154/nl802154.c b/net/ieee802154/nl802154.c
+index ffcfcef76291..44df73d73fc9 100644
+--- a/net/ieee802154/nl802154.c
++++ b/net/ieee802154/nl802154.c
+@@ -1608,7 +1608,8 @@ static int nl802154_del_llsec_key(struct sk_buff *skb, struct genl_info *info)
+ 	struct nlattr *attrs[NL802154_KEY_ATTR_MAX + 1];
+ 	struct ieee802154_llsec_key_id id;
  
- 	kfree_sensitive(key);
+-	if (nla_parse_nested_deprecated(attrs, NL802154_KEY_ATTR_MAX, info->attrs[NL802154_ATTR_SEC_KEY], nl802154_key_policy, info->extack))
++	if (!info->attrs[NL802154_ATTR_SEC_KEY] ||
++	    nla_parse_nested_deprecated(attrs, NL802154_KEY_ATTR_MAX, info->attrs[NL802154_ATTR_SEC_KEY], nl802154_key_policy, info->extack))
+ 		return -EINVAL;
+ 
+ 	if (ieee802154_llsec_parse_key_id(attrs[NL802154_KEY_ATTR_ID], &id) < 0)
 -- 
 2.30.2
 
