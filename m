@@ -2,64 +2,81 @@ Return-Path: <linux-wpan-owner@vger.kernel.org>
 X-Original-To: lists+linux-wpan@lfdr.de
 Delivered-To: lists+linux-wpan@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id E6DDE376647
-	for <lists+linux-wpan@lfdr.de>; Fri,  7 May 2021 15:38:36 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id AF8B1376CCF
+	for <lists+linux-wpan@lfdr.de>; Sat,  8 May 2021 00:26:58 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236032AbhEGNje (ORCPT <rfc822;lists+linux-wpan@lfdr.de>);
-        Fri, 7 May 2021 09:39:34 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45278 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S236031AbhEGNje (ORCPT
-        <rfc822;linux-wpan@vger.kernel.org>); Fri, 7 May 2021 09:39:34 -0400
-Received: from mail-yb1-xb42.google.com (mail-yb1-xb42.google.com [IPv6:2607:f8b0:4864:20::b42])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A74C1C061574
-        for <linux-wpan@vger.kernel.org>; Fri,  7 May 2021 06:38:32 -0700 (PDT)
-Received: by mail-yb1-xb42.google.com with SMTP id r8so11946245ybb.9
-        for <linux-wpan@vger.kernel.org>; Fri, 07 May 2021 06:38:32 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:from:date:message-id:subject:to;
-        bh=iXKz4myqIhURUf2ZDGNLEGTsx538bMUGPQ3iZpcq3fQ=;
-        b=LWk52d9Aeuiu7n6L9HnaI/ImAQkalAskfH819Kp7evxGytFFJfvUW0vA8TZ08FzxvU
-         +rzoJi3yK6TznlqwK7yIUUd5KU5jyM/nIK61kHbetGVC6FTiRbKg3mHlQSS5g9EfLrf2
-         mHfSd4fTKsxr0kUe7DE/VOAwWtJpAkTawCN2/6EfcQcY/Iy1TS8XUDal7fZNhUsN69cx
-         JPT3C8FKCvZl3PKXHFL7sap/IOiyaTM+s2fOiEzKIp9TzwZWebwsU6S5bqwd0bGc+JM2
-         xvnyuCdE/SQK0XiuX10JiSHiBuTzQEEnRLBYz8g+CSNsppwpa9LLABAj+sIi2W5MWuzJ
-         VpkA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:from:date:message-id:subject:to;
-        bh=iXKz4myqIhURUf2ZDGNLEGTsx538bMUGPQ3iZpcq3fQ=;
-        b=ijOUvwU6SYfPwYGbGogtgHcq2fxvQyjkBfoBaZw1l0OT/2rqALwRhmJOkPgIOI1yJ5
-         GSpM2J4ej7EixqiIN14d91Rp+1t3SWUW0K+9gw/Y5EJJHPo78/QhRC/bDVI3z+Ibu3MY
-         At0pV+virY6T4rHEHtbMwr+EId4Z4qopBiFJak38S7lb19+GWBhZ3YwGrZXlIaOG03WR
-         QsEFmbpVrPYoZDwOvSLty2YJNXwOxnVK2jwZ0SG2HbGjdVH1/GIK85Lm3GBwK5f0Q26P
-         bnyDRIkhu3E337VZHFzkDZkEAJwe2fmtvNopoR83iem2wrDR6fULD3kNmkUOpf6VawG/
-         PP5w==
-X-Gm-Message-State: AOAM5311aaAyKxHH2mJtW/xIwLbAcgYwSS3Vicfk8cVKxFfvswjxxmNr
-        OuPv7WOEKcal5EejULUmWlOFYxaueuPm/RSwuME=
-X-Google-Smtp-Source: ABdhPJzYinxL8dbV7sj+1koiLkYpn6zwKIPwHBd+MSCSShwjWrNUA94/dVZCM044YprbHSP5TRanjrEdwv90HzvLsKM=
-X-Received: by 2002:a25:6981:: with SMTP id e123mr13489471ybc.114.1620394711977;
- Fri, 07 May 2021 06:38:31 -0700 (PDT)
+        id S230187AbhEGW1p (ORCPT <rfc822;lists+linux-wpan@lfdr.de>);
+        Fri, 7 May 2021 18:27:45 -0400
+Received: from bosmailout01.eigbox.net ([66.96.190.1]:36027 "EHLO
+        bosmailout01.eigbox.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S229470AbhEGW1h (ORCPT
+        <rfc822;linux-wpan@vger.kernel.org>); Fri, 7 May 2021 18:27:37 -0400
+X-Greylist: delayed 1929 seconds by postgrey-1.27 at vger.kernel.org; Fri, 07 May 2021 18:27:30 EDT
+Received: from bosmailscan09.eigbox.net ([10.20.15.9])
+        by bosmailout01.eigbox.net with esmtp (Exim)
+        id 1lf8QO-00068o-JJ; Fri, 07 May 2021 17:54:20 -0400
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=godsofu4.com; s=dkim; h=Sender:Content-Transfer-Encoding:Content-Type:
+        Message-ID:Reply-To:Subject:To:From:Date:MIME-Version:Cc:Content-ID:
+        Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
+        :Resent-Message-ID:In-Reply-To:References:List-Id:List-Help:List-Unsubscribe:
+        List-Subscribe:List-Post:List-Owner:List-Archive;
+        bh=aM9bUFGSTpfnep8zAVAJMnojqhcwpuHDFPgQnPqW4M4=; b=bjgKomV6NO5Eg5D3qsCBps1llx
+        tj4k2teSfIdfo/duBtOSoC/FW1+C1nXiYJbrvf2JDobx8fDCsgnxHFoPWOCb5eI+OJOIgvnnfKlpl
+        ZqidIuDnjEPTMao1vFwrg6M9FUKU/cz6TT5/KN4ccsk+aQli3Wgs3G1cQz5vdbC1Y2SXULFY8Mu2t
+        1PShwmiDRn71EPzgUHUVu0GG39z6uSTEuRgOXhiNl9ekuZ5QXUAEykoocvC5/DkORRmERAA91o1HY
+        Sl76pPWw9UBVGbuFbfdVPfVcFxJM5xZDrmgt6uCf9J+dn/n7LFOSOxBaL9svxxYdhOkJwdz4uh075
+        2gI+xJSw==;
+Received: from [10.115.3.32] (helo=bosimpout12)
+        by bosmailscan09.eigbox.net with esmtp (Exim)
+        id 1lf8QO-0003aD-AI; Fri, 07 May 2021 17:54:20 -0400
+Received: from boswebmail06.eigbox.net ([10.20.16.6])
+        by bosimpout12 with 
+        id 1xuH2500407qujN01xuLVi; Fri, 07 May 2021 17:54:20 -0400
+X-EN-SP-DIR: OUT
+X-EN-SP-SQ: 1
+Received: from [127.0.0.1] (helo=homestead)
+        by boswebmail06.eigbox.net with esmtp (Exim)
+        id 1lf8QL-0006fx-UG; Fri, 07 May 2021 17:54:17 -0400
+Received: from [197.239.81.229]
+ by emailmg.homestead.com
+ with HTTP (HTTP/1.1 POST); Fri, 07 May 2021 17:54:17 -0400
 MIME-Version: 1.0
-Received: by 2002:a05:7110:5554:b029:b6:72fd:4e18 with HTTP; Fri, 7 May 2021
- 06:38:31 -0700 (PDT)
-From:   thunder duman <thunderduman8@gmail.com>
-Date:   Fri, 7 May 2021 06:38:31 -0700
-Message-ID: <CAGg4oZi_YeBzHY7Lh6aDmCQTSdgrUzU2S6ApQvdzfG8auBsdtQ@mail.gmail.com>
-Subject: Confidential
+Date:   Fri, 07 May 2021 21:54:17 +0000
+From:   Mrs Suzara Maling Wan <fast65@godsofu4.com>
 To:     undisclosed-recipients:;
-Content-Type: text/plain; charset="UTF-8"
+Subject: URGENT REPLY NEEDED
+Reply-To: suzara2017malingwan@gmail.com
+Mail-Reply-To: suzara2017malingwan@gmail.com
+Message-ID: <36acfe805efde59f3f399df1324ce6b9@godsofu4.com>
+X-Sender: fast65@godsofu4.com
+User-Agent: Roundcube Webmail/1.3.14
+Content-Type: text/plain; charset=US-ASCII;
+ format=flowed
+Content-Transfer-Encoding: 7bit
+X-EN-AuthUser: fast65@godsofu4.com
+Sender:  Mrs Suzara Maling Wan <fast65@godsofu4.com>
 Precedence: bulk
 List-ID: <linux-wpan.vger.kernel.org>
 X-Mailing-List: linux-wpan@vger.kernel.org
 
-Dear Friend,
 
-Greetings to you, i trust this mail finds you in good health? Meanwhile
-my name is Mr.Tuncer Duman and I want to ask for your special assistant
-in getting the fund left behind in our bank by a citizen of your country.
-Who has the same last name with you, If you are interested, please do get
-back to me for more details.
 
-Many thanks,
+My names are Mrs Suzara Maling Wan, I am a Nationality of the Republic
+of the Philippine presently base in West Africa B/F, dealing with
+exportation of Gold, I was diagnose of blood Causal decease, and my
+doctor have announce to me that I have few days to leave due to the
+condition of my sickness.
+
+I have a desire to build an orphanage home in your country of which i
+cannot execute the project myself due to my present health condition,
+I am willing to hand over the project under your care for you to help
+me fulfill my dreams and desire of building an orphanage home in your
+country.
+
+Reply in you are will to help so that I can direct you to my bank for
+the urgent transfer of the fund/money require for the project to your
+account as I have already made the fund/money available.
+
+With kind regards
+Mrs Suzara Maling Wan
