@@ -2,83 +2,64 @@ Return-Path: <linux-wpan-owner@vger.kernel.org>
 X-Original-To: lists+linux-wpan@lfdr.de
 Delivered-To: lists+linux-wpan@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 16C6736A69B
-	for <lists+linux-wpan@lfdr.de>; Sun, 25 Apr 2021 12:25:09 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id E6DDE376647
+	for <lists+linux-wpan@lfdr.de>; Fri,  7 May 2021 15:38:36 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229707AbhDYKZq (ORCPT <rfc822;lists+linux-wpan@lfdr.de>);
-        Sun, 25 Apr 2021 06:25:46 -0400
-Received: from out30-43.freemail.mail.aliyun.com ([115.124.30.43]:50800 "EHLO
-        out30-43.freemail.mail.aliyun.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S229466AbhDYKZq (ORCPT
-        <rfc822;linux-wpan@vger.kernel.org>);
-        Sun, 25 Apr 2021 06:25:46 -0400
-X-Alimail-AntiSpam: AC=PASS;BC=-1|-1;BR=01201311R201e4;CH=green;DM=||false|;DS=||;FP=0|-1|-1|-1|0|-1|-1|-1;HT=e01e01424;MF=yang.lee@linux.alibaba.com;NM=1;PH=DS;RN=8;SR=0;TI=SMTPD_---0UWg2IQf_1619346303;
-Received: from j63c13417.sqa.eu95.tbsite.net(mailfrom:yang.lee@linux.alibaba.com fp:SMTPD_---0UWg2IQf_1619346303)
-          by smtp.aliyun-inc.com(127.0.0.1);
-          Sun, 25 Apr 2021 18:25:04 +0800
-From:   Yang Li <yang.lee@linux.alibaba.com>
-To:     alex.aring@gmail.com
-Cc:     stefan@datenfreihafen.org, davem@davemloft.net, kuba@kernel.org,
-        linux-wpan@vger.kernel.org, netdev@vger.kernel.org,
-        linux-kernel@vger.kernel.org, Yang Li <yang.lee@linux.alibaba.com>
-Subject: [PATCH] net/ieee802154: drop unneeded assignment in llsec_iter_devkeys()
-Date:   Sun, 25 Apr 2021 18:24:59 +0800
-Message-Id: <1619346299-40237-1-git-send-email-yang.lee@linux.alibaba.com>
-X-Mailer: git-send-email 1.8.3.1
+        id S236032AbhEGNje (ORCPT <rfc822;lists+linux-wpan@lfdr.de>);
+        Fri, 7 May 2021 09:39:34 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45278 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S236031AbhEGNje (ORCPT
+        <rfc822;linux-wpan@vger.kernel.org>); Fri, 7 May 2021 09:39:34 -0400
+Received: from mail-yb1-xb42.google.com (mail-yb1-xb42.google.com [IPv6:2607:f8b0:4864:20::b42])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A74C1C061574
+        for <linux-wpan@vger.kernel.org>; Fri,  7 May 2021 06:38:32 -0700 (PDT)
+Received: by mail-yb1-xb42.google.com with SMTP id r8so11946245ybb.9
+        for <linux-wpan@vger.kernel.org>; Fri, 07 May 2021 06:38:32 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=mime-version:from:date:message-id:subject:to;
+        bh=iXKz4myqIhURUf2ZDGNLEGTsx538bMUGPQ3iZpcq3fQ=;
+        b=LWk52d9Aeuiu7n6L9HnaI/ImAQkalAskfH819Kp7evxGytFFJfvUW0vA8TZ08FzxvU
+         +rzoJi3yK6TznlqwK7yIUUd5KU5jyM/nIK61kHbetGVC6FTiRbKg3mHlQSS5g9EfLrf2
+         mHfSd4fTKsxr0kUe7DE/VOAwWtJpAkTawCN2/6EfcQcY/Iy1TS8XUDal7fZNhUsN69cx
+         JPT3C8FKCvZl3PKXHFL7sap/IOiyaTM+s2fOiEzKIp9TzwZWebwsU6S5bqwd0bGc+JM2
+         xvnyuCdE/SQK0XiuX10JiSHiBuTzQEEnRLBYz8g+CSNsppwpa9LLABAj+sIi2W5MWuzJ
+         VpkA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:from:date:message-id:subject:to;
+        bh=iXKz4myqIhURUf2ZDGNLEGTsx538bMUGPQ3iZpcq3fQ=;
+        b=ijOUvwU6SYfPwYGbGogtgHcq2fxvQyjkBfoBaZw1l0OT/2rqALwRhmJOkPgIOI1yJ5
+         GSpM2J4ej7EixqiIN14d91Rp+1t3SWUW0K+9gw/Y5EJJHPo78/QhRC/bDVI3z+Ibu3MY
+         At0pV+virY6T4rHEHtbMwr+EId4Z4qopBiFJak38S7lb19+GWBhZ3YwGrZXlIaOG03WR
+         QsEFmbpVrPYoZDwOvSLty2YJNXwOxnVK2jwZ0SG2HbGjdVH1/GIK85Lm3GBwK5f0Q26P
+         bnyDRIkhu3E337VZHFzkDZkEAJwe2fmtvNopoR83iem2wrDR6fULD3kNmkUOpf6VawG/
+         PP5w==
+X-Gm-Message-State: AOAM5311aaAyKxHH2mJtW/xIwLbAcgYwSS3Vicfk8cVKxFfvswjxxmNr
+        OuPv7WOEKcal5EejULUmWlOFYxaueuPm/RSwuME=
+X-Google-Smtp-Source: ABdhPJzYinxL8dbV7sj+1koiLkYpn6zwKIPwHBd+MSCSShwjWrNUA94/dVZCM044YprbHSP5TRanjrEdwv90HzvLsKM=
+X-Received: by 2002:a25:6981:: with SMTP id e123mr13489471ybc.114.1620394711977;
+ Fri, 07 May 2021 06:38:31 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=n
-Content-Transfer-Encoding: 8bit
+Received: by 2002:a05:7110:5554:b029:b6:72fd:4e18 with HTTP; Fri, 7 May 2021
+ 06:38:31 -0700 (PDT)
+From:   thunder duman <thunderduman8@gmail.com>
+Date:   Fri, 7 May 2021 06:38:31 -0700
+Message-ID: <CAGg4oZi_YeBzHY7Lh6aDmCQTSdgrUzU2S6ApQvdzfG8auBsdtQ@mail.gmail.com>
+Subject: Confidential
+To:     undisclosed-recipients:;
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-wpan.vger.kernel.org>
 X-Mailing-List: linux-wpan@vger.kernel.org
 
-In order to keep the code style consistency of the whole file,
-redundant return value ‘rc’ and its assignments should be deleted
+Dear Friend,
 
-The clang_analyzer complains as follows:
-net/ieee802154/nl-mac.c:1203:12: warning: Although the value stored to
-'rc' is used in the enclosing expression, the value is never actually
-read from 'rc'
+Greetings to you, i trust this mail finds you in good health? Meanwhile
+my name is Mr.Tuncer Duman and I want to ask for your special assistant
+in getting the fund left behind in our bank by a citizen of your country.
+Who has the same last name with you, If you are interested, please do get
+back to me for more details.
 
-No functional change, only more efficient.
-
-Reported-by: Abaci Robot <abaci@linux.alibaba.com>
-Signed-off-by: Yang Li <yang.lee@linux.alibaba.com>
----
- net/ieee802154/nl-mac.c | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
-
-diff --git a/net/ieee802154/nl-mac.c b/net/ieee802154/nl-mac.c
-index 0c1b077..a6a8cf6 100644
---- a/net/ieee802154/nl-mac.c
-+++ b/net/ieee802154/nl-mac.c
-@@ -1184,7 +1184,7 @@ static int llsec_iter_devkeys(struct llsec_dump_data *data)
- {
- 	struct ieee802154_llsec_device *dpos;
- 	struct ieee802154_llsec_device_key *kpos;
--	int rc = 0, idx = 0, idx2;
-+	int idx = 0, idx2;
- 
- 	list_for_each_entry(dpos, &data->table->devices, list) {
- 		if (idx++ < data->s_idx)
-@@ -1200,7 +1200,7 @@ static int llsec_iter_devkeys(struct llsec_dump_data *data)
- 						      data->nlmsg_seq,
- 						      dpos->hwaddr, kpos,
- 						      data->dev)) {
--				return rc = -EMSGSIZE;
-+				return -EMSGSIZE;
- 			}
- 
- 			data->s_idx2++;
-@@ -1209,7 +1209,7 @@ static int llsec_iter_devkeys(struct llsec_dump_data *data)
- 		data->s_idx++;
- 	}
- 
--	return rc;
-+	return 0;
- }
- 
- int ieee802154_llsec_dump_devkeys(struct sk_buff *skb,
--- 
-1.8.3.1
-
+Many thanks,
