@@ -2,70 +2,40 @@ Return-Path: <linux-wpan-owner@vger.kernel.org>
 X-Original-To: lists+linux-wpan@lfdr.de
 Delivered-To: lists+linux-wpan@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id CC4DB379384
-	for <lists+linux-wpan@lfdr.de>; Mon, 10 May 2021 18:16:02 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id B47CD379B58
+	for <lists+linux-wpan@lfdr.de>; Tue, 11 May 2021 02:20:45 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231164AbhEJQRG (ORCPT <rfc822;lists+linux-wpan@lfdr.de>);
-        Mon, 10 May 2021 12:17:06 -0400
-Received: from flippiebeckerswealth.xyz ([62.173.147.206]:33678 "EHLO
-        host.flippiebeckerswealth.xyz" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S231401AbhEJQRF (ORCPT
+        id S230484AbhEKAVf (ORCPT <rfc822;lists+linux-wpan@lfdr.de>);
+        Mon, 10 May 2021 20:21:35 -0400
+Received: from [125.7.54.12] ([125.7.54.12]:38984 "EHLO
+        snhve01-ext-001.mktdns.com" rhost-flags-FAIL-FAIL-OK-OK)
+        by vger.kernel.org with ESMTP id S231130AbhEKAVa (ORCPT
         <rfc822;linux-wpan@vger.kernel.org>);
-        Mon, 10 May 2021 12:17:05 -0400
-X-Greylist: delayed 5314 seconds by postgrey-1.27 at vger.kernel.org; Mon, 10 May 2021 12:17:04 EDT
-Received: from flippiebeckerswealth.xyz (ec2-3-142-218-249.us-east-2.compute.amazonaws.com [3.142.218.249])
-        by host.flippiebeckerswealth.xyz (Postfix) with ESMTPA id 84FEC2314C3
-        for <linux-wpan@vger.kernel.org>; Mon, 10 May 2021 17:06:52 +0300 (MSK)
-DKIM-Filter: OpenDKIM Filter v2.11.0 host.flippiebeckerswealth.xyz 84FEC2314C3
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=flippiebeckerswealth.xyz; s=default; t=1620655614;
-        bh=Lxx5rGQCX/MQzrwE9epz1Mb5yPYRqDyEupWj6GReobo=;
-        h=Reply-To:From:To:Subject:Date:From;
-        b=HoTGEUXoBArXmdrSQOIvmM3AlTcdg+62M6UbZ6mBkNWk6GOreiNmhjN/u1U4EPPeh
-         e2YM8LSnU3p6gFz75+l1sKLs+RGMP+mzEq8/oy8hoqAiwAMFwZ4qxX5Cv42I69FZCt
-         o/eWMoEMuCwhia8Mmt6SuCRqzbG33satBny9AcZw=
-DKIM-Filter: OpenDKIM Filter v2.11.0 host.flippiebeckerswealth.xyz 84FEC2314C3
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=flippiebeckerswealth.xyz; s=default; t=1620655614;
-        bh=Lxx5rGQCX/MQzrwE9epz1Mb5yPYRqDyEupWj6GReobo=;
-        h=Reply-To:From:To:Subject:Date:From;
-        b=HoTGEUXoBArXmdrSQOIvmM3AlTcdg+62M6UbZ6mBkNWk6GOreiNmhjN/u1U4EPPeh
-         e2YM8LSnU3p6gFz75+l1sKLs+RGMP+mzEq8/oy8hoqAiwAMFwZ4qxX5Cv42I69FZCt
-         o/eWMoEMuCwhia8Mmt6SuCRqzbG33satBny9AcZw=
-Reply-To: cpavlides@flippiebeckerwealthservices.com
-From:   Chris Pavlides <cpavlides@flippiebeckerswealth.xyz>
-To:     linux-wpan@vger.kernel.org
-Subject: Personal
-Date:   10 May 2021 14:06:52 +0000
-Message-ID: <20210510140652.AEEA10D72211CAB2@flippiebeckerswealth.xyz>
-Mime-Version: 1.0
+        Mon, 10 May 2021 20:21:30 -0400
+X-MSFBL: D589y4THg6kHc4R/NwYoDOmqiyyxWouFXVBLtCilAU0=|eyJnIjoiYmctc25odmU
+        wMWQtMDEiLCJ1IjoiJXZjdHhfbWVzc3tta3RvTWFpbGluZ0lEfSIsInIiOiJsaW5
+        1eC13cGFuQHZnZXIua2VybmVsLm9yZyIsImIiOiJzbmh2ZTAxLW10YTAyLTEyNS0
+        3LTU0LTEyIn0=
+Reply-To: <avislmarie@yahoo.com>
+Message-ID: <72.BB.07387.9ADC9906@snhve01-mta02.marketo.org>
+From:   "COMPANY" <marieaviss@gmail.com>
+Subject: Re: Business inquiries 05:11:2021
+Date:   Mon, 10 May 2021 17:19:38 -0700
+MIME-Version: 1.0
 Content-Type: text/plain;
-        charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
+        charset="Windows-1251"
+Content-Transfer-Encoding: 7bit
+X-Priority: 3
+X-MSMail-Priority: Normal
+X-Mailer: Microsoft Outlook Express 6.00.2600.0000
+X-MimeOLE: Produced By Microsoft MimeOLE V6.00.2600.0000
+To:     unlisted-recipients:; (no To-header on input)
 Precedence: bulk
 List-ID: <linux-wpan.vger.kernel.org>
 X-Mailing-List: linux-wpan@vger.kernel.org
 
-Hello there,
-
-I hope this message finds you in good spirits especially during=20
-this challenging time of coronavirus pandemic. I hope you and=20
-your family are well and keeping safe. Anyway, I am Chris=20
-Pavlides, a broker working with Flippiebecker Wealth. I got your=20
-contact (along with few other contacts) through an online=20
-business directory and I thought I should contact you to see if=20
-you are interested in this opportunity. I am contacting you=20
-because one of my high profile clients is interested in investing=20
-abroad and has asked me to look for individuals and companies=20
-with interesting business ideas and projects that he can invest=20
-in. He wants to invest a substantial amount of asset abroad.
-
-Please kindly respond back to this email if you are interested in=20
-this opportunity. Once I receive your response, I will give you=20
-more details and we can plan a strategy that will be beneficial=20
-to all parties.
-
-Best regards
-
-C Pavlides
-Flippiebecker Wealth
+Hello
+How are you doing today?
+I am willing to initiate a business relationship with you.
+Yours sincerely
+MA/PM
