@@ -2,40 +2,71 @@ Return-Path: <linux-wpan-owner@vger.kernel.org>
 X-Original-To: lists+linux-wpan@lfdr.de
 Delivered-To: lists+linux-wpan@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id B47CD379B58
-	for <lists+linux-wpan@lfdr.de>; Tue, 11 May 2021 02:20:45 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 2DA80388FD4
+	for <lists+linux-wpan@lfdr.de>; Wed, 19 May 2021 16:07:08 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230484AbhEKAVf (ORCPT <rfc822;lists+linux-wpan@lfdr.de>);
-        Mon, 10 May 2021 20:21:35 -0400
-Received: from [125.7.54.12] ([125.7.54.12]:38984 "EHLO
-        snhve01-ext-001.mktdns.com" rhost-flags-FAIL-FAIL-OK-OK)
-        by vger.kernel.org with ESMTP id S231130AbhEKAVa (ORCPT
-        <rfc822;linux-wpan@vger.kernel.org>);
-        Mon, 10 May 2021 20:21:30 -0400
-X-MSFBL: D589y4THg6kHc4R/NwYoDOmqiyyxWouFXVBLtCilAU0=|eyJnIjoiYmctc25odmU
-        wMWQtMDEiLCJ1IjoiJXZjdHhfbWVzc3tta3RvTWFpbGluZ0lEfSIsInIiOiJsaW5
-        1eC13cGFuQHZnZXIua2VybmVsLm9yZyIsImIiOiJzbmh2ZTAxLW10YTAyLTEyNS0
-        3LTU0LTEyIn0=
-Reply-To: <avislmarie@yahoo.com>
-Message-ID: <72.BB.07387.9ADC9906@snhve01-mta02.marketo.org>
-From:   "COMPANY" <marieaviss@gmail.com>
-Subject: Re: Business inquiries 05:11:2021
-Date:   Mon, 10 May 2021 17:19:38 -0700
+        id S1353800AbhESOIY (ORCPT <rfc822;lists+linux-wpan@lfdr.de>);
+        Wed, 19 May 2021 10:08:24 -0400
+Received: from szxga05-in.huawei.com ([45.249.212.191]:3033 "EHLO
+        szxga05-in.huawei.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S240179AbhESOIW (ORCPT
+        <rfc822;linux-wpan@vger.kernel.org>); Wed, 19 May 2021 10:08:22 -0400
+Received: from dggems702-chm.china.huawei.com (unknown [172.30.72.60])
+        by szxga05-in.huawei.com (SkyGuard) with ESMTP id 4FlZN16LXLzQp1k;
+        Wed, 19 May 2021 22:03:29 +0800 (CST)
+Received: from dggeml759-chm.china.huawei.com (10.1.199.138) by
+ dggems702-chm.china.huawei.com (10.3.19.179) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256) id
+ 15.1.2176.2; Wed, 19 May 2021 22:07:00 +0800
+Received: from localhost.localdomain (10.175.102.38) by
+ dggeml759-chm.china.huawei.com (10.1.199.138) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id
+ 15.1.2176.2; Wed, 19 May 2021 22:06:59 +0800
+From:   Wei Yongjun <weiyongjun1@huawei.com>
+To:     <weiyongjun1@huawei.com>, Alexander Aring <alex.aring@gmail.com>,
+        "Stefan Schmidt" <stefan@datenfreihafen.org>,
+        "David S. Miller" <davem@davemloft.net>,
+        Jakub Kicinski <kuba@kernel.org>
+CC:     <linux-wpan@vger.kernel.org>, <netdev@vger.kernel.org>,
+        <kernel-janitors@vger.kernel.org>, Hulk Robot <hulkci@huawei.com>
+Subject: [PATCH net-next] ieee802154: fix error return code in ieee802154_llsec_getparams()
+Date:   Wed, 19 May 2021 14:16:14 +0000
+Message-ID: <20210519141614.3040055-1-weiyongjun1@huawei.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-Content-Type: text/plain;
-        charset="Windows-1251"
-Content-Transfer-Encoding: 7bit
-X-Priority: 3
-X-MSMail-Priority: Normal
-X-Mailer: Microsoft Outlook Express 6.00.2600.0000
-X-MimeOLE: Produced By Microsoft MimeOLE V6.00.2600.0000
-To:     unlisted-recipients:; (no To-header on input)
+Content-Type:   text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7BIT
+X-Originating-IP: [10.175.102.38]
+X-ClientProxiedBy: dggems703-chm.china.huawei.com (10.3.19.180) To
+ dggeml759-chm.china.huawei.com (10.1.199.138)
+X-CFilter-Loop: Reflected
 Precedence: bulk
 List-ID: <linux-wpan.vger.kernel.org>
 X-Mailing-List: linux-wpan@vger.kernel.org
 
-Hello
-How are you doing today?
-I am willing to initiate a business relationship with you.
-Yours sincerely
-MA/PM
+Fix to return negative error code -ENOBUFS from the error handling
+case instead of 0, as done elsewhere in this function.
+
+Reported-by: Hulk Robot <hulkci@huawei.com>
+Signed-off-by: Wei Yongjun <weiyongjun1@huawei.com>
+---
+ net/ieee802154/nl-mac.c | 4 +++-
+ 1 file changed, 3 insertions(+), 1 deletion(-)
+
+diff --git a/net/ieee802154/nl-mac.c b/net/ieee802154/nl-mac.c
+index 0c1b0770c59e..c23c152860b7 100644
+--- a/net/ieee802154/nl-mac.c
++++ b/net/ieee802154/nl-mac.c
+@@ -680,8 +680,10 @@ int ieee802154_llsec_getparams(struct sk_buff *skb, struct genl_info *info)
+ 	    nla_put_u8(msg, IEEE802154_ATTR_LLSEC_SECLEVEL, params.out_level) ||
+ 	    nla_put_u32(msg, IEEE802154_ATTR_LLSEC_FRAME_COUNTER,
+ 			be32_to_cpu(params.frame_counter)) ||
+-	    ieee802154_llsec_fill_key_id(msg, &params.out_key))
++	    ieee802154_llsec_fill_key_id(msg, &params.out_key)) {
++		rc = -ENOBUFS;
+ 		goto out_free;
++	}
+ 
+ 	dev_put(dev);
+ 
+
