@@ -2,55 +2,74 @@ Return-Path: <linux-wpan-owner@vger.kernel.org>
 X-Original-To: lists+linux-wpan@lfdr.de
 Delivered-To: lists+linux-wpan@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 7A22E3AAE2E
-	for <lists+linux-wpan@lfdr.de>; Thu, 17 Jun 2021 09:56:48 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id C5AAA3AD9D8
+	for <lists+linux-wpan@lfdr.de>; Sat, 19 Jun 2021 13:35:42 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230413AbhFQH6m (ORCPT <rfc822;lists+linux-wpan@lfdr.de>);
-        Thu, 17 Jun 2021 03:58:42 -0400
-Received: from [122.15.141.162] ([122.15.141.162]:42940 "EHLO
-        UPCDCDAMX02.upcl.org" rhost-flags-FAIL-FAIL-OK-FAIL)
-        by vger.kernel.org with ESMTP id S229666AbhFQH6g (ORCPT
-        <rfc822;linux-wpan@vger.kernel.org>);
-        Thu, 17 Jun 2021 03:58:36 -0400
-Received: from UPCDCDAMX02.upcl.org (unknown [127.0.0.1])
-        by IMSVA (Postfix) with ESMTP id EF84AC3EEC;
-        Thu, 17 Jun 2021 12:51:17 +0530 (IST)
-Received: from UPCDCDAMX02.upcl.org (unknown [127.0.0.1])
-        by IMSVA (Postfix) with ESMTP id 9D8C1C318F;
-        Thu, 17 Jun 2021 12:50:14 +0530 (IST)
-Received: from User (unknown [210.212.82.37])
-        by UPCDCDAMX02.upcl.org (Postfix) with SMTP;
-        Thu, 17 Jun 2021 12:50:14 +0530 (IST)
-Reply-To: <marielthiago102@gmail.com>
-From:   "Mariel Thiago" <info@infotools.in>
-Subject: Re:: Please contact me it's very urgent.
-Date:   Thu, 17 Jun 2021 07:20:41 -0000
+        id S233888AbhFSLhv (ORCPT <rfc822;lists+linux-wpan@lfdr.de>);
+        Sat, 19 Jun 2021 07:37:51 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43058 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S233146AbhFSLhu (ORCPT
+        <rfc822;linux-wpan@vger.kernel.org>); Sat, 19 Jun 2021 07:37:50 -0400
+Received: from mail-oi1-x22a.google.com (mail-oi1-x22a.google.com [IPv6:2607:f8b0:4864:20::22a])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D1146C061574
+        for <linux-wpan@vger.kernel.org>; Sat, 19 Jun 2021 04:35:39 -0700 (PDT)
+Received: by mail-oi1-x22a.google.com with SMTP id w1so765615oie.13
+        for <linux-wpan@vger.kernel.org>; Sat, 19 Jun 2021 04:35:39 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=mime-version:from:date:message-id:subject:to;
+        bh=x5HrP36gO0ALn9u29sXSbHdTWm62qTUICdR76n9yB/M=;
+        b=qfyno8OX68b9pxiY3AUAvfsIq2NyMCu6SahEE4S0bSx92e0LY1+dbXapw6Jz+3uBpc
+         vvtcs9fwMiri69umkSyhsjS3Si24HJ5oXTva1PBloe7bUDW98aDP9VWuRKnQXS3RdZPn
+         OLNqafmwFufmaDrdUi3r/+sYEyfxVIFa+nVdRjgFIMPWFgJNhhRIWHLuVSSKUbIPjOiv
+         Ze7Ksvfn3Nv7fwKq/EQJ/9oAWgp9Y+dR2zo22Oxaz5U3RKrjNoQvd2ZNEFjF1u8NOHCP
+         ZxbHkHyOV/jXL+nQP73NXPe9hyV7IK3+i0bfZyj2q0H/G3VIgAsGML3e+/bg3fX/rlK5
+         gDvA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:from:date:message-id:subject:to;
+        bh=x5HrP36gO0ALn9u29sXSbHdTWm62qTUICdR76n9yB/M=;
+        b=hZUW2SRPNDP9a85PHShyhIdsMJPG3PGwwCKwU7MZ21WoRPtlyI3HwOdAMoVgWbaW3a
+         Z/nv2qnXSwV8aaZuv0MTEAloNKxtolmgrfKPVzfmSfqEX9Vony2LaRINZY4eOty/HiAK
+         udcq1+4uhqQ+B11E0rFKoeWvE+fU/+XQHhF8KlwHIqZF/PZO4HzGEhAsm+CORR54LNGI
+         xZ75b0tCWExXwRadm1iGmg07n8FkO9HAb/z4NRY0DyCjkBs+JrqMTTsLWwxD3j4yVNwZ
+         +Yby+K/DPuxdO9uL38+vwFBR0s8PjguNG6LSbLRPYFR8NKOdTb5FcQYTFpYWwUX9zdGj
+         +RKw==
+X-Gm-Message-State: AOAM533GYyeVK5de/cy+DnMD/UuNAtYcyX48cJSW87+rm+8C7f42klaK
+        sxAU7A9nkEpVyPHZr6rIcFQTErvmN9wOBYBqIoOt/9JRdEQIDg==
+X-Google-Smtp-Source: ABdhPJzDS6pNmTfyn2dwFVNfIUBnd0+PwH9OTcW4RVQLW99Qx4ETNAMCUpc7+L9AIibEn/vFd2xu0Ai1mOcf3+Khx6k=
+X-Received: by 2002:aca:7541:: with SMTP id q62mr17780488oic.37.1624102539053;
+ Sat, 19 Jun 2021 04:35:39 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain;
-        charset="Windows-1251"
-Content-Transfer-Encoding: 7bit
-X-Priority: 3
-X-MSMail-Priority: Normal
-X-Mailer: Microsoft Outlook Express 6.00.2600.0000
-X-MimeOLE: Produced By Microsoft MimeOLE V6.00.2600.0000
-Message-Id: <20210617072014.9D8C1C318F@UPCDCDAMX02.upcl.org>
-To:     undisclosed-recipients:;
-X-TM-AS-GCONF: 00
-X-TM-AS-Product-Ver: IMSVA-9.1.0.1960-8.6.0.1013-26224.006
-X-TM-AS-Result: No-2.497-5.0-31-10
-X-imss-scan-details: No-2.497-5.0-31-10
-X-TMASE-Version: IMSVA-9.1.0.1960-8.6.1013-26224.006
-X-TMASE-Result: 10-2.496900-10.000000
-X-TMASE-MatchedRID: PEpoWB/n4wPoJ7ZHxnJI6/6CJzEkJBKDVOXpHWpii+ddyparHcc9UIhu
-        TvsiBEc/JfjcKHKDDk8K4MBRf7I7puawzjZNF/+9gM4D72plZiep43A0ENmZJqRrhpwKFLjUkZO
-        l7WKIImpu9tOD27u7FNTHX+rg7MGt505jRA97RdWRSAi45KhHyaxczqyf2GA9LHdIgRft8S1QSp
-        LfxZGQcl8vMu11r33KXPP583vQDYF3yrRBFBiPVS2s/H4x5wHg3QfwsVk0UbuGrPnef/I+ej6N5
-        5/6MNSnpdDo0PaPyGFHwD2XNKdI8sVZh7bvPcyg0m3qDro1rgcxP1evyC/00KVBBtW+D6/IR7CD
-        JBvMFOms6dZMAot5Yg==
-X-IMSS-DKIM-White-List: No
-X-TMASE-SNAP-Result: 1.821001.0001-0-1-12:0,22:0,33:0,34:0-0
+From:   Christopher Friedt <chrisfriedt@gmail.com>
+Date:   Sat, 19 Jun 2021 07:35:28 -0400
+Message-ID: <CAF4BF-Qd9nenMGO2mQv8PCHUfU5aRaMHgdGyo51YDx+_wgZQPQ@mail.gmail.com>
+Subject: Linux Plumbers IoT MC: Call For Proposals
+To:     linux-wpan@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-wpan.vger.kernel.org>
 X-Mailing-List: linux-wpan@vger.kernel.org
 
- I think I have something huge you might be interested in.
+Hi everyone,
+
+The IoT MC (IoThree's Company) has been accepted for the 3rd straight
+year at Linux Plumbers, Sept 20-24 2021 (Virtual).
+
+I see lots of great stuff happening here and would like to invite the
+community to put in some proposals for IoT-related talks and
+discussions.
+
+https://linuxplumbersconf.org/event/11/abstracts/
+
+Just scroll down to "Submit New Proposal". In the dialog that appears,
+under "Track" select "IoThree's Company MC".
+
+Tell us about your successes and frustrations about bringing-up IoT
+products in the Linux ecosystem :-) We want to improve the developer
+experience for everyone and discussion is very welcome!
+
+Looking forward to seeing everyone again this year virtually.
+
+Chris
