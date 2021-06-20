@@ -2,74 +2,103 @@ Return-Path: <linux-wpan-owner@vger.kernel.org>
 X-Original-To: lists+linux-wpan@lfdr.de
 Delivered-To: lists+linux-wpan@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id C5AAA3AD9D8
-	for <lists+linux-wpan@lfdr.de>; Sat, 19 Jun 2021 13:35:42 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 6B81F3ADEA4
+	for <lists+linux-wpan@lfdr.de>; Sun, 20 Jun 2021 15:33:01 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233888AbhFSLhv (ORCPT <rfc822;lists+linux-wpan@lfdr.de>);
-        Sat, 19 Jun 2021 07:37:51 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43058 "EHLO
+        id S229841AbhFTNfL (ORCPT <rfc822;lists+linux-wpan@lfdr.de>);
+        Sun, 20 Jun 2021 09:35:11 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39692 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233146AbhFSLhu (ORCPT
-        <rfc822;linux-wpan@vger.kernel.org>); Sat, 19 Jun 2021 07:37:50 -0400
-Received: from mail-oi1-x22a.google.com (mail-oi1-x22a.google.com [IPv6:2607:f8b0:4864:20::22a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D1146C061574
-        for <linux-wpan@vger.kernel.org>; Sat, 19 Jun 2021 04:35:39 -0700 (PDT)
-Received: by mail-oi1-x22a.google.com with SMTP id w1so765615oie.13
-        for <linux-wpan@vger.kernel.org>; Sat, 19 Jun 2021 04:35:39 -0700 (PDT)
+        with ESMTP id S229795AbhFTNfJ (ORCPT
+        <rfc822;linux-wpan@vger.kernel.org>); Sun, 20 Jun 2021 09:35:09 -0400
+Received: from mail-pl1-x643.google.com (mail-pl1-x643.google.com [IPv6:2607:f8b0:4864:20::643])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 13400C061574
+        for <linux-wpan@vger.kernel.org>; Sun, 20 Jun 2021 06:32:56 -0700 (PDT)
+Received: by mail-pl1-x643.google.com with SMTP id o21so7095419pll.6
+        for <linux-wpan@vger.kernel.org>; Sun, 20 Jun 2021 06:32:56 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=mime-version:from:date:message-id:subject:to;
-        bh=x5HrP36gO0ALn9u29sXSbHdTWm62qTUICdR76n9yB/M=;
-        b=qfyno8OX68b9pxiY3AUAvfsIq2NyMCu6SahEE4S0bSx92e0LY1+dbXapw6Jz+3uBpc
-         vvtcs9fwMiri69umkSyhsjS3Si24HJ5oXTva1PBloe7bUDW98aDP9VWuRKnQXS3RdZPn
-         OLNqafmwFufmaDrdUi3r/+sYEyfxVIFa+nVdRjgFIMPWFgJNhhRIWHLuVSSKUbIPjOiv
-         Ze7Ksvfn3Nv7fwKq/EQJ/9oAWgp9Y+dR2zo22Oxaz5U3RKrjNoQvd2ZNEFjF1u8NOHCP
-         ZxbHkHyOV/jXL+nQP73NXPe9hyV7IK3+i0bfZyj2q0H/G3VIgAsGML3e+/bg3fX/rlK5
-         gDvA==
+        h=mime-version:reply-to:from:date:message-id:subject:to;
+        bh=D7l/Y2nU4ivOXB3kYNarWKNDy1SUWuawPt7q4q/Bhv4=;
+        b=dH2qs8pOGF97K/MQd5HAAEkctrLeUXolqVtlebnH1HSZZsayuSoXQZJ4VeDtyGBk35
+         Er12oSb6eiSpX3j3YRGQme8wMBbhqvVIiLsP0bULwKabV2oKC6f2nFG6PRq13JX1MFuR
+         hRxUfpXYD9rRZyjTB4nCGoKhvgkA4LgvHHMteBR2lKS/6fg6zjdUPnG6+U+5q2Y8NJ+C
+         n+rlJIk0aCGSQy8BRp/YVaGW7Bo5OFwcOMbLT4nKLI6l8IU29cd2mlieWGjeuqsMq0Zv
+         8i7Ul4h31oRA2STp8EGplMegye6Io98EUPhfD5Y3hHIuHcMJ6LPd4crXM6HgS/mV28Rp
+         W6iQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:from:date:message-id:subject:to;
-        bh=x5HrP36gO0ALn9u29sXSbHdTWm62qTUICdR76n9yB/M=;
-        b=hZUW2SRPNDP9a85PHShyhIdsMJPG3PGwwCKwU7MZ21WoRPtlyI3HwOdAMoVgWbaW3a
-         Z/nv2qnXSwV8aaZuv0MTEAloNKxtolmgrfKPVzfmSfqEX9Vony2LaRINZY4eOty/HiAK
-         udcq1+4uhqQ+B11E0rFKoeWvE+fU/+XQHhF8KlwHIqZF/PZO4HzGEhAsm+CORR54LNGI
-         xZ75b0tCWExXwRadm1iGmg07n8FkO9HAb/z4NRY0DyCjkBs+JrqMTTsLWwxD3j4yVNwZ
-         +Yby+K/DPuxdO9uL38+vwFBR0s8PjguNG6LSbLRPYFR8NKOdTb5FcQYTFpYWwUX9zdGj
-         +RKw==
-X-Gm-Message-State: AOAM533GYyeVK5de/cy+DnMD/UuNAtYcyX48cJSW87+rm+8C7f42klaK
-        sxAU7A9nkEpVyPHZr6rIcFQTErvmN9wOBYBqIoOt/9JRdEQIDg==
-X-Google-Smtp-Source: ABdhPJzDS6pNmTfyn2dwFVNfIUBnd0+PwH9OTcW4RVQLW99Qx4ETNAMCUpc7+L9AIibEn/vFd2xu0Ai1mOcf3+Khx6k=
-X-Received: by 2002:aca:7541:: with SMTP id q62mr17780488oic.37.1624102539053;
- Sat, 19 Jun 2021 04:35:39 -0700 (PDT)
+        h=x-gm-message-state:mime-version:reply-to:from:date:message-id
+         :subject:to;
+        bh=D7l/Y2nU4ivOXB3kYNarWKNDy1SUWuawPt7q4q/Bhv4=;
+        b=NExFIZEDHZEKNFDBXHFDregdiYMaz0eoooD8CROYOTxymysIpb45UmapC9TPDcI1tP
+         uNNHsP8wJhwawS7XrNK6kMVdoNdyizdVZVkl30apZiTggFY7Fociro2ylIxZXvPFDdp2
+         LqTnUVqm2nAPMTOC33OnoscC1yrAZuqZE88QREiO3pvY0G+L1T2hK7PbCTWTHMcVcxgk
+         jhAvDn7WQK7lGQ8F6yyxpK8fxmXye5VGYYjkAopaynCBG+v6E4yXPWceMdekiwNGkquD
+         fXn4EQJwir6strl9zWxmUE+Bjk2SNdTE688r+9gn6NffJBF2L86G57cAG+jpE6RdWoWo
+         3qUg==
+X-Gm-Message-State: AOAM531HVOo69+VQqAFznfwy22wmCTMK6RIFQRJvKO8mcSUvthQw0/nS
+        FXxMTvicH5ZCBL9suf1XwciDwjyNpsoy+zXosW8=
+X-Google-Smtp-Source: ABdhPJx00tt/7aabVQcW6POE0TvfdiIkkIAZCpBR/30vjscsjT3jKr9zw9m3MkwyQc9oGQLSVkB5HYsPhxhU3CS3v6I=
+X-Received: by 2002:a17:90b:3842:: with SMTP id nl2mr32192239pjb.227.1624195975552;
+ Sun, 20 Jun 2021 06:32:55 -0700 (PDT)
 MIME-Version: 1.0
-From:   Christopher Friedt <chrisfriedt@gmail.com>
-Date:   Sat, 19 Jun 2021 07:35:28 -0400
-Message-ID: <CAF4BF-Qd9nenMGO2mQv8PCHUfU5aRaMHgdGyo51YDx+_wgZQPQ@mail.gmail.com>
-Subject: Linux Plumbers IoT MC: Call For Proposals
-To:     linux-wpan@vger.kernel.org
+Received: by 2002:a17:90b:38c4:0:0:0:0 with HTTP; Sun, 20 Jun 2021 06:32:55
+ -0700 (PDT)
+Reply-To: sarahkoffi389@yahoo.co.jp
+From:   Sarah Koffi <william.p15179@gmail.com>
+Date:   Sun, 20 Jun 2021 15:32:55 +0200
+Message-ID: <CAGDeiXHSJFkD=4+MH2yCevC190Es0W98OwPTSfKNw23HQDt3Cw@mail.gmail.com>
+Subject: Greetings From Mrs. Sarah Koffi
+To:     sarahkoffi389@yahoo.co.jp
 Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-wpan.vger.kernel.org>
 X-Mailing-List: linux-wpan@vger.kernel.org
 
-Hi everyone,
+Greetings From Mrs. Sarah Koffi
 
-The IoT MC (IoThree's Company) has been accepted for the 3rd straight
-year at Linux Plumbers, Sept 20-24 2021 (Virtual).
+I'm contacting you based on your good profiles I read and for a good
+reasons, I am in search of a property to buy in your country as I
+intended to come over to your
+country for investment, Though I have not meet with you before but I
+believe that one has to risk confiding in someone to succeed sometimes
+in life.
 
-I see lots of great stuff happening here and would like to invite the
-community to put in some proposals for IoT-related talks and
-discussions.
+My name is Mrs. Sarah Koffi. My late husband deals on Crude Oil with
+Federal Government of Sudan and he has a personal Oil firm in Bentiu
+Oil zone town and Upper
+Nile city. What I have experience physically, I don't wish to
+experience it again in my life due to the recent civil Ethnic war
+cause by our President Mr. Salva Kiir
+and the rebel leader Mr Riek Machar, I have been Under United Nation
+refuge camp in chad to save my life and that of my little daughter.
 
-https://linuxplumbersconf.org/event/11/abstracts/
+Though, I do not know how you will feel to my proposal, but the truth
+is that I sneaked into Chad our neighboring country where I am living
+now as a refugee.
+I escaped with my little daughter when the rebels bust into our house
+and killed my husband as one of the big oil dealers in the country,
+ever since then, I have being on the run.
 
-Just scroll down to "Submit New Proposal". In the dialog that appears,
-under "Track" select "IoThree's Company MC".
+I left my country and move to Chad our neighboring country with the
+little ceasefire we had, due to the face to face peace meeting accord
+coordinated by the US Secretary of State, Mr John Kerry and United
+Nations in Ethiopia (Addis Ababa) between our President Mr Salva Kiir
+and the rebel leader Mr Riek Machar to stop this war.
 
-Tell us about your successes and frustrations about bringing-up IoT
-products in the Linux ecosystem :-) We want to improve the developer
-experience for everyone and discussion is very welcome!
+I want to solicit for your partnership with trust to invest the $8
+million dollars deposited by my late husband in Bank because my life
+is no longer safe in our country, since the rebels are looking for the
+families of all the oil business men in the country to kill, saying
+that they are they one that is milking the country dry.
 
-Looking forward to seeing everyone again this year virtually.
+I will offer you 20% of the total fund for your help while I will
+partner with you for the investment in your country.
+If I get your reply.
 
-Chris
+I will wait to hear from you so as to give you details.With love from
+
+ i need you to contact me here sarahkoffi389@yahoo.co.jp
+
+Mrs. Sarah Koffi
