@@ -2,70 +2,53 @@ Return-Path: <linux-wpan-owner@vger.kernel.org>
 X-Original-To: lists+linux-wpan@lfdr.de
 Delivered-To: lists+linux-wpan@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 807753B397D
-	for <lists+linux-wpan@lfdr.de>; Fri, 25 Jun 2021 00:50:11 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 4151A3B7257
+	for <lists+linux-wpan@lfdr.de>; Tue, 29 Jun 2021 14:50:36 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232966AbhFXWw1 (ORCPT <rfc822;lists+linux-wpan@lfdr.de>);
-        Thu, 24 Jun 2021 18:52:27 -0400
-Received: from mail.kernel.org ([198.145.29.99]:54912 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S232921AbhFXWwX (ORCPT <rfc822;linux-wpan@vger.kernel.org>);
-        Thu, 24 Jun 2021 18:52:23 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPS id AA5CD613C9;
-        Thu, 24 Jun 2021 22:50:03 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1624575003;
-        bh=/o7mHC8UiHdNqD8OncCd0TNsfyIG7RXD+Wqd1ei3thA=;
-        h=Subject:From:Date:References:In-Reply-To:To:Cc:From;
-        b=f/WUWEaYzgnvDDpjM5Ac0/DsvkjeEJfc27wS/D3AJ594ycvlFNGETW6jtCz4euZ4e
-         k1J/idnmLzy8/KkuSveYgQiwKRnl3DfAjPe5DK0Kboat8StJ0Ht68LL4Kj9t8UK9U6
-         yJAHKEvXIinD6JZnkVrlfb7bgjqKsGY7Bnszu7fOy7rN9M5Au6hn5ZDQzv+AkbgC5j
-         mAXg5a2rd8QGd0iYzh+QfGf8kcVtWBI+3mxBMgik9menui5RDgtYbkdEZrR+rK8ssC
-         7OVZw6S9vMVmrEc3tHbJWBUtihSk6tRySEtaX+AleS7y6E65PxS4ZLCURVTgpHnVe+
-         fUPo1FtfAKAzA==
-Received: from pdx-korg-docbuild-2.ci.codeaurora.org (localhost.localdomain [127.0.0.1])
-        by pdx-korg-docbuild-2.ci.codeaurora.org (Postfix) with ESMTP id 9C76A60978;
-        Thu, 24 Jun 2021 22:50:03 +0000 (UTC)
-Content-Type: text/plain; charset="utf-8"
+        id S233790AbhF2MxC convert rfc822-to-8bit (ORCPT
+        <rfc822;lists+linux-wpan@lfdr.de>); Tue, 29 Jun 2021 08:53:02 -0400
+Received: from [218.75.92.58] ([218.75.92.58]:65147 "EHLO WIN-VTPUBHNS72V"
+        rhost-flags-FAIL-FAIL-OK-FAIL) by vger.kernel.org with ESMTP
+        id S232755AbhF2Mw7 (ORCPT <rfc822;linux-wpan@vger.kernel.org>);
+        Tue, 29 Jun 2021 08:52:59 -0400
+Received: from [192.168.43.47] (Unknown [197.210.84.10])
+        by WIN-VTPUBHNS72V with ESMTPA
+        ; Thu, 24 Jun 2021 20:46:28 +0800
+Message-ID: <9A845A47-7571-4588-B7D6-EB33577619B5@WIN-VTPUBHNS72V>
+Content-Type: text/plain; charset="iso-8859-1"
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Subject: Re: pull-request: ieee802154 for net 2021-06-24
-From:   patchwork-bot+netdevbpf@kernel.org
-Message-Id: <162457500363.3017.14562119396532729689.git-patchwork-notify@kernel.org>
-Date:   Thu, 24 Jun 2021 22:50:03 +0000
-References: <20210624204009.3953413-1-stefan@datenfreihafen.org>
-In-Reply-To: <20210624204009.3953413-1-stefan@datenfreihafen.org>
-To:     Stefan Schmidt <stefan@datenfreihafen.org>
-Cc:     davem@davemloft.net, kuba@kernel.org, linux-wpan@vger.kernel.org,
-        alex.aring@gmail.com, netdev@vger.kernel.org
+Content-Transfer-Encoding: 8BIT
+Content-Description: Mail message body
+Subject: URGENT ATTENTION
+To:     Recipients <wjjt@wjjt.cn>
+From:   "Andres Auchincloss" <wjjt@wjjt.cn>
+Date:   Thu, 24 Jun 2021 14:45:50 +0200
+Reply-To: andresauchincloss926@gmail.com
 Precedence: bulk
 List-ID: <linux-wpan.vger.kernel.org>
 X-Mailing-List: linux-wpan@vger.kernel.org
 
-Hello:
+Hi,
 
-This pull request was applied to netdev/net.git (refs/heads/master):
+I will like to use this opportunity to wish you a productive time in 2021 and also confide in you to finalize this transaction of mutual benefits. It may seem strange to you, but it is real. This is a transaction that has no risk at all, due process shall be followed and it shall be carried out under the ambit of the financial laws. Being the Chief Financial Officer, BP Plc. I want to trust and put in your care Eighteen Million British Pounds Sterling, The funds were acquired from an over-invoiced payment from a past contract executed in one of my departments.
 
-On Thu, 24 Jun 2021 22:40:09 +0200 you wrote:
-> Hello Dave, Jakub.
-> 
-> An update from ieee802154 for your *net* tree.
-> 
-> This time we only have fixes for ieee802154 hwsim driver.
-> 
-> Sparked from some syzcaller reports We got a potential
-> crash fix from Eric Dumazet and two memory leak fixes from
-> Dongliang Mu.
-> 
-> [...]
+I can't successfully achieve this transaction without presenting you as foreign contractor who will provide a bank account to receive the funds.
 
-Here is the summary with links:
-  - pull-request: ieee802154 for net 2021-06-24
-    https://git.kernel.org/netdev/net/c/8bead5c2a255
+Documentation for the claim of the funds will be legally processed and documented, so I will need your full cooperation on this matter for our mutual benefits. We will discuss details if you are interested to work with me to secure this funds. I will appreciate your prompt response in every bit of our communication. Stay Blessed and Stay Safe.
 
-You are awesome, thank you!
---
-Deet-doot-dot, I am a bot.
-https://korg.docs.kernel.org/patchwork/pwbot.html
 
+
+Best Regards
+
+
+
+
+Tel: +1 (587) 770-0485
+Andres .B. Auchincloss
+Chief financial officerBP Petroleum p.l.c.
+
+
+
+
+                                  Copyright ©? 1996-2021
 
