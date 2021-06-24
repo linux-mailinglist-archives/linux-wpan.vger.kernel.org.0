@@ -2,66 +2,68 @@ Return-Path: <linux-wpan-owner@vger.kernel.org>
 X-Original-To: lists+linux-wpan@lfdr.de
 Delivered-To: lists+linux-wpan@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id BF46B3B1E21
-	for <lists+linux-wpan@lfdr.de>; Wed, 23 Jun 2021 17:54:52 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id C45233B3804
+	for <lists+linux-wpan@lfdr.de>; Thu, 24 Jun 2021 22:40:40 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231530AbhFWP5D convert rfc822-to-8bit (ORCPT
-        <rfc822;lists+linux-wpan@lfdr.de>); Wed, 23 Jun 2021 11:57:03 -0400
-Received: from [183.90.58.236] ([183.90.58.236]:51766 "EHLO ns1.zackeruz.tk"
-        rhost-flags-FAIL-FAIL-OK-FAIL) by vger.kernel.org with ESMTP
-        id S231519AbhFWP5D (ORCPT <rfc822;linux-wpan@vger.kernel.org>);
-        Wed, 23 Jun 2021 11:57:03 -0400
-Received: from johnlewis.com (unknown [192.168.20.1])
-        by ns1.zackeruz.tk (Postfix) with ESMTPSA id 258DE84631D
-        for <linux-wpan@vger.kernel.org>; Wed, 23 Jun 2021 23:54:43 +0800 (+08)
-Reply-To: robert_turner@johnlewis-trading.com,
-          pippawicks.sales@johnlewis-trading.com
-From:   John Lewis & Partnersip <robert.turner107@johnlewis.com>
-To:     linux-wpan@vger.kernel.org
-Subject: 6/23/2021 Product Inquiry 
-Date:   23 Jun 2021 15:54:43 +0000
-Message-ID: <20210623094114.53685335CE31C88B@johnlewis.com>
+        id S229525AbhFXUm6 (ORCPT <rfc822;lists+linux-wpan@lfdr.de>);
+        Thu, 24 Jun 2021 16:42:58 -0400
+Received: from proxima.lasnet.de ([78.47.171.185]:33130 "EHLO
+        proxima.lasnet.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S232456AbhFXUm6 (ORCPT
+        <rfc822;linux-wpan@vger.kernel.org>); Thu, 24 Jun 2021 16:42:58 -0400
+Received: from localhost.localdomain (p200300e9d7330cb6646baaec8ea0666e.dip0.t-ipconnect.de [IPv6:2003:e9:d733:cb6:646b:aaec:8ea0:666e])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+        (No client certificate requested)
+        (Authenticated sender: stefan@sostec.de)
+        by proxima.lasnet.de (Postfix) with ESMTPSA id 82F17C03F3;
+        Thu, 24 Jun 2021 22:40:37 +0200 (CEST)
+From:   Stefan Schmidt <stefan@datenfreihafen.org>
+To:     davem@davemloft.net, kuba@kernel.org
+Cc:     linux-wpan@vger.kernel.org, alex.aring@gmail.com,
+        netdev@vger.kernel.org
+Subject: pull-request: ieee802154 for net 2021-06-24
+Date:   Thu, 24 Jun 2021 22:40:09 +0200
+Message-Id: <20210624204009.3953413-1-stefan@datenfreihafen.org>
+X-Mailer: git-send-email 2.31.1
 MIME-Version: 1.0
-Content-Type: text/plain;
-        charset="utf-8"
-Content-Transfer-Encoding: 8BIT
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-wpan.vger.kernel.org>
 X-Mailing-List: linux-wpan@vger.kernel.org
 
-Dear linux-wpan
+Hello Dave, Jakub.
 
-The famous brand John Lewis Partnership, is UK's largest multi-
-channel retailer with over 126 shops and multiple expansion in 
-Africa furnished by European/Asian/American products. We are 
-sourcing new products to attract new customers and also retain 
-our existing ones, create new partnerships with companies dealing 
-with different kinds of goods globally.
+An update from ieee802154 for your *net* tree.
 
-Your company's products are of interest to our market as we have 
-an amazing market for your products.
+This time we only have fixes for ieee802154 hwsim driver.
 
-Provide us your current catalog through email to review more. We 
-hope to be able to order with you and start a long-term friendly,
-respectable and solid business partnership. Please we would 
-appreciate it if you could send us your stock availability via 
-email if any.
+Sparked from some syzcaller reports We got a potential
+crash fix from Eric Dumazet and two memory leak fixes from
+Dongliang Mu.
 
-Our payment terms are 15 days net in Europe, 30 days Net in UK 
-and 30 days net in Asia/USA as we operate with over 5297 
-suppliers around the globe for the past 50 years now. For 
-immediate response Send your reply to robert_turner@johnlewis-
-trading.com for us to be able to 
-treat with care and urgency.
+regards
+Stefan Schmidt
 
+The following changes since commit f2386cf7c5f4ff5d7b584f5d92014edd7df6c676:
 
-Best Regards
+  net: lantiq: disable interrupt before sheduling NAPI (2021-06-08 19:16:32 -0700)
 
-Rob Turner
-Head Of Procurement Operations
-John Lewis & Partners.
-robert_turner@johnlewis-trading.com
-Tel: +44-7451-274090
-WhatsApp: +447497483925
-www.johnlewis.com
-REGISTERED OFFICE: 171 VICTORIA STREET, LONDON SW1E 5NN 
+are available in the Git repository at:
+
+  git://git.kernel.org/pub/scm/linux/kernel/git/sschmidt/wpan.git tags/ieee802154-for-davem-2021-06-24
+
+for you to fetch changes up to 0303b30375dff5351a79cc2c3c87dfa4fda29bed:
+
+  ieee802154: hwsim: avoid possible crash in hwsim_del_edge_nl() (2021-06-22 21:26:59 +0200)
+
+----------------------------------------------------------------
+Dongliang Mu (2):
+      ieee802154: hwsim: Fix possible memory leak in hwsim_subscribe_all_others
+      ieee802154: hwsim: Fix memory leak in hwsim_add_one
+
+Eric Dumazet (1):
+      ieee802154: hwsim: avoid possible crash in hwsim_del_edge_nl()
+
+ drivers/net/ieee802154/mac802154_hwsim.c | 11 ++++++++---
+ 1 file changed, 8 insertions(+), 3 deletions(-)
