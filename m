@@ -2,53 +2,101 @@ Return-Path: <linux-wpan-owner@vger.kernel.org>
 X-Original-To: lists+linux-wpan@lfdr.de
 Delivered-To: lists+linux-wpan@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 4151A3B7257
-	for <lists+linux-wpan@lfdr.de>; Tue, 29 Jun 2021 14:50:36 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 2A0D83BBD5F
+	for <lists+linux-wpan@lfdr.de>; Mon,  5 Jul 2021 15:13:48 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233790AbhF2MxC convert rfc822-to-8bit (ORCPT
-        <rfc822;lists+linux-wpan@lfdr.de>); Tue, 29 Jun 2021 08:53:02 -0400
-Received: from [218.75.92.58] ([218.75.92.58]:65147 "EHLO WIN-VTPUBHNS72V"
-        rhost-flags-FAIL-FAIL-OK-FAIL) by vger.kernel.org with ESMTP
-        id S232755AbhF2Mw7 (ORCPT <rfc822;linux-wpan@vger.kernel.org>);
-        Tue, 29 Jun 2021 08:52:59 -0400
-Received: from [192.168.43.47] (Unknown [197.210.84.10])
-        by WIN-VTPUBHNS72V with ESMTPA
-        ; Thu, 24 Jun 2021 20:46:28 +0800
-Message-ID: <9A845A47-7571-4588-B7D6-EB33577619B5@WIN-VTPUBHNS72V>
-Content-Type: text/plain; charset="iso-8859-1"
+        id S231253AbhGENQW (ORCPT <rfc822;lists+linux-wpan@lfdr.de>);
+        Mon, 5 Jul 2021 09:16:22 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36116 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S230188AbhGENQW (ORCPT
+        <rfc822;linux-wpan@vger.kernel.org>); Mon, 5 Jul 2021 09:16:22 -0400
+Received: from mail-pg1-x52e.google.com (mail-pg1-x52e.google.com [IPv6:2607:f8b0:4864:20::52e])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DA02EC061574;
+        Mon,  5 Jul 2021 06:13:44 -0700 (PDT)
+Received: by mail-pg1-x52e.google.com with SMTP id h4so18253189pgp.5;
+        Mon, 05 Jul 2021 06:13:44 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=wFmAr/8kD/4DnJeP0k0Om9P2bTmcS4/IENh/FR70ReU=;
+        b=eO1L2aKpwY2CCfPM/UQZcmfKJaylanS0BZAQbHSNM0KtuNbmpUZzBsl/TGptzoT4Fm
+         izUBqQy4qS7SeA6NR1dbtMaLJyF2luIsziceDnbgjxLWrbn3e1R2gqhqpeF4f5Mtr2cW
+         yNhcV3Z21CovXQ4TG4KcLMTIhHP7bnzCr10zXlPVCSFZccJ98C4/wZIBejT1VkdCUfus
+         6VUKPGBb3qdVgEAniVoXLnoSEdXbEngy1aSYEp0iVPEFmM/3QgX3ah/o2b02GL1lFHQr
+         cJI3oe0BT7xMq6W/BCXmouTDq1wZjKVXwc16T0xZzJz5LPyei9to38PIGEwM6U2X5ZLi
+         EwcQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=wFmAr/8kD/4DnJeP0k0Om9P2bTmcS4/IENh/FR70ReU=;
+        b=CB3bYUaSTJky4T6Zz6dJv2tcMpbAiakVmm2z82YS4Eye+29wUuK4tWfvLmVs5fCKTq
+         zSNjb/LIMFBE8aa7va7re248IsUem2sjJbQeoJA4ZbdKQZ+BONNKkin+Pt2UTH4KCcul
+         Qn1974cXfhT1NFP3NJAblgbVMMIQ6r6+SbZHhrVvG9FUJzXZbKpd5Qdyt+HLpyRsDevJ
+         lCkGVGPhhLOtVBWd2h5Zna2hKEOY5so3ivii32o681a5VvD+GbTJvjMoZwdKIyHAIwWA
+         ERClhk6VJn2aHYpQ92pfexKuxUOZ7tAoHcf+GlbvRzp/TeZTQuqrLUqhEQYonBMsqsjq
+         bzTA==
+X-Gm-Message-State: AOAM531I7c6xoZ0xPk4WyHBCNzKu4XL2WEPclMtP2Xl0uLKPlec22hwt
+        rMRDlhCylstQgJQad/kNVk0=
+X-Google-Smtp-Source: ABdhPJx9A2kcwStu6d8y6Vi0qpz3Y2owioRqVMIYcD264kII+3mQGLQWUYA3gALoexJHddnf+2gLxw==
+X-Received: by 2002:aa7:959d:0:b029:31a:8c2c:e91d with SMTP id z29-20020aa7959d0000b029031a8c2ce91dmr11889870pfj.64.1625490824349;
+        Mon, 05 Jul 2021 06:13:44 -0700 (PDT)
+Received: from localhost.localdomain ([45.135.186.93])
+        by smtp.gmail.com with ESMTPSA id y9sm12326191pfn.182.2021.07.05.06.13.41
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 05 Jul 2021 06:13:43 -0700 (PDT)
+From:   Dongliang Mu <mudongliangabcd@gmail.com>
+To:     Alexander Aring <alex.aring@gmail.com>,
+        Stefan Schmidt <stefan@datenfreihafen.org>,
+        "David S. Miller" <davem@davemloft.net>,
+        Jakub Kicinski <kuba@kernel.org>
+Cc:     Dongliang Mu <mudongliangabcd@gmail.com>,
+        Alexander Aring <aring@mojatatu.com>,
+        linux-wpan@vger.kernel.org, netdev@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Subject: [PATCH] ieee802154: hwsim: fix GPF in hwsim_set_edge_lqi
+Date:   Mon,  5 Jul 2021 21:13:20 +0800
+Message-Id: <20210705131321.217111-1-mudongliangabcd@gmail.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8BIT
-Content-Description: Mail message body
-Subject: URGENT ATTENTION
-To:     Recipients <wjjt@wjjt.cn>
-From:   "Andres Auchincloss" <wjjt@wjjt.cn>
-Date:   Thu, 24 Jun 2021 14:45:50 +0200
-Reply-To: andresauchincloss926@gmail.com
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-wpan.vger.kernel.org>
 X-Mailing-List: linux-wpan@vger.kernel.org
 
-Hi,
+Both MAC802154_HWSIM_ATTR_RADIO_ID and MAC802154_HWSIM_ATTR_RADIO_EDGE,
+MAC802154_HWSIM_EDGE_ATTR_ENDPOINT_ID and MAC802154_HWSIM_EDGE_ATTR_LQI
+must be present to fix GPF.
 
-I will like to use this opportunity to wish you a productive time in 2021 and also confide in you to finalize this transaction of mutual benefits. It may seem strange to you, but it is real. This is a transaction that has no risk at all, due process shall be followed and it shall be carried out under the ambit of the financial laws. Being the Chief Financial Officer, BP Plc. I want to trust and put in your care Eighteen Million British Pounds Sterling, The funds were acquired from an over-invoiced payment from a past contract executed in one of my departments.
+Fixes: f25da51fdc38 ("ieee802154: hwsim: add replacement for fakelb")
+Signed-off-by: Dongliang Mu <mudongliangabcd@gmail.com>
+---
+ drivers/net/ieee802154/mac802154_hwsim.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-I can't successfully achieve this transaction without presenting you as foreign contractor who will provide a bank account to receive the funds.
-
-Documentation for the claim of the funds will be legally processed and documented, so I will need your full cooperation on this matter for our mutual benefits. We will discuss details if you are interested to work with me to secure this funds. I will appreciate your prompt response in every bit of our communication. Stay Blessed and Stay Safe.
-
-
-
-Best Regards
-
-
-
-
-Tel: +1 (587) 770-0485
-Andres .B. Auchincloss
-Chief financial officerBP Petroleum p.l.c.
-
-
-
-
-                                  Copyright ©? 1996-2021
+diff --git a/drivers/net/ieee802154/mac802154_hwsim.c b/drivers/net/ieee802154/mac802154_hwsim.c
+index ebc976b7fcc2..cae52bfb871e 100644
+--- a/drivers/net/ieee802154/mac802154_hwsim.c
++++ b/drivers/net/ieee802154/mac802154_hwsim.c
+@@ -528,14 +528,14 @@ static int hwsim_set_edge_lqi(struct sk_buff *msg, struct genl_info *info)
+ 	u32 v0, v1;
+ 	u8 lqi;
+ 
+-	if (!info->attrs[MAC802154_HWSIM_ATTR_RADIO_ID] &&
++	if (!info->attrs[MAC802154_HWSIM_ATTR_RADIO_ID] ||
+ 	    !info->attrs[MAC802154_HWSIM_ATTR_RADIO_EDGE])
+ 		return -EINVAL;
+ 
+ 	if (nla_parse_nested_deprecated(edge_attrs, MAC802154_HWSIM_EDGE_ATTR_MAX, info->attrs[MAC802154_HWSIM_ATTR_RADIO_EDGE], hwsim_edge_policy, NULL))
+ 		return -EINVAL;
+ 
+-	if (!edge_attrs[MAC802154_HWSIM_EDGE_ATTR_ENDPOINT_ID] &&
++	if (!edge_attrs[MAC802154_HWSIM_EDGE_ATTR_ENDPOINT_ID] ||
+ 	    !edge_attrs[MAC802154_HWSIM_EDGE_ATTR_LQI])
+ 		return -EINVAL;
+ 
+-- 
+2.25.1
 
