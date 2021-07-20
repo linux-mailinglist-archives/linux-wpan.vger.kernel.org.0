@@ -2,60 +2,44 @@ Return-Path: <linux-wpan-owner@vger.kernel.org>
 X-Original-To: lists+linux-wpan@lfdr.de
 Delivered-To: lists+linux-wpan@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id DD2BC3D258E
-	for <lists+linux-wpan@lfdr.de>; Thu, 22 Jul 2021 16:21:27 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id C4A023D2D61
+	for <lists+linux-wpan@lfdr.de>; Thu, 22 Jul 2021 22:09:56 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232276AbhGVNks (ORCPT <rfc822;lists+linux-wpan@lfdr.de>);
-        Thu, 22 Jul 2021 09:40:48 -0400
-Received: from coyote.holtmann.net ([212.227.132.17]:51664 "EHLO
-        mail.holtmann.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232287AbhGVNjN (ORCPT
-        <rfc822;linux-wpan@vger.kernel.org>); Thu, 22 Jul 2021 09:39:13 -0400
-Received: from smtpclient.apple (p5b3d2eb8.dip0.t-ipconnect.de [91.61.46.184])
-        by mail.holtmann.org (Postfix) with ESMTPSA id D3988CECE1;
-        Thu, 22 Jul 2021 16:19:46 +0200 (CEST)
+        id S231163AbhGVT3R (ORCPT <rfc822;lists+linux-wpan@lfdr.de>);
+        Thu, 22 Jul 2021 15:29:17 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40482 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S230429AbhGVT3P (ORCPT
+        <rfc822;linux-wpan@vger.kernel.org>); Thu, 22 Jul 2021 15:29:15 -0400
+Received: from 68-252-206-104.staticrdns.eonix.net (unknown [IPv6:2607:ff28:b005:2a:ec52:75ff:fe50:d321])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 677C0C061575;
+        Thu, 22 Jul 2021 13:09:50 -0700 (PDT)
+Received: from User (localhost [IPv6:::1])
+        by 68-252-206-104.staticrdns.eonix.net (Postfix) with SMTP id DC7298F1F52;
+        Mon, 19 Jul 2021 22:13:42 -0400 (EDT)
+Reply-To: <mrs_hannah@rediffmail.com>
+From:   "Mrs. Hajia Hannah Ahmed" <info@247vidz.com>
+Subject: Re: I WANT TO INVESTMENT IN YOUR COUNTRY?
+Date:   Tue, 20 Jul 2021 05:13:14 -0700
+MIME-Version: 1.0
 Content-Type: text/plain;
-        charset=us-ascii
-Mime-Version: 1.0 (Mac OS X Mail 14.0 \(3654.100.0.2.22\))
-Subject: Re: [PATCH] 6lowpan: iphc: Fix an off-by-one check of array index
-From:   Marcel Holtmann <marcel@holtmann.org>
-In-Reply-To: <20210712121440.17860-1-colin.king@canonical.com>
-Date:   Thu, 22 Jul 2021 16:19:46 +0200
-Cc:     Alexander Aring <alex.aring@gmail.com>,
-        Jukka Rissanen <jukka.rissanen@linux.intel.com>,
-        "David S. Miller" <davem@davemloft.net>,
-        Jakub Kicinski <kuba@kernel.org>,
-        Stefan Schmidt <stefan@osg.samsung.com>,
-        Bluetooth Kernel Mailing List 
-        <linux-bluetooth@vger.kernel.org>, linux-wpan@vger.kernel.org,
-        netdev@vger.kernel.org, kernel-janitors@vger.kernel.org,
-        linux-kernel@vger.kernel.org
+        charset="Windows-1251"
 Content-Transfer-Encoding: 7bit
-Message-Id: <6995CA71-5AE5-4E4D-8F3A-81A25324AE22@holtmann.org>
-References: <20210712121440.17860-1-colin.king@canonical.com>
-To:     Colin King <colin.king@canonical.com>
-X-Mailer: Apple Mail (2.3654.100.0.2.22)
+X-Priority: 3
+X-MSMail-Priority: Normal
+X-Mailer: Microsoft Outlook Express 6.00.2600.0000
+X-MimeOLE: Produced By Microsoft MimeOLE V6.00.2600.0000
+Message-Id: <20210720021342.DC7298F1F52@68-252-206-104.staticrdns.eonix.net>
+To:     unlisted-recipients:; (no To-header on input)
 Precedence: bulk
 List-ID: <linux-wpan.vger.kernel.org>
 X-Mailing-List: linux-wpan@vger.kernel.org
 
-Hi Colin,
-
-> The bounds check of id is off-by-one and the comparison should
-> be >= rather >. Currently the WARN_ON_ONCE check does not stop
-> the out of range indexing of &ldev->ctx.table[id] so also add
-> a return path if the bounds are out of range.
-> 
-> Addresses-Coverity: ("Illegal address computation").
-> Fixes: 5609c185f24d ("6lowpan: iphc: add support for stateful compression")
-> Signed-off-by: Colin Ian King <colin.king@canonical.com>
-> ---
-> net/6lowpan/debugfs.c | 3 ++-
-> 1 file changed, 2 insertions(+), 1 deletion(-)
-
-patch has been applied to bluetooth-next tree.
-
-Regards
-
-Marcel
-
+Attn:
+ 
+I am Mrs. Hajia Hannah Ahmed I am a Widow and member of the contract award committee and 14 project allocation manager, of the Department of Minerals and Natural Resources in Syria;
+ 
+Due to the war in Syria, I am in search of an agent or company to assist me to invest my fund  (USD$35Million) and subsequent investment in properties in your country. You will be required to. If you decide to render your service to me in this regard, 30% of the total sum of USD$35M will be given to you for your service. 
+ 
+Yours Faithfully,
+Mrs. Hajia Hannah Ahmed
