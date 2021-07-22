@@ -2,76 +2,60 @@ Return-Path: <linux-wpan-owner@vger.kernel.org>
 X-Original-To: lists+linux-wpan@lfdr.de
 Delivered-To: lists+linux-wpan@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id C2CC43CA40F
-	for <lists+linux-wpan@lfdr.de>; Thu, 15 Jul 2021 19:25:16 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id DD2BC3D258E
+	for <lists+linux-wpan@lfdr.de>; Thu, 22 Jul 2021 16:21:27 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234666AbhGOR2E (ORCPT <rfc822;lists+linux-wpan@lfdr.de>);
-        Thu, 15 Jul 2021 13:28:04 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37210 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234083AbhGOR2D (ORCPT
-        <rfc822;linux-wpan@vger.kernel.org>); Thu, 15 Jul 2021 13:28:03 -0400
-Received: from mail-lf1-x135.google.com (mail-lf1-x135.google.com [IPv6:2a00:1450:4864:20::135])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 07ACAC06175F
-        for <linux-wpan@vger.kernel.org>; Thu, 15 Jul 2021 10:25:10 -0700 (PDT)
-Received: by mail-lf1-x135.google.com with SMTP id f30so11258058lfj.1
-        for <linux-wpan@vger.kernel.org>; Thu, 15 Jul 2021 10:25:09 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:reply-to:from:date:message-id:subject:to;
-        bh=Ibb5KNEw1DKqJEg9n4gJy5KnzVasBofn6QaWYsu9UCQ=;
-        b=t9W6ZUbHNRJ0qNSUPxxJ7rwyS6/T47LB8+GEvcGcZS2vgBILYApln75Pntcxn5fpNm
-         CtF83dHhK1sI0unp5//UIaTiWHKSRWhdzbLUXmwOWE0siga3uT7o6KbbqJLCuXISRJEQ
-         al8pRwAY03/IaxE3qXnt42v0CTRaHD2tppbU0LS/FZIzL8IxPeIaPJ1YZkyHqWZX3beM
-         4+xYQxqDDYwD9dyjX1Mc60oWXcAcZdalOCke9n3oDr1w+I8lJlufH05RbTPxRhFGiMAD
-         BpEH+2hcDtItf0cKj4UhyaFm0jsA0qnOxoGC5g15c9fNdeV0dFm2Efrq/yuK05wZR73f
-         O6jw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:reply-to:from:date:message-id
-         :subject:to;
-        bh=Ibb5KNEw1DKqJEg9n4gJy5KnzVasBofn6QaWYsu9UCQ=;
-        b=T/EPvKjl//PJljacVF9qu7ZFCly6zR7vkXOR7pBTGbm37eDFsSo8agm6XG4LNhYZTQ
-         eO7tugXCEUo2zESpDW6/3UH0j0m/3ql9qBEskhAQMqGPyUkwOGGUHMV2+rNkJIcaf7/m
-         2upcRjHj4B7URLOl+yp2UUd5UICZeSVDqO/2Cqhd7rhKoRZN9yVAG/8kXAHzkXgNgQ7m
-         JUhPTIazpExoalYVsz5EMwewYYyTj4htVdzpt0x4hjZTVxf//BMlfdHLdaBmn8QZU7D2
-         v3C9ogsvQgnMylscs3hTybiIMvZSNzekB0sxPqm7/oMpd+cjo6rBWHu7xfYtpQY+FrkN
-         wPHQ==
-X-Gm-Message-State: AOAM530ZXmiBFUNkdX1qW76U+3s5h5GmbMGxolF2YRo/wByrzYxOOFAN
-        VmeDrkcxrbfrfSdwdZXR+TbIXo5Y2zbqKrDzMNQZdTU6xnKO2w==
-X-Google-Smtp-Source: ABdhPJyxueRlfHltyUCESR67vWAXcLtdouVP7pOna84WJs+57H00WkQ1yY0EfL0teWyNwd8lnwpCvuhD/ZS2cFmHFwA=
-X-Received: by 2002:a50:9faf:: with SMTP id c44mr8582001edf.197.1626369898073;
- Thu, 15 Jul 2021 10:24:58 -0700 (PDT)
-MIME-Version: 1.0
-Received: by 2002:a54:2dcd:0:0:0:0:0 with HTTP; Thu, 15 Jul 2021 10:24:57
- -0700 (PDT)
-Reply-To: faty.muhamad@gmail.com
-From:   Fatima Muhammad <matinscott.chambers@gmail.com>
-Date:   Thu, 15 Jul 2021 17:24:57 +0000
-Message-ID: <CAG26VvVWiHB2u8iO1e8bETcuSekW3UnVoiXKLwNZ2yh0MOiBWw@mail.gmail.com>
-Subject: Hello Dear
-To:     undisclosed-recipients:;
-Content-Type: text/plain; charset="UTF-8"
+        id S232276AbhGVNks (ORCPT <rfc822;lists+linux-wpan@lfdr.de>);
+        Thu, 22 Jul 2021 09:40:48 -0400
+Received: from coyote.holtmann.net ([212.227.132.17]:51664 "EHLO
+        mail.holtmann.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S232287AbhGVNjN (ORCPT
+        <rfc822;linux-wpan@vger.kernel.org>); Thu, 22 Jul 2021 09:39:13 -0400
+Received: from smtpclient.apple (p5b3d2eb8.dip0.t-ipconnect.de [91.61.46.184])
+        by mail.holtmann.org (Postfix) with ESMTPSA id D3988CECE1;
+        Thu, 22 Jul 2021 16:19:46 +0200 (CEST)
+Content-Type: text/plain;
+        charset=us-ascii
+Mime-Version: 1.0 (Mac OS X Mail 14.0 \(3654.100.0.2.22\))
+Subject: Re: [PATCH] 6lowpan: iphc: Fix an off-by-one check of array index
+From:   Marcel Holtmann <marcel@holtmann.org>
+In-Reply-To: <20210712121440.17860-1-colin.king@canonical.com>
+Date:   Thu, 22 Jul 2021 16:19:46 +0200
+Cc:     Alexander Aring <alex.aring@gmail.com>,
+        Jukka Rissanen <jukka.rissanen@linux.intel.com>,
+        "David S. Miller" <davem@davemloft.net>,
+        Jakub Kicinski <kuba@kernel.org>,
+        Stefan Schmidt <stefan@osg.samsung.com>,
+        Bluetooth Kernel Mailing List 
+        <linux-bluetooth@vger.kernel.org>, linux-wpan@vger.kernel.org,
+        netdev@vger.kernel.org, kernel-janitors@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Content-Transfer-Encoding: 7bit
+Message-Id: <6995CA71-5AE5-4E4D-8F3A-81A25324AE22@holtmann.org>
+References: <20210712121440.17860-1-colin.king@canonical.com>
+To:     Colin King <colin.king@canonical.com>
+X-Mailer: Apple Mail (2.3654.100.0.2.22)
 Precedence: bulk
 List-ID: <linux-wpan.vger.kernel.org>
 X-Mailing-List: linux-wpan@vger.kernel.org
 
-Hello Dear,
+Hi Colin,
 
-My name is Ms.Fatima Muhammad., Please forgive me for stressing you
-with my predicaments and I sorry to approach you through this media
-because is serves the fastest means of  my communication right now,
+> The bounds check of id is off-by-one and the comparison should
+> be >= rather >. Currently the WARN_ON_ONCE check does not stop
+> the out of range indexing of &ldev->ctx.table[id] so also add
+> a return path if the bounds are out of range.
+> 
+> Addresses-Coverity: ("Illegal address computation").
+> Fixes: 5609c185f24d ("6lowpan: iphc: add support for stateful compression")
+> Signed-off-by: Colin Ian King <colin.king@canonical.com>
+> ---
+> net/6lowpan/debugfs.c | 3 ++-
+> 1 file changed, 2 insertions(+), 1 deletion(-)
 
-I came across your Email from my personal search and I decided to
-contact you believing you will be honest to fulfill my business
-proposal which I believe that will be a very good opportunity for both
-of us. Please it is my pleasure to contact you today for a business
-partnership investments projects worth $4.6 million USD which I intend
-to establish in your country..
+patch has been applied to bluetooth-next tree.
 
-Pls If this business proposal offends your moral and ethic values do
-accept my apology. therefore kindly contact me immediately if you are
-interested for more details.
+Regards
 
-Thank you for your wiliness to help me
-Yours Sincerely Fatima Muhammad
+Marcel
+
