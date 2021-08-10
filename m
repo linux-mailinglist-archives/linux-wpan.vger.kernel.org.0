@@ -2,77 +2,69 @@ Return-Path: <linux-wpan-owner@vger.kernel.org>
 X-Original-To: lists+linux-wpan@lfdr.de
 Delivered-To: lists+linux-wpan@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id F29853E7C5E
-	for <lists+linux-wpan@lfdr.de>; Tue, 10 Aug 2021 17:34:53 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 0BD593E7EAA
+	for <lists+linux-wpan@lfdr.de>; Tue, 10 Aug 2021 19:34:40 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S242999AbhHJPfL (ORCPT <rfc822;lists+linux-wpan@lfdr.de>);
-        Tue, 10 Aug 2021 11:35:11 -0400
-Received: from mail-il1-f198.google.com ([209.85.166.198]:38612 "EHLO
-        mail-il1-f198.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S243240AbhHJPfA (ORCPT
-        <rfc822;linux-wpan@vger.kernel.org>); Tue, 10 Aug 2021 11:35:00 -0400
-Received: by mail-il1-f198.google.com with SMTP id h27-20020a056e021d9bb02902021736bb95so7662507ila.5
-        for <linux-wpan@vger.kernel.org>; Tue, 10 Aug 2021 08:34:12 -0700 (PDT)
+        id S233100AbhHJReq (ORCPT <rfc822;lists+linux-wpan@lfdr.de>);
+        Tue, 10 Aug 2021 13:34:46 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50620 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S232655AbhHJReO (ORCPT
+        <rfc822;linux-wpan@vger.kernel.org>); Tue, 10 Aug 2021 13:34:14 -0400
+Received: from mail-lj1-x241.google.com (mail-lj1-x241.google.com [IPv6:2a00:1450:4864:20::241])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E3651C061382
+        for <linux-wpan@vger.kernel.org>; Tue, 10 Aug 2021 10:33:13 -0700 (PDT)
+Received: by mail-lj1-x241.google.com with SMTP id x9so28330603ljj.2
+        for <linux-wpan@vger.kernel.org>; Tue, 10 Aug 2021 10:33:13 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=mime-version:reply-to:from:date:message-id:subject:to;
+        bh=y3BZ+wT7TMDVjM2/WQcyPOhYkG/NWjvDbJIsMqFI2RA=;
+        b=RsiBBdA9QKOcTCF5lGXKVsjmClQ3sMV8nYRHi5UzQ6RFRdaZ6t981j56diJ7q3WLiT
+         dSrogDmRt6kwHS+J+pcIdphvlu5Vk62bOJudqb0dzEOf5Tr6sAVMWTY2NbEn++ZnSdaf
+         F4yj6h4F7VBk6uVCXN4p2StSiBpSckLhr0NJoCtUTvVh+gCrpSdvA2dss+nT8Q4XWg+b
+         4x9fMuBGMminOSzPCK8njOsWexpWsfb2omBFXa3GLhHqzUauC1r8oyB3fDvFuiS7qNjT
+         fDqijYMWxjmP3EeBvtWaIUY7Z5YEma/9OhqmI5Ya7ZKqW/5hzlkm8xAdNsqyzESz/5Xj
+         5sZQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:date:in-reply-to:message-id:subject
-         :from:to;
-        bh=ezvPuPtMzOuRLqecX2VTZ2ztz0IyxYGYWNq3bM8LvCs=;
-        b=ovAsTnQfb/S3t4WBhA+p/fXzekE664CsAs3mMdJnsx6jPqA9qxxvst/D/nNlmkiHIq
-         A+7Wz3PO7LyRX4oAQW3RB1MTh2L8xw3lTJbU9Xr5YkvptTpz1U1KvYZedk9PGo+MzYsW
-         3M4u6P9UZjHintr/i9JvHLK7aBl2KUOlYbcsmb9nzmkJqYdG+fvMGZpykYihtIwBBdIn
-         KFf+Ae//N9+Ah8364zwv695tKleD36988byMWY5Oe9dXZa1mSv0ojWeAi8a12aovynuV
-         WoFfiXVihYjumxRSjU6WwzWpMUqCdu6MEYn7CUCpRP6cOFR2Wsm4P2osJp6oQfKmz9fp
-         5E5w==
-X-Gm-Message-State: AOAM5312m9gx3faAH5dxIvMZJrSEquf6BaNBU9ykNijukT64ge5yuJkr
-        hrcY0ObXT2emYNgngThlhdL2QzALJYxIsDnS6GyCiCLCXp4o
-X-Google-Smtp-Source: ABdhPJxUNwqzmK5BP4xy5zYm2dHKjVhr9kXAul5tmQWBzbKn7f/vtTtKsjuaPj76egcfQsjLcONIB+8s6JEZ9u6yEHxs1CkpszEd
+        h=x-gm-message-state:mime-version:reply-to:from:date:message-id
+         :subject:to;
+        bh=y3BZ+wT7TMDVjM2/WQcyPOhYkG/NWjvDbJIsMqFI2RA=;
+        b=aPIGNNm4697XtpJyzufG0UVbaHzu+M0V31wUipViPG3y1YM1lDh1txKO6Xq5KDO032
+         4lQeu7q29x2O8K1CQRHjX3e7wrtRENBmi2TAzm1S/EZUdHfnZSeWU2GImm4dNrI7Wapn
+         8BfXHgpW3XwsYT0x/5u/Nv+vp/dtkhWK/91JF/bOcQsRhogqG++cbeJVAReSXRNjAUlb
+         1a9BpJQ3gXhc1W2iuBMjc+YMCLGn16iaLy8XHA3pMCj5w7xH4IOGmKOrhldNhQroc9fX
+         Yi6/H7QSTDnJUBfFw9H6/zHO70bkaiJQeDJKa6Vzpx9rhxEUsnvx+BPZZ43+l6msJj4n
+         EU/w==
+X-Gm-Message-State: AOAM532FrfDMDqWhILVD74IIoMcGthVfgLX/TDTnYmPMJeEPYq7BKSeU
+        mMeFoAgAmdf7qoBxW4VYAhfP2Xsyj+8uXU4gWeo=
+X-Google-Smtp-Source: ABdhPJw+sC+pBQw0G+0ULVvin/r/jCVVb1V7XUqN67UCoWrnBzyIXnaSzK5br1SZrCupI/L0LIZWgMfi7vhpZK+Wcm0=
+X-Received: by 2002:a05:651c:32c:: with SMTP id b12mr1745558ljp.198.1628616792032;
+ Tue, 10 Aug 2021 10:33:12 -0700 (PDT)
 MIME-Version: 1.0
-X-Received: by 2002:a5d:9ac1:: with SMTP id x1mr16641ion.191.1628609652476;
- Tue, 10 Aug 2021 08:34:12 -0700 (PDT)
-Date:   Tue, 10 Aug 2021 08:34:12 -0700
-In-Reply-To: <0000000000007faf7505c91bb19d@google.com>
-X-Google-Appengine-App-Id: s~syzkaller
-X-Google-Appengine-App-Id-Alias: syzkaller
-Message-ID: <000000000000d04e9b05c9363bf1@google.com>
-Subject: Re: [syzbot] general protection fault in hwsim_new_edge_nl
-From:   syzbot <syzbot+fafb46da3f65fdbacd16@syzkaller.appspotmail.com>
-To:     akpm@linux-foundation.org, alex.aring@gmail.com, bp@alien8.de,
-        davem@davemloft.net, frederic@kernel.org, hpa@zytor.com,
-        jmattson@google.com, joro@8bytes.org, kuba@kernel.org,
-        kvm@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-wpan@vger.kernel.org, mark.rutland@arm.com,
-        masahiroy@kernel.org, mingo@redhat.com, mudongliangabcd@gmail.com,
-        netdev@vger.kernel.org, npiggin@gmail.com, pbonzini@redhat.com,
-        peterz@infradead.org, rafael.j.wysocki@intel.com,
-        rostedt@goodmis.org, seanjc@google.com, sedat.dilek@gmail.com,
-        stefan@datenfreihafen.org, syzkaller-bugs@googlegroups.com,
-        tglx@linutronix.de, vitor@massaru.org, vkuznets@redhat.com,
-        wanpengli@tencent.com, will@kernel.org, x86@kernel.org
+Received: by 2002:ac2:5d2e:0:0:0:0:0 with HTTP; Tue, 10 Aug 2021 10:33:10
+ -0700 (PDT)
+Reply-To: majidmuzaffar8@gmail.com
+From:   Majid Muzaffar <ing.abdullabin.rishid.me@gmail.com>
+Date:   Tue, 10 Aug 2021 20:33:10 +0300
+Message-ID: <CAFsu49XXzY7ugKhGzJm5OPKe2LG1R35c-Dkp83VgS3+u27y=sQ@mail.gmail.com>
+Subject: Proposal
+To:     undisclosed-recipients:;
 Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-wpan.vger.kernel.org>
 X-Mailing-List: linux-wpan@vger.kernel.org
 
-syzbot has bisected this issue to:
+Salam alaikum,
 
-commit 997acaf6b4b59c6a9c259740312a69ea549cc684
-Author: Mark Rutland <mark.rutland@arm.com>
-Date:   Mon Jan 11 15:37:07 2021 +0000
+I am the investment officer of UAE based investment company who are
+ready to fund projects outside UAE, in the form of debt finance. We
+grant loan to both Corporate and private entities at a low interest
+rate of 3% ROI per annum. The terms are very flexible and interesting.
+Kindly revert back if you have projects that needs funding for further
+discussion and negotiation.
 
-    lockdep: report broken irq restoration
+Thanks
 
-bisection log:  https://syzkaller.appspot.com/x/bisect.txt?x=13927981300000
-start commit:   d09c548dbf3b net: sched: act_mirred: Reset ct info when mi..
-git tree:       net
-final oops:     https://syzkaller.appspot.com/x/report.txt?x=10527981300000
-console output: https://syzkaller.appspot.com/x/log.txt?x=17927981300000
-kernel config:  https://syzkaller.appspot.com/x/.config?x=343fd21f6f4da2d6
-dashboard link: https://syzkaller.appspot.com/bug?extid=fafb46da3f65fdbacd16
-syz repro:      https://syzkaller.appspot.com/x/repro.syz?x=152ee39e300000
-C reproducer:   https://syzkaller.appspot.com/x/repro.c?x=15946ff1300000
-
-Reported-by: syzbot+fafb46da3f65fdbacd16@syzkaller.appspotmail.com
-Fixes: 997acaf6b4b5 ("lockdep: report broken irq restoration")
-
-For information about bisection process see: https://goo.gl/tpsmEJ#bisection
+investment officer
