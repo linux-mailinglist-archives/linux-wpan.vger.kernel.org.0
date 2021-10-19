@@ -2,97 +2,70 @@ Return-Path: <linux-wpan-owner@vger.kernel.org>
 X-Original-To: lists+linux-wpan@lfdr.de
 Delivered-To: lists+linux-wpan@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id C047343329A
-	for <lists+linux-wpan@lfdr.de>; Tue, 19 Oct 2021 11:39:21 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 30A7A4335FC
+	for <lists+linux-wpan@lfdr.de>; Tue, 19 Oct 2021 14:30:20 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235045AbhJSJlb (ORCPT <rfc822;lists+linux-wpan@lfdr.de>);
-        Tue, 19 Oct 2021 05:41:31 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54178 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235127AbhJSJlY (ORCPT
-        <rfc822;linux-wpan@vger.kernel.org>); Tue, 19 Oct 2021 05:41:24 -0400
-Received: from mail-qk1-x72a.google.com (mail-qk1-x72a.google.com [IPv6:2607:f8b0:4864:20::72a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 39233C061771
-        for <linux-wpan@vger.kernel.org>; Tue, 19 Oct 2021 02:39:02 -0700 (PDT)
-Received: by mail-qk1-x72a.google.com with SMTP id bl14so17875194qkb.4
-        for <linux-wpan@vger.kernel.org>; Tue, 19 Oct 2021 02:39:02 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=mime-version:reply-to:from:date:message-id:subject:to
-         :content-transfer-encoding;
-        bh=h7Ka/8DlpkXEXF23rPgOfJJ3SyquA2FhD5HYDsybiG4=;
-        b=TOvN/3L74NxJ8jkZLAwc1HWcAigE5PqgL50bgmFqgfF5N3Ni/F/hFF6HKKLKTN31yN
-         HevaAXYbPfypt8hhKvSPyehT5ALdXqczNk+5xUwtC+i5sgHXh2uIQwAecZjfCaWU8ix6
-         IP3iNNDeKzM9Rarn67S7Y6Q5meavaw7Mpk+sez5Jm9gTXVkS2K7rH0HxN0wGBD1vTEZW
-         SlZ7Ohjm5TDffwxVe9psHKkZrw9F8ewS3UJdvRp48BugnVC9N6o6tGt7kOuD9dBL9WOI
-         l1dbXlU20FuuDCR1G9eGV6dpPzPq/obtSd+vSUmjw4dvgQ3M4KndmuUgzevCd5/KLP2j
-         AvJA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:reply-to:from:date:message-id
-         :subject:to:content-transfer-encoding;
-        bh=h7Ka/8DlpkXEXF23rPgOfJJ3SyquA2FhD5HYDsybiG4=;
-        b=XOKl4FmkGQTZ40+7wZ6BuwAuh3nNMj1KTgM9H7CrjskwovLNvQ4J/yY1joHC+pGP9X
-         H0cRSq6jEGjESEvEv6jLA19Voqcc9G19dmlOS53STSbYVK9rhYNJ5wzPLgJSO3VwYRNF
-         4mSnOZ8SwhMfukrOiv6AVsw3vtqvWcPpmUOgMoM/Vl7cNxOQ5AUSSxMvHcVGvxgPZN0t
-         UJXXA1Fi/qSiIuiiwlJJ2S7jaeRZ2tUKXP8GPHb0oDqZ982RhNygbyxD0N3bKqymLPmy
-         R52hT1Wgq/LOmDp6+2SxoiqEvemq3b6g3fwQf3ZbtPxIwM9E36B5umBmm8hGV8wWmpna
-         Xwiw==
-X-Gm-Message-State: AOAM532jtbWtEILpAg4ETGY1G2UN7eHnYYQHxSgpNtoIBJzFXYggW1td
-        J4Q6EOOgNchOtxtJWtclxi4QlM5nJqEsQBT6q78C+D4b1Ws=
-X-Google-Smtp-Source: ABdhPJzMH7/Viv+gmOFi/wRxRbcc549EbhNxq1WBmFuuCl5Y1sIaNw3hPc5P9A8SHm6QnP1HNGNAvecvirmJS/oiL6w=
-X-Received: by 2002:a02:6f5d:: with SMTP id b29mr3319085jae.113.1634636331013;
- Tue, 19 Oct 2021 02:38:51 -0700 (PDT)
+        id S235607AbhJSMcb (ORCPT <rfc822;lists+linux-wpan@lfdr.de>);
+        Tue, 19 Oct 2021 08:32:31 -0400
+Received: from mail.kernel.org ([198.145.29.99]:58930 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S235415AbhJSMca (ORCPT <rfc822;linux-wpan@vger.kernel.org>);
+        Tue, 19 Oct 2021 08:32:30 -0400
+Received: by mail.kernel.org (Postfix) with ESMTPS id 98BA36137B;
+        Tue, 19 Oct 2021 12:30:12 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1634646613;
+        bh=eugL9T3Vr9MAt7iQ9wK5Cepix0GbEaI9SlaUAY2SSjQ=;
+        h=Subject:From:Date:References:In-Reply-To:To:Cc:From;
+        b=a3lL0ITys7v2bvhwOFauP+IU9PzCWPe5pH5MSlWxGwSHEVNYk4pPqT+gMldvJ1u+M
+         M0AXQlYNsHrPDbpXkiS6ECW4S6cpdJUoFuZtuO4NUQ6Rkpm5jJL+S229o7UYZfIntY
+         PqdlC21ozNcT+SiSQVYPmFyErht/FWVVyQx7dwVQ1cYDxuAzOMlFytRA1hjqCzLhnK
+         KJpJVAVYtQbQJYqPSKap7vAFcOQjdfiV/daEnrbueVDxe2T3eUWIjgQTFIjkRLc1ZA
+         aZp+jg4sKWwh3ryplqBo2HUzEa+iYEzH3nr8LPmQa4fZ+ekqXwDQD1rja8iebVywwz
+         RniJWMEPJIQhA==
+Received: from pdx-korg-docbuild-2.ci.codeaurora.org (localhost.localdomain [127.0.0.1])
+        by pdx-korg-docbuild-2.ci.codeaurora.org (Postfix) with ESMTP id 8B62D609E3;
+        Tue, 19 Oct 2021 12:30:12 +0000 (UTC)
+Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
-Received: by 2002:a92:c7c6:0:0:0:0:0 with HTTP; Tue, 19 Oct 2021 02:38:50
- -0700 (PDT)
-Reply-To: megaritalouisdrayfu199@yahoo.com
-From:   "Mrs. Margarita Louis-Dreyfus." <anniewei112@gmail.com>
-Date:   Mon, 18 Oct 2021 21:38:50 -1200
-Message-ID: <CAGT4pMkzKn8mfeY05OAG04CCAxodKEVDUk46D=O7cfK8+n1=tA@mail.gmail.com>
-Subject: Charitable funds to help the less privilege!
-To:     undisclosed-recipients:;
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
+Subject: Re: [PATCH] ieee802154: Remove redundant 'flush_workqueue()' calls
+From:   patchwork-bot+netdevbpf@kernel.org
+Message-Id: <163464661256.12016.17334842037871093626.git-patchwork-notify@kernel.org>
+Date:   Tue, 19 Oct 2021 12:30:12 +0000
+References: <fedb57c4f6d4373e0d6888d13ad2de3a1d315d81.1634235880.git.christophe.jaillet@wanadoo.fr>
+In-Reply-To: <fedb57c4f6d4373e0d6888d13ad2de3a1d315d81.1634235880.git.christophe.jaillet@wanadoo.fr>
+To:     Christophe JAILLET <christophe.jaillet@wanadoo.fr>
+Cc:     h.morris@cascoda.com, alex.aring@gmail.com,
+        stefan@datenfreihafen.org, davem@davemloft.net, kuba@kernel.org,
+        linux-wpan@vger.kernel.org, netdev@vger.kernel.org,
+        linux-kernel@vger.kernel.org, kernel-janitors@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-wpan.vger.kernel.org>
 X-Mailing-List: linux-wpan@vger.kernel.org
 
---=20
-Hello,
+Hello:
 
-I am sorry to encroach into your privacy in this manner, my name
-Margarita Louis-Dreyfus , I find it pleasurable to offer you my
-partnership in business, i only pray at this time that your email
-address is still valid. I want to solicit your attention to receive
-money on my behalf for humanitarian project to help the less
-priviledge.
+This patch was applied to netdev/net-next.git (master)
+by David S. Miller <davem@davemloft.net>:
 
-The purpose of my contacting you is because my status would not permit
-me to do this alone. Given my current state of health, I have decided
-to donate Ninety -Eight Million United State Dollars to establish a
-foundation with your help to reach out to the less privilege, orphans,
-sick and homeless people in your country who will receive their
-blessings as i promised my God before i leave this earth.
+On Thu, 14 Oct 2021 20:26:14 +0200 you wrote:
+> 'destroy_workqueue()' already drains the queue before destroying it, so
+> there is no need to flush it explicitly.
+> 
+> Remove the redundant 'flush_workqueue()' calls.
+> 
+> This was generated with coccinelle:
+> 
+> [...]
 
-I got your contact through my personal search, you were revealed as
-being quite astute in private entrepreneurship, and i have no doubt
-that you can handle this huge financial transaction. Please contact my
-executor for more information:
+Here is the summary with links:
+  - ieee802154: Remove redundant 'flush_workqueue()' calls
+    https://git.kernel.org/netdev/net-next/c/07fab5a469a5
 
-Mr. Ford Spencer(Attorney at Law).
-For: Mrs. Margarita Louis-Dreyfus
-LEGAL DEPARTMENT LAWSON & ASSOCIATES
-(JUSTICE, FAIRPLAY & EQUITY)
-Email: fordspencer828@yahoo.com, fordspencereqs828@gmail.com
-Office: +1-970-414-1400
-+1-702-714-3422
-Mobile: +1 916 269 2733
-Fax: +1-970-414-1433
-=C2=AE Property of Steven C Spence PA.
+You are awesome, thank you!
+--
+Deet-doot-dot, I am a bot.
+https://korg.docs.kernel.org/patchwork/pwbot.html
 
-Your earliest response to this letter will be appreciated.
 
-Kind Regards,
-
-Mrs. Margarita Louis-Dreyfus.
