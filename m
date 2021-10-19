@@ -2,73 +2,97 @@ Return-Path: <linux-wpan-owner@vger.kernel.org>
 X-Original-To: lists+linux-wpan@lfdr.de
 Delivered-To: lists+linux-wpan@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 9ECAF432F2D
-	for <lists+linux-wpan@lfdr.de>; Tue, 19 Oct 2021 09:18:48 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id C047343329A
+	for <lists+linux-wpan@lfdr.de>; Tue, 19 Oct 2021 11:39:21 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234369AbhJSHU7 (ORCPT <rfc822;lists+linux-wpan@lfdr.de>);
-        Tue, 19 Oct 2021 03:20:59 -0400
-Received: from proxima.lasnet.de ([78.47.171.185]:44552 "EHLO
-        proxima.lasnet.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229695AbhJSHU7 (ORCPT
-        <rfc822;linux-wpan@vger.kernel.org>); Tue, 19 Oct 2021 03:20:59 -0400
-Received: from [IPv6:2003:e9:d74b:bb71:f660:f6a1:9bf9:60bf] (p200300e9d74bbb71f660f6a19bf960bf.dip0.t-ipconnect.de [IPv6:2003:e9:d74b:bb71:f660:f6a1:9bf9:60bf])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-        (No client certificate requested)
-        (Authenticated sender: stefan@datenfreihafen.org)
-        by proxima.lasnet.de (Postfix) with ESMTPSA id 4A7DAC050A;
-        Tue, 19 Oct 2021 09:18:42 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=datenfreihafen.org;
-        s=2021; t=1634627922;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=py9gkOp2xo053DN39ARED1V0IJZyIE4Yq2gOUzuNvas=;
-        b=Q4FIZJzFpjp2+tZvPEa0+jXnQ5UJEY0Um8MeF8Cb7+nZ6azi2qo1BZ/hmIT7kJRLMhuKq6
-        FhoQijjAv6kAgdf8HTmb0b6ctfO4Od82tPumF8hlcybsnbGToiUqAJpUXyopTiZyhTs70I
-        3dYgqZoCrVVEiOr3gqaOi3TboGHpIwzUJ+bZSZM3beGKx0XFfoY5CK7gU82bhcScZrSS5N
-        u1Vnwu/O1iefLxb4iCyUZoWhkCTvpLrFo+6/CvLg0xSH4F1Pb3/ODrEoCg+qCr2+xtPOu/
-        06URfzq+z3/3jgoQqoaPq+WcxhGI4o5SZGirXDVqjoUxsRXxSgooyEFcG9vqUA==
-Subject: Re: [PATCH] ieee802154: Remove redundant 'flush_workqueue()' calls
-To:     Jakub Kicinski <kuba@kernel.org>,
-        Christophe JAILLET <christophe.jaillet@wanadoo.fr>
-Cc:     h.morris@cascoda.com, alex.aring@gmail.com, davem@davemloft.net,
-        linux-wpan@vger.kernel.org, netdev@vger.kernel.org,
-        linux-kernel@vger.kernel.org, kernel-janitors@vger.kernel.org
-References: <fedb57c4f6d4373e0d6888d13ad2de3a1d315d81.1634235880.git.christophe.jaillet@wanadoo.fr>
- <0a080522-a30b-8b78-86d2-66c1c1a5f604@datenfreihafen.org>
- <20211018141452.544931a7@kicinski-fedora-pc1c0hjn.dhcp.thefacebook.com>
-From:   Stefan Schmidt <stefan@datenfreihafen.org>
-Message-ID: <9d1d9607-ffc8-1a01-075c-dccc54eb0373@datenfreihafen.org>
-Date:   Tue, 19 Oct 2021 09:18:39 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.11.0
+        id S235045AbhJSJlb (ORCPT <rfc822;lists+linux-wpan@lfdr.de>);
+        Tue, 19 Oct 2021 05:41:31 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54178 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S235127AbhJSJlY (ORCPT
+        <rfc822;linux-wpan@vger.kernel.org>); Tue, 19 Oct 2021 05:41:24 -0400
+Received: from mail-qk1-x72a.google.com (mail-qk1-x72a.google.com [IPv6:2607:f8b0:4864:20::72a])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 39233C061771
+        for <linux-wpan@vger.kernel.org>; Tue, 19 Oct 2021 02:39:02 -0700 (PDT)
+Received: by mail-qk1-x72a.google.com with SMTP id bl14so17875194qkb.4
+        for <linux-wpan@vger.kernel.org>; Tue, 19 Oct 2021 02:39:02 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=mime-version:reply-to:from:date:message-id:subject:to
+         :content-transfer-encoding;
+        bh=h7Ka/8DlpkXEXF23rPgOfJJ3SyquA2FhD5HYDsybiG4=;
+        b=TOvN/3L74NxJ8jkZLAwc1HWcAigE5PqgL50bgmFqgfF5N3Ni/F/hFF6HKKLKTN31yN
+         HevaAXYbPfypt8hhKvSPyehT5ALdXqczNk+5xUwtC+i5sgHXh2uIQwAecZjfCaWU8ix6
+         IP3iNNDeKzM9Rarn67S7Y6Q5meavaw7Mpk+sez5Jm9gTXVkS2K7rH0HxN0wGBD1vTEZW
+         SlZ7Ohjm5TDffwxVe9psHKkZrw9F8ewS3UJdvRp48BugnVC9N6o6tGt7kOuD9dBL9WOI
+         l1dbXlU20FuuDCR1G9eGV6dpPzPq/obtSd+vSUmjw4dvgQ3M4KndmuUgzevCd5/KLP2j
+         AvJA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:mime-version:reply-to:from:date:message-id
+         :subject:to:content-transfer-encoding;
+        bh=h7Ka/8DlpkXEXF23rPgOfJJ3SyquA2FhD5HYDsybiG4=;
+        b=XOKl4FmkGQTZ40+7wZ6BuwAuh3nNMj1KTgM9H7CrjskwovLNvQ4J/yY1joHC+pGP9X
+         H0cRSq6jEGjESEvEv6jLA19Voqcc9G19dmlOS53STSbYVK9rhYNJ5wzPLgJSO3VwYRNF
+         4mSnOZ8SwhMfukrOiv6AVsw3vtqvWcPpmUOgMoM/Vl7cNxOQ5AUSSxMvHcVGvxgPZN0t
+         UJXXA1Fi/qSiIuiiwlJJ2S7jaeRZ2tUKXP8GPHb0oDqZ982RhNygbyxD0N3bKqymLPmy
+         R52hT1Wgq/LOmDp6+2SxoiqEvemq3b6g3fwQf3ZbtPxIwM9E36B5umBmm8hGV8wWmpna
+         Xwiw==
+X-Gm-Message-State: AOAM532jtbWtEILpAg4ETGY1G2UN7eHnYYQHxSgpNtoIBJzFXYggW1td
+        J4Q6EOOgNchOtxtJWtclxi4QlM5nJqEsQBT6q78C+D4b1Ws=
+X-Google-Smtp-Source: ABdhPJzMH7/Viv+gmOFi/wRxRbcc549EbhNxq1WBmFuuCl5Y1sIaNw3hPc5P9A8SHm6QnP1HNGNAvecvirmJS/oiL6w=
+X-Received: by 2002:a02:6f5d:: with SMTP id b29mr3319085jae.113.1634636331013;
+ Tue, 19 Oct 2021 02:38:51 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <20211018141452.544931a7@kicinski-fedora-pc1c0hjn.dhcp.thefacebook.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Received: by 2002:a92:c7c6:0:0:0:0:0 with HTTP; Tue, 19 Oct 2021 02:38:50
+ -0700 (PDT)
+Reply-To: megaritalouisdrayfu199@yahoo.com
+From:   "Mrs. Margarita Louis-Dreyfus." <anniewei112@gmail.com>
+Date:   Mon, 18 Oct 2021 21:38:50 -1200
+Message-ID: <CAGT4pMkzKn8mfeY05OAG04CCAxodKEVDUk46D=O7cfK8+n1=tA@mail.gmail.com>
+Subject: Charitable funds to help the less privilege!
+To:     undisclosed-recipients:;
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 List-ID: <linux-wpan.vger.kernel.org>
 X-Mailing-List: linux-wpan@vger.kernel.org
 
-Hello Jakub.
+--=20
+Hello,
 
-On 18.10.21 23:14, Jakub Kicinski wrote:
-> On Sat, 16 Oct 2021 22:54:52 +0200 Stefan Schmidt wrote:
->> I have nothing else in my ieee802154 tree for net right now so it would
->> be great if you could take it directly.
-> 
-> Do you mean net or net-next? This looks like net-next material.
+I am sorry to encroach into your privacy in this manner, my name
+Margarita Louis-Dreyfus , I find it pleasurable to offer you my
+partnership in business, i only pray at this time that your email
+address is still valid. I want to solicit your attention to receive
+money on my behalf for humanitarian project to help the less
+priviledge.
 
-Yes, net-next, please.
+The purpose of my contacting you is because my status would not permit
+me to do this alone. Given my current state of health, I have decided
+to donate Ninety -Eight Million United State Dollars to establish a
+foundation with your help to reach out to the less privilege, orphans,
+sick and homeless people in your country who will receive their
+blessings as i promised my God before i leave this earth.
 
-> Just to be sure, applying directly is not a problem.
-> 
+I got your contact through my personal search, you were revealed as
+being quite astute in private entrepreneurship, and i have no doubt
+that you can handle this huge financial transaction. Please contact my
+executor for more information:
 
-Thanks.
+Mr. Ford Spencer(Attorney at Law).
+For: Mrs. Margarita Louis-Dreyfus
+LEGAL DEPARTMENT LAWSON & ASSOCIATES
+(JUSTICE, FAIRPLAY & EQUITY)
+Email: fordspencer828@yahoo.com, fordspencereqs828@gmail.com
+Office: +1-970-414-1400
++1-702-714-3422
+Mobile: +1 916 269 2733
+Fax: +1-970-414-1433
+=C2=AE Property of Steven C Spence PA.
 
-regards
-Stefan Schmidt
+Your earliest response to this letter will be appreciated.
 
+Kind Regards,
+
+Mrs. Margarita Louis-Dreyfus.
