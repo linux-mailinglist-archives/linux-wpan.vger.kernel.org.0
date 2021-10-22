@@ -2,66 +2,89 @@ Return-Path: <linux-wpan-owner@vger.kernel.org>
 X-Original-To: lists+linux-wpan@lfdr.de
 Delivered-To: lists+linux-wpan@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 6737243552F
-	for <lists+linux-wpan@lfdr.de>; Wed, 20 Oct 2021 23:16:50 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id A85D74376E8
+	for <lists+linux-wpan@lfdr.de>; Fri, 22 Oct 2021 14:22:14 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230174AbhJTVTE (ORCPT <rfc822;lists+linux-wpan@lfdr.de>);
-        Wed, 20 Oct 2021 17:19:04 -0400
-Received: from proxima.lasnet.de ([78.47.171.185]:44614 "EHLO
-        proxima.lasnet.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229695AbhJTVTD (ORCPT
-        <rfc822;linux-wpan@vger.kernel.org>); Wed, 20 Oct 2021 17:19:03 -0400
-Received: from [IPv6:2003:e9:d74b:bb37:2d11:3826:d66f:93f7] (p200300e9d74bbb372d113826d66f93f7.dip0.t-ipconnect.de [IPv6:2003:e9:d74b:bb37:2d11:3826:d66f:93f7])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-        (No client certificate requested)
-        (Authenticated sender: stefan@datenfreihafen.org)
-        by proxima.lasnet.de (Postfix) with ESMTPSA id 6AF53C0876;
-        Wed, 20 Oct 2021 23:16:47 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=datenfreihafen.org;
-        s=2021; t=1634764607;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=HRKKgMcsIJStdVH35Z1WYKPkQvB/n1SCcEn2UNHPJVA=;
-        b=cBcl6tsoJVuh6+6jYRUlDtvPkQYKS0HT5WzrUpnl3OjLrYpsJHdj+27cgZ0AynaTiOSYx4
-        F6UnbQROOsCF5PiHEg4UNKVwLOIP6suYDfmXpjCtSugwHiiFmybpn4kFjjPXLrb5R222tU
-        1HCFBEbSCvWlfb+OhTjmgG2Mf2cJdOkSkFXnT69dw8N5HV4k3lJpKrrO9HaMaD187PCHP3
-        JgQ7D672aWmPjHL6o3EYVcNqME42sOycHYqHhosu2Sx8e2X8zwpd+Itz/XTD5C2IWjI2QN
-        DXa7+2bUQtktot89T5lsZTqZdc2LoMnsAxrQoLjhpc3+fJZ4IidbRSIJwzNk/g==
-Subject: Re: [PATCH 2/2] mac802154: use dev_addr_set() - manual
-To:     Jakub Kicinski <kuba@kernel.org>, netdev@vger.kernel.org
-Cc:     alex.aring@gmail.com, linux-wpan@vger.kernel.org
-References: <20211019163606.1385399-1-kuba@kernel.org>
- <20211019163606.1385399-2-kuba@kernel.org>
-From:   Stefan Schmidt <stefan@datenfreihafen.org>
-Message-ID: <e6fc36f7-4c99-1a2d-355c-a40a97491050@datenfreihafen.org>
-Date:   Wed, 20 Oct 2021 23:16:45 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.11.0
+        id S232381AbhJVMY2 (ORCPT <rfc822;lists+linux-wpan@lfdr.de>);
+        Fri, 22 Oct 2021 08:24:28 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53674 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S232405AbhJVMYV (ORCPT
+        <rfc822;linux-wpan@vger.kernel.org>); Fri, 22 Oct 2021 08:24:21 -0400
+Received: from mail-ed1-x535.google.com (mail-ed1-x535.google.com [IPv6:2a00:1450:4864:20::535])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D3A92C061225
+        for <linux-wpan@vger.kernel.org>; Fri, 22 Oct 2021 05:22:01 -0700 (PDT)
+Received: by mail-ed1-x535.google.com with SMTP id ec8so1010373edb.6
+        for <linux-wpan@vger.kernel.org>; Fri, 22 Oct 2021 05:22:01 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=mime-version:reply-to:from:date:message-id:subject:to;
+        bh=EabbjzyBCsHP1Pqryzjhoy0dM3xlyxLmmpO8ACgMTo8=;
+        b=opUIgqVWyZcHOIldu+LgQVfQLu2JLSm4eq0yRYoR8X3EkJ0jJdtgK1LJrEC4fAYG/u
+         x5QndCavFk6KrgrLKL2M04eWhmo9Ht5gsCUOTzm6BFmYlOhPKCnfQmAWRcGWJ3Kgd+Po
+         dxnzE1GzD0Fe/zdoRYGanqsnNZ7HZwcDd5jvb2P53Z7ySB2eUUW5eKcCwJjvHcLwQW3D
+         hmZMQ0WQ67mADARNZlQPTMDFACAa1pT2f55C5E+z5xU/0SGGI05AA1ys/nk/8Z7QRecx
+         rbFLK51ODld/urTp+hjZ3tCNNEiv03NL8R5n8H4ZVv1sIR3Pcfr4FSd/aUugOrtvCJBK
+         4QUQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:mime-version:reply-to:from:date:message-id
+         :subject:to;
+        bh=EabbjzyBCsHP1Pqryzjhoy0dM3xlyxLmmpO8ACgMTo8=;
+        b=5urRXNU4ApgjiBUjv0DGBvSNhyxOe2dPjyOGWW95o2DKLR9hNSGyzE/MwOoQ9dp8sY
+         uD3Tf9mACg9NuefOKcNv9oXFWXzopUdN9gJsAAXKUuZgIT1ZnMhjTeainwsZmxTE+FiL
+         LASPHRlHujAvHwUxjCcLCphLAgF+2JKDKkoGKWEvR9h2aIFpoOrBiWtFd0CkN2npmMIt
+         AWbAnPg+TVwoMCKFz/o58WIn7JGaf4A142W9CxlN56nYNP4QQ5egv+AuQWAJUCZ1rooA
+         EwZLAU9HfgUAb+8kCV6QwvICSRiQl2xcRePCUWeT20HfaeDWcoTSyztaraKQMtDzj0/L
+         lMyA==
+X-Gm-Message-State: AOAM533WaKknfj/Sk3N5mEudLXWpCzUwnb7xdzXmadCtEw4PNPX+Jbe1
+        P0d3Tx95dGPLeCLyFgdLJxa9VTXI4sbu9t3KdQu8da0opGUOnM+T
+X-Google-Smtp-Source: ABdhPJy2Z+mCK6UsBedDHfuHLqHjOelryE6bx9xZ/OavTEghlxY+bPID2uQBe/oD5nVNF4jHf9BZTkpf3h9vpVXzB08=
+X-Received: by 2002:a17:907:1b0a:: with SMTP id mp10mr15488909ejc.29.1634905309828;
+ Fri, 22 Oct 2021 05:21:49 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <20211019163606.1385399-2-kuba@kernel.org>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Received: by 2002:a17:907:7fa7:0:0:0:0 with HTTP; Fri, 22 Oct 2021 05:21:48
+ -0700 (PDT)
+Reply-To: bahadur.rayanby@gmail.com
+From:   Ryan Bahadur <dr.philposman7@gmail.com>
+Date:   Fri, 22 Oct 2021 05:21:48 -0700
+Message-ID: <CAMOT=VQ19xGMh1Soq8rNHNKaBCqZh03d0u+Nrf_Ou9bAtd-seQ@mail.gmail.com>
+Subject: CAN I TRUST YOU
+To:     undisclosed-recipients:;
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-wpan.vger.kernel.org>
 X-Mailing-List: linux-wpan@vger.kernel.org
 
-Hello.
+-- 
+Greetings,
 
-On 19.10.21 18:36, Jakub Kicinski wrote:
-> Commit 406f42fa0d3c ("net-next: When a bond have a massive amount
-> of VLANs...") introduced a rbtree for faster Ethernet address look
-> up. To maintain netdev->dev_addr in this tree we need to make all
-> the writes to it got through appropriate helpers.
-> 
-> Signed-off-by: Jakub Kicinski <kuba@kernel.org>
+Firstly, I apologize for encroaching into your privacy in this manner
+as it may seem unethical though it is a matter of great importance.
 
-Tested on my local ieee802154 setup without showing problems.
+I am Mr.Ryan Bahadur, I work with Cayman National Bank (Cayman Islands).
 
-Acked-by: Stefan Schmidt <stefan@datenfreihafen.org>
+I am contacting you because my status would not permit me to do this
+alone as it is concerning our customer and an investment placed under
+our bank's management over 5 years ago.
 
-regards
-Stefan Schmidt
+I have a proposal I would love to discuss with you which will be very
+beneficial to both of us. It's regarding my late client who has a huge
+deposit with my bank.
+
+He is from your country and shares the same last name with you.
+
+I want to seek your consent to present you as the next of kin to my
+late client who died and left a huge deposit with my bank.
+
+I would respectfully request that you keep the contents of this mail
+confidential and respect the integrity of the information you come by
+as a result of this mail.
+
+Please kindly get back to me for more details if I can TRUST YOU.{
+bahadur.rayanby@gmail.com}
+
+Regards
+Mr.Ryan Bahadur
+Treasury and Deposit Management,
+Cayman National Bank Cayman Islands.
