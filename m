@@ -2,60 +2,100 @@ Return-Path: <linux-wpan-owner@vger.kernel.org>
 X-Original-To: lists+linux-wpan@lfdr.de
 Delivered-To: lists+linux-wpan@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 05C9244EB19
-	for <lists+linux-wpan@lfdr.de>; Fri, 12 Nov 2021 17:11:07 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id BE35E45396F
+	for <lists+linux-wpan@lfdr.de>; Tue, 16 Nov 2021 19:32:43 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230019AbhKLQN5 (ORCPT <rfc822;lists+linux-wpan@lfdr.de>);
-        Fri, 12 Nov 2021 11:13:57 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36848 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229952AbhKLQN4 (ORCPT
-        <rfc822;linux-wpan@vger.kernel.org>); Fri, 12 Nov 2021 11:13:56 -0500
-Received: from mail-ua1-x931.google.com (mail-ua1-x931.google.com [IPv6:2607:f8b0:4864:20::931])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D8CABC061766
-        for <linux-wpan@vger.kernel.org>; Fri, 12 Nov 2021 08:11:05 -0800 (PST)
-Received: by mail-ua1-x931.google.com with SMTP id v3so19756586uam.10
-        for <linux-wpan@vger.kernel.org>; Fri, 12 Nov 2021 08:11:05 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=mime-version:reply-to:from:date:message-id:subject:to;
-        bh=Oiqf4ryezZmvU70YwGl30IJ6npLtnMFKaVuq27iIcrc=;
-        b=oHpMPd8F/LC0RyKMomTPjMXHYw95pyCyiFDtPu2rHKE7mms99rIlGVOPHu8iAN+SjJ
-         jMkVXwCI8kaImqmyO0To30Vr7CCTWvUGwYhE5d9mUimfMM4VShf7vkF648ecNKS8qHiO
-         DNXQo9eMOAcGKZMdJB5Ljf1C9Zlm+9mOl/kFsJkj4/Va5Di12xA7LE+Z+4c+HnSxM7qG
-         L528to3MzkFLhZY/gpadyUYejCOFtRasGplBXRDQeGiEw5TFW69EA8PNGrMYausyqzEf
-         1u7CFWw8ZlRyZ9gVR3AmQpaN+TKEgvhxMTMmQkkdWcvrUuABmZplKubTX/F1Uxr5ScO3
-         950w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:reply-to:from:date:message-id
-         :subject:to;
-        bh=Oiqf4ryezZmvU70YwGl30IJ6npLtnMFKaVuq27iIcrc=;
-        b=L40aw8sK+OWdJW65QoBAMUrhM2eFt00FxooHl0WeNIY1ZNn6NRzOlMlGwdLZPZPRPm
-         iv8PZSW1gEczv74SgsOTRXm5RmAz6ZeoUOF7BQmKCB940mYlhL8LuZbrsQJ7X7YM/HxN
-         Mb/COwmBaqmut9xQRrFxK4/EUW2PKUfHk9f5oGP2aJuTz1KGzve/0v2HLMwMN2OsP2/6
-         35NygJGZu6LNZziScFWMIyKsVj6xpthEPXdQySWqSTqTbWPIYQi/tUrdNSztuBN08cKy
-         LlWs/1XuE6BiJVR/ryG4gWFIEKOTlnfuX9ub4PYiVrU2WXzLdFJv3v9lPtUhoVjCPwcR
-         NX/Q==
-X-Gm-Message-State: AOAM5339arBv7T5OM5AXakAJlLvRoz/BbF+DBsQny6dXJ4SJ854Z52Ek
-        XBwBUCZUDtrqaq8wZw0lXPFWI0nrCdnxgRqZJlo=
-X-Google-Smtp-Source: ABdhPJzG/f5vcqePvqCxchla8o8WEJGCg3IqOhpWI5/4WpxZ3WXbQav6QmVx0x9pUEKPkeb8xSMHeUCXkJk+6XR3lYw=
-X-Received: by 2002:a05:6102:11ed:: with SMTP id e13mr12022619vsg.57.1636733465065;
- Fri, 12 Nov 2021 08:11:05 -0800 (PST)
+        id S239506AbhKPSe5 (ORCPT <rfc822;lists+linux-wpan@lfdr.de>);
+        Tue, 16 Nov 2021 13:34:57 -0500
+Received: from proxima.lasnet.de ([78.47.171.185]:58680 "EHLO
+        proxima.lasnet.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S239510AbhKPSes (ORCPT
+        <rfc822;linux-wpan@vger.kernel.org>); Tue, 16 Nov 2021 13:34:48 -0500
+Received: from [172.29.15.1] (unknown [185.214.200.54])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+        (No client certificate requested)
+        (Authenticated sender: stefan@datenfreihafen.org)
+        by proxima.lasnet.de (Postfix) with ESMTPSA id 0479CC0387;
+        Tue, 16 Nov 2021 19:31:47 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=datenfreihafen.org;
+        s=2021; t=1637087508;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=q33VKNmnBYWaMgxXXz7vJiugiVjwWfFa7bPXnZywGAI=;
+        b=A401T7QmAKbJcVQAOdyXhmRhUTrRslyXmUWgf/vhhq0DJM0/o0EDdn7atSuONXikAqB99a
+        Kjvmok8KyCNfrVCYGeq3kCTnyUQ9gkafPYqVpM1+MeZwZnypfrmKdVf9ksZiB6/UA/4XjM
+        MPngdNWuWGezOqH2JY/nuG+ZKP6vm7pgd+iiQz6wVNx85jOSwjpNDvFLZNyGtw68IFJCHs
+        lxbkgyXMxYGtjPDknIu2I3xMy7TT26vfDVnwDapZ0O3+5gQFoQSo0yrfu6HH1zA1w3yHeH
+        GupMNlnckiila01DNDs7sArQgQNmGovGUBGR8zaMFOEX9AhlK2eqFKaFqZRIuQ==
+Message-ID: <9442473c-27fc-12d5-d520-206796e4edfa@datenfreihafen.org>
+Date:   Tue, 16 Nov 2021 19:31:46 +0100
 MIME-Version: 1.0
-Received: by 2002:a67:ee97:0:0:0:0:0 with HTTP; Fri, 12 Nov 2021 08:11:04
- -0800 (PST)
-Reply-To: collinsallen23@outlook.com
-From:   Collins <maryedson23@gmail.com>
-Date:   Fri, 12 Nov 2021 16:11:04 +0000
-Message-ID: <CAJeFOUQZ4WFc=YekJP8LM-t1852QWTFzYSwKfb9fJyhuUOwdUQ@mail.gmail.com>
-Subject: ?
-To:     undisclosed-recipients:;
-Content-Type: text/plain; charset="UTF-8"
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.1.0
+Subject: Re: [PATCH wpan] net: ieee802154: handle iftypes as u32
+Content-Language: en-US
+To:     Alexander Aring <aahringo@redhat.com>, mudongliangabcd@gmail.com
+Cc:     linux-wpan@vger.kernel.org, netdev@vger.kernel.org
+References: <20211112030916.685793-1-aahringo@redhat.com>
+From:   Stefan Schmidt <stefan@datenfreihafen.org>
+In-Reply-To: <20211112030916.685793-1-aahringo@redhat.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-wpan.vger.kernel.org>
 X-Mailing-List: linux-wpan@vger.kernel.org
 
-Bitte helft mir, das ist dringend. Antworte schnell
-Unternehmen?
-Sehr sehr dringend!
+Hello.
+
+On 12.11.21 04:09, Alexander Aring wrote:
+> This patch fixes an issue that an u32 netlink value is handled as a
+> signed enum value which doesn't fit into the range of u32 netlink type.
+> If it's handled as -1 value some BIT() evaluation ends in a
+> shift-out-of-bounds issue. To solve the issue we set the to u32 max which
+> is s32 "-1" value to keep backwards compatibility and let the followed enum
+> values start counting at 0. This brings the compiler to never handle the
+> enum as signed and a check if the value is above NL802154_IFTYPE_MAX should
+> filter -1 out.
+> 
+> Fixes: f3ea5e44231a ("ieee802154: add new interface command")
+> Signed-off-by: Alexander Aring <aahringo@redhat.com>
+> ---
+>   include/net/nl802154.h | 7 ++++---
+>   1 file changed, 4 insertions(+), 3 deletions(-)
+> 
+> diff --git a/include/net/nl802154.h b/include/net/nl802154.h
+> index ddcee128f5d9..145acb8f2509 100644
+> --- a/include/net/nl802154.h
+> +++ b/include/net/nl802154.h
+> @@ -19,6 +19,8 @@
+>    *
+>    */
+>   
+> +#include <linux/types.h>
+> +
+>   #define NL802154_GENL_NAME "nl802154"
+>   
+>   enum nl802154_commands {
+> @@ -150,10 +152,9 @@ enum nl802154_attrs {
+>   };
+>   
+>   enum nl802154_iftype {
+> -	/* for backwards compatibility TODO */
+> -	NL802154_IFTYPE_UNSPEC = -1,
+> +	NL802154_IFTYPE_UNSPEC = (~(__u32)0),
+>   
+> -	NL802154_IFTYPE_NODE,
+> +	NL802154_IFTYPE_NODE = 0,
+>   	NL802154_IFTYPE_MONITOR,
+>   	NL802154_IFTYPE_COORD,
+>   
+
+
+This patch has been applied to the wpan tree and will be
+part of the next pull request to net. Thanks!
+
+regards
+Stefan Schmidt
