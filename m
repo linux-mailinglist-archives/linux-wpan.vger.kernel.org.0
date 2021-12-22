@@ -2,85 +2,154 @@ Return-Path: <linux-wpan-owner@vger.kernel.org>
 X-Original-To: lists+linux-wpan@lfdr.de
 Delivered-To: lists+linux-wpan@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id B200E477079
-	for <lists+linux-wpan@lfdr.de>; Thu, 16 Dec 2021 12:42:17 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 50E8847D478
+	for <lists+linux-wpan@lfdr.de>; Wed, 22 Dec 2021 16:57:55 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232386AbhLPLmQ (ORCPT <rfc822;lists+linux-wpan@lfdr.de>);
-        Thu, 16 Dec 2021 06:42:16 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60052 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232825AbhLPLmM (ORCPT
-        <rfc822;linux-wpan@vger.kernel.org>); Thu, 16 Dec 2021 06:42:12 -0500
-Received: from mail-qt1-x835.google.com (mail-qt1-x835.google.com [IPv6:2607:f8b0:4864:20::835])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9AC8BC061759
-        for <linux-wpan@vger.kernel.org>; Thu, 16 Dec 2021 03:42:06 -0800 (PST)
-Received: by mail-qt1-x835.google.com with SMTP id f20so25120886qtb.4
-        for <linux-wpan@vger.kernel.org>; Thu, 16 Dec 2021 03:42:06 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=mime-version:reply-to:from:date:message-id:subject:to;
-        bh=xre5um49Rnqa1tZMCD58Cd6UlD4MleswKAp3tzt2gjo=;
-        b=DbH1Ji01P93LyTzDoauO1Rc48sDWVtdwnBGUamxeb8T/9DnmNwFlL0JvNxtTxnIik8
-         AF4fiOnh94EFQzdZz8KJBnzwauC2lZM0yNVUv4pWHip6opgPog4u/vluZhPJXjw78vDA
-         f6sh/ed1OxoJ1g1t7gzdPodwSxTC5c4DgCybEoK61DXARfmFs8snxFiiIRa/Iu1/hNzN
-         fZIim177r1ShSprd0HKY5DfawS5hKhFwBWxLO3U7SnQ0mHNCzrBDbHpz1jt5tPoBjmr8
-         7Ae3NOwI9TZO/6l6pkdqJZg2o0eCT7Tj9ACDNqagtOISwltP3H2yXXWnIzZMI4wBc7By
-         rM9Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:reply-to:from:date:message-id
-         :subject:to;
-        bh=xre5um49Rnqa1tZMCD58Cd6UlD4MleswKAp3tzt2gjo=;
-        b=TKtTfnUToRDKOj9r/Mw0NIwOOgxYOEXSssL6u92FAssb5XziQQoJdXrE/FbCRvzjAO
-         TcU594SCfGj8mgqJw/kfLogrepV/JSa3femvMMarGIVL+EoGNqJH3b9+LkymrE2f1ivd
-         7tenSBTRg4bU3j41rN7jPF/HFJ8FIMjOQZTsWp4Yi9h4SiyHfdsVGB4rux/Za4jWDW4R
-         GaBJcUbHeDNeqdTeO7G54EMZ2+DVHEw5b3/NGvEMd/7i39O9QpW+bl13CvTqORc2rYoY
-         /D0hYPsTiRFiS65nczf81iWsHyHksuji3rxPhLDLA3Fb7q+WrYJp3oeDapS+Kk0Z/TLR
-         LwRA==
-X-Gm-Message-State: AOAM530BoOl0BUIMUiwSYsmFhdhCk20Edlfjkev/luoHOvSLIfS/g7vF
-        kCJ94r50nDBEewBim9rpqcSTIuCgWfC6KhqCaq0=
-X-Google-Smtp-Source: ABdhPJyrnf396a9ziJGBm+8eiYGOgUpOQ7p2/85GJukkUSbvGu1la687iolipeGN8a/w1GmTH3LvDnglSFpjsilKeBU=
-X-Received: by 2002:a05:622a:510:: with SMTP id l16mr16475505qtx.619.1639654925163;
- Thu, 16 Dec 2021 03:42:05 -0800 (PST)
+        id S1343795AbhLVP5r (ORCPT <rfc822;lists+linux-wpan@lfdr.de>);
+        Wed, 22 Dec 2021 10:57:47 -0500
+Received: from relay3-d.mail.gandi.net ([217.70.183.195]:49975 "EHLO
+        relay3-d.mail.gandi.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1343765AbhLVP5r (ORCPT
+        <rfc822;linux-wpan@vger.kernel.org>); Wed, 22 Dec 2021 10:57:47 -0500
+Received: (Authenticated sender: miquel.raynal@bootlin.com)
+        by relay3-d.mail.gandi.net (Postfix) with ESMTPSA id 6569660013;
+        Wed, 22 Dec 2021 15:57:44 +0000 (UTC)
+From:   Miquel Raynal <miquel.raynal@bootlin.com>
+To:     "David S. Miller" <davem@davemloft.net>,
+        Jakub Kicinski <kuba@kernel.org>, netdev@vger.kernel.org,
+        Alexander Aring <alex.aring@gmail.com>,
+        Stefan Schmidt <stefan@datenfreihafen.org>,
+        linux-wpan@vger.kernel.org
+Cc:     David Girault <david.girault@qorvo.com>,
+        Romuald Despres <romuald.despres@qorvo.com>,
+        Frederic Blain <frederic.blain@qorvo.com>,
+        Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
+        <linux-kernel@vger.kernel.org>,
+        Miquel Raynal <miquel.raynal@bootlin.com>
+Subject: [net-next 00/18] IEEE 802.15.4 passive scan support
+Date:   Wed, 22 Dec 2021 16:57:25 +0100
+Message-Id: <20211222155743.256280-1-miquel.raynal@bootlin.com>
+X-Mailer: git-send-email 2.27.0
 MIME-Version: 1.0
-Received: by 2002:a05:622a:199c:0:0:0:0 with HTTP; Thu, 16 Dec 2021 03:42:04
- -0800 (PST)
-Reply-To: selviasantiago1@gmail.com
-From:   Selvia Santiago <mariamatinez119@gmail.com>
-Date:   Thu, 16 Dec 2021 11:42:04 +0000
-Message-ID: <CAONDhKNqZ3ja5a2mdpyxiYfPYVQwq_MdxvhX-F--7sW9gxb1ZQ@mail.gmail.com>
-Subject: Urgent
-To:     undisclosed-recipients:;
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-wpan.vger.kernel.org>
 X-Mailing-List: linux-wpan@vger.kernel.org
 
+Hello,
+
+Here is a series attempting to bring support for passive scans in the
+IEEE 802.15.4 stack. A second series follows in order to align the
+tooling with these changes, bringing support for a number of new
+features such as:
+
+* Passively sending (or stopping) beacons. So far only intervals ranging
+  from 0 to 14 are valid. Bigger values would request the PAN
+  coordinator to answer BEACONS_REQ (active scans), this is not
+  supported yet.
+  # iwpan dev wpan0 beacons send interval 2
+  # iwpan dev wpan0 beacons stop
+
+* Scanning all the channels or only a subset:
+  # iwpan dev wpan1 scan type passive duration 3
+
+* If a beacon is received during this operation the internal PAN list is
+  updated and can be dumped or flushed with:
+  # iwpan dev wpan1 pans dump
+  PAN 0xffff (on wpan1)
+      coordinator 0x2efefdd4cdbf9330
+      page 0
+      channel 13
+      superframe spec. 0xcf22
+      LQI 0
+      seen 7156ms ago
+  # iwpan dev wpan1 pans flush
+
+* It is also possible to monitor the events with:
+  # iwpan event
+
+* As well as triggering a non blocking scan:
+  # iwpan dev wpan1 scan trigger type passive duration 3
+  # iwpan dev wpan1 scan done
+  # iwpan dev wpan1 scan abort
+
+The PAN list gets automatically updated by dropping the expired PANs
+each time the user requests access to the list.
+
+Internally, both requests (scan/beacons) are handled periodically by
+delayed workqueues.
+
+So far the only technical point that is missing in this series is the
+possibility to grab a reference over the module driving the net device
+in order to prevent module unloading during a scan or when the beacons
+work is ongoing.
+
+Finally, this series is a deep reshuffle of David Girault's original
+work, hence the fact that he is almost systematically credited, either
+by being the only author when I created the patches based on his changes
+with almost no modification, or with a Co-developped-by tag whenever the
+final code base is significantly different than his first proposal while
+still being greatly inspired from it.
+
+Cheers,
+Miquèl
+
+David Girault (5):
+  net: ieee802154: Move IEEE 802.15.4 Kconfig main entry
+  net: mac802154: Include the softMAC stack inside the IEEE 802.15.4
+    menu
+  net: ieee802154: Move the address structure earlier
+  net: ieee802154: Add a kernel doc header to the ieee802154_addr
+    structure
+  net: ieee802154: Trace the registration of new PANs
+
+Miquel Raynal (13):
+  ieee802154: hwsim: Ensure proper channel selection at probe time
+  ieee802154: hwsim: Provide a symbol duration
+  net: ieee802154: Return meaningful error codes from the netlink
+    helpers
+  net: ieee802154: Add support for internal PAN management
+  net: ieee802154: Define a beacon frame header
+  net: ieee802154: Define frame types
+  net: ieee802154: Add support for scanning requests
+  net: mac802154: Handle scan requests
+  net: mac802154: Inform device drivers about the scanning operation
+  net: ieee802154: Full PAN management
+  net: ieee802154: Add support for beacon requests
+  net: mac802154: Handle beacons requests
+  net: mac802154: Let drivers provide their own beacons implementation
+
+ drivers/net/ieee802154/mac802154_hwsim.c |  77 +++-
+ include/linux/ieee802154.h               |   6 +
+ include/net/cfg802154.h                  | 107 +++++-
+ include/net/ieee802154_netdev.h          |  71 ++++
+ include/net/mac802154.h                  |  40 ++
+ include/net/nl802154.h                   |  95 +++++
+ net/Kconfig                              |   3 +-
+ net/ieee802154/Kconfig                   |   1 +
+ net/ieee802154/Makefile                  |   2 +-
+ net/ieee802154/core.c                    |   2 +
+ net/ieee802154/core.h                    |  23 ++
+ net/ieee802154/header_ops.c              |  29 ++
+ net/ieee802154/nl802154.c                | 466 ++++++++++++++++++++++-
+ net/ieee802154/nl802154.h                |   4 +
+ net/ieee802154/pan.c                     | 211 ++++++++++
+ net/ieee802154/rdev-ops.h                |  52 +++
+ net/ieee802154/trace.h                   |  86 +++++
+ net/mac802154/Makefile                   |   2 +-
+ net/mac802154/cfg.c                      |  76 ++++
+ net/mac802154/driver-ops.h               |  66 ++++
+ net/mac802154/ieee802154_i.h             |  28 ++
+ net/mac802154/main.c                     |   4 +
+ net/mac802154/rx.c                       |  10 +-
+ net/mac802154/scan.c                     | 374 ++++++++++++++++++
+ net/mac802154/trace.h                    |  49 +++
+ net/mac802154/util.c                     |  26 ++
+ 26 files changed, 1889 insertions(+), 21 deletions(-)
+ create mode 100644 net/ieee802154/pan.c
+ create mode 100644 net/mac802154/scan.c
+
 -- 
-Urgent
+2.27.0
 
-I am Mrs. Selvia Santiago from Abidjan, Cote D'Ivoire, I am a widow
-suffering from long time illness (Cancer), there is funds I inherited
-from my late loving husband Mr. Santiago Carlos, the sum of (US$2.7
-Million Dollars) which he deposited in bank before his death, I need a
-honest and Faithful person that can use these funds for humanity work.
-
-I took this decision because I don't have any child that will inherit
-this money and I don't want a situation where this money will be used
-in an ungodly way. That is why I am taking this decision, and my
-doctor has confirmed to me that I have less than two weeks to live,
-having known my condition I decided to donate this fund to a charity
-or individual that will utilize this money to assist the poor and the
-needy in accordance to my instructions.
-
-I want you to use 70% of this funds for orphanages, school, church,
-widows, propagating the word and other humanity works,The remaining
-30% should be yours for your efforts as the new beneficiary.
-
-Please if you would be able to use these funds for humanity work
-kindly reply me. As soon as I have received your response, I will give
-you further directives on how you are to go about the claims of the
-said funds.
-
-Remain blessed.
-Mrs Selvia Santiago.
