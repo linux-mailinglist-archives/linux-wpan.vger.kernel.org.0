@@ -2,330 +2,92 @@ Return-Path: <linux-wpan-owner@vger.kernel.org>
 X-Original-To: lists+linux-wpan@lfdr.de
 Delivered-To: lists+linux-wpan@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 1D44447D4BA
-	for <lists+linux-wpan@lfdr.de>; Wed, 22 Dec 2021 16:59:23 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id AAA6A47D5BB
+	for <lists+linux-wpan@lfdr.de>; Wed, 22 Dec 2021 18:20:26 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1344073AbhLVP66 (ORCPT <rfc822;lists+linux-wpan@lfdr.de>);
-        Wed, 22 Dec 2021 10:58:58 -0500
-Received: from relay4-d.mail.gandi.net ([217.70.183.196]:40329 "EHLO
-        relay4-d.mail.gandi.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1344070AbhLVP62 (ORCPT
-        <rfc822;linux-wpan@vger.kernel.org>); Wed, 22 Dec 2021 10:58:28 -0500
-Received: (Authenticated sender: miquel.raynal@bootlin.com)
-        by relay4-d.mail.gandi.net (Postfix) with ESMTPSA id 79011E000D;
-        Wed, 22 Dec 2021 15:58:26 +0000 (UTC)
-From:   Miquel Raynal <miquel.raynal@bootlin.com>
-To:     Alexander Aring <alex.aring@gmail.com>,
-        Stefan Schmidt <stefan@datenfreihafen.org>,
-        linux-wpan@vger.kernel.org
-Cc:     David Girault <david.girault@qorvo.com>,
+        id S1344297AbhLVRTu (ORCPT <rfc822;lists+linux-wpan@lfdr.de>);
+        Wed, 22 Dec 2021 12:19:50 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44404 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1344293AbhLVRTu (ORCPT
+        <rfc822;linux-wpan@vger.kernel.org>); Wed, 22 Dec 2021 12:19:50 -0500
+Received: from mail-wr1-x42a.google.com (mail-wr1-x42a.google.com [IPv6:2a00:1450:4864:20::42a])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E5D00C061574;
+        Wed, 22 Dec 2021 09:19:49 -0800 (PST)
+Received: by mail-wr1-x42a.google.com with SMTP id n14so6033237wra.9;
+        Wed, 22 Dec 2021 09:19:49 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=MNm5zFkmDJ+1D5nLepHbZ6HxOXY1l286NAL+BsStgXs=;
+        b=VecyGUi2YCXM1IE8YJ/3ihuakrNx0LqMOV6zPQqd6GGbySAoIGIey0EKYS+tQlqGyA
+         vlONqWeAcXqNLrX75jl4PLPiKP5GHsdon1O6+B2pEgRLVuYVu1hZ8tUeNnGRQRq966zY
+         TGo/I7hQL0pke7liLyRaayyzvkFkyjgLgOyzzRZ9ZB8y64CyS9jwedb456sPOzOlUMiZ
+         PMQasow7MwMcUztNQYxemKVLqCvQasfOzrYxl+KSCU75WB7kA9LPAm8rM5l0xgDO7vN5
+         7UC3vSHTeR9nZCd92q2rVUPHSUJyrqVFx8ROZOgYujjJRCCfcLet3u3/XI2hXaxalBfy
+         /mLw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=MNm5zFkmDJ+1D5nLepHbZ6HxOXY1l286NAL+BsStgXs=;
+        b=cFVkr88OEzWnZB3mkM1i59e8d8glD0sVXRxtKmiZ70graM8vemKAABodP6iQEUQVNg
+         Pvw0pHzZnzvRtDAjCiGcX4h/ooGnheO1EA9olt76zuPZb7jyO98+tQlcP9o+JOIvngok
+         9RoL7pHlljU9xeoDH9B3TEfxU3wZa2jOkWpN0jDfICUmpZJtZoj1+9jjOFtGuiMGlnTf
+         i3DG8jXCuFATze/6bgNYeXEcyww2rX2yZyDSHiiva8LH+7S9lLGKgrqcvt/MjbB2+XqE
+         odxwqeTfQb5PreSrqMd1XurNIsDAZru2l5RfbYEOiufrwOOhovTmefv3LDN+3FfdynQq
+         I4CA==
+X-Gm-Message-State: AOAM532Z66cOI7AZnp27pKuirfyWeEJadcQyms+QE1AhupUdqS6N0wzZ
+        Bu1aJpEiCErgtUlT/mBr+LVsVW1Qf/mKOKMER7K47qtJ
+X-Google-Smtp-Source: ABdhPJx3URG7wrVw1exGQrpezpinqQm3pAQ2vmxxbJNGqIBMotaY+f+YnVJRTvlpl2u+fBFhhtrNfhcajBXS5BixOIQ=
+X-Received: by 2002:adf:fc02:: with SMTP id i2mr2749500wrr.154.1640193588504;
+ Wed, 22 Dec 2021 09:19:48 -0800 (PST)
+MIME-Version: 1.0
+References: <20211222155816.256405-1-miquel.raynal@bootlin.com> <20211222155816.256405-7-miquel.raynal@bootlin.com>
+In-Reply-To: <20211222155816.256405-7-miquel.raynal@bootlin.com>
+From:   Alexander Aring <alex.aring@gmail.com>
+Date:   Wed, 22 Dec 2021 12:19:36 -0500
+Message-ID: <CAB_54W5Nhhmz2paJ+RjscqFqHo1kZJf-3NPiGP8PAjWGjhecqA@mail.gmail.com>
+Subject: Re: [wpan-tools 6/7] iwpan: Add full scan support
+To:     Miquel Raynal <miquel.raynal@bootlin.com>
+Cc:     Stefan Schmidt <stefan@datenfreihafen.org>,
+        linux-wpan - ML <linux-wpan@vger.kernel.org>,
+        David Girault <david.girault@qorvo.com>,
         Romuald Despres <romuald.despres@qorvo.com>,
         Frederic Blain <frederic.blain@qorvo.com>,
         Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
-        netdev@vger.kernel.org, Miquel Raynal <miquel.raynal@bootlin.com>
-Subject: [wpan-tools 7/7] iwpan: Add events support
-Date:   Wed, 22 Dec 2021 16:58:16 +0100
-Message-Id: <20211222155816.256405-8-miquel.raynal@bootlin.com>
-X-Mailer: git-send-email 2.27.0
-In-Reply-To: <20211222155816.256405-1-miquel.raynal@bootlin.com>
-References: <20211222155816.256405-1-miquel.raynal@bootlin.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
+        "open list:NETWORKING [GENERAL]" <netdev@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-wpan.vger.kernel.org>
 X-Mailing-List: linux-wpan@vger.kernel.org
 
-From: David Girault <david.girault@qorvo.com>
+Hi,
 
-Add the possibility to listen to the scan multicast netlink family in
-order to print all the events happening in the 802.15.4 stack.
+I did a quick overlook of those patches and I am very happy to see
+such patches and I will try them out in the next few days! Thanks.
 
-Signed-off-by: David Girault <david.girault@qorvo.com>
-Signed-off-by: Miquel Raynal <miquel.raynal@bootlin.com>
----
- src/Makefile.am |   1 +
- src/event.c     | 221 ++++++++++++++++++++++++++++++++++++++++++++++++
- src/iwpan.h     |   3 +
- src/scan.c      |   4 +-
- 4 files changed, 227 insertions(+), 2 deletions(-)
- create mode 100644 src/event.c
+On Wed, 22 Dec 2021 at 10:58, Miquel Raynal <miquel.raynal@bootlin.com> wrote:
+>
+> From: David Girault <david.girault@qorvo.com>
+>
+> Bring support for different scanning operations, such as starting or
+> aborting a scan operation with a given configuration, dumping the list
+> of discovered PANs, and flushing the list.
+>
+> It also brings support for a couple of semi-debug features, such as a
+> manual beacon request to ask sending or stopping beacons out of a
+> particular interface. This is particularly useful when trying to
+> validate the scanning support without proper hardware.
+>
+> Signed-off-by: David Girault <david.girault@qorvo.com>
+> Signed-off-by: Miquel Raynal <miquel.raynal@bootlin.com>
+> ---
+>  DEST/usr/local/bin/iwpan      | Bin 0 -> 178448 bytes
+>  DEST/usr/local/bin/wpan-hwsim | Bin 0 -> 45056 bytes
+>  DEST/usr/local/bin/wpan-ping  | Bin 0 -> 47840 bytes
 
-diff --git a/src/Makefile.am b/src/Makefile.am
-index 18b3569..7933daf 100644
---- a/src/Makefile.am
-+++ b/src/Makefile.am
-@@ -10,6 +10,7 @@ iwpan_SOURCES = \
- 	phy.c \
- 	mac.c \
- 	scan.c \
-+	event.c \
- 	nl_extras.h \
- 	nl802154.h
- 
-diff --git a/src/event.c b/src/event.c
-new file mode 100644
-index 0000000..0c5450b
---- /dev/null
-+++ b/src/event.c
-@@ -0,0 +1,221 @@
-+#include <net/if.h>
-+#include <errno.h>
-+#include <stdint.h>
-+#include <stdbool.h>
-+#include <inttypes.h>
-+
-+#include <netlink/genl/genl.h>
-+#include <netlink/genl/family.h>
-+#include <netlink/genl/ctrl.h>
-+#include <netlink/msg.h>
-+#include <netlink/attr.h>
-+
-+#include "nl802154.h"
-+#include "nl_extras.h"
-+#include "iwpan.h"
-+
-+struct print_event_args {
-+	struct timeval ts; /* internal */
-+	bool have_ts; /* must be set false */
-+	bool frame, time, reltime;
-+};
-+
-+static void parse_scan_terminated(struct nlattr **tb)
-+{
-+	struct nlattr *a;
-+	if ((a = tb[NL802154_ATTR_SCAN_TYPE])) {
-+		enum nl802154_scan_types st =
-+			(enum nl802154_scan_types)nla_get_u8(a);
-+		const char *stn = scantype_name(st);
-+		printf(" type %s,", stn);
-+	}
-+	if ((a = tb[NL802154_ATTR_SCAN_FLAGS])) {
-+		printf(" flags 0x%x,", nla_get_u32(a));
-+	}
-+	if ((a = tb[NL802154_ATTR_PAGE])) {
-+		printf(" page %u,", nla_get_u8(a));
-+	}
-+	if ((a = tb[NL802154_ATTR_SCAN_CHANNELS])) {
-+		printf(" channels mask 0x%x,", nla_get_u32(a));
-+	}
-+	/* TODO: show requested IEs */
-+	if ((a = tb[NL802154_ATTR_PAN])) {
-+		parse_scan_result_pan(a, tb[NL802154_ATTR_IFINDEX]);
-+	}
-+}
-+
-+static int print_event(struct nl_msg *msg, void *arg)
-+{
-+	struct genlmsghdr *gnlh = nlmsg_data(nlmsg_hdr(msg));
-+	struct nlattr *tb[NL802154_ATTR_MAX + 1], *nst;
-+	struct print_event_args *args = arg;
-+	char ifname[100];
-+
-+	uint8_t reg_type;
-+	uint32_t wpan_phy_idx = 0;
-+	int rem_nst;
-+	uint16_t status;
-+
-+	if (args->time || args->reltime) {
-+		unsigned long long usecs, previous;
-+
-+		previous = 1000000ULL * args->ts.tv_sec + args->ts.tv_usec;
-+		gettimeofday(&args->ts, NULL);
-+		usecs = 1000000ULL * args->ts.tv_sec + args->ts.tv_usec;
-+		if (args->reltime) {
-+			if (!args->have_ts) {
-+				usecs = 0;
-+				args->have_ts = true;
-+			} else
-+				usecs -= previous;
-+		}
-+		printf("%llu.%06llu: ", usecs/1000000, usecs % 1000000);
-+	}
-+
-+	nla_parse(tb, NL802154_ATTR_MAX, genlmsg_attrdata(gnlh, 0),
-+		  genlmsg_attrlen(gnlh, 0), NULL);
-+
-+	if (tb[NL802154_ATTR_IFINDEX] && tb[NL802154_ATTR_WPAN_PHY]) {
-+		if_indextoname(nla_get_u32(tb[NL802154_ATTR_IFINDEX]), ifname);
-+		printf("%s (phy #%d): ", ifname, nla_get_u32(tb[NL802154_ATTR_WPAN_PHY]));
-+	} else if (tb[NL802154_ATTR_WPAN_DEV] && tb[NL802154_ATTR_WPAN_PHY]) {
-+		printf("wdev 0x%llx (phy #%d): ",
-+			(unsigned long long)nla_get_u64(tb[NL802154_ATTR_WPAN_DEV]),
-+			nla_get_u32(tb[NL802154_ATTR_WPAN_PHY]));
-+	} else if (tb[NL802154_ATTR_IFINDEX]) {
-+		if_indextoname(nla_get_u32(tb[NL802154_ATTR_IFINDEX]), ifname);
-+		printf("%s: ", ifname);
-+	} else if (tb[NL802154_ATTR_WPAN_DEV]) {
-+		printf("wdev 0x%llx: ", (unsigned long long)nla_get_u64(tb[NL802154_ATTR_WPAN_DEV]));
-+	} else if (tb[NL802154_ATTR_WPAN_PHY]) {
-+		printf("phy #%d: ", nla_get_u32(tb[NL802154_ATTR_WPAN_PHY]));
-+	}
-+
-+	switch (gnlh->cmd) {
-+	case NL802154_CMD_NEW_WPAN_PHY:
-+		printf("renamed to %s\n", nla_get_string(tb[NL802154_ATTR_WPAN_PHY_NAME]));
-+		break;
-+	case NL802154_CMD_DEL_WPAN_PHY:
-+		printf("delete wpan_phy\n");
-+		break;
-+	case NL802154_CMD_TRIGGER_SCAN:
-+		printf("scan started\n");
-+		break;
-+	case NL802154_CMD_SCAN_DONE:
-+		printf("scan finished:");
-+		parse_scan_terminated(tb);
-+		printf("\n");
-+		break;
-+	default:
-+		printf("unknown event %d\n", gnlh->cmd);
-+		break;
-+	}
-+	fflush(stdout);
-+	return NL_SKIP;
-+}
-+
-+static int __prepare_listen_events(struct nl802154_state *state)
-+{
-+	int mcid, ret;
-+
-+	/* Configuration multicast group */
-+	mcid = genl_ctrl_resolve_grp(state->nl_sock, NL802154_GENL_NAME,
-+				     "config");
-+	if (mcid < 0)
-+		return mcid;
-+	ret = nl_socket_add_membership(state->nl_sock, mcid);
-+	if (ret)
-+		return ret;
-+
-+	/* Scan multicast group */
-+	mcid = genl_ctrl_resolve_grp(state->nl_sock, NL802154_GENL_NAME,
-+				     "scan");
-+	if (mcid >= 0) {
-+		ret = nl_socket_add_membership(state->nl_sock, mcid);
-+		if (ret)
-+			return ret;
-+	}
-+
-+	/* MLME multicast group */
-+	mcid = genl_ctrl_resolve_grp(state->nl_sock, NL802154_GENL_NAME,
-+				     "mlme");
-+	if (mcid >= 0) {
-+		ret = nl_socket_add_membership(state->nl_sock, mcid);
-+		if (ret)
-+			return ret;
-+	}
-+
-+	return 0;
-+}
-+
-+static int __do_listen_events(struct nl802154_state *state,
-+			      struct print_event_args *args)
-+{
-+	struct nl_cb *cb = nl_cb_alloc(iwpan_debug ? NL_CB_DEBUG : NL_CB_DEFAULT);
-+	if (!cb) {
-+		fprintf(stderr, "failed to allocate netlink callbacks\n");
-+		return -ENOMEM;
-+	}
-+	nl_socket_set_cb(state->nl_sock, cb);
-+	/* No sequence checking for multicast messages */
-+	nl_socket_disable_seq_check(state->nl_sock);
-+	/* Install print_event message handler */
-+	nl_cb_set(cb, NL_CB_VALID, NL_CB_CUSTOM, print_event, args);
-+
-+	/* Loop waiting until interrupted by signal */
-+	while (1) {
-+		int ret = nl_recvmsgs(state->nl_sock, cb);
-+		if (ret) {
-+			fprintf(stderr, "nl_recvmsgs return error %d\n", ret);
-+			break;
-+		}
-+	}
-+	/* Free allocated nl_cb structure */
-+	nl_cb_put(cb);
-+	return 0;
-+}
-+
-+static int print_events(struct nl802154_state *state,
-+			struct nl_cb *cb,
-+			struct nl_msg *msg,
-+			int argc, char **argv,
-+			enum id_input id)
-+{
-+	struct print_event_args args;
-+	int ret;
-+
-+	memset(&args, 0, sizeof(args));
-+
-+	argc--;
-+	argv++;
-+
-+	while (argc > 0) {
-+		if (strcmp(argv[0], "-f") == 0)
-+			args.frame = true;
-+		else if (strcmp(argv[0], "-t") == 0)
-+			args.time = true;
-+		else if (strcmp(argv[0], "-r") == 0)
-+			args.reltime = true;
-+		else
-+			return 1;
-+		argc--;
-+		argv++;
-+	}
-+	if (args.time && args.reltime)
-+		return 1;
-+	if (argc)
-+		return 1;
-+
-+	/* Prepare reception of all multicast messages */
-+	ret = __prepare_listen_events(state);
-+	if (ret)
-+		return ret;
-+
-+	/* Read message loop */
-+	return __do_listen_events(state, &args);
-+}
-+TOPLEVEL(event, "[-t|-r] [-f]", 0, 0, CIB_NONE, print_events,
-+	"Monitor events from the kernel.\n"
-+	"-t - print timestamp\n"
-+	"-r - print relative timestamp\n"
-+	"-f - print full frame for auth/assoc etc.");
-diff --git a/src/iwpan.h b/src/iwpan.h
-index 406940a..a71b991 100644
---- a/src/iwpan.h
-+++ b/src/iwpan.h
-@@ -114,6 +114,9 @@ DECLARE_SECTION(get);
- 
- const char *iftype_name(enum nl802154_iftype iftype);
- 
-+const char *scantype_name(enum nl802154_scan_types scantype);
-+int parse_scan_result_pan(struct nlattr *nestedpan, struct nlattr *ifattr);
-+
- extern int iwpan_debug;
- 
- #endif /* __IWPAN_H */
-diff --git a/src/scan.c b/src/scan.c
-index ec91c7c..a557e09 100644
---- a/src/scan.c
-+++ b/src/scan.c
-@@ -16,7 +16,7 @@
- 
- static char scantypebuf[100];
- 
--static const char *scantype_name(enum nl802154_scan_types scantype)
-+const char *scantype_name(enum nl802154_scan_types scantype)
- {
- 	switch (scantype) {
- 	case NL802154_SCAN_ED:
-@@ -168,7 +168,7 @@ static int scan_abort_handler(struct nl802154_state *state,
- }
- 
- 
--static int parse_scan_result_pan(struct nlattr *nestedpan, struct nlattr *ifattr)
-+int parse_scan_result_pan(struct nlattr *nestedpan, struct nlattr *ifattr)
- {
- 	struct nlattr *pan[NL802154_PAN_MAX + 1];
- 	static struct nla_policy pan_policy[NL802154_PAN_MAX + 1] = {
--- 
-2.27.0
+I think those binaries were added by accident, or?
 
+- Alex
