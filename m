@@ -2,78 +2,92 @@ Return-Path: <linux-wpan-owner@vger.kernel.org>
 X-Original-To: lists+linux-wpan@lfdr.de
 Delivered-To: lists+linux-wpan@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id E08A7481143
-	for <lists+linux-wpan@lfdr.de>; Wed, 29 Dec 2021 10:27:05 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id A7BF2481417
+	for <lists+linux-wpan@lfdr.de>; Wed, 29 Dec 2021 15:31:14 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235097AbhL2J1F (ORCPT <rfc822;lists+linux-wpan@lfdr.de>);
-        Wed, 29 Dec 2021 04:27:05 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52386 "EHLO
+        id S237020AbhL2ObM (ORCPT <rfc822;lists+linux-wpan@lfdr.de>);
+        Wed, 29 Dec 2021 09:31:12 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35172 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235075AbhL2J1E (ORCPT
-        <rfc822;linux-wpan@vger.kernel.org>); Wed, 29 Dec 2021 04:27:04 -0500
-Received: from mail-ed1-x52b.google.com (mail-ed1-x52b.google.com [IPv6:2a00:1450:4864:20::52b])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4D1E3C06173F
-        for <linux-wpan@vger.kernel.org>; Wed, 29 Dec 2021 01:27:04 -0800 (PST)
-Received: by mail-ed1-x52b.google.com with SMTP id j21so83861229edt.9
-        for <linux-wpan@vger.kernel.org>; Wed, 29 Dec 2021 01:27:04 -0800 (PST)
+        with ESMTP id S236856AbhL2ObM (ORCPT
+        <rfc822;linux-wpan@vger.kernel.org>); Wed, 29 Dec 2021 09:31:12 -0500
+Received: from mail-wr1-x431.google.com (mail-wr1-x431.google.com [IPv6:2a00:1450:4864:20::431])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 99807C061574;
+        Wed, 29 Dec 2021 06:31:11 -0800 (PST)
+Received: by mail-wr1-x431.google.com with SMTP id e5so44785844wrc.5;
+        Wed, 29 Dec 2021 06:31:11 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=mime-version:reply-to:sender:from:date:message-id:subject:to;
-        bh=KKO/2Cu/Gm4swY711SfunN+lpYq4pDDjlm630jPuIOI=;
-        b=DyPUG2V/V0P5NQGrZvmgFqvA0ijzBl6suMGTX6DLABG9hizy6DVp20uh3VxIHROo7w
-         ci5JZ8JnLOnulDToH/feKjVRNljMSOrsIdu7B0PgBPxAH1p+8FknI3eU7RyHXf2W+Tux
-         uKmDD1M4CSq8mnqbdJkTDfKB2mnjT0w/pjzjGvf5/dyj9N9qEk1E9W6I+vScsoj4Sgix
-         VvxbH0b+Z8IyZjVs0jWP33UGdnuBFrTpAv8jBQIDvsSTSlHoo31VtXaosFigQKV9/U/q
-         oFJ4OWCjJw/YwOYTzBprcDCL+I6vkmiKyCKv0xs80XH5DAv1Bl1f1cF6IMvTVgh3KXuT
-         mrpQ==
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=cEnwtDepCWRMsqbEiePGkHOVDpvDpwQE2RGWhARN1Wo=;
+        b=FPC+7lX27AlyFkM+h3rmxNEHNzpmiE/lVRUO8hxn75+T/yOS3eqton5N5qATqwZe6p
+         FQM02ymXOtdQIza81hmsGZScudyJm0om3VGgjV2AEfHHcohLLPHRmJ24dLnCO+7IpJBA
+         5Nq2tXhbnccQaxsKa0JA1cITe9QrS8MWitn8wMDWTcfOTZycESJGwIkwPP5VR3eT6bor
+         5eLF8Cq1g7tlB3h6p6igXBEN7Jyb+3LMj3Q8reZQVmW631CxkOgze7G7M5t674TDID3Q
+         YjuC9EhvBhYrfG7WoY3653dAv+SLalKHRaN+piWrHdl8PE55Jv+nBZE/RaDRKo8Kzj9e
+         CC8w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:reply-to:sender:from:date
-         :message-id:subject:to;
-        bh=KKO/2Cu/Gm4swY711SfunN+lpYq4pDDjlm630jPuIOI=;
-        b=Fcm+YQM8ddFSUdqhul23F+y8RzWfEE9NiuHQ/c1SDQeMO53L1UVLvD0QLaj6d63DYx
-         9ozx965JAp6oITvRCMCsBloPeN7apdhG3G+6QMzc+kWtE0KCngZVwCdtbK/OGm204dYp
-         a6mms9tSAdxHEIAGl1tOBZbQC/62g5XwJ5O1/AaPxmdX3opYTJg9PlKo8hDVNxKU1Lh6
-         Z3UCfRq1Y68sXixzBp/MJhgPmthgWQRjzI7WYp9g02jGoyyVJy/jCoG5kHP1Lok3vSye
-         zoekdZProMtDil7cnDaftPZ1CeGcISQEhoO9qsDfFZSC+4ZRb3qPXVSmb7St/QQXoNaQ
-         5YBw==
-X-Gm-Message-State: AOAM531a/yWQd2w+2or2RZ4FUIOvUAHVr355i4htvB5RGixHemYkkKT6
-        jLJV26vSTnZ+K8vynbKNbATh5kmU0p8TO9O0PXE=
-X-Google-Smtp-Source: ABdhPJzH5YP3W6Fs4VqH+NMk0W+FU1gZKjJBqCsGd5RdNaxeVlSnWvKC+egM1m8iiGjnqOLz+/4KlKy3st3YNo+lOLs=
-X-Received: by 2002:a05:6402:5cf:: with SMTP id n15mr23764958edx.6.1640770022802;
- Wed, 29 Dec 2021 01:27:02 -0800 (PST)
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=cEnwtDepCWRMsqbEiePGkHOVDpvDpwQE2RGWhARN1Wo=;
+        b=m5ivjAk5R2ixo2p7Yd5owLjevR0csYsTCrwR7wNfU7oijhiLDoiS82eLIEot9G8XZ2
+         wLc5zDNDBmGkdUe4sQHQMos3MWnBcXdE+jEuFT2U8tXgdmM+wHkkmS4UKmI9qUYR9Kks
+         mQ5yiF4ulm90XVCu33EFfFruZY8VikYg3EAX52qUbrBFw3jXndDos3FVcpjvOcqKoa8D
+         pK8HwngsuqwA+ezxdXGclMT1CXHAq350LhCSjeDRe4FQf7aY2aMfBRhU8SLDmF61O71s
+         sNmpngzS9PuWdnEciPdXDi/ptnXRBJWrEYsVHdCvqasMK7MIdo72bAKONIzibvgCNYhK
+         D/Bw==
+X-Gm-Message-State: AOAM530e1edKVk72WVWLXZenLqlxiUvbvUf7HH9npzP0YSEChsCxDLav
+        kNmQDQFGHWElyJQ89YuVmqHh47UHehTo03UJ0Ks=
+X-Google-Smtp-Source: ABdhPJx69lU469JucVuRNRwTlMMLyuoFdtR2jdXQhSgv7+tYijErixl7g0iFXFoJK8e8/VVPdyT7nXUF/IOc84Vsy3o=
+X-Received: by 2002:adf:d1c2:: with SMTP id b2mr21189405wrd.81.1640788270149;
+ Wed, 29 Dec 2021 06:31:10 -0800 (PST)
 MIME-Version: 1.0
-Reply-To: fre0707lo@gmail.com
-Sender: fattahyounes64036@gmail.com
-Received: by 2002:a17:907:6d1c:0:0:0:0 with HTTP; Wed, 29 Dec 2021 01:27:02
- -0800 (PST)
-From:   "Ms. Lori" <udom4395@gmail.com>
-Date:   Wed, 29 Dec 2021 10:27:02 +0100
-X-Google-Sender-Auth: aXQzH0r26BmE_rxjQvUmE3ozWow
-Message-ID: <CACAdjVaaf4y6wn7NzhiB15MgOvKJ5HP9fsKzkZbGYt30965arg@mail.gmail.com>
-Subject: Let's work together
-To:     undisclosed-recipients:;
+References: <20211222155743.256280-1-miquel.raynal@bootlin.com> <20211222155743.256280-13-miquel.raynal@bootlin.com>
+In-Reply-To: <20211222155743.256280-13-miquel.raynal@bootlin.com>
+From:   Alexander Aring <alex.aring@gmail.com>
+Date:   Wed, 29 Dec 2021 09:30:59 -0500
+Message-ID: <CAB_54W6AZ+LGTcFsQjNx7uq=+R5v_kdF0Xm5kwWQ8ONtfOrmAw@mail.gmail.com>
+Subject: Re: [net-next 12/18] net: mac802154: Handle scan requests
+To:     Miquel Raynal <miquel.raynal@bootlin.com>
+Cc:     "David S. Miller" <davem@davemloft.net>,
+        Jakub Kicinski <kuba@kernel.org>,
+        "open list:NETWORKING [GENERAL]" <netdev@vger.kernel.org>,
+        Stefan Schmidt <stefan@datenfreihafen.org>,
+        linux-wpan - ML <linux-wpan@vger.kernel.org>,
+        David Girault <david.girault@qorvo.com>,
+        Romuald Despres <romuald.despres@qorvo.com>,
+        Frederic Blain <frederic.blain@qorvo.com>,
+        Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
+        kernel list <linux-kernel@vger.kernel.org>
 Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-wpan.vger.kernel.org>
 X-Mailing-List: linux-wpan@vger.kernel.org
 
-Hello,
+Hi,
 
-My name is Ms. Lori from Washington, USA. I work as a Foreign
-Operations Manager at a reputable bank. I am the account manager for
-one of our deceased clients, an oil and gas contractor who died of a
-heart attack in 2012. He had a fixed deposit account with our bank
-worth $6.3 million. And he didn't specify a next heir when he opened
-the account. He died without any closest registered relative as he had
-been divorced for a long time and had no children. I decided to
-contact you for our mutual benefit, knowing that you have the same
-last name as my deceased client.
+On Wed, 22 Dec 2021 at 10:58, Miquel Raynal <miquel.raynal@bootlin.com> wrote:
+...
+> +{
+> +       bool promiscuous_on = mac802154_check_promiscuous(local);
+> +       int ret;
+> +
+> +       if ((state && promiscuous_on) || (!state && !promiscuous_on))
+> +               return 0;
+> +
+> +       ret = drv_set_promiscuous_mode(local, state);
+> +       if (ret)
+> +               pr_err("Failed to %s promiscuous mode for SW scanning",
+> +                      state ? "set" : "reset");
+> +
 
-I am very pleased to see your name and I look forward to your
-cooperation in presenting you to the bank as the next of kin and I
-guarantee that this will be done under a legitimate arrangement that
-will protect us from any breach of the law. And for your participation
-in this deal, you will receive 50% of the total amount after the money
-is transferred to you, and I will receive 50%. If you are interested,
-please contact me for more procedures.
+The semantic of promiscuous mode on the driver layer is to turn off
+ack response, address filtering and crc checking. Some transceivers
+don't allow a more fine tuning on what to enable/disable. I think we
+should at least do the checksum checking per software then?
+
+Sure there is a possible tune up for more "powerful" transceivers then...
+
+- Alex
