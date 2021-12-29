@@ -2,84 +2,78 @@ Return-Path: <linux-wpan-owner@vger.kernel.org>
 X-Original-To: lists+linux-wpan@lfdr.de
 Delivered-To: lists+linux-wpan@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id CCFF7480EAD
-	for <lists+linux-wpan@lfdr.de>; Wed, 29 Dec 2021 02:45:47 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id E08A7481143
+	for <lists+linux-wpan@lfdr.de>; Wed, 29 Dec 2021 10:27:05 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232641AbhL2Bpq (ORCPT <rfc822;lists+linux-wpan@lfdr.de>);
-        Tue, 28 Dec 2021 20:45:46 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36932 "EHLO
+        id S235097AbhL2J1F (ORCPT <rfc822;lists+linux-wpan@lfdr.de>);
+        Wed, 29 Dec 2021 04:27:05 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52386 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232602AbhL2Bpq (ORCPT
-        <rfc822;linux-wpan@vger.kernel.org>); Tue, 28 Dec 2021 20:45:46 -0500
-Received: from mail-wm1-x336.google.com (mail-wm1-x336.google.com [IPv6:2a00:1450:4864:20::336])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3180CC061574;
-        Tue, 28 Dec 2021 17:45:46 -0800 (PST)
-Received: by mail-wm1-x336.google.com with SMTP id j140-20020a1c2392000000b003399ae48f58so13649235wmj.5;
-        Tue, 28 Dec 2021 17:45:46 -0800 (PST)
+        with ESMTP id S235075AbhL2J1E (ORCPT
+        <rfc822;linux-wpan@vger.kernel.org>); Wed, 29 Dec 2021 04:27:04 -0500
+Received: from mail-ed1-x52b.google.com (mail-ed1-x52b.google.com [IPv6:2a00:1450:4864:20::52b])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4D1E3C06173F
+        for <linux-wpan@vger.kernel.org>; Wed, 29 Dec 2021 01:27:04 -0800 (PST)
+Received: by mail-ed1-x52b.google.com with SMTP id j21so83861229edt.9
+        for <linux-wpan@vger.kernel.org>; Wed, 29 Dec 2021 01:27:04 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=kMVKjCl04dw0PGuDwWt7IinMb2TiSh25Rh+lXPqPFbI=;
-        b=SCCNyvQg7iXPbiZPdRR2LY1DBUkkHUrTJQ9Ulv0ztBotO32vDDmJDNTn7lSppjcgoe
-         SyxAFqH2cfu9oIPFSpPFSiOBJrnGdL9rA5pgxnScrQduKqzAj7Cbi83i9MKnXlV1D6AW
-         Ndd1/Jwe7y4aZrJ+YKaKdnn9jEqTRp+h8f+/HEVq5aChQsS5Sp1K0bFfDZ6k2KlTR0Ft
-         DxJ8Jq2TA5jZUOWJH2Nj1cUmXoffzm2wews31upvF/dQ618wghnzJBNYKtg5SDjB1m2A
-         +oy1eezZiellDqdDXydB+7W4wRpKOlTTmNGXWi+bEXtGgIp3t4VOOEN/o+u8lhsT/QSK
-         NL4A==
+        h=mime-version:reply-to:sender:from:date:message-id:subject:to;
+        bh=KKO/2Cu/Gm4swY711SfunN+lpYq4pDDjlm630jPuIOI=;
+        b=DyPUG2V/V0P5NQGrZvmgFqvA0ijzBl6suMGTX6DLABG9hizy6DVp20uh3VxIHROo7w
+         ci5JZ8JnLOnulDToH/feKjVRNljMSOrsIdu7B0PgBPxAH1p+8FknI3eU7RyHXf2W+Tux
+         uKmDD1M4CSq8mnqbdJkTDfKB2mnjT0w/pjzjGvf5/dyj9N9qEk1E9W6I+vScsoj4Sgix
+         VvxbH0b+Z8IyZjVs0jWP33UGdnuBFrTpAv8jBQIDvsSTSlHoo31VtXaosFigQKV9/U/q
+         oFJ4OWCjJw/YwOYTzBprcDCL+I6vkmiKyCKv0xs80XH5DAv1Bl1f1cF6IMvTVgh3KXuT
+         mrpQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=kMVKjCl04dw0PGuDwWt7IinMb2TiSh25Rh+lXPqPFbI=;
-        b=PCulj9+hZAo3NqpcjbtyQp3AaUVvsaqRi60Xn3/ad03NfaKU/RIFdaANLXkHlf49uv
-         yX2vPJjmElk0NPgv52ZG9Pt6MR3z6NllAfsNgovWzSLBp83uLEcW4SITpwKjxCSHkJxx
-         VaAg0EQYP69k08DADVmwfSFD/3aDNEpV6KstHLLvw5lA5o5Non024Fy9TpL5HUextuWj
-         lc5e/1HTV0TFX4YT80xz6KN7Yfl0VwksW+4qsouV6YRqxyr9E/d/09uT8CkGiwNAvDmU
-         xoXKcpajuExd+3JST1hxjquhvZ/rsYNKmng9UeG3BvyJ+4OAc8MCWKeMv8I8rnwDUO5h
-         SWyA==
-X-Gm-Message-State: AOAM532AmW4YyoNa/luyTH0zMyDAIupmkEtzWqYZyc2Z/c4EcQWiUZYO
-        +9qSqu0jaSX3XhfebkqHSumwqVukCj5Fdve03Jo=
-X-Google-Smtp-Source: ABdhPJx0tjGKzj8i/l6FP7eKW9dyVRnwdtuuj/WDM9AR3Mmhc8CSeoTst/aSp0ee1EAyiFDU+TzkIgUf4wrd7BYO4oU=
-X-Received: by 2002:a7b:c745:: with SMTP id w5mr19219810wmk.167.1640742344307;
- Tue, 28 Dec 2021 17:45:44 -0800 (PST)
+        h=x-gm-message-state:mime-version:reply-to:sender:from:date
+         :message-id:subject:to;
+        bh=KKO/2Cu/Gm4swY711SfunN+lpYq4pDDjlm630jPuIOI=;
+        b=Fcm+YQM8ddFSUdqhul23F+y8RzWfEE9NiuHQ/c1SDQeMO53L1UVLvD0QLaj6d63DYx
+         9ozx965JAp6oITvRCMCsBloPeN7apdhG3G+6QMzc+kWtE0KCngZVwCdtbK/OGm204dYp
+         a6mms9tSAdxHEIAGl1tOBZbQC/62g5XwJ5O1/AaPxmdX3opYTJg9PlKo8hDVNxKU1Lh6
+         Z3UCfRq1Y68sXixzBp/MJhgPmthgWQRjzI7WYp9g02jGoyyVJy/jCoG5kHP1Lok3vSye
+         zoekdZProMtDil7cnDaftPZ1CeGcISQEhoO9qsDfFZSC+4ZRb3qPXVSmb7St/QQXoNaQ
+         5YBw==
+X-Gm-Message-State: AOAM531a/yWQd2w+2or2RZ4FUIOvUAHVr355i4htvB5RGixHemYkkKT6
+        jLJV26vSTnZ+K8vynbKNbATh5kmU0p8TO9O0PXE=
+X-Google-Smtp-Source: ABdhPJzH5YP3W6Fs4VqH+NMk0W+FU1gZKjJBqCsGd5RdNaxeVlSnWvKC+egM1m8iiGjnqOLz+/4KlKy3st3YNo+lOLs=
+X-Received: by 2002:a05:6402:5cf:: with SMTP id n15mr23764958edx.6.1640770022802;
+ Wed, 29 Dec 2021 01:27:02 -0800 (PST)
 MIME-Version: 1.0
-References: <20211222155743.256280-1-miquel.raynal@bootlin.com>
- <20211222155743.256280-9-miquel.raynal@bootlin.com> <CAB_54W786n6_4FAMc7VMAX0nuyd6r2Hi+wYEEbd5Bjdrd8ArpA@mail.gmail.com>
-In-Reply-To: <CAB_54W786n6_4FAMc7VMAX0nuyd6r2Hi+wYEEbd5Bjdrd8ArpA@mail.gmail.com>
-From:   Alexander Aring <alex.aring@gmail.com>
-Date:   Tue, 28 Dec 2021 20:45:33 -0500
-Message-ID: <CAB_54W5pj=zFwfDh7=0Nh-FivGb6Edjosd19dzmH_k0C5mszmw@mail.gmail.com>
-Subject: Re: [net-next 08/18] net: ieee802154: Add support for internal PAN management
-To:     Miquel Raynal <miquel.raynal@bootlin.com>
-Cc:     "David S. Miller" <davem@davemloft.net>,
-        Jakub Kicinski <kuba@kernel.org>,
-        "open list:NETWORKING [GENERAL]" <netdev@vger.kernel.org>,
-        Stefan Schmidt <stefan@datenfreihafen.org>,
-        linux-wpan - ML <linux-wpan@vger.kernel.org>,
-        David Girault <david.girault@qorvo.com>,
-        Romuald Despres <romuald.despres@qorvo.com>,
-        Frederic Blain <frederic.blain@qorvo.com>,
-        Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
-        kernel list <linux-kernel@vger.kernel.org>
+Reply-To: fre0707lo@gmail.com
+Sender: fattahyounes64036@gmail.com
+Received: by 2002:a17:907:6d1c:0:0:0:0 with HTTP; Wed, 29 Dec 2021 01:27:02
+ -0800 (PST)
+From:   "Ms. Lori" <udom4395@gmail.com>
+Date:   Wed, 29 Dec 2021 10:27:02 +0100
+X-Google-Sender-Auth: aXQzH0r26BmE_rxjQvUmE3ozWow
+Message-ID: <CACAdjVaaf4y6wn7NzhiB15MgOvKJ5HP9fsKzkZbGYt30965arg@mail.gmail.com>
+Subject: Let's work together
+To:     undisclosed-recipients:;
 Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-wpan.vger.kernel.org>
 X-Mailing-List: linux-wpan@vger.kernel.org
 
-Hi,
+Hello,
 
-On Tue, 28 Dec 2021 at 17:22, Alexander Aring <alex.aring@gmail.com> wrote:
-...
-> That means as far I see you should move the most of those attributes
-> to per wpan_dev instead of per cfg802154.
+My name is Ms. Lori from Washington, USA. I work as a Foreign
+Operations Manager at a reputable bank. I am the account manager for
+one of our deceased clients, an oil and gas contractor who died of a
+heart attack in 2012. He had a fixed deposit account with our bank
+worth $6.3 million. And he didn't specify a next heir when he opened
+the account. He died without any closest registered relative as he had
+been divorced for a long time and had no children. I decided to
+contact you for our mutual benefit, knowing that you have the same
+last name as my deceased client.
 
-Sorry that's wrong.
-
-I see now, that the result for a scan on every possible wpan_dev for a
-specific wpan_phy should return the same result, that's why it belongs
-to cfg802154 and this is correct (as a cfg802154 has a 1:1 mapping to
-wpan_phy).
-Same as in wireless...
-
-- Alex
+I am very pleased to see your name and I look forward to your
+cooperation in presenting you to the bank as the next of kin and I
+guarantee that this will be done under a legitimate arrangement that
+will protect us from any breach of the law. And for your participation
+in this deal, you will receive 50% of the total amount after the money
+is transferred to you, and I will receive 50%. If you are interested,
+please contact me for more procedures.
