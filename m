@@ -2,79 +2,143 @@ Return-Path: <linux-wpan-owner@vger.kernel.org>
 X-Original-To: lists+linux-wpan@lfdr.de
 Delivered-To: lists+linux-wpan@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 6FBDE484459
-	for <lists+linux-wpan@lfdr.de>; Tue,  4 Jan 2022 16:13:36 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id A0A3348452D
+	for <lists+linux-wpan@lfdr.de>; Tue,  4 Jan 2022 16:49:07 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234767AbiADPNf convert rfc822-to-8bit (ORCPT
-        <rfc822;lists+linux-wpan@lfdr.de>); Tue, 4 Jan 2022 10:13:35 -0500
-Received: from relay10.mail.gandi.net ([217.70.178.230]:48883 "EHLO
-        relay10.mail.gandi.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234758AbiADPNe (ORCPT
-        <rfc822;linux-wpan@vger.kernel.org>); Tue, 4 Jan 2022 10:13:34 -0500
-Received: (Authenticated sender: miquel.raynal@bootlin.com)
-        by relay10.mail.gandi.net (Postfix) with ESMTPSA id 6C09024000B;
-        Tue,  4 Jan 2022 15:13:32 +0000 (UTC)
-Date:   Tue, 4 Jan 2022 16:13:31 +0100
-From:   Miquel Raynal <miquel.raynal@bootlin.com>
-To:     Jakub Kicinski <kuba@kernel.org>
-Cc:     "David S. Miller" <davem@davemloft.net>, netdev@vger.kernel.org,
-        Alexander Aring <alex.aring@gmail.com>,
-        Stefan Schmidt <stefan@datenfreihafen.org>,
-        linux-wpan@vger.kernel.org,
-        David Girault <david.girault@qorvo.com>,
-        Romuald Despres <romuald.despres@qorvo.com>,
-        Frederic Blain <frederic.blain@qorvo.com>,
-        Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
-        <linux-kernel@vger.kernel.org>
-Subject: Re: [net-next 08/18] net: ieee802154: Add support for internal PAN
- management
-Message-ID: <20220104161331.454f34c0@xps13>
-In-Reply-To: <20220104070127.34af925f@kicinski-fedora-PC1C0HJN.hsd1.ca.comcast.net>
-References: <20211222155743.256280-1-miquel.raynal@bootlin.com>
-        <20211222155743.256280-9-miquel.raynal@bootlin.com>
-        <20211222125555.576e60b3@kicinski-fedora-pc1c0hjn.dhcp.thefacebook.com>
-        <20220104154151.0d592bff@xps13>
-        <20220104070127.34af925f@kicinski-fedora-PC1C0HJN.hsd1.ca.comcast.net>
-Organization: Bootlin
-X-Mailer: Claws Mail 3.17.7 (GTK+ 2.24.32; x86_64-pc-linux-gnu)
+        id S230407AbiADPtH (ORCPT <rfc822;lists+linux-wpan@lfdr.de>);
+        Tue, 4 Jan 2022 10:49:07 -0500
+Received: from proxima.lasnet.de ([78.47.171.185]:52038 "EHLO
+        proxima.lasnet.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S230352AbiADPtG (ORCPT
+        <rfc822;linux-wpan@vger.kernel.org>); Tue, 4 Jan 2022 10:49:06 -0500
+X-Greylist: delayed 501 seconds by postgrey-1.27 at vger.kernel.org; Tue, 04 Jan 2022 10:49:06 EST
+Received: from [IPV6:2003:e9:d728:ec47:4b31:73e4:34c5:505a] (p200300e9d728ec474b3173e434c5505a.dip0.t-ipconnect.de [IPv6:2003:e9:d728:ec47:4b31:73e4:34c5:505a])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+        (No client certificate requested)
+        (Authenticated sender: stefan@datenfreihafen.org)
+        by proxima.lasnet.de (Postfix) with ESMTPSA id 120EAC055C;
+        Tue,  4 Jan 2022 16:40:43 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=datenfreihafen.org;
+        s=2021; t=1641310843;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=fzrSYWdpug8dV2D+vjEBY0DdwVSV7UgruGe2VxZhMYQ=;
+        b=wMtj+/+SQEzNvk7geCsi6F8u7AI0xwhhl98uuCWCZNgKfj6mugjmItNNOXweG1ESnJYKvv
+        1Xjpl9tjKW0IPX9xK5g/1C+TQM9blc0CxuUUqyhC5Q6G6OcW0s1Pt0Mj2WygkrGqz18Twk
+        H6OdYiPDZQTLzBd1Bq7ZVEP2gNpb5eexDji955LofwwI3j35/HloYjyUnoFaq7OgYSSCs6
+        ciYVNffIlOiuWFPj44xtDZIrE4LUBH/UyYTfUWZUPy2vmE9UESYZobGM0B6fgai+/TGGWs
+        JuR7TOHx22BlMHDf5G9fYwVGwNv+MvKy5CwqK6dsTsxFvhwkROqtxqRBBVwBpA==
+Message-ID: <ed39cbe6-0885-a3ab-fc30-7c292e1acc53@datenfreihafen.org>
+Date:   Tue, 4 Jan 2022 16:40:41 +0100
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8BIT
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.1.0
+Subject: Re: [PATCH v2] ieee802154: atusb: fix uninit value in
+ atusb_set_extended_addr
+Content-Language: en-US
+To:     Pavel Skripkin <paskripkin@gmail.com>, alex.aring@gmail.com,
+        davem@davemloft.net, kuba@kernel.org
+Cc:     linux-wpan@vger.kernel.org, netdev@vger.kernel.org,
+        linux-kernel@vger.kernel.org,
+        Alexander Potapenko <glider@google.com>
+References: <CAB_54W50xKFCWZ5vYuDG2p4ijpd63cSutRrV4MLs9oasLmKgzQ@mail.gmail.com>
+ <20220103120925.25207-1-paskripkin@gmail.com>
+From:   Stefan Schmidt <stefan@datenfreihafen.org>
+In-Reply-To: <20220103120925.25207-1-paskripkin@gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-wpan.vger.kernel.org>
 X-Mailing-List: linux-wpan@vger.kernel.org
 
-Hi Jakub,
+Hello.
 
-kuba@kernel.org wrote on Tue, 4 Jan 2022 07:01:27 -0800:
-
-> On Tue, 4 Jan 2022 15:41:51 +0100 Miquel Raynal wrote:
-> > > On Wed, 22 Dec 2021 16:57:33 +0100 Miquel Raynal wrote:    
-> > > > +/* Maximum number of PAN entries to store */
-> > > > +static int max_pan_entries = 100;
-> > > > +module_param(max_pan_entries, uint, 0644);
-> > > > +MODULE_PARM_DESC(max_pan_entries,
-> > > > +		 "Maximum number of PANs to discover per scan (default is 100)");
-> > > > +
-> > > > +static int pan_expiration = 60;
-> > > > +module_param(pan_expiration, uint, 0644);
-> > > > +MODULE_PARM_DESC(pan_expiration,
-> > > > +		 "Expiration of the scan validity in seconds (default is 60s)");      
-> > > 
-> > > Can these be per-device control knobs? Module params are rarely the
-> > > best answer.    
-> > 
-> > I believe we can do that on a per FFD device basis (for now it will be
-> > on a per-device basis, but later when we will have the necessary
-> > information we might do something more fine grained). Would a couple of
-> > sysfs entries work?  
+On 03.01.22 13:09, Pavel Skripkin wrote:
+> Alexander reported a use of uninitialized value in
+> atusb_set_extended_addr(), that is caused by reading 0 bytes via
+> usb_control_msg().
 > 
-> Is there no netlink object where this would fit? Sorry, I'm not at all
-> familiar with WPAN. If it's orthogonal to current cfg802154 objects
-> sysfs is fine, I guess.
+> Fix it by validating if the number of bytes transferred is actually
+> correct, since usb_control_msg() may read less bytes, than was requested
+> by caller.
+> 
+> Fail log:
+> 
+> BUG: KASAN: uninit-cmp in ieee802154_is_valid_extended_unicast_addr include/linux/ieee802154.h:310 [inline]
+> BUG: KASAN: uninit-cmp in atusb_set_extended_addr drivers/net/ieee802154/atusb.c:1000 [inline]
+> BUG: KASAN: uninit-cmp in atusb_probe.cold+0x29f/0x14db drivers/net/ieee802154/atusb.c:1056
+> Uninit value used in comparison: 311daa649a2003bd stack handle: 000000009a2003bd
+>   ieee802154_is_valid_extended_unicast_addr include/linux/ieee802154.h:310 [inline]
+>   atusb_set_extended_addr drivers/net/ieee802154/atusb.c:1000 [inline]
+>   atusb_probe.cold+0x29f/0x14db drivers/net/ieee802154/atusb.c:1056
+>   usb_probe_interface+0x314/0x7f0 drivers/usb/core/driver.c:396
+> 
+> Fixes: 7490b008d123 ("ieee802154: add support for atusb transceiver")
+> Reported-by: Alexander Potapenko <glider@google.com>
+> Signed-off-by: Pavel Skripkin <paskripkin@gmail.com>
+> ---
+> 
+> Changes in v2:
+> 	- Reworked fix approach, since moving to new USB API is not
+> 	  suitable for backporting to stable kernels
+> 
+> ---
+>   drivers/net/ieee802154/atusb.c | 4 +++-
+>   1 file changed, 3 insertions(+), 1 deletion(-)
+> 
+> diff --git a/drivers/net/ieee802154/atusb.c b/drivers/net/ieee802154/atusb.c
+> index 23ee0b14cbfa..e6cc816dd7a1 100644
+> --- a/drivers/net/ieee802154/atusb.c
+> +++ b/drivers/net/ieee802154/atusb.c
+> @@ -93,7 +93,9 @@ static int atusb_control_msg(struct atusb *atusb, unsigned int pipe,
+>   
+>   	ret = usb_control_msg(usb_dev, pipe, request, requesttype,
+>   			      value, index, data, size, timeout);
+> -	if (ret < 0) {
+> +	if (ret < size) {
+> +		ret = ret < 0 ? ret : -ENODATA;
+> +
+>   		atusb->err = ret;
+>   		dev_err(&usb_dev->dev,
+>   			"%s: req 0x%02x val 0x%x idx 0x%x, error %d\n",
+> 
 
-Yes it's definitely possible to add a netlink arg for these two
-parameters as well.
+It compiles, but does not work on the real hardware.
 
-Thanks,
-Miquèl
+[    1.114698] usb 1-1: new full-speed USB device number 2 using uhci_hcd
+[    1.261691] usb 1-1: New USB device found, idVendor=20b7, 
+idProduct=1540, bcdDevice= 0.01
+[    1.263421] usb 1-1: New USB device strings: Mfr=0, Product=0, 
+SerialNumber=1
+[    1.264952] usb 1-1: SerialNumber: 4630333438371502231a
+[    1.278042] usb 1-1: ATUSB: AT86RF231 version 2
+[    1.281087] usb 1-1: Firmware: major: 0, minor: 3, hardware type: 
+ATUSB (2)
+[    1.285191] usb 1-1: atusb_control_msg: req 0x01 val 0x0 idx 0x0, 
+error -61
+[    1.286903] usb 1-1: failed to fetch extended address, random address set
+[    1.288757] usb 1-1: atusb_probe: initialization failed, error = -61
+[    1.290922] atusb: probe of 1-1:1.0 failed with error -61
+
+
+Without your patch it works as expected:
+
+[    1.091925] usb 1-1: new full-speed USB device number 2 using uhci_hcd
+[    1.237743] usb 1-1: New USB device found, idVendor=20b7, 
+idProduct=1540, bcdDevice= 0.01
+[    1.239788] usb 1-1: New USB device strings: Mfr=0, Product=0, 
+SerialNumber=1
+[    1.241432] usb 1-1: SerialNumber: 4630333438371502231a
+[    1.255012] usb 1-1: ATUSB: AT86RF231 version 2
+[    1.258073] usb 1-1: Firmware: major: 0, minor: 3, hardware type: 
+ATUSB (2)
+[    1.262170] usb 1-1: Firmware: build #132 Mo 28. Nov 16:20:35 CET 2016
+[    1.266195] usb 1-1: Read permanent extended address 
+10:e2:d5:ff:ff:00:02:e8 from device
+
+regards
+Stefan Schmidt
+
