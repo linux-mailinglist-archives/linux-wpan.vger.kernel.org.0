@@ -2,122 +2,124 @@ Return-Path: <linux-wpan-owner@vger.kernel.org>
 X-Original-To: lists+linux-wpan@lfdr.de
 Delivered-To: lists+linux-wpan@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 98CFD484507
-	for <lists+linux-wpan@lfdr.de>; Tue,  4 Jan 2022 16:44:56 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 92F624846F8
+	for <lists+linux-wpan@lfdr.de>; Tue,  4 Jan 2022 18:27:33 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234965AbiADPoz convert rfc822-to-8bit (ORCPT
-        <rfc822;lists+linux-wpan@lfdr.de>); Tue, 4 Jan 2022 10:44:55 -0500
-Received: from relay4-d.mail.gandi.net ([217.70.183.196]:38821 "EHLO
-        relay4-d.mail.gandi.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234929AbiADPoy (ORCPT
-        <rfc822;linux-wpan@vger.kernel.org>); Tue, 4 Jan 2022 10:44:54 -0500
-Received: (Authenticated sender: miquel.raynal@bootlin.com)
-        by relay4-d.mail.gandi.net (Postfix) with ESMTPSA id BE972E0005;
-        Tue,  4 Jan 2022 15:44:50 +0000 (UTC)
-Date:   Tue, 4 Jan 2022 16:44:49 +0100
-From:   Miquel Raynal <miquel.raynal@bootlin.com>
-To:     Alexander Aring <alex.aring@gmail.com>
-Cc:     "David S. Miller" <davem@davemloft.net>,
-        Jakub Kicinski <kuba@kernel.org>,
-        "open list:NETWORKING [GENERAL]" <netdev@vger.kernel.org>,
-        Stefan Schmidt <stefan@datenfreihafen.org>,
-        linux-wpan - ML <linux-wpan@vger.kernel.org>,
-        David Girault <david.girault@qorvo.com>,
-        Romuald Despres <romuald.despres@qorvo.com>,
-        Frederic Blain <frederic.blain@qorvo.com>,
-        Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
-        kernel list <linux-kernel@vger.kernel.org>
-Subject: Re: [net-next 01/18] ieee802154: hwsim: Ensure proper channel
- selection at probe time
-Message-ID: <20220104164449.1179bfc7@xps13>
-In-Reply-To: <CAB_54W7BeSA+2GVzb9Yvz1kj12wkRSqHj9Ybr8cK7oYd7804RQ@mail.gmail.com>
-References: <20211222155743.256280-1-miquel.raynal@bootlin.com>
-        <20211222155743.256280-2-miquel.raynal@bootlin.com>
-        <CAB_54W7BeSA+2GVzb9Yvz1kj12wkRSqHj9Ybr8cK7oYd7804RQ@mail.gmail.com>
-Organization: Bootlin
-X-Mailer: Claws Mail 3.17.7 (GTK+ 2.24.32; x86_64-pc-linux-gnu)
+        id S235499AbiADR1c (ORCPT <rfc822;lists+linux-wpan@lfdr.de>);
+        Tue, 4 Jan 2022 12:27:32 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39656 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S232884AbiADR1b (ORCPT
+        <rfc822;linux-wpan@vger.kernel.org>); Tue, 4 Jan 2022 12:27:31 -0500
+Received: from mail-lf1-x12c.google.com (mail-lf1-x12c.google.com [IPv6:2a00:1450:4864:20::12c])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 64C84C061761;
+        Tue,  4 Jan 2022 09:27:31 -0800 (PST)
+Received: by mail-lf1-x12c.google.com with SMTP id j11so81475296lfg.3;
+        Tue, 04 Jan 2022 09:27:31 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=message-id:date:mime-version:user-agent:subject:content-language:to
+         :cc:references:from:in-reply-to:content-transfer-encoding;
+        bh=oEpnYAm67CBx/UycGy4K6PJ7NPnBfxvjloHj5Duq34Q=;
+        b=nVw2UAiB6xthSU977wls63qlOy/xOCnv8ZomXUTgIWL3zEdNoc6OyFtMlm/cOvg6r1
+         dLEi7/HHba0k9iYS016eh5ZjvBEzd7vqYDI0vg97d/IuEHhun7CJF7zRZBJ6RRuXl9He
+         QtaqH8xW++i7QlRATLPVS2VQq7QfjMYfdQvYQr1b11Dr4w+DL3vt7qrr1QSfCAMBd5FO
+         Lkf25fOMuhaHgUE3Q7i/sz56iBYNGxqk22eIcATQiWvZMFoCExIuJjef8YH2DwKu/x+1
+         FGaYiigyNFSMXgC239AE/mXgjfV9OOZHiuWxw5gwVR4iR5k9RWc7HXclCkOKMqCRX7ZI
+         nszw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+         :content-language:to:cc:references:from:in-reply-to
+         :content-transfer-encoding;
+        bh=oEpnYAm67CBx/UycGy4K6PJ7NPnBfxvjloHj5Duq34Q=;
+        b=gbOc14JDbv2BQEyYNAFoO09Dw8mPEsnnRiQXZ8b6OpC6jgraAYVEsVAezaR2vNiVdA
+         Y8G+Fom0roYxyJHMa7m/qkUCDCoK1EtkcrydvaXuZD0Sud32hmx0B/uAGCn43KymCaWR
+         WTkDbp3B4QzkkFL0fm2M5jWMIkCxaWKWJyWaQti8GLZdB92jtoDcvOub1W8yAtOUt5Ho
+         H1l+J2oJQn+J/iHysRSTKDqfaOjRfjCwA3Ii2h5GaQi3xr4HMa82Gl9rYiJzvoFjaPvm
+         hjP6mdMVQFFavIrTtJAchWb7IWPtSRgz0Xl0UNHfcqpNptS0D0ezEb8eNrYXdhmDmjDa
+         QUqw==
+X-Gm-Message-State: AOAM531oymOJnrBwUfRzE9LF96/Fc7hR8BuDqspHhbmReHJOVwN9NR7Z
+        rLyp55og+9Jkcwh2D23Qi0s=
+X-Google-Smtp-Source: ABdhPJzcTWddpB4EQvW94F90YPyJtOXWx2ZegvKevNmhAZzYtRfDTtyzybQXGcnD+0YnfK/2who+zg==
+X-Received: by 2002:a05:6512:3056:: with SMTP id b22mr41917697lfb.142.1641317249615;
+        Tue, 04 Jan 2022 09:27:29 -0800 (PST)
+Received: from [192.168.1.11] ([94.103.235.38])
+        by smtp.gmail.com with ESMTPSA id br34sm3949699lfb.305.2022.01.04.09.27.28
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 04 Jan 2022 09:27:29 -0800 (PST)
+Message-ID: <5b0b8dc6-f038-bfaa-550c-dc23636f0497@gmail.com>
+Date:   Tue, 4 Jan 2022 20:27:28 +0300
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8BIT
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.4.1
+Subject: Re: [PATCH v2] ieee802154: atusb: fix uninit value in
+ atusb_set_extended_addr
+Content-Language: en-US
+To:     Stefan Schmidt <stefan@datenfreihafen.org>, alex.aring@gmail.com,
+        davem@davemloft.net, kuba@kernel.org
+Cc:     linux-wpan@vger.kernel.org, netdev@vger.kernel.org,
+        linux-kernel@vger.kernel.org,
+        Alexander Potapenko <glider@google.com>
+References: <CAB_54W50xKFCWZ5vYuDG2p4ijpd63cSutRrV4MLs9oasLmKgzQ@mail.gmail.com>
+ <20220103120925.25207-1-paskripkin@gmail.com>
+ <ed39cbe6-0885-a3ab-fc30-7c292e1acc53@datenfreihafen.org>
+From:   Pavel Skripkin <paskripkin@gmail.com>
+In-Reply-To: <ed39cbe6-0885-a3ab-fc30-7c292e1acc53@datenfreihafen.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-wpan.vger.kernel.org>
 X-Mailing-List: linux-wpan@vger.kernel.org
 
-Hi Alexander,
-
-alex.aring@gmail.com wrote on Tue, 28 Dec 2021 16:05:43 -0500:
-
-> Hi,
+On 1/4/22 18:40, Stefan Schmidt wrote:
 > 
-> On Wed, 22 Dec 2021 at 10:57, Miquel Raynal <miquel.raynal@bootlin.com> wrote:
-> >
-> > A default channel is selected by default (13), let's clarify that this
-> > is page 0 channel 13. Call the right helper to ensure the necessary
-> > configuration for this channel has been applied.
-> >
-> > So far there is very little configuration done in this helper but we
-> > will soon add more information (like the symbol duration which is
-> > missing) and having this helper called at probe time will prevent us to
-> > this type of initialization at two different locations.
-> >  
+> It compiles, but does not work on the real hardware.
 > 
-> I see why this patch is necessary because in later patches the symbol
-> duration is set at ".set_channel()" callback like the at86rf230 driver
-> is doing it.
-> However there is an old TODO [0]. I think we should combine it and
-> implement it in ieee802154_set_channel() of "net/mac802154/cfg.c".
-> Also do the symbol duration setting according to the channel/page when
-> we call ieee802154_register_hw(), so we have it for the default
-> settings.
-
-While I totally agree on the background idea, I don't really see how
-this is possible. Every driver internally knows what it supports but
-AFAIU the core itself has no easy and standard access to it?
-
-Another question that I have: is the protocol and center frequency
-enough to always derive the symbol rate? I am not sure this is correct,
-but I thought not all symbol rates could be derived, like for example
-certain UWB PHY protocols which can use different PRF on a single
-channel which has an effect on the symbol duration?
-
-> > So far there is very little configuration done in this helper but thanks
-> > to this improvement, future enhancements in this area (like setting a
-> > symbol duration, which is missing) will be reflected automatically in
-> > the default probe state.
-> >
-> > Signed-off-by: Miquel Raynal <miquel.raynal@bootlin.com>
-> > ---
-> >  drivers/net/ieee802154/mac802154_hwsim.c | 7 +++++--
-> >  1 file changed, 5 insertions(+), 2 deletions(-)
-> >
-> > diff --git a/drivers/net/ieee802154/mac802154_hwsim.c b/drivers/net/ieee802154/mac802154_hwsim.c
-> > index 62ced7a30d92..b1a4ee7dceda 100644
-> > --- a/drivers/net/ieee802154/mac802154_hwsim.c
-> > +++ b/drivers/net/ieee802154/mac802154_hwsim.c
-> > @@ -778,8 +778,6 @@ static int hwsim_add_one(struct genl_info *info, struct device *dev,
-> >
-> >         ieee802154_random_extended_addr(&hw->phy->perm_extended_addr);
-> >
-> > -       /* hwsim phy channel 13 as default */
-> > -       hw->phy->current_channel = 13;
-> >         pib = kzalloc(sizeof(*pib), GFP_KERNEL);
-> >         if (!pib) {
-> >                 err = -ENOMEM;
-> > @@ -793,6 +791,11 @@ static int hwsim_add_one(struct genl_info *info, struct device *dev,
-> >         hw->flags = IEEE802154_HW_PROMISCUOUS | IEEE802154_HW_RX_DROP_BAD_CKSUM;  
+> [    1.114698] usb 1-1: new full-speed USB device number 2 using uhci_hcd
+> [    1.261691] usb 1-1: New USB device found, idVendor=20b7,
+> idProduct=1540, bcdDevice= 0.01
+> [    1.263421] usb 1-1: New USB device strings: Mfr=0, Product=0,
+> SerialNumber=1
+> [    1.264952] usb 1-1: SerialNumber: 4630333438371502231a
+> [    1.278042] usb 1-1: ATUSB: AT86RF231 version 2
+> [    1.281087] usb 1-1: Firmware: major: 0, minor: 3, hardware type:
+> ATUSB (2)
+> [    1.285191] usb 1-1: atusb_control_msg: req 0x01 val 0x0 idx 0x0,
+> error -61
+> [    1.286903] usb 1-1: failed to fetch extended address, random address set
+> [    1.288757] usb 1-1: atusb_probe: initialization failed, error = -61
+> [    1.290922] atusb: probe of 1-1:1.0 failed with error -61
 > 
-> sadly this patch doesn't apply on current net-next/master because
-> IEEE802154_HW_RX_DROP_BAD_CKSUM is not set.
-> I agree that it should be set, so we need a patch for it.
-
-Right, I just have a patch aside setting this to enforce beacons
-checksum were good. I can certainly set this flag officially.
-
 > 
-> - Alex
+> Without your patch it works as expected:
 > 
-> [0] https://elixir.bootlin.com/linux/v5.16-rc7/source/drivers/net/ieee802154/at86rf230.c#L1059
+> [    1.091925] usb 1-1: new full-speed USB device number 2 using uhci_hcd
+> [    1.237743] usb 1-1: New USB device found, idVendor=20b7,
+> idProduct=1540, bcdDevice= 0.01
+> [    1.239788] usb 1-1: New USB device strings: Mfr=0, Product=0,
+> SerialNumber=1
+> [    1.241432] usb 1-1: SerialNumber: 4630333438371502231a
+> [    1.255012] usb 1-1: ATUSB: AT86RF231 version 2
+> [    1.258073] usb 1-1: Firmware: major: 0, minor: 3, hardware type:
+> ATUSB (2)
+> [    1.262170] usb 1-1: Firmware: build #132 Mo 28. Nov 16:20:35 CET 2016
+> [    1.266195] usb 1-1: Read permanent extended address
+> 10:e2:d5:ff:ff:00:02:e8 from device
+> 
+
+Hi Stefan,
+
+thanks for testing on real hw.
+
+It looks like there is corner case, that Greg mentioned in this thread. 
+atusb_get_and_show_build() reads firmware build info, which may have 
+various length.
+
+Maybe we can change atusb_control_msg() to usb_control_msg() in 
+atusb_get_and_show_build(), since other callers do not have this problem
 
 
-Thanks,
-Miquèl
+
+With regards,
+Pavel Skripkin
