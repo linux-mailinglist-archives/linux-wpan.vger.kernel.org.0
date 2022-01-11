@@ -2,104 +2,149 @@ Return-Path: <linux-wpan-owner@vger.kernel.org>
 X-Original-To: lists+linux-wpan@lfdr.de
 Delivered-To: lists+linux-wpan@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id B670A48A70B
-	for <lists+linux-wpan@lfdr.de>; Tue, 11 Jan 2022 06:16:10 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 8991648AEB9
+	for <lists+linux-wpan@lfdr.de>; Tue, 11 Jan 2022 14:44:05 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235578AbiAKFQJ (ORCPT <rfc822;lists+linux-wpan@lfdr.de>);
-        Tue, 11 Jan 2022 00:16:09 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43548 "EHLO
+        id S240661AbiAKNoE (ORCPT <rfc822;lists+linux-wpan@lfdr.de>);
+        Tue, 11 Jan 2022 08:44:04 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45988 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233896AbiAKFQI (ORCPT
-        <rfc822;linux-wpan@vger.kernel.org>); Tue, 11 Jan 2022 00:16:08 -0500
-Received: from mail-wm1-x334.google.com (mail-wm1-x334.google.com [IPv6:2a00:1450:4864:20::334])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 69494C061748
-        for <linux-wpan@vger.kernel.org>; Mon, 10 Jan 2022 21:16:08 -0800 (PST)
-Received: by mail-wm1-x334.google.com with SMTP id l4so10169038wmq.3
-        for <linux-wpan@vger.kernel.org>; Mon, 10 Jan 2022 21:16:08 -0800 (PST)
+        with ESMTP id S240639AbiAKNoE (ORCPT
+        <rfc822;linux-wpan@vger.kernel.org>); Tue, 11 Jan 2022 08:44:04 -0500
+Received: from mail-wm1-x330.google.com (mail-wm1-x330.google.com [IPv6:2a00:1450:4864:20::330])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E33A1C06173F;
+        Tue, 11 Jan 2022 05:44:03 -0800 (PST)
+Received: by mail-wm1-x330.google.com with SMTP id w26so5191076wmi.0;
+        Tue, 11 Jan 2022 05:44:03 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=mime-version:sender:from:date:message-id:subject:to
-         :content-transfer-encoding;
-        bh=zOHJbgxEeKcTUS1M3dbg/CCHL8zxNc7o7Y1pwSiNVNQ=;
-        b=bSNX6pQ/gPr4FEh3I35IahXDeli5OYEUEUgSyYahM0RBqCz2HCrKkHdxBPgWHNu94r
-         /WBHXdiRvCVry+Yh0JS/FWbJzzsD9axM8rN+Rln/ZctuUTXTJZA/vHo0ZzKrezGBxr4C
-         aKEsRXsSEWTNd+YTFfkB+dFwaIzBAandwINO7N57+GDER3xSs8yyvkNYHhilAAR4RUOc
-         SPssizuxC22BRCyfsrI0D8rZvm3N7kmGb8li/PSIay0smLZQeThoVpIykohPtHtl7r8b
-         ll2henPGTyO+GD6aiOV7sbQCTOwD7rupSm3IYcbvNlrpiw2Z7grgF0e66xSByZX9yjsy
-         aT8A==
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=q/1TZTVcMCm0Q08vmDEx0MNqXROMr3/462DjqdnKRfk=;
+        b=gBWQgbbuaeUjs2d1kfbB/QbJpLEMbAqkEJiEVFRzII4OWyBQy+MRYbeYqAppx/cqFY
+         B9UzJs7nay4+s2dh7ZpVX7aF5P0/YSBRzAzqIRToq7IJLSArQUdJBMeeDhCPP+gPt4Tk
+         itXeN76MRYZ6yw6OqFAeMVvk1kjNVRrwbVoP8lKD1L4tZTDeDTYdC7yIXKKgwhQzrOiw
+         oTghcMI4E1Xx8PwFtJpe6iEQYwAkHP+eyDgb067StXSBBbjG2gduz5zpd8n4G3eNN+LH
+         RL3JIVKpds5DI8Aq5UF6JPu0CtpHDO1UWBNOzeiJ8ql5D7liGcNgD4pAbOjtXmpJVWXZ
+         mMbg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:sender:from:date:message-id:subject
-         :to:content-transfer-encoding;
-        bh=zOHJbgxEeKcTUS1M3dbg/CCHL8zxNc7o7Y1pwSiNVNQ=;
-        b=TyN3WoNXWOFFQUoSGMNRxWfFOvPHLZwo8dSfnEUbQmT19FfhoBbWD4A6x5dKJmdU3V
-         xjjbSNEm28KtFKPdXLGdp6aVI3YsKcvecT+YydjQnBBO6YwZokhYRCzMh9s435RSnMh4
-         EXzI7j+3KqEMQm8p/7I8nwPNiy2wr83it/b2SEUjlf3F5Pc2WzaBWRm1HxW8loAaLjck
-         MaAqtK6XoRSL2hkXFBMXmCnUOEyIUFUWpBxym8QSy4K2TTL1w7+GU5oMaraFc+xRgsZf
-         cGaTaebOQDLgg5JpQ/nl+t3esfL6ToCTjPBIjSKUQSqIGvjefFz1FgjUPLAQk6H/W2bZ
-         tn+w==
-X-Gm-Message-State: AOAM530inxD4RzaHMxVE8FZBKXLH6s9lEkftvg2a9kwYdOnxFca7KiaE
-        C1L5OINCf4OenVupAqwW7rsNbFQmKDO+3zdQotA=
-X-Google-Smtp-Source: ABdhPJxZI0sL5WkNZkjLcPzlXq850Kv17cFxNIadwYuWoomnJAWw3WfPrhrOImo0YOA2ba+0JgLiacoMQkcDgIZWASc=
-X-Received: by 2002:a05:600c:384f:: with SMTP id s15mr867378wmr.179.1641878166919;
- Mon, 10 Jan 2022 21:16:06 -0800 (PST)
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=q/1TZTVcMCm0Q08vmDEx0MNqXROMr3/462DjqdnKRfk=;
+        b=OIfMT0fG5wYbzbmXIKODQ+EM89S6pl76q/J+otRQjoeVKcqCDobcs0sBPiTQfjLxw3
+         uA/C83cHhd0Sdt7i5E067NXH+6tjCXs3vATSvnaIj6bVHD+Ux62NqTFLdgSGrlPWFCZW
+         2yDtSLlULO5+rYz2Np9pTo7MDEr3qGQWGlt0l5iZD6uNri4OvhIuRO8CciLd9b727Q07
+         FvrzZHkGFKfaLOT4plW0qa1wBRrbn6RW0HqFziPQ7z+cbTnGXikVxuzn1GsVOzdM5kL2
+         qakMpgv+0CHwzohSGPDHRXxykiRHUt3uUxQSsXaqFgC22Ejp3b5AIcgx5GzJzpKB3yIL
+         IH7g==
+X-Gm-Message-State: AOAM5330/RzcTMhW2EUm1RXm54RuJnC/yecpMkzAXPuSyEeqX9eayzQa
+        EcBZIzITRCKBrml23BR5ToG4KH3bbx3nAP4p+Mk=
+X-Google-Smtp-Source: ABdhPJzv3sMf2ph7oP+5F3yymz/JZkN8z4oHszysdVs2BKRlhnswFYjmvulwtSDlrMYsQR2+rBHoHGsL3lHVkOT129w=
+X-Received: by 2002:a1c:545b:: with SMTP id p27mr2536690wmi.178.1641908642447;
+ Tue, 11 Jan 2022 05:44:02 -0800 (PST)
 MIME-Version: 1.0
-Sender: donnalouisemchince@gmail.com
-Received: by 2002:adf:e3c8:0:0:0:0:0 with HTTP; Mon, 10 Jan 2022 21:16:06
- -0800 (PST)
-From:   DINA MCKENNA <dinamckennahowley@gmail.com>
-Date:   Tue, 11 Jan 2022 05:16:06 +0000
-X-Google-Sender-Auth: kZD7G7PJX5WZVJp10iD8l2oOCLk
-Message-ID: <CA+4Ruvsk8FpA_BfBHxHwkiNgTSOwxA0jmzeeUdBC5EZekZOt6w@mail.gmail.com>
-Subject: Calvary greetings.
-To:     undisclosed-recipients:;
+References: <20211222155743.256280-1-miquel.raynal@bootlin.com>
+ <20211222155743.256280-18-miquel.raynal@bootlin.com> <CAB_54W7o5b7a-2Gg5ZnzPj3o4Yw9FOAxJfykrA=LtpVf9naAng@mail.gmail.com>
+ <SN6PR08MB4464D7124FCB5D0801D26B94E0459@SN6PR08MB4464.namprd08.prod.outlook.com>
+ <CAB_54W6ikdGe=ZYqOsMgBdb9KBtfAphkBeu4LLp6S4R47ZDHgA@mail.gmail.com>
+ <20220105094849.0c7e9b65@xps13> <CAB_54W4Z1KgT+Cx0SXptvkwYK76wDOFTueFUFF4e7G_ABP7kkA@mail.gmail.com>
+ <20220106201526.7e513f2f@xps13> <CAB_54W7=YJu7qJPcGX0O6nkBhmg7EmX2iTy+Q+EgffqE5+0NCQ@mail.gmail.com>
+ <20220107084029.21f341a4@xps13>
+In-Reply-To: <20220107084029.21f341a4@xps13>
+From:   Alexander Aring <alex.aring@gmail.com>
+Date:   Tue, 11 Jan 2022 08:43:51 -0500
+Message-ID: <CAB_54W7kL6XnZxVXKudWXqMa=HVm=dk5ydAy6Ec4iMoU9mCNKA@mail.gmail.com>
+Subject: Re: [net-next 17/18] net: mac802154: Let drivers provide their own
+ beacons implementation
+To:     Miquel Raynal <miquel.raynal@bootlin.com>
+Cc:     David Girault <David.Girault@qorvo.com>,
+        "David S. Miller" <davem@davemloft.net>,
+        Jakub Kicinski <kuba@kernel.org>,
+        "open list:NETWORKING [GENERAL]" <netdev@vger.kernel.org>,
+        Stefan Schmidt <stefan@datenfreihafen.org>,
+        linux-wpan - ML <linux-wpan@vger.kernel.org>,
+        Romuald Despres <Romuald.Despres@qorvo.com>,
+        Frederic Blain <Frederic.Blain@qorvo.com>,
+        Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
+        kernel list <linux-kernel@vger.kernel.org>
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 List-ID: <linux-wpan.vger.kernel.org>
 X-Mailing-List: linux-wpan@vger.kernel.org
 
-Hello my dear,
+Hi,
 
- I sent this mail praying it will get to you in a good condition of
-health, since I myself are in a very critical health condition in
-which I sleep every night without knowing if I may be alive to see the
-next day. I bring peace and love to you. It is by the grace of God, I
-had no choice than to do what is lawful and right in the sight of God
-for eternal life and in the sight of man, for witness of God=E2=80=99s merc=
-y
-and glory upon my life. I am Mrs. Dina. Howley Mckenna, a widow. I am
-suffering from a long time brain tumor, It has defiled all forms of
-medical treatment, and right now I have about a few months to leave,
-according to medical experts. The situation has gotten complicated
-recently with my inability to hear proper, am communicating with you
-with the help of the chief nurse herein the hospital, from all
-indication my conditions is really deteriorating and it is quite
-obvious that, according to my doctors they have advised me that I may
-not live too long, Because this illness has gotten to a very bad
-stage. I plead that you will not expose or betray this trust and
-confidence that I am about to repose on you for the mutual benefit of
-the orphans and the less privilege. I have some funds I inherited from
-my late husband, the sum of ($ 11,000,000.00, Eleven Million Dollars).
-Having known my condition, I decided to donate this fund to you
-believing that you will utilize it the way i am going to instruct
-herein. I need you to assist me and reclaim this money and use it for
-Charity works therein your country  for orphanages and gives justice
-and help to the poor, needy and widows says The Lord." Jeremiah
-22:15-16.=E2=80=9C and also build schools for less privilege that will be
-named after my late husband if possible and to promote the word of God
-and the effort that the house of God is maintained. I do not want a
-situation where this money will be used in an ungodly manner. That's
-why I'm taking this decision. I'm not afraid of death, so I know where
-I'm going. I accept this decision because I do not have any child who
-will inherit this money after I die.. Please I want your sincerely and
-urgent answer to know if you will be able to execute this project for
-the glory of God, and I will give you more information on how the fund
-will be transferred to your bank account. May the grace, peace, love
-and the truth in the Word of God be with you and all those that you
-love and care for.
+On Fri, 7 Jan 2022 at 02:40, Miquel Raynal <miquel.raynal@bootlin.com> wrote:
+>
+> Hi Alexander,
+>
+> alex.aring@gmail.com wrote on Thu, 6 Jan 2022 23:21:45 -0500:
+>
+> > Hi,
+> >
+> > On Thu, 6 Jan 2022 at 14:15, Miquel Raynal <miquel.raynal@bootlin.com> wrote:
+> > >
+> > > Hi Alexander,
+> > >
+> > > alex.aring@gmail.com wrote on Wed, 5 Jan 2022 19:23:04 -0500:
+> > >
+> > ...
+> > > >
+> > > > A HardMAC driver does not use this driver interface... but there
+> > > > exists a SoftMAC driver for a HardMAC transceiver. This driver
+> > > > currently works because we use dataframes only... It will not support
+> > > > scanning currently and somehow we should make iit not available for
+> > > > drivers like that and for drivers which don't set symbol duration.
+> > > > They need to be fixed.
+> > >
+> > > My bad. I did not look at it correctly. I made a mistake when talking
+> > > about a hardMAC.
+> > >
+> > > Instead, it is a "custom" low level MAC layer. I believe we can compare
+> > > the current mac802154 layer mostly to the MLME that is mentioned in the
+> > > spec. Well here the additional layer that needs these hooks would be
+> > > the MCPS. I don't know if this will be upstreamed or not, but the need
+> > > for these hooks is real if such an intermediate low level MAC layer
+> > > gets introduced.
+> > >
+> > > In v2 I will get rid of the two patches adding "driver access" to scans
+> > > and beacons in order to facilitate the merge of the big part. Then we
+> > > will have plenty of time to discuss how we can create such an interface.
+> > > Perhaps I'll be able to propose more code as well to make use of these
+> > > hooks, we will see.
+> > >
+> >
+> > That the we have a standardised interface between Ieee802154 and
+> > (HardMAC or SoftMAC(mac802154)) (see cfg802154_ops) which is defined
+> > according the spec would make it more "stable" that it will work with
+> > different HardMAC transceivers (which follows that interface) and
+> > mac802154 stack (which also follows that interface). If I understood
+> > you correctly.
+>
+>
+> I am not sure. I am really talking about a softMAC. I am not sure
+> where to put that layer "vertically" but according to the spec the MCPS
+> (MAC Common Part Sublayer) is the layer that contains the data
+> primitives, while MLME has been designed for management and
+> configuration.
+>
 
-I'm waiting for your immediate reply..
+ok.
 
-May God Bless you,
-Mrs. Dina. Howley Mckenna.
+> > I think this is one reason why we are not having any HardMAC
+> > transceivers driver supported in a proper way yet.
+> >
+> > I can also imagine about a hwsim HardMAC transceiver which redirects
+> > cfg802154 to mac802154 SoftMAC instance again (something like that),
+> > to have a virtual HardMAC transceiver for testing purpose, etc. In
+> > theory that should work...
+>
+> Yeah I see what you mean, but IMHO that's basically duplicating the
+> softMAC layer, we already have hwsim wired to cfg802154 through
+> mac802154. In a certain way we could argue that this is a hardMAC =)
+
+Would be good to show people "here is how to write a HardMAC
+driver..." if this is even possible without any change yet.
+
+- Alex
