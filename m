@@ -2,334 +2,146 @@ Return-Path: <linux-wpan-owner@vger.kernel.org>
 X-Original-To: lists+linux-wpan@lfdr.de
 Delivered-To: lists+linux-wpan@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id B34D048C9CF
-	for <lists+linux-wpan@lfdr.de>; Wed, 12 Jan 2022 18:36:52 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 409B648CCD0
+	for <lists+linux-wpan@lfdr.de>; Wed, 12 Jan 2022 21:06:48 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1355888AbiALRgV (ORCPT <rfc822;lists+linux-wpan@lfdr.de>);
-        Wed, 12 Jan 2022 12:36:21 -0500
-Received: from relay6-d.mail.gandi.net ([217.70.183.198]:44903 "EHLO
-        relay6-d.mail.gandi.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1355782AbiALRfq (ORCPT
-        <rfc822;linux-wpan@vger.kernel.org>); Wed, 12 Jan 2022 12:35:46 -0500
-Received: (Authenticated sender: miquel.raynal@bootlin.com)
-        by relay6-d.mail.gandi.net (Postfix) with ESMTPSA id ADBE1C000D;
-        Wed, 12 Jan 2022 17:35:42 +0000 (UTC)
-From:   Miquel Raynal <miquel.raynal@bootlin.com>
-To:     Alexander Aring <alex.aring@gmail.com>,
+        id S1356985AbiALUGh (ORCPT <rfc822;lists+linux-wpan@lfdr.de>);
+        Wed, 12 Jan 2022 15:06:37 -0500
+Received: from mga09.intel.com ([134.134.136.24]:59219 "EHLO mga09.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1357159AbiALUGO (ORCPT <rfc822;linux-wpan@vger.kernel.org>);
+        Wed, 12 Jan 2022 15:06:14 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1642017974; x=1673553974;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=jTYJ5MPdPVHmwKkOwlI7reeAFLonvjVi2dQZX/Vt8Fk=;
+  b=I83KMA0TT8ChwGvGw/5++4cq5030dx0xLjMTWj5SvPEaQBNZQQpe29jW
+   zAnDGHqsyW9BmIoKtl9uLkc3NSgSEDlnoZYfnxNicU/dXjOBLPoK4MDy5
+   dMKArmofngnnHR0V9Y0oYg5TUJUvb9fIhj7TMjXEAawS3o7I4z3/RgsqN
+   P094n8f36XKnUn+fqwDwYx2Gtr2jInV+HO3jWEy1DG7MiHZnR9u2asFFX
+   posPXNY6y6Kh5NxaIa91FDU80sKEIbLrQO5Fuh/eoX544nyHUtJ+DS4Qv
+   6ZB//VPyXr/J2Zm6naqpsTwFFYF0fbxIcshGX6Y/6djPJ6inNfsEjY0Gd
+   A==;
+X-IronPort-AV: E=McAfee;i="6200,9189,10225"; a="243640026"
+X-IronPort-AV: E=Sophos;i="5.88,282,1635231600"; 
+   d="scan'208";a="243640026"
+Received: from orsmga005.jf.intel.com ([10.7.209.41])
+  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Jan 2022 12:06:14 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.88,282,1635231600"; 
+   d="scan'208";a="691524412"
+Received: from lkp-server01.sh.intel.com (HELO 276f1b88eecb) ([10.239.97.150])
+  by orsmga005.jf.intel.com with ESMTP; 12 Jan 2022 12:06:11 -0800
+Received: from kbuild by 276f1b88eecb with local (Exim 4.92)
+        (envelope-from <lkp@intel.com>)
+        id 1n7jso-0006Kk-7v; Wed, 12 Jan 2022 20:06:10 +0000
+Date:   Thu, 13 Jan 2022 04:05:27 +0800
+From:   kernel test robot <lkp@intel.com>
+To:     Miquel Raynal <miquel.raynal@bootlin.com>,
+        Alexander Aring <alex.aring@gmail.com>,
         Stefan Schmidt <stefan@datenfreihafen.org>,
         linux-wpan@vger.kernel.org,
         "David S. Miller" <davem@davemloft.net>,
-        Jakub Kicinski <kuba@kernel.org>, netdev@vger.kernel.org
-Cc:     David Girault <david.girault@qorvo.com>,
-        Romuald Despres <romuald.despres@qorvo.com>,
-        Frederic Blain <frederic.blain@qorvo.com>,
-        Nicolas Schodet <nico@ni.fr.eu.org>,
-        Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
-        linux-wireless@vger.kernel.org,
-        Miquel Raynal <miquel.raynal@bootlin.com>
-Subject: [wpan-tools v2 7/7] iwpan: Add events support
-Date:   Wed, 12 Jan 2022 18:35:29 +0100
-Message-Id: <20220112173529.765170-8-miquel.raynal@bootlin.com>
-X-Mailer: git-send-email 2.27.0
-In-Reply-To: <20220112173529.765170-1-miquel.raynal@bootlin.com>
-References: <20220112173529.765170-1-miquel.raynal@bootlin.com>
+        Jakub Kicinski <kuba@kernel.org>
+Cc:     kbuild-all@lists.01.org, netdev@vger.kernel.org,
+        Michael Hennerich <michael.hennerich@analog.com>,
+        Harry Morris <h.morris@cascoda.com>,
+        Varka Bhadram <varkabhadram@gmail.com>,
+        Xue Liu <liuxuenetmail@gmail.com>
+Subject: Re: [wpan-next v2 19/27] net: ieee802154: Full PAN management
+Message-ID: <202201130312.AD3Sqi9A-lkp@intel.com>
+References: <20220112173312.764660-20-miquel.raynal@bootlin.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20220112173312.764660-20-miquel.raynal@bootlin.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Precedence: bulk
 List-ID: <linux-wpan.vger.kernel.org>
 X-Mailing-List: linux-wpan@vger.kernel.org
 
-From: David Girault <david.girault@qorvo.com>
+Hi Miquel,
 
-Add the possibility to listen to the scan multicast netlink family in
-order to print all the events happening in the 802.15.4 stack.
+I love your patch! Yet something to improve:
 
-Signed-off-by: David Girault <david.girault@qorvo.com>
-Signed-off-by: Miquel Raynal <miquel.raynal@bootlin.com>
+[auto build test ERROR on linus/master]
+[also build test ERROR on v5.16 next-20220112]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch]
+
+url:    https://github.com/0day-ci/linux/commits/Miquel-Raynal/IEEE-802-15-4-scan-support/20220113-013731
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git daadb3bd0e8d3e317e36bc2c1542e86c528665e5
+config: alpha-randconfig-r006-20220112 (https://download.01.org/0day-ci/archive/20220113/202201130312.AD3Sqi9A-lkp@intel.com/config)
+compiler: alpha-linux-gcc (GCC) 11.2.0
+reproduce (this is a W=1 build):
+        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
+        chmod +x ~/bin/make.cross
+        # https://github.com/0day-ci/linux/commit/9c8fbd918a704432bbf6cdce1d111e9002c756b4
+        git remote add linux-review https://github.com/0day-ci/linux
+        git fetch --no-tags linux-review Miquel-Raynal/IEEE-802-15-4-scan-support/20220113-013731
+        git checkout 9c8fbd918a704432bbf6cdce1d111e9002c756b4
+        # save the config file to linux build tree
+        mkdir build_dir
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-11.2.0 make.cross O=build_dir ARCH=alpha SHELL=/bin/bash net/ieee802154/
+
+If you fix the issue, kindly add following tag as appropriate
+Reported-by: kernel test robot <lkp@intel.com>
+
+All errors (new ones prefixed by >>):
+
+   net/ieee802154/nl802154.c: In function 'nl802154_dump_pans':
+>> net/ieee802154/nl802154.c:1613:15: error: implicit declaration of function 'nl802154_prepare_wpan_dev_dump' [-Werror=implicit-function-declaration]
+    1613 |         err = nl802154_prepare_wpan_dev_dump(skb, cb, &rdev, &wpan_dev);
+         |               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+>> net/ieee802154/nl802154.c:1637:9: error: implicit declaration of function 'nl802154_finish_wpan_dev_dump' [-Werror=implicit-function-declaration]
+    1637 |         nl802154_finish_wpan_dev_dump(rdev);
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   cc1: some warnings being treated as errors
+
+
+vim +/nl802154_prepare_wpan_dev_dump +1613 net/ieee802154/nl802154.c
+
+  1605	
+  1606	static int nl802154_dump_pans(struct sk_buff *skb, struct netlink_callback *cb)
+  1607	{
+  1608		struct cfg802154_registered_device *rdev;
+  1609		struct cfg802154_internal_pan *pan;
+  1610		struct wpan_dev *wpan_dev;
+  1611		int err;
+  1612	
+> 1613		err = nl802154_prepare_wpan_dev_dump(skb, cb, &rdev, &wpan_dev);
+  1614		if (err)
+  1615			return err;
+  1616	
+  1617		spin_lock_bh(&rdev->pan_lock);
+  1618	
+  1619		if (cb->args[2])
+  1620			goto out;
+  1621	
+  1622		cb->seq = rdev->pan_generation;
+  1623	
+  1624		ieee802154_for_each_pan(pan, rdev) {
+  1625			err = nl802154_send_pan_info(skb, cb, cb->nlh->nlmsg_seq,
+  1626						     NLM_F_MULTI, rdev, wpan_dev, pan);
+  1627			if (err < 0)
+  1628				goto out_err;
+  1629		}
+  1630	
+  1631		cb->args[2] = 1;
+  1632	out:
+  1633		err = skb->len;
+  1634	out_err:
+  1635		spin_unlock_bh(&rdev->pan_lock);
+  1636	
+> 1637		nl802154_finish_wpan_dev_dump(rdev);
+  1638	
+  1639		return err;
+  1640	}
+  1641	
+
 ---
- src/Makefile.am |   1 +
- src/event.c     | 221 ++++++++++++++++++++++++++++++++++++++++++++++++
- src/iwpan.h     |   3 +
- src/scan.c      |   4 +-
- 4 files changed, 227 insertions(+), 2 deletions(-)
- create mode 100644 src/event.c
-
-diff --git a/src/Makefile.am b/src/Makefile.am
-index 18b3569..7933daf 100644
---- a/src/Makefile.am
-+++ b/src/Makefile.am
-@@ -10,6 +10,7 @@ iwpan_SOURCES = \
- 	phy.c \
- 	mac.c \
- 	scan.c \
-+	event.c \
- 	nl_extras.h \
- 	nl802154.h
- 
-diff --git a/src/event.c b/src/event.c
-new file mode 100644
-index 0000000..0c5450b
---- /dev/null
-+++ b/src/event.c
-@@ -0,0 +1,221 @@
-+#include <net/if.h>
-+#include <errno.h>
-+#include <stdint.h>
-+#include <stdbool.h>
-+#include <inttypes.h>
-+
-+#include <netlink/genl/genl.h>
-+#include <netlink/genl/family.h>
-+#include <netlink/genl/ctrl.h>
-+#include <netlink/msg.h>
-+#include <netlink/attr.h>
-+
-+#include "nl802154.h"
-+#include "nl_extras.h"
-+#include "iwpan.h"
-+
-+struct print_event_args {
-+	struct timeval ts; /* internal */
-+	bool have_ts; /* must be set false */
-+	bool frame, time, reltime;
-+};
-+
-+static void parse_scan_terminated(struct nlattr **tb)
-+{
-+	struct nlattr *a;
-+	if ((a = tb[NL802154_ATTR_SCAN_TYPE])) {
-+		enum nl802154_scan_types st =
-+			(enum nl802154_scan_types)nla_get_u8(a);
-+		const char *stn = scantype_name(st);
-+		printf(" type %s,", stn);
-+	}
-+	if ((a = tb[NL802154_ATTR_SCAN_FLAGS])) {
-+		printf(" flags 0x%x,", nla_get_u32(a));
-+	}
-+	if ((a = tb[NL802154_ATTR_PAGE])) {
-+		printf(" page %u,", nla_get_u8(a));
-+	}
-+	if ((a = tb[NL802154_ATTR_SCAN_CHANNELS])) {
-+		printf(" channels mask 0x%x,", nla_get_u32(a));
-+	}
-+	/* TODO: show requested IEs */
-+	if ((a = tb[NL802154_ATTR_PAN])) {
-+		parse_scan_result_pan(a, tb[NL802154_ATTR_IFINDEX]);
-+	}
-+}
-+
-+static int print_event(struct nl_msg *msg, void *arg)
-+{
-+	struct genlmsghdr *gnlh = nlmsg_data(nlmsg_hdr(msg));
-+	struct nlattr *tb[NL802154_ATTR_MAX + 1], *nst;
-+	struct print_event_args *args = arg;
-+	char ifname[100];
-+
-+	uint8_t reg_type;
-+	uint32_t wpan_phy_idx = 0;
-+	int rem_nst;
-+	uint16_t status;
-+
-+	if (args->time || args->reltime) {
-+		unsigned long long usecs, previous;
-+
-+		previous = 1000000ULL * args->ts.tv_sec + args->ts.tv_usec;
-+		gettimeofday(&args->ts, NULL);
-+		usecs = 1000000ULL * args->ts.tv_sec + args->ts.tv_usec;
-+		if (args->reltime) {
-+			if (!args->have_ts) {
-+				usecs = 0;
-+				args->have_ts = true;
-+			} else
-+				usecs -= previous;
-+		}
-+		printf("%llu.%06llu: ", usecs/1000000, usecs % 1000000);
-+	}
-+
-+	nla_parse(tb, NL802154_ATTR_MAX, genlmsg_attrdata(gnlh, 0),
-+		  genlmsg_attrlen(gnlh, 0), NULL);
-+
-+	if (tb[NL802154_ATTR_IFINDEX] && tb[NL802154_ATTR_WPAN_PHY]) {
-+		if_indextoname(nla_get_u32(tb[NL802154_ATTR_IFINDEX]), ifname);
-+		printf("%s (phy #%d): ", ifname, nla_get_u32(tb[NL802154_ATTR_WPAN_PHY]));
-+	} else if (tb[NL802154_ATTR_WPAN_DEV] && tb[NL802154_ATTR_WPAN_PHY]) {
-+		printf("wdev 0x%llx (phy #%d): ",
-+			(unsigned long long)nla_get_u64(tb[NL802154_ATTR_WPAN_DEV]),
-+			nla_get_u32(tb[NL802154_ATTR_WPAN_PHY]));
-+	} else if (tb[NL802154_ATTR_IFINDEX]) {
-+		if_indextoname(nla_get_u32(tb[NL802154_ATTR_IFINDEX]), ifname);
-+		printf("%s: ", ifname);
-+	} else if (tb[NL802154_ATTR_WPAN_DEV]) {
-+		printf("wdev 0x%llx: ", (unsigned long long)nla_get_u64(tb[NL802154_ATTR_WPAN_DEV]));
-+	} else if (tb[NL802154_ATTR_WPAN_PHY]) {
-+		printf("phy #%d: ", nla_get_u32(tb[NL802154_ATTR_WPAN_PHY]));
-+	}
-+
-+	switch (gnlh->cmd) {
-+	case NL802154_CMD_NEW_WPAN_PHY:
-+		printf("renamed to %s\n", nla_get_string(tb[NL802154_ATTR_WPAN_PHY_NAME]));
-+		break;
-+	case NL802154_CMD_DEL_WPAN_PHY:
-+		printf("delete wpan_phy\n");
-+		break;
-+	case NL802154_CMD_TRIGGER_SCAN:
-+		printf("scan started\n");
-+		break;
-+	case NL802154_CMD_SCAN_DONE:
-+		printf("scan finished:");
-+		parse_scan_terminated(tb);
-+		printf("\n");
-+		break;
-+	default:
-+		printf("unknown event %d\n", gnlh->cmd);
-+		break;
-+	}
-+	fflush(stdout);
-+	return NL_SKIP;
-+}
-+
-+static int __prepare_listen_events(struct nl802154_state *state)
-+{
-+	int mcid, ret;
-+
-+	/* Configuration multicast group */
-+	mcid = genl_ctrl_resolve_grp(state->nl_sock, NL802154_GENL_NAME,
-+				     "config");
-+	if (mcid < 0)
-+		return mcid;
-+	ret = nl_socket_add_membership(state->nl_sock, mcid);
-+	if (ret)
-+		return ret;
-+
-+	/* Scan multicast group */
-+	mcid = genl_ctrl_resolve_grp(state->nl_sock, NL802154_GENL_NAME,
-+				     "scan");
-+	if (mcid >= 0) {
-+		ret = nl_socket_add_membership(state->nl_sock, mcid);
-+		if (ret)
-+			return ret;
-+	}
-+
-+	/* MLME multicast group */
-+	mcid = genl_ctrl_resolve_grp(state->nl_sock, NL802154_GENL_NAME,
-+				     "mlme");
-+	if (mcid >= 0) {
-+		ret = nl_socket_add_membership(state->nl_sock, mcid);
-+		if (ret)
-+			return ret;
-+	}
-+
-+	return 0;
-+}
-+
-+static int __do_listen_events(struct nl802154_state *state,
-+			      struct print_event_args *args)
-+{
-+	struct nl_cb *cb = nl_cb_alloc(iwpan_debug ? NL_CB_DEBUG : NL_CB_DEFAULT);
-+	if (!cb) {
-+		fprintf(stderr, "failed to allocate netlink callbacks\n");
-+		return -ENOMEM;
-+	}
-+	nl_socket_set_cb(state->nl_sock, cb);
-+	/* No sequence checking for multicast messages */
-+	nl_socket_disable_seq_check(state->nl_sock);
-+	/* Install print_event message handler */
-+	nl_cb_set(cb, NL_CB_VALID, NL_CB_CUSTOM, print_event, args);
-+
-+	/* Loop waiting until interrupted by signal */
-+	while (1) {
-+		int ret = nl_recvmsgs(state->nl_sock, cb);
-+		if (ret) {
-+			fprintf(stderr, "nl_recvmsgs return error %d\n", ret);
-+			break;
-+		}
-+	}
-+	/* Free allocated nl_cb structure */
-+	nl_cb_put(cb);
-+	return 0;
-+}
-+
-+static int print_events(struct nl802154_state *state,
-+			struct nl_cb *cb,
-+			struct nl_msg *msg,
-+			int argc, char **argv,
-+			enum id_input id)
-+{
-+	struct print_event_args args;
-+	int ret;
-+
-+	memset(&args, 0, sizeof(args));
-+
-+	argc--;
-+	argv++;
-+
-+	while (argc > 0) {
-+		if (strcmp(argv[0], "-f") == 0)
-+			args.frame = true;
-+		else if (strcmp(argv[0], "-t") == 0)
-+			args.time = true;
-+		else if (strcmp(argv[0], "-r") == 0)
-+			args.reltime = true;
-+		else
-+			return 1;
-+		argc--;
-+		argv++;
-+	}
-+	if (args.time && args.reltime)
-+		return 1;
-+	if (argc)
-+		return 1;
-+
-+	/* Prepare reception of all multicast messages */
-+	ret = __prepare_listen_events(state);
-+	if (ret)
-+		return ret;
-+
-+	/* Read message loop */
-+	return __do_listen_events(state, &args);
-+}
-+TOPLEVEL(event, "[-t|-r] [-f]", 0, 0, CIB_NONE, print_events,
-+	"Monitor events from the kernel.\n"
-+	"-t - print timestamp\n"
-+	"-r - print relative timestamp\n"
-+	"-f - print full frame for auth/assoc etc.");
-diff --git a/src/iwpan.h b/src/iwpan.h
-index 406940a..a71b991 100644
---- a/src/iwpan.h
-+++ b/src/iwpan.h
-@@ -114,6 +114,9 @@ DECLARE_SECTION(get);
- 
- const char *iftype_name(enum nl802154_iftype iftype);
- 
-+const char *scantype_name(enum nl802154_scan_types scantype);
-+int parse_scan_result_pan(struct nlattr *nestedpan, struct nlattr *ifattr);
-+
- extern int iwpan_debug;
- 
- #endif /* __IWPAN_H */
-diff --git a/src/scan.c b/src/scan.c
-index ec91c7c..a557e09 100644
---- a/src/scan.c
-+++ b/src/scan.c
-@@ -16,7 +16,7 @@
- 
- static char scantypebuf[100];
- 
--static const char *scantype_name(enum nl802154_scan_types scantype)
-+const char *scantype_name(enum nl802154_scan_types scantype)
- {
- 	switch (scantype) {
- 	case NL802154_SCAN_ED:
-@@ -168,7 +168,7 @@ static int scan_abort_handler(struct nl802154_state *state,
- }
- 
- 
--static int parse_scan_result_pan(struct nlattr *nestedpan, struct nlattr *ifattr)
-+int parse_scan_result_pan(struct nlattr *nestedpan, struct nlattr *ifattr)
- {
- 	struct nlattr *pan[NL802154_PAN_MAX + 1];
- 	static struct nla_policy pan_policy[NL802154_PAN_MAX + 1] = {
--- 
-2.27.0
-
+0-DAY CI Kernel Test Service, Intel Corporation
+https://lists.01.org/hyperkitty/list/kbuild-all@lists.01.org
