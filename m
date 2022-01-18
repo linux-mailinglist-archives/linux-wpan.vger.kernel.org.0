@@ -2,114 +2,76 @@ Return-Path: <linux-wpan-owner@vger.kernel.org>
 X-Original-To: lists+linux-wpan@lfdr.de
 Delivered-To: lists+linux-wpan@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 649324912E7
-	for <lists+linux-wpan@lfdr.de>; Tue, 18 Jan 2022 01:36:53 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 1AF774921E6
+	for <lists+linux-wpan@lfdr.de>; Tue, 18 Jan 2022 10:04:24 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229585AbiARAgw (ORCPT <rfc822;lists+linux-wpan@lfdr.de>);
-        Mon, 17 Jan 2022 19:36:52 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33694 "EHLO
+        id S237157AbiARJEN (ORCPT <rfc822;lists+linux-wpan@lfdr.de>);
+        Tue, 18 Jan 2022 04:04:13 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37736 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229632AbiARAgw (ORCPT
-        <rfc822;linux-wpan@vger.kernel.org>); Mon, 17 Jan 2022 19:36:52 -0500
-Received: from mail-wm1-x335.google.com (mail-wm1-x335.google.com [IPv6:2a00:1450:4864:20::335])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A17DCC061574;
-        Mon, 17 Jan 2022 16:36:51 -0800 (PST)
-Received: by mail-wm1-x335.google.com with SMTP id q9-20020a7bce89000000b00349e697f2fbso1938729wmj.0;
-        Mon, 17 Jan 2022 16:36:51 -0800 (PST)
+        with ESMTP id S1345153AbiARJEC (ORCPT
+        <rfc822;linux-wpan@vger.kernel.org>); Tue, 18 Jan 2022 04:04:02 -0500
+Received: from mail-yb1-xb2e.google.com (mail-yb1-xb2e.google.com [IPv6:2607:f8b0:4864:20::b2e])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DC4ABC061757
+        for <linux-wpan@vger.kernel.org>; Tue, 18 Jan 2022 01:03:59 -0800 (PST)
+Received: by mail-yb1-xb2e.google.com with SMTP id p5so53586402ybd.13
+        for <linux-wpan@vger.kernel.org>; Tue, 18 Jan 2022 01:03:59 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=MrV/5bhSCOAE/eZMpCGxQpdusce2IrkG903/Kn1QmA8=;
-        b=o4H2sw2syQe5pwQjH/DoWx1sPXRznthZ2HsxPfzyOjMvoY1gwSzTUHTSJvwQsGFIHu
-         LxYj8R81DVJNcxVCj86ZA/8haNNqHtmoBWke7568zUBWe7Rf9Q9Gj2c2w117EzGH+WgB
-         o/BvvYvr3bBX1SXXPksTjTsvtSzQUop9NeeUMiNe7fqOrOm0UugtKOAAJP0UlOrOO992
-         EyxiSmhBISD6Eh3GXbiysC8wEW06J63cChr9ETiOMqAnA16NMiPmiS7uPUXIuLdimsSi
-         n8ufHJN4FhPtTg+ZjmlkeTZjMlk/kwezbwPd/lgGAzbluifDzoiOU9M0S7UB8PebgoKO
-         w7qQ==
+        h=mime-version:reply-to:from:date:message-id:subject:to;
+        bh=IAamEH5Xu1dJ3X0trVcFTPIrL7aTtcDGn5mUS4vw1a8=;
+        b=NHprezroMsvNvJXQj44poYAHm3bYOXBJZX5Wg8cW9F++sdGchhDxOadiHN0N74BqVo
+         LLsuxLOWO8eNb9Df+WO3omzRkxx9CES4mNA3Io5+oAgtUVpSbYHogg87+gCtw68c4I2t
+         jU5NFjjkmYDNDUVEzOuCjT2//b/zcZNUhM8rDEil4EjAKikZAouVCPfFT1ek6iBkNaWB
+         bcv0AUKVrFCVpxHEBYPBv8KSS3FHlu8eykSeEYJmKwrS5qbSbzeHmao2+zqXdm7uNchU
+         Rqamo/TlsQaFmHXGfCx8STX0aSjqEkHcratuhlypnT20IcvCVcqt6eV72JWjrAN3qvU0
+         7wEQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=MrV/5bhSCOAE/eZMpCGxQpdusce2IrkG903/Kn1QmA8=;
-        b=4jp1NefOg7+H0Lvs7O/m2p7YOBl2OgJ608CmD+SGSX2eluj+hQhOrynJr4/ksNU1d3
-         JciQLkX04/n4UPmP+n6Rfu0UajNaOVEAfoniOgBks+ale1FysrFdEDXB5tQ9uJkBfI3r
-         qChAjI2IaJuy17fElOyqA1KbzZhJSLfHjboYrGAQKBiCoWxNbVC2PXw/YgWHRpdXLCW/
-         mNWTmScYTyOtXQPlLlYxgcwyDyLi37cQTVyGgIrs29vAIwHK6B/10++szngOXbGP1r1K
-         orWudHYO07+FnNAjaGC0HphE15bak0N8V1KlQt9juR2MDMhrpuHzEarSPeYK1rCysw24
-         sYcA==
-X-Gm-Message-State: AOAM531iKZuBKn5pKODIlxS373SdSJ1T8LFzbk3Uc4A+U4UN8QSH7qWf
-        jihuQhII2ojEILcvK0U8gVAO+EWvpbZ6obTvai4=
-X-Google-Smtp-Source: ABdhPJyZvLUNPEB6LCDJLsQG84xS7JMkP4t5c0tgKOONgVDbpLReDbkNuu+sq8E4cLOCN9DjsJXMYHKsUZQEzHvCg3w=
-X-Received: by 2002:a05:6000:105:: with SMTP id o5mr16404069wrx.56.1642466210320;
- Mon, 17 Jan 2022 16:36:50 -0800 (PST)
+        h=x-gm-message-state:mime-version:reply-to:from:date:message-id
+         :subject:to;
+        bh=IAamEH5Xu1dJ3X0trVcFTPIrL7aTtcDGn5mUS4vw1a8=;
+        b=rGMCpCr3UWxUVMJPR30pbzjpiO1aX2u60sHAtVIA46G/A93oTsKPB/vaUrxEV4lx6H
+         In5F2b0lA9UE/RzWect+LCDo/FYoc7SS59wwowHx1xLDUPScOLiyTskVPUUJVKkkDpI7
+         82N/SfUbCxhdSSAfNBmsu+GYidR9Wcr8ROhAeAmdYQvm9FcztMNZ8RKXkAq30hxq8IJO
+         kosAOdfA0daBgHkPTVZ6JiOolBA1r/bCf0EtFaTgVlPpTPrXEarNoyCo3aPi80nkQQIn
+         nL2gzB/V1Mq+7y1rKX5W06yNb5q/L8U+mdEBEBQCi1oLG8I78PlJ6NI0bXr4wdurF6+C
+         OKAg==
+X-Gm-Message-State: AOAM530KAT9KHP77R2GMcXBI7+4OtrfOv56eLzGpwjE1qcBJfX/MFGWQ
+        v1k8GT4cOnRyGMP92IAEYrsxDOfWZ5jmIaYXWXk=
+X-Google-Smtp-Source: ABdhPJykqN6yybQfaT0kT/1JcofcZUp4wlVhtJ/gATn7SS5XA0pfx+GW8LgTxWINZerrn1yMSBF81skqvw8cEBrK9Sg=
+X-Received: by 2002:a25:e549:: with SMTP id c70mr10839900ybh.339.1642496638937;
+ Tue, 18 Jan 2022 01:03:58 -0800 (PST)
 MIME-Version: 1.0
-References: <20220117115440.60296-1-miquel.raynal@bootlin.com>
- <20220117115440.60296-18-miquel.raynal@bootlin.com> <CAB_54W76X5vhaVMUv=s3e0pbWZgHRK3W=27N9m5LgEdLgAPAcA@mail.gmail.com>
-In-Reply-To: <CAB_54W76X5vhaVMUv=s3e0pbWZgHRK3W=27N9m5LgEdLgAPAcA@mail.gmail.com>
-From:   Alexander Aring <alex.aring@gmail.com>
-Date:   Mon, 17 Jan 2022 19:36:39 -0500
-Message-ID: <CAB_54W5Uu9_hpqmeL0MC+1ps=yfn2j0-o46cBL7BeBxKXKHa4w@mail.gmail.com>
-Subject: Re: [PATCH v3 17/41] net: ieee802154: at86rf230: Call the complete
- helper when a transmission is over
-To:     Miquel Raynal <miquel.raynal@bootlin.com>
-Cc:     Stefan Schmidt <stefan@datenfreihafen.org>,
-        linux-wpan - ML <linux-wpan@vger.kernel.org>,
-        "open list:NETWORKING [GENERAL]" <netdev@vger.kernel.org>,
-        "linux-wireless@vger.kernel.org Wireless" 
-        <linux-wireless@vger.kernel.org>,
-        David Girault <david.girault@qorvo.com>,
-        Romuald Despres <romuald.despres@qorvo.com>,
-        Frederic Blain <frederic.blain@qorvo.com>,
-        Nicolas Schodet <nico@ni.fr.eu.org>,
-        Michael Hennerich <michael.hennerich@analog.com>,
-        Jakub Kicinski <kuba@kernel.org>,
-        Varka Bhadram <varkabhadram@gmail.com>,
-        Xue Liu <liuxuenetmail@gmail.com>, Alan Ott <alan@signal11.us>,
-        Thomas Petazzoni <thomas.petazzoni@bootlin.com>
+Received: by 2002:a05:7108:3655:0:0:0:0 with HTTP; Tue, 18 Jan 2022 01:03:58
+ -0800 (PST)
+Reply-To: asil.ajwad@gmail.com
+From:   Asil Ajwad <graceyaogokamboule@gmail.com>
+Date:   Mon, 17 Jan 2022 21:03:58 -1200
+Message-ID: <CA+Yy_gCoV9jOYW1qG-5psBKMTZyzWOj2x6Pu5iusfy4TEMaBwQ@mail.gmail.com>
+Subject: Greetings,
+To:     undisclosed-recipients:;
 Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-wpan.vger.kernel.org>
 X-Mailing-List: linux-wpan@vger.kernel.org
 
-Hi,
+-- 
+Greetings,
 
-On Mon, 17 Jan 2022 at 19:34, Alexander Aring <alex.aring@gmail.com> wrote:
->
-> Hi,
->
-> On Mon, 17 Jan 2022 at 06:55, Miquel Raynal <miquel.raynal@bootlin.com> wrote:
-> >
-> > ieee802154_xmit_complete() is the right helper to call when a
-> > transmission is over. The fact that it completed or not is not really a
-> > question, but drivers must tell the core that the completion is over,
-> > even if it was canceled. Do not call ieee802154_wake_queue() manually,
-> > in order to let full control of this task to the core.
-> >
-> > By using the complete helper we also avoid leacking the skb structure.
-> >
-> > Signed-off-by: Miquel Raynal <miquel.raynal@bootlin.com>
-> > ---
-> >  drivers/net/ieee802154/at86rf230.c | 2 +-
-> >  1 file changed, 1 insertion(+), 1 deletion(-)
-> >
-> > diff --git a/drivers/net/ieee802154/at86rf230.c b/drivers/net/ieee802154/at86rf230.c
-> > index 583f835c317a..1941e1f3d2ef 100644
-> > --- a/drivers/net/ieee802154/at86rf230.c
-> > +++ b/drivers/net/ieee802154/at86rf230.c
-> > @@ -343,7 +343,7 @@ at86rf230_async_error_recover_complete(void *context)
-> >         if (ctx->free)
-> >                 kfree(ctx);
-> >
-> > -       ieee802154_wake_queue(lp->hw);
-> > +       ieee802154_xmit_complete(lp->hw, lp->tx_skb, false);
->
-> also this lp->tx_skb can be a dangled pointer, after xmit_complete()
-> we need to set it to NULL in a xmit_error() we can check on NULL
-> before calling kfree_skb().
->
+I am Mr.Asil Ajwad, I work with United Bank of Africa, can you use
+an ATM Visa Card to withdraw money at, ATM Cash Machine in your
+country, if yes I want to transfer abounded fund the sum of $10.5million
+US-Dollars, to you from my country, this is part of the money that was
+abounded by our late old client a politician who unfortunately lost
+his life and was forced out of power Du to greedy act, the bank will
 
-forget the NULL checking, it's already done by core. However in some
-cases this is called with a dangled pointer on lp->tx_skb.
+change the account details to your name, and apply for a Visa Card
+with your details, the Visa Card will be send to you, and you can be
+withdrawing money with it always, whatever any amount you withdraw
+daily, you will send 60% to me and you will take 40%, the Visa Card
+and the bank account will be on your name, I will be waiting for your
+response for more details, thanks to you a lot for giving me your time.
 
-- Alex
+regards,
+Mr.Asil Ajwad.
