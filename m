@@ -2,106 +2,67 @@ Return-Path: <linux-wpan-owner@vger.kernel.org>
 X-Original-To: lists+linux-wpan@lfdr.de
 Delivered-To: lists+linux-wpan@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 9DC7A49629F
-	for <lists+linux-wpan@lfdr.de>; Fri, 21 Jan 2022 17:09:28 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 8D4A1496A12
+	for <lists+linux-wpan@lfdr.de>; Sat, 22 Jan 2022 05:51:51 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1351497AbiAUQJ1 (ORCPT <rfc822;lists+linux-wpan@lfdr.de>);
-        Fri, 21 Jan 2022 11:09:27 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39246 "EHLO
+        id S232564AbiAVEvt (ORCPT <rfc822;lists+linux-wpan@lfdr.de>);
+        Fri, 21 Jan 2022 23:51:49 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39492 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S239055AbiAUQJ1 (ORCPT
-        <rfc822;linux-wpan@vger.kernel.org>); Fri, 21 Jan 2022 11:09:27 -0500
-Received: from proxima.lasnet.de (proxima.lasnet.de [IPv6:2a01:4f8:121:31eb:3::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8247DC06173B;
-        Fri, 21 Jan 2022 08:09:26 -0800 (PST)
-Received: from [IPV6:2003:e9:d70c:7733:6a50:4603:7591:b048] (p200300e9d70c77336a5046037591b048.dip0.t-ipconnect.de [IPv6:2003:e9:d70c:7733:6a50:4603:7591:b048])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature RSA-PSS (4096 bits))
-        (No client certificate requested)
-        (Authenticated sender: stefan@datenfreihafen.org)
-        by proxima.lasnet.de (Postfix) with ESMTPSA id B50BFC0271;
-        Fri, 21 Jan 2022 17:09:24 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=datenfreihafen.org;
-        s=2021; t=1642781365;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=vP6QRA8n/D5UmCqAFhTvJswXRwg0BQqWAbXe4MlFHhE=;
-        b=TjwXP7ConHEUR1JGx/Xowi+KX+5cOPMY+Kmz2tZt298noUtD6Dphad6iZwVAWheQRz5yOT
-        tHKuIxWA5djOz5u+d0yJf1PsGFXz9jqV9JWlliG4zwDmVQQUkqAm1Oq+DMQJ1E8jrqY+0k
-        Q2RgRwDjHf6EI52Y1kAk3uN91QbHz8G+1wlrQ4i9NBO9NDsw07qv1sI0QgNCEb3B1ReD8o
-        rfDdDea4vHkGHEvT9Oe+WBLjN50l5djdhz2HNhFwq0fdhZRa/d+pM99cW6VNUcY9i99iSr
-        OtqwHKOI2AnHDnEmGfgzQYg5TE3vxM/M+tVk+738E84cKMV0+oXq3gIAqBEr6w==
-Message-ID: <99d1c254-5d3f-f4be-b58d-8a956907140c@datenfreihafen.org>
-Date:   Fri, 21 Jan 2022 17:09:24 +0100
+        with ESMTP id S232303AbiAVEvt (ORCPT
+        <rfc822;linux-wpan@vger.kernel.org>); Fri, 21 Jan 2022 23:51:49 -0500
+Received: from mail-wm1-x342.google.com (mail-wm1-x342.google.com [IPv6:2a00:1450:4864:20::342])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1DBD8C06173B
+        for <linux-wpan@vger.kernel.org>; Fri, 21 Jan 2022 20:51:48 -0800 (PST)
+Received: by mail-wm1-x342.google.com with SMTP id q141-20020a1ca793000000b00347b48dfb53so24143838wme.0
+        for <linux-wpan@vger.kernel.org>; Fri, 21 Jan 2022 20:51:47 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=mime-version:reply-to:from:date:message-id:subject:to;
+        bh=1Br/N6WhyVMlujnGsxiPG2oa5QW+rtf7KlXAbdHBbwA=;
+        b=Rpi3bVLK26f2fG2Ke9zE+PC/aEC4VMowCnh8dERCn/kqT2wp703SV/WMKtyVvJV4EF
+         GsYsWWaNUiEhDHgyTvkLh4847TdCyTGHPequiGwjDGMZw4zROZILPx4CYEp0cWgDpADE
+         +dyPdivF27r1n6+4m01XPDwuQzTDinwYnW5Sc48tZ+meqXUpoUPfo+3GOHSVQzz49j35
+         FAZljQXIqnUNCmLAFPXXcrxRjshalTNoiXX1Qab5Q0bWEXqTUwpLj23UiSakMogIdrfS
+         pDK1Ni4gUf0ponVaZ5A474TMNakcOmjT/8/IENg1baPcZ7gi1SJFW7PBHpncIAj5Z5/G
+         8UBg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:mime-version:reply-to:from:date:message-id
+         :subject:to;
+        bh=1Br/N6WhyVMlujnGsxiPG2oa5QW+rtf7KlXAbdHBbwA=;
+        b=6WXV9w8dB2/d9QLe5Uv7pzS2/GX4HahMA5Dxn/JrU7ya3MVoovp6VeZlu/D5cBkpvt
+         cZVP9elRDDaGddfhCGlHHlUU6/YSBGiCpfoueKBk5LAzv3IkaBkVE07dtnmU/3B0er4a
+         EP/FQ6jdi+s121pw0X9jRdkUE+kXD51tYWLY5yU5IwDuqEckEQ67JjNVoXNyBZWjCITb
+         DKYI0oJDZMNhpgtKLNGfgtPOytlUazrERtFMxvFQLPZ3HYc6j5lYdFhLh9fAEbCJEiBB
+         wzqyfUXt/OJi5ZD/Vah3vVCcuLw8CPZZLejIGZoRSmTlE8Xi/A20xdKRlt/nLpHybcfu
+         1RBQ==
+X-Gm-Message-State: AOAM530kzFnDjiyETZGrTDUCafnYS3w7cs1LMFM0WBOcoEiXhDHkyaUJ
+        fgNMQkCWYzDgGg8UwtT8qjnmjl8NOLVNFiPKuIQ=
+X-Google-Smtp-Source: ABdhPJwZoVeri8wEim39ZxbivzUGAmkC/sHPjY2/VcZQMGsla+Yi8yXduusU9Fe9jU25/GfccbP+1K9zESpJBRIGs/I=
+X-Received: by 2002:a05:600c:1e17:: with SMTP id ay23mr3080206wmb.77.1642827106566;
+ Fri, 21 Jan 2022 20:51:46 -0800 (PST)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.3.0
-Subject: Re: [wpan-next v2 0/9] ieee802154: A bunch of fixes
-Content-Language: en-US
-To:     Miquel Raynal <miquel.raynal@bootlin.com>,
-        Alexander Aring <alex.aring@gmail.com>,
-        linux-wpan@vger.kernel.org
-Cc:     "David S. Miller" <davem@davemloft.net>,
-        Jakub Kicinski <kuba@kernel.org>, netdev@vger.kernel.org,
-        Xue Liu <liuxuenetmail@gmail.com>,
-        Marcel Holtmann <marcel@holtmann.org>,
-        Harry Morris <harrymorris12@gmail.com>,
-        David Girault <david.girault@qorvo.com>,
-        Romuald Despres <romuald.despres@qorvo.com>,
-        Frederic Blain <frederic.blain@qorvo.com>,
-        Nicolas Schodet <nico@ni.fr.eu.org>,
-        Thomas Petazzoni <thomas.petazzoni@bootlin.com>
-References: <20220120112115.448077-1-miquel.raynal@bootlin.com>
-From:   Stefan Schmidt <stefan@datenfreihafen.org>
-In-Reply-To: <20220120112115.448077-1-miquel.raynal@bootlin.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Received: by 2002:a5d:4883:0:0:0:0:0 with HTTP; Fri, 21 Jan 2022 20:51:46
+ -0800 (PST)
+Reply-To: mrsbillchantallawrence58@gmail.com
+From:   mrsbillchantal <mrssandraasas@gmail.com>
+Date:   Fri, 21 Jan 2022 20:51:46 -0800
+Message-ID: <CAJAjUuCEgpTWH5xYrcUVA8FfiGsU=ieX6-y-e2U9KmytBg9AuA@mail.gmail.com>
+Subject: dear frinds incase my connession is not good
+To:     undisclosed-recipients:;
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-wpan.vger.kernel.org>
 X-Mailing-List: linux-wpan@vger.kernel.org
 
+hello....
 
-Hello Miquel
+You have been compensated with the sum of 5.5 million dollars in this
+united nation the payment will be issue into atm visa card and send to
+you from the santander bank we need your address and your  Whatsapp
+this my email.ID (  mrsbillchantallawrence58@gmail.com)  contact  me
 
-On 20.01.22 12:21, Miquel Raynal wrote:
-> In preparation to a wider series, here are a number of small and random
-> fixes across the subsystem.
-> 
-> Changes in v2:
-> * Fixed the build error reported by a robot. It ended up being something
->    which I fixed in a commit from a following series. I've now sorted
->    this out and the patch now works on its own.
-> 
-> Miquel Raynal (9):
->    net: ieee802154: hwsim: Ensure proper channel selection at probe time
->    net: ieee802154: hwsim: Ensure frame checksum are valid
->    net: ieee802154: mcr20a: Fix lifs/sifs periods
->    net: ieee802154: at86rf230: Stop leaking skb's
->    net: ieee802154: ca8210: Stop leaking skb's
->    net: ieee802154: Use the IEEE802154_MAX_PAGE define when relevant
->    net: ieee802154: Return meaningful error codes from the netlink
->      helpers
->    net: mac802154: Explain the use of ieee802154_wake/stop_queue()
->    MAINTAINERS: Remove Harry Morris bouncing address
-> 
->   MAINTAINERS                              |  3 +--
->   drivers/net/ieee802154/at86rf230.c       |  1 +
->   drivers/net/ieee802154/ca8210.c          |  1 +
->   drivers/net/ieee802154/mac802154_hwsim.c | 12 ++----------
->   drivers/net/ieee802154/mcr20a.c          |  4 ++--
->   include/net/mac802154.h                  | 12 ++++++++++++
->   net/ieee802154/nl-phy.c                  |  5 +++--
->   net/ieee802154/nl802154.c                |  8 ++++----
->   8 files changed, 26 insertions(+), 20 deletions(-)
-> 
+Thanks my
 
-All patches apply without conflict to my wpan tree (to feed into net 
-instead of net-next for these fixes) and compile testing showed no 
-problems. I will do some light smoke testing on the weekend and also 
-wait for Alex review. But beside one small review remark these should be 
-ready to go in on the next iteration.
-
-regards
-Stefan Schmidt
+mrs chantal
