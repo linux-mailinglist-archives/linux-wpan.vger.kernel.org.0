@@ -2,88 +2,64 @@ Return-Path: <linux-wpan-owner@vger.kernel.org>
 X-Original-To: lists+linux-wpan@lfdr.de
 Delivered-To: lists+linux-wpan@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 991CB496C4F
-	for <lists+linux-wpan@lfdr.de>; Sat, 22 Jan 2022 13:21:34 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 0F50B49704E
+	for <lists+linux-wpan@lfdr.de>; Sun, 23 Jan 2022 06:59:21 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234503AbiAVMV3 (ORCPT <rfc822;lists+linux-wpan@lfdr.de>);
-        Sat, 22 Jan 2022 07:21:29 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52802 "EHLO
+        id S235629AbiAWF7T (ORCPT <rfc822;lists+linux-wpan@lfdr.de>);
+        Sun, 23 Jan 2022 00:59:19 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54902 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234495AbiAVMV2 (ORCPT
-        <rfc822;linux-wpan@vger.kernel.org>); Sat, 22 Jan 2022 07:21:28 -0500
-Received: from mail-pj1-x1029.google.com (mail-pj1-x1029.google.com [IPv6:2607:f8b0:4864:20::1029])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EA2A5C06173D
-        for <linux-wpan@vger.kernel.org>; Sat, 22 Jan 2022 04:21:27 -0800 (PST)
-Received: by mail-pj1-x1029.google.com with SMTP id w12-20020a17090a528c00b001b276aa3aabso16073564pjh.0
-        for <linux-wpan@vger.kernel.org>; Sat, 22 Jan 2022 04:21:27 -0800 (PST)
+        with ESMTP id S235591AbiAWF7T (ORCPT
+        <rfc822;linux-wpan@vger.kernel.org>); Sun, 23 Jan 2022 00:59:19 -0500
+Received: from mail-lj1-x22f.google.com (mail-lj1-x22f.google.com [IPv6:2a00:1450:4864:20::22f])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 10676C06173B
+        for <linux-wpan@vger.kernel.org>; Sat, 22 Jan 2022 21:59:18 -0800 (PST)
+Received: by mail-lj1-x22f.google.com with SMTP id a25so4037870lji.9
+        for <linux-wpan@vger.kernel.org>; Sat, 22 Jan 2022 21:59:17 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=mime-version:sender:from:date:message-id:subject:to;
-        bh=QZNU9fj7yz/QO3BkTv7wNCRHLAXKVND9PUuJ109fZWI=;
-        b=eCOKGZyc4+IYdbn0C9qfIzeF/MTklVdeyZphKY2C0PwAJMZAoTVO4yiEvWfawINyxL
-         +xd3PsPkkDKVJam4bT58I574NZ/hF5Ty6MbtPRxag4cg7Y0bxn/Nt9urA0RrK6V/gnLw
-         9qTgmJMVFnBe2LOYcRJ+viu6yi40I/AnSvk3d/+IIrqUEYcdbJJ6ymMPED/g6c0ZKAeS
-         oIdIxqrU/t0xSxtN0a7CBebagdS9dLP9GbZurreQysaM98cMnF5V8H4m7rfKqxELm668
-         54DCd1/7w3u8XULsiuetU5RMcbCMiEhVekf2x6qSN7JEnMtgi28cMq3VpRdFzyrxn0NA
-         OUCA==
+        h=mime-version:reply-to:from:date:message-id:subject:to;
+        bh=/rL+TycpMQLfB5P4Zn9xgGfUWg8yPCNTwrE46ZNldMM=;
+        b=CYbaMycKzb4qUsPZGJwcI9hR7eKq9AgoB78/l8p4IuFy606QyAwthkml19Nei4XdMQ
+         7cPxgHuNa5/pt1JzkP+2aEEHEZNna+L1aAwED5GVo152iiCL4mpwykJJYpbMJEexPgiq
+         aTh5fUJBUS6lMHJlVBlj/pa4jRX29ZnlNAWnNEOhOxNeCqpGKaNbF5G3q2lMWHeTC/gx
+         XX68ZxV7dMNB8qKZIrrPl9LUTNTZeWgRtnisHVW70fqxCkaKmHSQttUNSVtmXbwnPpM2
+         eXq8hEqSfQcEmubSIPs7Zkrh2meV7QhnWVVX8a+ejokM1xd6QGcqgy1VULoAYmPsOQBN
+         gPIg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:sender:from:date:message-id:subject
-         :to;
-        bh=QZNU9fj7yz/QO3BkTv7wNCRHLAXKVND9PUuJ109fZWI=;
-        b=qA8NK40vlC3ZS0zuwihfkbPBDN73IHwVvukr+XW6tQDu3tc4bVKY2dDbDtML20BPMT
-         3ORf+Ye+P0JwQbmn6eiOAF6ilmAT9/AMvB2wcHaIGK+1TavQPCr86uLFiIjJ6sxuhCls
-         +bxBUPl/itlpKaK6s3oaa/1RaVR/uF08qRKYQXZcA6yKhPC37hMfq55Hy2QYRC7aqHBE
-         rgSglCAov4eHdngil9mqlsgT9qfkbjgL1nDMjnxsWdDDzW1OOucCsckhK4LA0uukIsEu
-         9b15Fl6rVxzeK67kjFmmKDyAWvTk0r0Sjd+m8seFuDbpuPRd1a3ZYSugbR6MUAaBlaKp
-         vdjQ==
-X-Gm-Message-State: AOAM532Bj9EuJoUeAFpK1x8nhba8mgq7+LvPAdrqduKITc7Ft0desV/+
-        UmZSXqcJXvT3pV5nEFbCHNH1PJ+r5rk7+HGo4Fo=
-X-Google-Smtp-Source: ABdhPJyo5P+FGdwt3ySyUBpNN9oUSIECeOYdjIU8YMmKOw37vEX+SisrGz6Ytgip3WEwRmdeftG1qf2RW0dHaadoFhg=
-X-Received: by 2002:a17:902:8695:b0:14a:f006:db03 with SMTP id
- g21-20020a170902869500b0014af006db03mr7267652plo.173.1642854087273; Sat, 22
- Jan 2022 04:21:27 -0800 (PST)
+        h=x-gm-message-state:mime-version:reply-to:from:date:message-id
+         :subject:to;
+        bh=/rL+TycpMQLfB5P4Zn9xgGfUWg8yPCNTwrE46ZNldMM=;
+        b=E9ZDcQQ/IuObQ1qorlXTHbbgg3TzHhnTQI3XchwB+7n7g1llIX3M2ClMiP+9dWBI/e
+         1bDXl9ohISncafdv4yGRX2bXVUhI2e+PYPK4WS/uMMq/Tsq6FlBcGTb1ILEi06Lr4wwU
+         FiauTKGs3LaO+AWFjQ8fP6y+5bFCh1b7k2UGQttkQ1J/V/XuDVlc8cgxjG3kNZtrvwyN
+         OPNpg9rNoaAWjU00S1WNR2Qgft5yfcfhKT0r+jcQ11tt50I6ywVhVtkzQ3WgvSISG1/0
+         PQuD78ux0tawI+sqI/S/DyadhlxAqcaxNm+S42vpCrQeUD9Y9cyi1Ap7JDGdVf+VU9Mt
+         zCKg==
+X-Gm-Message-State: AOAM530Y6Rud1JaxoulQVv2WAHv/Juu2i6sgxONnKhPA0AVsrT8tJlsx
+        PQjrLDR1TqghyeqA6i5imb8KAbdkCCccrd9c0J0=
+X-Google-Smtp-Source: ABdhPJxTAU1xhHW89Lvfdf3I31VPMrTFAv/PmaA8EMnherp/jyFSHuKORE1uMq+CoEfM5LltiRpIra7zz1A92RStmIc=
+X-Received: by 2002:a2e:58b:: with SMTP id 133mr531934ljf.192.1642917556121;
+ Sat, 22 Jan 2022 21:59:16 -0800 (PST)
 MIME-Version: 1.0
-Sender: rosejohncarlson@gmail.com
-Received: by 2002:a05:6a10:440b:0:0:0:0 with HTTP; Sat, 22 Jan 2022 04:21:26
+Received: by 2002:a05:6512:31d2:0:0:0:0 with HTTP; Sat, 22 Jan 2022 21:59:14
  -0800 (PST)
-From:   "helen.carlsen" <helen.carlsen26@gmail.com>
-Date:   Sat, 22 Jan 2022 13:21:26 +0100
-X-Google-Sender-Auth: YmmpnwNY3SDCdLVLnpigs7nmPdo
-Message-ID: <CACeO-SmvWBNggRZqyF18=ep8i5kumQ5z19AuEOZjywO=Mpve+w@mail.gmail.com>
-Subject: Dearest,
+Reply-To: dravasmith27@gmail.com
+From:   Dr Ava Smith <raqsacrx@gmail.com>
+Date:   Sat, 22 Jan 2022 21:59:14 -0800
+Message-ID: <CAP7=Wk78VOT2xHny=birXxWewh_qvwYtin2NsL41LseGXj_ptA@mail.gmail.com>
+Subject: GREETINGS FROM DR AVA SMITH
 To:     undisclosed-recipients:;
 Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-wpan.vger.kernel.org>
 X-Mailing-List: linux-wpan@vger.kernel.org
 
- Dearest,
-
-
- I sent this mail praying it will found you in a good condition of
-health, since I myself are in a very critical health condition in
-which I sleep every night without knowing if I may be alive to see the
-next day.am Mrs.Helen John carlsen, wife of late Mrs.Helen John
-carlsen, a widow suffering from long time illness.I have some funds I
-inherited from my late husband, the sum of($ 11.000.000,eleven million
-dollars) my Doctor told me recently that I have serious sickness which
-is cancer problem. What disturbs me most is my stroke sickness.Having
-known my condition, I decided to donate this fund to a good person
-that will utilize it the way i am going to instruct herein. I need a
-very honest and God fearing person who can claim this money and use it
-for Charity works,for orphanages, widows and also build schools for
-less privileges that will be named after my late husband if possible
-and to promote the word of God and the effort that the house of God is
-maintained.
-
-I do not want a situation where this money will be used in an ungodly
-manner.That's why am taking this decision.am not afraid of death so I
-know where am going.I accept this decision because I do not have any
-child who will inherit this money after I die.Please I want your
-sincerely and urgent answer to know if you will be able to execute
-this project, and I will give you more information on how the fund
-will be transferred to your bank account.am waiting for your reply.
-
-Best Regards,
-Mrs.Helen John carlsen,
+-- 
+Hello Dear,
+how are you today?hope you are fine
+My name is Dr Ava Smith ,Am an English and French nationalities.
+I will give you pictures and more details about me as soon as i hear from you
+Thanks
+Ava
