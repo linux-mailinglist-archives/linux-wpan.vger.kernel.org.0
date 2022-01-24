@@ -2,101 +2,105 @@ Return-Path: <linux-wpan-owner@vger.kernel.org>
 X-Original-To: lists+linux-wpan@lfdr.de
 Delivered-To: lists+linux-wpan@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id BB7D9498030
-	for <lists+linux-wpan@lfdr.de>; Mon, 24 Jan 2022 13:59:35 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 27538498275
+	for <lists+linux-wpan@lfdr.de>; Mon, 24 Jan 2022 15:31:37 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S242944AbiAXM73 (ORCPT <rfc822;lists+linux-wpan@lfdr.de>);
-        Mon, 24 Jan 2022 07:59:29 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43696 "EHLO
+        id S238723AbiAXObf (ORCPT <rfc822;lists+linux-wpan@lfdr.de>);
+        Mon, 24 Jan 2022 09:31:35 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37530 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S242887AbiAXM7M (ORCPT
-        <rfc822;linux-wpan@vger.kernel.org>); Mon, 24 Jan 2022 07:59:12 -0500
-Received: from mail-lf1-x129.google.com (mail-lf1-x129.google.com [IPv6:2a00:1450:4864:20::129])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4C19CC061756;
-        Mon, 24 Jan 2022 04:59:11 -0800 (PST)
-Received: by mail-lf1-x129.google.com with SMTP id x11so49085789lfa.2;
-        Mon, 24 Jan 2022 04:59:11 -0800 (PST)
+        with ESMTP id S239880AbiAXOb0 (ORCPT
+        <rfc822;linux-wpan@vger.kernel.org>); Mon, 24 Jan 2022 09:31:26 -0500
+Received: from mail-ed1-x541.google.com (mail-ed1-x541.google.com [IPv6:2a00:1450:4864:20::541])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id F4003C061749
+        for <linux-wpan@vger.kernel.org>; Mon, 24 Jan 2022 06:31:25 -0800 (PST)
+Received: by mail-ed1-x541.google.com with SMTP id n10so41307995edv.2
+        for <linux-wpan@vger.kernel.org>; Mon, 24 Jan 2022 06:31:25 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=message-id:date:mime-version:user-agent:subject:content-language:to
-         :references:from:in-reply-to:content-transfer-encoding;
-        bh=hy9h7krpA8HSqyaSzpL6OuBy89OEy4yHH0P9Egx8wMU=;
-        b=nqOBZDOFIM1Lg2pZJTU9REB16Pi35arSZfYjb2hDggpiW/R9YROp+HImquIJNCHScq
-         vUV7GbyRji32u+80rl/FZNU+1+4x258iXkLwQC4h/JbSwq2WWkiRf58rOstVz881uP0+
-         0h7atkDx1N572sJ6VjRdjzu0e0GzHQe0NcmZOKhjm49a0U565HYU4c0DHLmGWaXcI4EK
-         7vTK/fcUCh9tAYy2vse1gZrpiDX91m+GhlDkrH3R6a98FdjuCeilnIEHaJVxRYfftTdc
-         LHrcrt6zVABs/EP9TVSZrebf1s9TEl175+68+WU1BVvbI+dv2ErCW7QjWXl67R7pmWh9
-         TJBg==
+        h=mime-version:from:date:message-id:subject:to
+         :content-transfer-encoding;
+        bh=lJAHaBvYc9TIcgRbHPBdsMDrFiopg4NTSE13XM4jY00=;
+        b=Dg9lwmIIKa8SIIvY+V4XfFI3+LY6qoPmNtpPtdUNsZr7FY8tqHHvdLGUitZcom9peL
+         r6kcLKa0VSjZkMMPjxsJ7ZMkJFNXEApE6M5xQj1BsvMIsgpQpb79TG+YzCvNY4WS7gSj
+         jQ9J9jJufRf7Ac0l39ZpFiQZ7PWjzV8DbghYDztTWJf/kqlLVS6V7//ue+y5LbQgVg3/
+         AOe7XzsEofz6xhjjx6PLU92kOi5QodFPKqdjT7PCzvkH3/0qxOmUl2kGM6XYUCu2lURo
+         ZpnWC0Oep5rKT+xzDyf+bXRxAPBL//td7bzRvRl+pWJjz5S8mN2MBCKlPRrGAxIsKcn0
+         hweg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
-         :content-language:to:references:from:in-reply-to
+        h=x-gm-message-state:mime-version:from:date:message-id:subject:to
          :content-transfer-encoding;
-        bh=hy9h7krpA8HSqyaSzpL6OuBy89OEy4yHH0P9Egx8wMU=;
-        b=KFxDMGQu2h08ZRYc7cHRGWNO41V7yeNgMjpnu3ouMpIu9dC+E5Sh1rLQ1vOxzKKG+r
-         EBSB8sg4rJvWGzgFbmT5h50rYtVLiW7R0rRoWEUBHBDS5pAGFP7Za+uXDPZwci0IwuqJ
-         6KZaD44KawXTaA42HayuMynTC03SWo7wArdSfTGcYv6gSJ0PpZ5AX8eC2UQfWO3A8awC
-         1SZuKLrLLtwb22Jgki9OaxxvpOqixW/cDBxMd6X26mDuG3kB8K+wyeRP7P34HD2nMwdE
-         2ygd6/XeQ1Wm8vSIVq5d5bAYwmJiQYMyhv5dNV4V4ZziofMu8iBw0ViGU/P982uRcrxL
-         hMXQ==
-X-Gm-Message-State: AOAM532LB+W5OjIQ32WzocwrZ7SpGkPaM+wd4wKitPvks2QyU9AT8bFh
-        TJkjXOKmczAUN5ppnKWqeCY=
-X-Google-Smtp-Source: ABdhPJwI/7v8+jOw7RZaWhse02D+Um2AWJGt9KRF2IS1WPJN5qzN/xCjROOPzwZeTh7NCh2Z2/nRiw==
-X-Received: by 2002:a19:6b0b:: with SMTP id d11mr12892908lfa.594.1643029149450;
-        Mon, 24 Jan 2022 04:59:09 -0800 (PST)
-Received: from [192.168.1.11] ([94.103.227.208])
-        by smtp.gmail.com with ESMTPSA id i6sm1162352lfe.52.2022.01.24.04.59.08
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 24 Jan 2022 04:59:08 -0800 (PST)
-Message-ID: <3d071cde-9eff-c6c3-63bc-827e74f2e9ea@gmail.com>
-Date:   Mon, 24 Jan 2022 15:59:07 +0300
+        bh=lJAHaBvYc9TIcgRbHPBdsMDrFiopg4NTSE13XM4jY00=;
+        b=EAOsj2FZWAKFkI7TsQ7ZqCowxuW97lTo8i1XfnpCa2VIquCrm3yLZc4OWWiKZ6dlpm
+         2mkMIkAra3IXD7udkQyJzOedNU0YCeJtvgwCKV/lxnI9dANjcZD2z/v+6BnV5yEYWzOD
+         8830UFP0y9f5OQjnczeME8FCe+LiR8tp6cHh7NbEcoUIHUig92Q67UJ0XsesTlK6fw5+
+         YUfbtAROl7R22+FZLbPuTZIxSFjD//jAMV3jgF4DWUwPNRotPI0ItDz1C+PgfeumX2SU
+         1bJKH6jR4w0zR0Q4pUxF3Or/7d6lYgnzyGcsCey9WBWo3b3xbzsmAmBwDSc3og9TVrS0
+         FVvw==
+X-Gm-Message-State: AOAM531ccppuC7wZx3d+jQ/0ODlIQ4ALtn+FsXP/Hiz/Psg+vK3zwRMQ
+        7Eg+o2YAsjVGQExpPmgY+C+jLtk+sFop72CT/Ao=
+X-Google-Smtp-Source: ABdhPJx5+G9kiedCeR0JAaElZrBy81Zifq+uuoGAuM17HocACtQpC2pAHYiCrKZLfMSsbUVDhvYHXLWMkbP/u8wcXtA=
+X-Received: by 2002:a05:6402:1bcc:: with SMTP id ch12mr16361770edb.227.1643034684496;
+ Mon, 24 Jan 2022 06:31:24 -0800 (PST)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.5.0
-Subject: Re: [syzbot] UBSAN: shift-out-of-bounds in nl802154_new_interface
-Content-Language: en-US
-To:     syzbot <syzbot+7bf7b22759195c9a21e9@syzkaller.appspotmail.com>,
-        aahringo@redhat.com, alex.aring@gmail.com,
-        anant.thazhemadam@gmail.com, davem@davemloft.net, kuba@kernel.org,
-        linux-kernel@vger.kernel.org, linux-wpan@vger.kernel.org,
-        netdev@vger.kernel.org, stefan@datenfreihafen.org,
-        syzkaller-bugs@googlegroups.com
-References: <000000000000f09fca05d41a8aee@google.com>
-From:   Pavel Skripkin <paskripkin@gmail.com>
-In-Reply-To: <000000000000f09fca05d41a8aee@google.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Received: by 2002:a50:3f4d:0:0:0:0:0 with HTTP; Mon, 24 Jan 2022 06:31:23
+ -0800 (PST)
+From:   mrnormn saleem <mrnormnsaleem@gmail.com>
+Date:   Mon, 24 Jan 2022 06:31:23 -0800
+Message-ID: <CAA5jn2x-CObR64O=uoLXNQKuGOvbYbq7KYU0waeW7C0S+1=WaQ@mail.gmail.com>
+Subject: MY SECRETARY
+To:     undisclosed-recipients:;
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 List-ID: <linux-wpan.vger.kernel.org>
 X-Mailing-List: linux-wpan@vger.kernel.org
 
-On 12/27/21 09:09, syzbot wrote:
-> syzbot suspects this issue was fixed by commit:
-> 
-> commit 451dc48c806a7ce9fbec5e7a24ccf4b2c936e834
-> Author: Alexander Aring <aahringo@redhat.com>
-> Date:   Fri Nov 12 03:09:16 2021 +0000
-> 
->      net: ieee802154: handle iftypes as u32
-> 
-> bisection log:  https://syzkaller.appspot.com/x/bisect.txt?x=1084d10db00000
-> start commit:   ec681c53f8d2 Merge tag 'net-5.15-rc6' of git://git.kernel...
-> git tree:       upstream
-> kernel config:  https://syzkaller.appspot.com/x/.config?x=bab9d35f204746a7
-> dashboard link: https://syzkaller.appspot.com/bug?extid=7bf7b22759195c9a21e9
-> syz repro:      https://syzkaller.appspot.com/x/repro.syz?x=14398d94b00000
-> C reproducer:   https://syzkaller.appspot.com/x/repro.c?x=117fc40cb00000
-> 
-> If the result looks correct, please mark the issue as fixed by replying with:
-> 
-> #syz fix: net: ieee802154: handle iftypes as u32
-> 
-> For information about bisection process see: https://goo.gl/tpsmEJ#bisection
+I'M SORRY BUT HAPPY TO INFORM YOU ABOUT MY SUCCESS IN GETTING THOSE
+FUNDS TRANSFERRED UNDER THE CO-OPERATION OF A NEW PARTNER FROM
+PARAGUAY THOUGH I TRIED MY BEST TO INVOLVE YOU IN THE GOLD/DIAMOND,
+BUSINESS BUT GOD DECIDED THE WHOLE SITUATIONS. PRESENTLY I AM IN
+UNITED ARAB EMIRATES FOR INVESTMENT PROJECTS WITH MY OWN SHARE OF THE
+TOTAL SUM.
 
-#syz fix: net: ieee802154: handle iftypes as u32
+MEANWHILE, I DIDN'T FORGET YOU=E2=80=99RE PAST EFFORTS AND ATTEMPTS TO ASSI=
+ST
+ME IN TRANSFERRING THOSE FUNDS DESPITE THAT IT FAILED US SOMEHOW.
 
+NOW CONTACT MY SECRETARY IN BURKINA FASO.
+HIS NAME: MR. NELSON SALAH.
+HIS E-MAIL: nelsonsalah1@aol.com
 
+ASK HIM TO SEND YOU THE VISA CARD TOTAL SUM OF ($2.500, 000.00.USD)
+WHICH I KEPT FOR YOUR COMPENSATION FOR ALL THE PAST EFFORTS AND
+ATTEMPTS TO ASSIST ME IN THIS MATTER. I APPRECIATED YOUR EFFORTS AT
+THAT TIME VERY MUCH. SO FEEL FREE AND GET IN TOUCHED WITH MY
+SECRETARY. MR. NELSON SALAH AND INSTRUCT HIM WHERE TO SEND THE VISA
+CARD TO YOU VALUE SUM OF ($2.500, 000.00.USD)
 
+NOW THIS AMOUNT IS ME AND THE NEW PARTNER CONTRIBUTE AND OFFER YOU
+THIS AMOUNT ($ 1.500, 000.00.USD) IS FROM MY OWN SHARE WHILE MY NEW
+PARTNER SUPPORTED YOU ALSO WITH SUM OF ($ 1000000.00 USD) FROM HIS OWN
+SHARE ALSO BECAUSE I EXPLAIN THE WHOLE THING TO HIM THAT YOU ARE THE
+FIRST PERSON I CONTACTED THAT WANTED TO ASSIST ME BUT YOU COULD NOT
+MAKE IT AND HE SAID OKAY THERE IS NO PROBLEM.
 
-With regards,
-Pavel Skripkin
+SO THAT YOU WILL KEPT THE WHOLE SECRET ABOUT MY SUCCESS BECAUSE I KNEW
+THAT IT WAS ONLY YOU KNOW HOW I MADE THE MONEY SO TRY TO KEPT
+EVERYTHING VERY SECRET. I HOPE YOU UNDERSTAND THE REASON WHY THIS HUGE
+AMOUNT OF FUNDS WAS KEPT FOR YOU?
+
+PLEASE DO LET ME KNOW IMMEDIATELY YOU RECEIVE THE VISA CARD SO THAT WE
+CAN SHARE THE JOY AFTER ALL THE SUFFERINGS AT THAT TIME. IN THE
+MOMENT, I AM VERY BUSY HERE BECAUSE OF THE INVESTMENT PROJECTS WHICH I
+AND THE NEW PARTNER ARE HAVING AT HAND, FINALLY,
+
+REMEMBER THAT I HAD FORWARDED INSTRUCTION TO THE SECRETARY ON YOUR
+BEHALF TO RECEIVE THAT MONEY, SO FEEL FREE TO KEEP IN TOUCH WITH HIM,
+SO THAT HE WILL SEND THE VISA CARD VALUE SUM OF ($2.500, 000.00.USD)
+TWO MILLION FIVE HUNDRED THOUSAND UNITED STATE DOLLARS TO YOU WITHOUT
+ANY DELAY.
+
+BEST REGARDS,
+MR. NORMAN SALEEM.
