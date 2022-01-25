@@ -2,122 +2,74 @@ Return-Path: <linux-wpan-owner@vger.kernel.org>
 X-Original-To: lists+linux-wpan@lfdr.de
 Delivered-To: lists+linux-wpan@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id BF64049B273
-	for <lists+linux-wpan@lfdr.de>; Tue, 25 Jan 2022 12:01:38 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id AF04149B2B8
+	for <lists+linux-wpan@lfdr.de>; Tue, 25 Jan 2022 12:11:18 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1379839AbiAYLAA convert rfc822-to-8bit (ORCPT
-        <rfc822;lists+linux-wpan@lfdr.de>); Tue, 25 Jan 2022 06:00:00 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45910 "EHLO
+        id S1380498AbiAYLJm (ORCPT <rfc822;lists+linux-wpan@lfdr.de>);
+        Tue, 25 Jan 2022 06:09:42 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47900 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1379908AbiAYK6f (ORCPT
-        <rfc822;linux-wpan@vger.kernel.org>); Tue, 25 Jan 2022 05:58:35 -0500
-Received: from relay3-d.mail.gandi.net (relay3-d.mail.gandi.net [IPv6:2001:4b98:dc4:8::223])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A19CDC06173D;
-        Tue, 25 Jan 2022 02:58:34 -0800 (PST)
-Received: (Authenticated sender: miquel.raynal@bootlin.com)
-        by mail.gandi.net (Postfix) with ESMTPSA id BB4A06000B;
-        Tue, 25 Jan 2022 10:58:29 +0000 (UTC)
-Date:   Tue, 25 Jan 2022 11:58:28 +0100
-From:   Miquel Raynal <miquel.raynal@bootlin.com>
-To:     Alexander Aring <alex.aring@gmail.com>
-Cc:     Stefan Schmidt <stefan@datenfreihafen.org>,
-        linux-wpan - ML <linux-wpan@vger.kernel.org>,
-        "David S. Miller" <davem@davemloft.net>,
-        Jakub Kicinski <kuba@kernel.org>,
-        "open list:NETWORKING [GENERAL]" <netdev@vger.kernel.org>,
-        Xue Liu <liuxuenetmail@gmail.com>,
-        Marcel Holtmann <marcel@holtmann.org>,
-        Harry Morris <harrymorris12@gmail.com>,
-        David Girault <david.girault@qorvo.com>,
-        Romuald Despres <romuald.despres@qorvo.com>,
-        Frederic Blain <frederic.blain@qorvo.com>,
-        Nicolas Schodet <nico@ni.fr.eu.org>,
-        Thomas Petazzoni <thomas.petazzoni@bootlin.com>
-Subject: Re: [wpan-next v2 4/9] net: ieee802154: at86rf230: Stop leaking
- skb's
-Message-ID: <20220125115828.74738f60@xps13>
-In-Reply-To: <CAB_54W6GLqY69D=kmjiGCaVHh1+vjKp8OtdS77Nu-bZRqELjNw@mail.gmail.com>
-References: <20220120112115.448077-1-miquel.raynal@bootlin.com>
-        <20220120112115.448077-5-miquel.raynal@bootlin.com>
-        <CAB_54W721DFUw+qu6_UR58GFvjLxshmxiTE0DX-DNNY-XLskoQ@mail.gmail.com>
-        <CAB_54W4qLJQhPYY1h-88VK7n554SdtY9CLF3U5HLR6QS4i4tNA@mail.gmail.com>
-        <CAB_54W6GLqY69D=kmjiGCaVHh1+vjKp8OtdS77Nu-bZRqELjNw@mail.gmail.com>
-Organization: Bootlin
-X-Mailer: Claws Mail 3.17.7 (GTK+ 2.24.32; x86_64-pc-linux-gnu)
+        with ESMTP id S1380518AbiAYLH1 (ORCPT
+        <rfc822;linux-wpan@vger.kernel.org>); Tue, 25 Jan 2022 06:07:27 -0500
+Received: from mail-ua1-x936.google.com (mail-ua1-x936.google.com [IPv6:2607:f8b0:4864:20::936])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5D7BBC06176A
+        for <linux-wpan@vger.kernel.org>; Tue, 25 Jan 2022 03:07:24 -0800 (PST)
+Received: by mail-ua1-x936.google.com with SMTP id l1so34800135uap.8
+        for <linux-wpan@vger.kernel.org>; Tue, 25 Jan 2022 03:07:24 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=mime-version:reply-to:from:date:message-id:subject:to;
+        bh=btOBSAVbRXNcjKNGbX2tpr73qlDr0jyq5kkuAJ7+oc0=;
+        b=p6AQVYORnfzWJA1qkN49z2xLtl8tHHoAOilUfHiZ4ZIWqnFUgL01LW0WPayEz+AKlU
+         LXocbggIa1ork6Mf9XxRUmr0npMzGMjwzYf0fzfXswl6vSRievGj9Y4DUW/hfOdZaEri
+         M4kY6jIUPlRsXkGAoeoqho+F068D06l89t6G+1UTyTwfW5lAmiNbg9BRYLIpMkShIvIC
+         G55Yz9N4WI3WuHB2oZFMT2m52dMzUCNHafpWSBwZKnVy6dnyd5UgF8Jl96mGZ+tnIzCF
+         IGhtb5qnlVW6XPjzDJXfCZdo613z7egytFoXiZaPmtPUiF7Yooebvw+FVLA8uOnKSSvV
+         04GA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:mime-version:reply-to:from:date:message-id
+         :subject:to;
+        bh=btOBSAVbRXNcjKNGbX2tpr73qlDr0jyq5kkuAJ7+oc0=;
+        b=fNHghTYX6L4UV5V5fru9CXTPwr08xBqMgXPAMjahLt8HrLscwQgIa1TQJQpqMJ1O7O
+         0oSm6fjhM6QuKGEnRCAXQCt/xsCciHFLF6K26R6ZgcRVlSRfUyI8Jc8bhDiyB0HY8O0r
+         v+WrrtBqGNZSJEJlTjtdRVArWMGff1I03vOCjdkg9WEAnBzXnCMX/mb9Wf687YSigYwp
+         uaHW/EqIPUEQSWxgNV/tsm0CoZwqXUebB8q4EnPmTdhKNb9f5QSaEAp6hJkko1vsNm9k
+         jtS9bSFYsyMiXL483pDHjYmPcR3OLyOS7NhMk/pCnPw2Cbqq3M4hj9ozSjPiU4Hi8aWI
+         x0XA==
+X-Gm-Message-State: AOAM533Kowi+KxY0pfafyZXmuncdEUBa+N3uL/voyRlIrh09pTp8abUW
+        Sw/QWvjrGWzBavfYjQ2pr52mZSYdx5oou9/jfoE=
+X-Google-Smtp-Source: ABdhPJw7SnittQKYK2vhjz+6faxIi2GlvVkVMFCAzRKShhwLohuY13lK6PSjtEaXKKYPChv5BzVx+P5AWgJds9DFZ5Q=
+X-Received: by 2002:a67:d28a:: with SMTP id z10mr1084060vsi.86.1643108843575;
+ Tue, 25 Jan 2022 03:07:23 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8BIT
+Received: by 2002:a59:d8ca:0:b0:27a:8edf:d259 with HTTP; Tue, 25 Jan 2022
+ 03:07:23 -0800 (PST)
+Reply-To: rhodamohammed02@gmail.com
+From:   hellena mugabe <roselinejohnson2016@gmail.com>
+Date:   Tue, 25 Jan 2022 12:07:23 +0100
+Message-ID: <CAOg9ddQZ0V=VMZ7yDhFPKGXE6ZL3-0bHs8WAO2=CJFp-ny2rmg@mail.gmail.com>
+Subject: From Mrs.Rhoda Ahmmed H.Mohammed/ READ AND ANSWER
+To:     undisclosed-recipients:;
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-wpan.vger.kernel.org>
 X-Mailing-List: linux-wpan@vger.kernel.org
 
-Hi Alexander,
-
-alex.aring@gmail.com wrote on Sun, 23 Jan 2022 18:14:12 -0500:
-
-> Hi,
-> 
-> On Sun, 23 Jan 2022 at 17:41, Alexander Aring <alex.aring@gmail.com> wrote:
-> >
-> > Hi,
-> >
-> > On Sun, 23 Jan 2022 at 15:43, Alexander Aring <alex.aring@gmail.com> wrote:  
-> > >
-> > > Hi,
-> > >
-> > > On Thu, 20 Jan 2022 at 06:21, Miquel Raynal <miquel.raynal@bootlin.com> wrote:  
-> > > >
-> > > > Upon error the ieee802154_xmit_complete() helper is not called. Only
-> > > > ieee802154_wake_queue() is called manually. We then leak the skb
-> > > > structure.
-> > > >
-> > > > Free the skb structure upon error before returning.
-> > > >
-> > > > There is no Fixes tag applying here, many changes have been made on this
-> > > > area and the issue kind of always existed.
-> > > >
-> > > > Signed-off-by: Miquel Raynal <miquel.raynal@bootlin.com>
-> > > > ---
-> > > >  drivers/net/ieee802154/at86rf230.c | 1 +
-> > > >  1 file changed, 1 insertion(+)
-> > > >
-> > > > diff --git a/drivers/net/ieee802154/at86rf230.c b/drivers/net/ieee802154/at86rf230.c
-> > > > index 7d67f41387f5..0746150f78cf 100644
-> > > > --- a/drivers/net/ieee802154/at86rf230.c
-> > > > +++ b/drivers/net/ieee802154/at86rf230.c
-> > > > @@ -344,6 +344,7 @@ at86rf230_async_error_recover_complete(void *context)
-> > > >                 kfree(ctx);
-> > > >
-> > > >         ieee802154_wake_queue(lp->hw);
-> > > > +       dev_kfree_skb_any(lp->tx_skb);  
-> > >
-> > > as I said in other mails there is more broken, we need a:
-> > >
-> > > if (lp->is_tx) {
-> > >         ieee802154_wake_queue(lp->hw);
-> > >         dev_kfree_skb_any(lp->tx_skb);
-> > >         lp->is_tx = 0;
-> > > }
-> > >
-> > > in at86rf230_async_error_recover().
-> > >  
-> > s/at86rf230_async_error_recover/at86rf230_async_error_recover_complete/
-> >
-> > move the is_tx = 0 out of at86rf230_async_error_recover().  
-> 
-> Sorry, still seeing an issue here.
-> 
-> We cannot move is_tx = 0 out of at86rf230_async_error_recover()
-> because switching to RX_AACK_ON races with a new interrupt and is_tx
-> is not correct anymore. We need something new like "was_tx" to
-> remember that it was a tx case for the error handling in
-> at86rf230_async_error_recover_complete().
-
-It wasn't easy to catch...
-
-I've added a was_tx boolean which is set at the same time is_tx is
-reset. Then, in the complete handler, if was_tx was set we reset it and
-run the kfree/wake calls. I believe this should sort it out.
-
-Thanks,
-Miquèl
+Please reply me to my personal email address(
+rhodamohammed2022@gmail.com  ) for more details , Hello Dear,I am
+Mrs.Rhoda Ahmmed Mohammed, the Wife of late Chief Ahmmed  H. Mohammed,
+a native of Mende district in the northern province of Sierra Leone,
+before the death of my late Husband,He was appointed as the Director
+of Sierra Leone mining cooperation (S.L.M.C) Freetown, According to my
+husband, this huge money was accrued from mining cooperation, diamonds
+and Gold sales overdrafts and minor sales,I am looking for a Serious
+Investor that will help me because my late Family wanted to kill me
+and collect the Deposit Certificate and Agreement Certificate from me
+but I run away from my country with the Documents,I want a God
+fearing, honest and trustworthy person that will help me receive this
+money in your Bank Account and Invest the money in your country or any
+country of your  choice, it is very urgent please.I will give you the
+full details as soon as you get back to me through my personal email
+addres rhodamohammed2022@gmail.com   )Mrs.Rhoda
+hmmed H.Mohammed
