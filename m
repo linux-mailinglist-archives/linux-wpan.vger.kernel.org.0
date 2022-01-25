@@ -2,19 +2,22 @@ Return-Path: <linux-wpan-owner@vger.kernel.org>
 X-Original-To: lists+linux-wpan@lfdr.de
 Delivered-To: lists+linux-wpan@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id A702249B22A
-	for <lists+linux-wpan@lfdr.de>; Tue, 25 Jan 2022 11:46:35 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id BF64049B273
+	for <lists+linux-wpan@lfdr.de>; Tue, 25 Jan 2022 12:01:38 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1349733AbiAYKm1 convert rfc822-to-8bit (ORCPT
-        <rfc822;lists+linux-wpan@lfdr.de>); Tue, 25 Jan 2022 05:42:27 -0500
-Received: from relay9-d.mail.gandi.net ([217.70.183.199]:37617 "EHLO
-        relay9-d.mail.gandi.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1353423AbiAYKkS (ORCPT
-        <rfc822;linux-wpan@vger.kernel.org>); Tue, 25 Jan 2022 05:40:18 -0500
+        id S1379839AbiAYLAA convert rfc822-to-8bit (ORCPT
+        <rfc822;lists+linux-wpan@lfdr.de>); Tue, 25 Jan 2022 06:00:00 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45910 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1379908AbiAYK6f (ORCPT
+        <rfc822;linux-wpan@vger.kernel.org>); Tue, 25 Jan 2022 05:58:35 -0500
+Received: from relay3-d.mail.gandi.net (relay3-d.mail.gandi.net [IPv6:2001:4b98:dc4:8::223])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A19CDC06173D;
+        Tue, 25 Jan 2022 02:58:34 -0800 (PST)
 Received: (Authenticated sender: miquel.raynal@bootlin.com)
-        by mail.gandi.net (Postfix) with ESMTPSA id 9C18DFF809;
-        Tue, 25 Jan 2022 10:40:10 +0000 (UTC)
-Date:   Tue, 25 Jan 2022 11:40:09 +0100
+        by mail.gandi.net (Postfix) with ESMTPSA id BB4A06000B;
+        Tue, 25 Jan 2022 10:58:29 +0000 (UTC)
+Date:   Tue, 25 Jan 2022 11:58:28 +0100
 From:   Miquel Raynal <miquel.raynal@bootlin.com>
 To:     Alexander Aring <alex.aring@gmail.com>
 Cc:     Stefan Schmidt <stefan@datenfreihafen.org>,
@@ -30,13 +33,15 @@ Cc:     Stefan Schmidt <stefan@datenfreihafen.org>,
         Frederic Blain <frederic.blain@qorvo.com>,
         Nicolas Schodet <nico@ni.fr.eu.org>,
         Thomas Petazzoni <thomas.petazzoni@bootlin.com>
-Subject: Re: [wpan-next v2 1/9] net: ieee802154: hwsim: Ensure proper
- channel selection at probe time
-Message-ID: <20220125114009.49e0086a@xps13>
-In-Reply-To: <CAB_54W5k-AUJhcS0Wf7==5qApYo3-ZAU7VyDWLgdpKusZO093A@mail.gmail.com>
+Subject: Re: [wpan-next v2 4/9] net: ieee802154: at86rf230: Stop leaking
+ skb's
+Message-ID: <20220125115828.74738f60@xps13>
+In-Reply-To: <CAB_54W6GLqY69D=kmjiGCaVHh1+vjKp8OtdS77Nu-bZRqELjNw@mail.gmail.com>
 References: <20220120112115.448077-1-miquel.raynal@bootlin.com>
-        <20220120112115.448077-2-miquel.raynal@bootlin.com>
-        <CAB_54W5k-AUJhcS0Wf7==5qApYo3-ZAU7VyDWLgdpKusZO093A@mail.gmail.com>
+        <20220120112115.448077-5-miquel.raynal@bootlin.com>
+        <CAB_54W721DFUw+qu6_UR58GFvjLxshmxiTE0DX-DNNY-XLskoQ@mail.gmail.com>
+        <CAB_54W4qLJQhPYY1h-88VK7n554SdtY9CLF3U5HLR6QS4i4tNA@mail.gmail.com>
+        <CAB_54W6GLqY69D=kmjiGCaVHh1+vjKp8OtdS77Nu-bZRqELjNw@mail.gmail.com>
 Organization: Bootlin
 X-Mailer: Claws Mail 3.17.7 (GTK+ 2.24.32; x86_64-pc-linux-gnu)
 MIME-Version: 1.0
@@ -48,67 +53,71 @@ X-Mailing-List: linux-wpan@vger.kernel.org
 
 Hi Alexander,
 
-alex.aring@gmail.com wrote on Sun, 23 Jan 2022 15:34:14 -0500:
+alex.aring@gmail.com wrote on Sun, 23 Jan 2022 18:14:12 -0500:
 
 > Hi,
 > 
-> On Thu, 20 Jan 2022 at 06:21, Miquel Raynal <miquel.raynal@bootlin.com> wrote:
+> On Sun, 23 Jan 2022 at 17:41, Alexander Aring <alex.aring@gmail.com> wrote:
 > >
-> > Drivers are expected to set the PHY current_channel and current_page
-> > according to their default state. The hwsim driver is advertising being
-> > configured on channel 13 by default but that is not reflected in its own
-> > internal pib structure. In order to ensure that this driver consider the
-> > current channel as being 13 internally, we can call hwsim_hw_channel()
-> > instead of creating an empty pib structure.
+> > Hi,
 > >
-> > We assume here that kvfree_rcu(NULL) is a valid call.
+> > On Sun, 23 Jan 2022 at 15:43, Alexander Aring <alex.aring@gmail.com> wrote:  
+> > >
+> > > Hi,
+> > >
+> > > On Thu, 20 Jan 2022 at 06:21, Miquel Raynal <miquel.raynal@bootlin.com> wrote:  
+> > > >
+> > > > Upon error the ieee802154_xmit_complete() helper is not called. Only
+> > > > ieee802154_wake_queue() is called manually. We then leak the skb
+> > > > structure.
+> > > >
+> > > > Free the skb structure upon error before returning.
+> > > >
+> > > > There is no Fixes tag applying here, many changes have been made on this
+> > > > area and the issue kind of always existed.
+> > > >
+> > > > Signed-off-by: Miquel Raynal <miquel.raynal@bootlin.com>
+> > > > ---
+> > > >  drivers/net/ieee802154/at86rf230.c | 1 +
+> > > >  1 file changed, 1 insertion(+)
+> > > >
+> > > > diff --git a/drivers/net/ieee802154/at86rf230.c b/drivers/net/ieee802154/at86rf230.c
+> > > > index 7d67f41387f5..0746150f78cf 100644
+> > > > --- a/drivers/net/ieee802154/at86rf230.c
+> > > > +++ b/drivers/net/ieee802154/at86rf230.c
+> > > > @@ -344,6 +344,7 @@ at86rf230_async_error_recover_complete(void *context)
+> > > >                 kfree(ctx);
+> > > >
+> > > >         ieee802154_wake_queue(lp->hw);
+> > > > +       dev_kfree_skb_any(lp->tx_skb);  
+> > >
+> > > as I said in other mails there is more broken, we need a:
+> > >
+> > > if (lp->is_tx) {
+> > >         ieee802154_wake_queue(lp->hw);
+> > >         dev_kfree_skb_any(lp->tx_skb);
+> > >         lp->is_tx = 0;
+> > > }
+> > >
+> > > in at86rf230_async_error_recover().
+> > >  
+> > s/at86rf230_async_error_recover/at86rf230_async_error_recover_complete/
 > >
-> > Fixes: f25da51fdc38 ("ieee802154: hwsim: add replacement for fakelb")
-> > Signed-off-by: Miquel Raynal <miquel.raynal@bootlin.com>
-> > ---
-> >  drivers/net/ieee802154/mac802154_hwsim.c | 10 +---------
-> >  1 file changed, 1 insertion(+), 9 deletions(-)
-> >
-> > diff --git a/drivers/net/ieee802154/mac802154_hwsim.c b/drivers/net/ieee802154/mac802154_hwsim.c
-> > index 8caa61ec718f..795f8eb5387b 100644
-> > --- a/drivers/net/ieee802154/mac802154_hwsim.c
-> > +++ b/drivers/net/ieee802154/mac802154_hwsim.c
-> > @@ -732,7 +732,6 @@ static int hwsim_add_one(struct genl_info *info, struct device *dev,
-> >  {
-> >         struct ieee802154_hw *hw;
-> >         struct hwsim_phy *phy;
-> > -       struct hwsim_pib *pib;
-> >         int idx;
-> >         int err;
-> >
-> > @@ -780,13 +779,8 @@ static int hwsim_add_one(struct genl_info *info, struct device *dev,
-> >
-> >         /* hwsim phy channel 13 as default */
-> >         hw->phy->current_channel = 13;
-> > -       pib = kzalloc(sizeof(*pib), GFP_KERNEL);
-> > -       if (!pib) {
-> > -               err = -ENOMEM;
-> > -               goto err_pib;
-> > -       }
-> > +       hwsim_hw_channel(hw, hw->phy->current_page, hw->phy->current_channel);  
+> > move the is_tx = 0 out of at86rf230_async_error_recover().  
 > 
-> Probably you saw it already; this will end in a
-> "suspicious_RCU_usage", that's because of an additional lock check in
-> hwsim_hw_channel() which checks if rtnl is held. However, in this
-> situation it's not necessary to hold the rtnl lock because we know the
-> phy is not being registered yet.
-
-yes, indeed!
-
+> Sorry, still seeing an issue here.
 > 
-> Either we change it to rcu_derefence() but then we would reduce the
-> check if rtnl lock is being held or just simply initial the default
-> pib->channel here to 13 which makes that whole patch a one line fix.
+> We cannot move is_tx = 0 out of at86rf230_async_error_recover()
+> because switching to RX_AACK_ON races with a new interrupt and is_tx
+> is not correct anymore. We need something new like "was_tx" to
+> remember that it was a tx case for the error handling in
+> at86rf230_async_error_recover_complete().
 
-In general I like to drop more lines than I add, hence my first choice
-but just setting pib->channel to 13 also makes sense here and avoids
-oversimplifying the rtnl check in hwsim_hw_channel(), so let's go for
-it.
+It wasn't easy to catch...
+
+I've added a was_tx boolean which is set at the same time is_tx is
+reset. Then, in the complete handler, if was_tx was set we reset it and
+run the kfree/wake calls. I believe this should sort it out.
 
 Thanks,
 Miquèl
