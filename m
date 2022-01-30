@@ -2,79 +2,66 @@ Return-Path: <linux-wpan-owner@vger.kernel.org>
 X-Original-To: lists+linux-wpan@lfdr.de
 Delivered-To: lists+linux-wpan@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 5D41349FCB3
-	for <lists+linux-wpan@lfdr.de>; Fri, 28 Jan 2022 16:20:21 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id C94DA4A33D4
+	for <lists+linux-wpan@lfdr.de>; Sun, 30 Jan 2022 05:28:39 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S245612AbiA1PUM (ORCPT <rfc822;lists+linux-wpan@lfdr.de>);
-        Fri, 28 Jan 2022 10:20:12 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54908 "EHLO
+        id S1354252AbiA3E2f (ORCPT <rfc822;lists+linux-wpan@lfdr.de>);
+        Sat, 29 Jan 2022 23:28:35 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38100 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S245094AbiA1PUM (ORCPT
-        <rfc822;linux-wpan@vger.kernel.org>); Fri, 28 Jan 2022 10:20:12 -0500
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id ECE3CC061714;
-        Fri, 28 Jan 2022 07:20:11 -0800 (PST)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 8739960DF1;
-        Fri, 28 Jan 2022 15:20:11 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPS id D903AC36AE3;
-        Fri, 28 Jan 2022 15:20:10 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1643383210;
-        bh=LlkLYQSxtmWebL1rmSOzh/IBRSHYSJJCW7xBFL9ZrIM=;
-        h=Subject:From:Date:References:In-Reply-To:To:Cc:From;
-        b=ABcElZPUVv0ZRKEMDHlFEAwAKWW/k9MzfKX+jEOjKoVrVtIwtvPYUgOPsYy95PAmU
-         xVtHuWttmEO/ImorHKyw/g8ivh80550PedWfYLiPrxugONRG+452PhsD1PHiAxs67Z
-         PAK3oaL5iZXaSRuOFKXxjFPrU0LpC3GjPZoZG0amHBURFo6gocSLOxOuq3zthCsE/p
-         gJLFu6oBpq2xkV5BKhYGFf7V9Fbb+qetETam6X3HYeHyWqkcANpL9AyINVIYDunrFs
-         h72dHwaogxvrhCOzvZpghO+GjRD/jg2otV4V+EX8O6ISCZ9BI2a1aX3SmXaKjQUdi6
-         579ZE0yYCvuZQ==
-Received: from aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (localhost.localdomain [127.0.0.1])
-        by aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (Postfix) with ESMTP id BFFD7F60799;
-        Fri, 28 Jan 2022 15:20:10 +0000 (UTC)
-Content-Type: text/plain; charset="utf-8"
+        with ESMTP id S1354199AbiA3E23 (ORCPT
+        <rfc822;linux-wpan@vger.kernel.org>); Sat, 29 Jan 2022 23:28:29 -0500
+Received: from mail-ot1-x32c.google.com (mail-ot1-x32c.google.com [IPv6:2607:f8b0:4864:20::32c])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 18DF0C06176D
+        for <linux-wpan@vger.kernel.org>; Sat, 29 Jan 2022 20:28:25 -0800 (PST)
+Received: by mail-ot1-x32c.google.com with SMTP id o9-20020a9d7189000000b0059ee49b4f0fso9727483otj.2
+        for <linux-wpan@vger.kernel.org>; Sat, 29 Jan 2022 20:28:25 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=mime-version:reply-to:from:date:message-id:subject:to;
+        bh=B5teSI3NqSzeGu7ngV/22RiyR60khzQ8THYZDZ9DX3Q=;
+        b=QI2firgHOSt+2ZiRAEUqBnRqfCndbuygIyUz1kdYlPzS6AXkdk+mfMubksdM+6U8hJ
+         A4UbXdfo0bhasYFmsw5ceBBj4ub2bgaEqkI+Cp5foQd/M11l9HiEax3hX9+hB29fNDF1
+         4XtAbOKK0Jrn48roHo8mUNvKaz7FG0Csy4DWdnw8Q+/oXs7GbWFZBjN+ifwhy6Rfe8k0
+         Pzhs5uXUX+5v6iQyGpPCJWV84GisQUz+5cfOraMc3PalgV6vYI9t2Z4JMkhIMshepKV2
+         BM+Zj3o1QTUTRt1Kxwo+5vz+cvvR7n44irHUjPq0LbDCW52O0lwQK7qPtMHxw7vn0Id9
+         5U2A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:mime-version:reply-to:from:date:message-id
+         :subject:to;
+        bh=B5teSI3NqSzeGu7ngV/22RiyR60khzQ8THYZDZ9DX3Q=;
+        b=deA8WC+/xZ0nUSdmtcybNpEW4KlvIKdbqyf4CAI5pXhCSxB7vonivk2gPIowGf2Eas
+         TPBtnkpePGhoi6J/cAUG6BBLqvXPJk+ZdHxtgfdc3c+pFG0bIEbzCLajjAWnGGQg/Jmh
+         Gal8D+H0BoOUt9PxFCAVuTubNx4ayb8msETtNpV+9ahTT1Wn2C9OaL2NwjXPiH2sDeMi
+         Sbsxv02lM/fTd3t+/t4BUNU9/zyxtkZ0DEg2gut6z3Hr5eD/Oywq6ASB0A4R4M1C+VhX
+         Etuqc6/H8Pk4vrfTtqMZ4GEk/9ZJyCmiDjZLBc3uFnq08ETvtqghS82/rBqtzw1oPwdm
+         OO/w==
+X-Gm-Message-State: AOAM532BgQXXfwNZ+SotETw+YgEsONkzEY4TkLOq3lBeUDc6SiuDv8cF
+        LWpQ8LIc/e8NBvTb9y16FVUFn12UYzGktWU+/ramytCh/wU=
+X-Google-Smtp-Source: ABdhPJz3bgso8viJFkNwiW8XigzdjL6JZBPDE3NfxKOCgEqvWjdU/qagorQKM5joSRLXylFmq9/zlHP85rUYuZ5fTGQ=
+X-Received: by 2002:a25:6d45:: with SMTP id i66mr23246397ybc.352.1643516893721;
+ Sat, 29 Jan 2022 20:28:13 -0800 (PST)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Subject: Re: pull-request: ieee802154 for net 2022-01-28
-From:   patchwork-bot+netdevbpf@kernel.org
-Message-Id: <164338321078.8810.12114883405236915786.git-patchwork-notify@kernel.org>
-Date:   Fri, 28 Jan 2022 15:20:10 +0000
-References: <20220128114501.2732329-1-stefan@datenfreihafen.org>
-In-Reply-To: <20220128114501.2732329-1-stefan@datenfreihafen.org>
-To:     Stefan Schmidt <stefan@datenfreihafen.org>
-Cc:     davem@davemloft.net, kuba@kernel.org, linux-wpan@vger.kernel.org,
-        alex.aring@gmail.com, netdev@vger.kernel.org
+Received: by 2002:a05:7010:2312:b0:201:cd76:102e with HTTP; Sat, 29 Jan 2022
+ 20:28:13 -0800 (PST)
+Reply-To: mrs.bill.chantalone01@gmail.com
+From:   "Mrs.Bill.Chantal" <grassroot309@gmail.com>
+Date:   Sun, 30 Jan 2022 05:28:13 +0100
+Message-ID: <CAO3iUMDzg_ZovNWXtuQhU6sDXk7LsNwvNc2pOb7zvX7pPCdMAw@mail.gmail.com>
+Subject: Hello....
+To:     undisclosed-recipients:;
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-wpan.vger.kernel.org>
 X-Mailing-List: linux-wpan@vger.kernel.org
 
-Hello:
+You have been compensated with the sum of 9.5 million dollars in this
+united nation the payment will be issue into atm visa  card and send
+to you from the santander bank we need your address and your
+Whatsapp number  + 1 6465853907  this my email.ID
+( mrs.bill.chantal.roland@gmail.com )  contact  me
 
-This pull request was applied to netdev/net.git (master)
-by David S. Miller <davem@davemloft.net>:
+Thanks my
 
-On Fri, 28 Jan 2022 12:45:01 +0100 you wrote:
-> Hello Dave, Jakub.
-> 
-> An update from ieee802154 for your *net* tree.
-> 
-> A bunch of fixes in drivers, all from Miquel Raynal.
-> Clarifying the default channel in hwsim, leak fixes in at86rf230 and ca8210 as
-> well as a symbol duration fix for mcr20a. Topping up the driver fixes with
-> better error codes in nl802154 and a cleanup in MAINTAINERS for an orphaned
-> driver.
-> 
-> [...]
-
-Here is the summary with links:
-  - pull-request: ieee802154 for net 2022-01-28
-    https://git.kernel.org/netdev/net/c/010a2a662331
-
-You are awesome, thank you!
--- 
-Deet-doot-dot, I am a bot.
-https://korg.docs.kernel.org/patchwork/pwbot.html
-
-
+mrs bill chantal
