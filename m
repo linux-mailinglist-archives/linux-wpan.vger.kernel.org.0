@@ -2,168 +2,86 @@ Return-Path: <linux-wpan-owner@vger.kernel.org>
 X-Original-To: lists+linux-wpan@lfdr.de
 Delivered-To: lists+linux-wpan@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 87F124A9103
-	for <lists+linux-wpan@lfdr.de>; Fri,  4 Feb 2022 00:12:47 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 645EB4A9123
+	for <lists+linux-wpan@lfdr.de>; Fri,  4 Feb 2022 00:26:19 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1348869AbiBCXMq (ORCPT <rfc822;lists+linux-wpan@lfdr.de>);
-        Thu, 3 Feb 2022 18:12:46 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38720 "EHLO
+        id S1355975AbiBCX0S (ORCPT <rfc822;lists+linux-wpan@lfdr.de>);
+        Thu, 3 Feb 2022 18:26:18 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41662 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231451AbiBCXMq (ORCPT
-        <rfc822;linux-wpan@vger.kernel.org>); Thu, 3 Feb 2022 18:12:46 -0500
-Received: from ams.source.kernel.org (ams.source.kernel.org [IPv6:2604:1380:4601:e00::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id ED4A7C061714;
-        Thu,  3 Feb 2022 15:12:45 -0800 (PST)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by ams.source.kernel.org (Postfix) with ESMTPS id AF28DB835E9;
-        Thu,  3 Feb 2022 23:12:44 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id D7834C340E8;
-        Thu,  3 Feb 2022 23:12:42 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1643929963;
-        bh=M5HjFCZdxiAaPiipImUnmfv2jtfHule1mCY4Rgw/Q+4=;
-        h=From:To:Cc:Subject:Date:From;
-        b=FomJDNUBWgxl0ZuB9+PQ8YUpCaRi2ThbL4kbIJiZ630HJfY5WJ8Ry14IkpCJzHrcF
-         FQcFx9+AEhXf8+LE2e0gcli9X0YmMSjanQ3tgKMlq7wVByMSJlceZ8UCffurfoqqME
-         TObwKdUsRBfz/tnmQUAl1i5MbHOJqxQBOMdGm9A9QhXqya8c16SMiymfIyE/mdixLv
-         Gn5Kjv8r8IbRih8xyKVdm3dh37B1j3ey5d/n76MnIcLlxDeWMjYXAW1rVtMY3x0YZV
-         5KUTpUSykHHXTXFqB9MAVBtWkfw012W39gyZ2Ctyl5ReyXW9l3oUuizt/rY9WoJ++B
-         KllkjakF6PB+w==
-From:   Jakub Kicinski <kuba@kernel.org>
-To:     davem@davemloft.net
-Cc:     netdev@vger.kernel.org, Jakub Kicinski <kuba@kernel.org>,
-        Jeremy Kerr <jk@codeconstruct.com.au>,
-        Stefan Schmidt <stefan@datenfreihafen.org>,
-        j.vosburgh@gmail.com, vfalico@gmail.com, andy@greyhouse.net,
-        oliver@neukum.org, yoshfuji@linux-ipv6.org, dsahern@kernel.org,
-        alex.aring@gmail.com, jukka.rissanen@linux.intel.com,
-        matt@codeconstruct.com.au, linux-usb@vger.kernel.org,
-        linux-bluetooth@vger.kernel.org, linux-wpan@vger.kernel.org
-Subject: [PATCH net-next v2] net: don't include ndisc.h from ipv6.h
-Date:   Thu,  3 Feb 2022 15:12:40 -0800
-Message-Id: <20220203231240.2297588-1-kuba@kernel.org>
-X-Mailer: git-send-email 2.34.1
+        with ESMTP id S1355643AbiBCX0S (ORCPT
+        <rfc822;linux-wpan@vger.kernel.org>); Thu, 3 Feb 2022 18:26:18 -0500
+Received: from mail-pl1-x642.google.com (mail-pl1-x642.google.com [IPv6:2607:f8b0:4864:20::642])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 608E1C061714
+        for <linux-wpan@vger.kernel.org>; Thu,  3 Feb 2022 15:26:18 -0800 (PST)
+Received: by mail-pl1-x642.google.com with SMTP id h14so3597051plf.1
+        for <linux-wpan@vger.kernel.org>; Thu, 03 Feb 2022 15:26:18 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=mime-version:sender:from:date:message-id:subject:to;
+        bh=51mpXfg7k7qDketSblbwy3oymqbMO4GZFD8rTFCIIgQ=;
+        b=NYeBGlGVyzr6EH98mqKAPoC0gmZIUwSOvJNdQ0hQk9fwdsStxGS01tCoICZwuXnQ63
+         KjfDpdUfw4O0T/89CNmh+y8ty4zq2zBoo6IurOISD8enEg/gM5oRtB4ydvWLKIrbr1Zt
+         gkGtoow85UpE1Pe8OW2FbCNG3E4bk661/gpFc01K47kJVtnCF4ygvDSts8ajZVxi9BFo
+         XsouGy8YXb4NWg3hhXtuBVOmoG9vFbDj6NHNh6BWFWnIOCKCX23AjB+Afjoernw9po39
+         6UfEB0ekjBWobA1AfFzWX9wA3dA6J6j1TxKrlFxhbUG312NpDOJhYffUKDlzS/IJPU7H
+         Td2Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:mime-version:sender:from:date:message-id:subject
+         :to;
+        bh=51mpXfg7k7qDketSblbwy3oymqbMO4GZFD8rTFCIIgQ=;
+        b=txuQejFwJXEZKugCyECX5HTBjPZWcOQLGjJnRUA6enhmdHOazJoIUtlzOYUvcaAKAD
+         iJU5S/Fv8ui48oMePW/qPWLS46yQrJN3KX7FVhl/51OO0IpL1fCribJEja4gIldxVDqd
+         L/AMEV5AlyLUuFUuym50DswVvZG97CC81yBBGHEehm0CkOGQfnCJ2Vu3BsN1G75Uc52I
+         sZhisMGn5FaS2v0fJRqhQLNamCGIjikf7B4NMU+zzZwTlB3XC5IM9Gyu/V6LfHULW28i
+         uCOLpCsxXR684M0b0uQEUSmis24AVQVs0qRtlmIrhITp2yusacZuGA8jrk7PJvZkIr6b
+         PV2A==
+X-Gm-Message-State: AOAM531TvqWH/DYQgvtgwgr/2xWrO5i0ZJbL8cMxX3s3yxur2vFNpsUU
+        qsCVOmRviD2i5pNXmU/3GQ2rh0UI/kCPCOES748=
+X-Google-Smtp-Source: ABdhPJxyOpI1Bp8ghPuQb+0tGeIlbbYCc6UhiXjGhPi9PcnvYormeIB9tG5TlB7n0oRrQLyBojSRWZxmLicmODyY9U4=
+X-Received: by 2002:a17:902:d641:: with SMTP id y1mr486700plh.64.1643930777534;
+ Thu, 03 Feb 2022 15:26:17 -0800 (PST)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Sender: alimahazem02@gmail.com
+Received: by 2002:a05:6a20:ca:b0:6c:eb95:8c69 with HTTP; Thu, 3 Feb 2022
+ 15:26:16 -0800 (PST)
+From:   Anderson Thereza <anderson.thereza24@gmail.com>
+Date:   Thu, 3 Feb 2022 15:26:16 -0800
+X-Google-Sender-Auth: 5_GzWBvi8sLqD-Dvdpn1kBpAzl8
+Message-ID: <CABBDEbh0bvR_FLq3C7RWcFqWBnn+r2SEMf38kCxKmc-M8s1-2w@mail.gmail.com>
+Subject: Re: Greetings My Dear,
+To:     undisclosed-recipients:;
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-wpan.vger.kernel.org>
 X-Mailing-List: linux-wpan@vger.kernel.org
 
-Nothing in ipv6.h needs ndisc.h, drop it.
+Greetings,
 
-Link: https://lore.kernel.org/r/20220203043457.2222388-1-kuba@kernel.org
-Acked-by: Jeremy Kerr <jk@codeconstruct.com.au>
-Acked-by: Stefan Schmidt <stefan@datenfreihafen.org>
-Signed-off-by: Jakub Kicinski <kuba@kernel.org>
----
-CC: j.vosburgh@gmail.com
-CC: vfalico@gmail.com
-CC: andy@greyhouse.net
-CC: oliver@neukum.org
-CC: yoshfuji@linux-ipv6.org
-CC: dsahern@kernel.org
-CC: alex.aring@gmail.com
-CC: jukka.rissanen@linux.intel.com
-CC: matt@codeconstruct.com.au
-CC: linux-usb@vger.kernel.org
-CC: linux-bluetooth@vger.kernel.org
-CC: linux-wpan@vger.kernel.org
----
- drivers/net/bonding/bond_alb.c | 1 +
- drivers/net/usb/cdc_mbim.c     | 1 +
- include/net/ipv6.h             | 1 -
- include/net/ipv6_frag.h        | 1 +
- net/6lowpan/core.c             | 1 +
- net/ieee802154/6lowpan/core.c  | 1 +
- net/mctp/device.c              | 1 +
- 7 files changed, 6 insertions(+), 1 deletion(-)
+I sent this mail praying it will find you in a good condition, since I
+myself am in a very critical health condition in which I sleep every
+night without knowing if I may be alive to see the next day. I am
+Mrs.Anderson Theresa, a widow suffering from a long time illness. I
+have some funds I inherited from my late husband, the sum of
+($11,000,000.00, Eleven Million Dollars) my Doctor told me recently
+that I have serious sickness which is a cancer problem. What disturbs
+me most is my stroke sickness. Having known my condition, I decided to
+donate this fund to a good person that will utilize it the way I am
+going to instruct herein. I need a very honest God.
 
-diff --git a/drivers/net/bonding/bond_alb.c b/drivers/net/bonding/bond_alb.c
-index c98a4b0a8453..303c8d32d451 100644
---- a/drivers/net/bonding/bond_alb.c
-+++ b/drivers/net/bonding/bond_alb.c
-@@ -19,6 +19,7 @@
- #include <linux/in.h>
- #include <net/arp.h>
- #include <net/ipv6.h>
-+#include <net/ndisc.h>
- #include <asm/byteorder.h>
- #include <net/bonding.h>
- #include <net/bond_alb.h>
-diff --git a/drivers/net/usb/cdc_mbim.c b/drivers/net/usb/cdc_mbim.c
-index 82bb5ed94c48..a7c1434fe2da 100644
---- a/drivers/net/usb/cdc_mbim.c
-+++ b/drivers/net/usb/cdc_mbim.c
-@@ -21,6 +21,7 @@
- #include <net/ipv6.h>
- #include <net/addrconf.h>
- #include <net/ipv6_stubs.h>
-+#include <net/ndisc.h>
- 
- /* alternative VLAN for IP session 0 if not untagged */
- #define MBIM_IPS0_VID	4094
-diff --git a/include/net/ipv6.h b/include/net/ipv6.h
-index 082f30256f59..cda1f205f391 100644
---- a/include/net/ipv6.h
-+++ b/include/net/ipv6.h
-@@ -15,7 +15,6 @@
- #include <linux/refcount.h>
- #include <linux/jump_label_ratelimit.h>
- #include <net/if_inet6.h>
--#include <net/ndisc.h>
- #include <net/flow.h>
- #include <net/flow_dissector.h>
- #include <net/snmp.h>
-diff --git a/include/net/ipv6_frag.h b/include/net/ipv6_frag.h
-index 0a4779175a52..5052c66e22d2 100644
---- a/include/net/ipv6_frag.h
-+++ b/include/net/ipv6_frag.h
-@@ -1,6 +1,7 @@
- /* SPDX-License-Identifier: GPL-2.0 */
- #ifndef _IPV6_FRAG_H
- #define _IPV6_FRAG_H
-+#include <linux/icmpv6.h>
- #include <linux/kernel.h>
- #include <net/addrconf.h>
- #include <net/ipv6.h>
-diff --git a/net/6lowpan/core.c b/net/6lowpan/core.c
-index a068757eabaf..7b3341cef926 100644
---- a/net/6lowpan/core.c
-+++ b/net/6lowpan/core.c
-@@ -5,6 +5,7 @@
-  * (C) 2015 Pengutronix, Alexander Aring <aar@pengutronix.de>
-  */
- 
-+#include <linux/if_arp.h>
- #include <linux/module.h>
- 
- #include <net/6lowpan.h>
-diff --git a/net/ieee802154/6lowpan/core.c b/net/ieee802154/6lowpan/core.c
-index 2cf62718a282..2c087b7f17c5 100644
---- a/net/ieee802154/6lowpan/core.c
-+++ b/net/ieee802154/6lowpan/core.c
-@@ -47,6 +47,7 @@
- #include <linux/module.h>
- #include <linux/netdevice.h>
- #include <linux/ieee802154.h>
-+#include <linux/if_arp.h>
- 
- #include <net/ipv6.h>
- 
-diff --git a/net/mctp/device.c b/net/mctp/device.c
-index ef2755f82f87..02ddc0f1bd3e 100644
---- a/net/mctp/device.c
-+++ b/net/mctp/device.c
-@@ -6,6 +6,7 @@
-  * Copyright (c) 2021 Google
-  */
- 
-+#include <linux/if_arp.h>
- #include <linux/if_link.h>
- #include <linux/mctp.h>
- #include <linux/netdevice.h>
--- 
-2.34.1
+fearing a person who can claim this money and use it for Charity
+works, for orphanages, widows and also build schools for less
+privileges that will be named after my late husband if possible and to
+promote the word of God and the effort that the house of God is
+maintained. I do not want a situation where this money will be used in
+an ungodly manner. That's why I' making this decision. I'm not afraid
+of death so I know where I'm going. I accept this decision because I
+do not have any child who will inherit this money after I die. Please
+I want your sincere and urgent answer to know if you will be able to
+execute this project, and I will give you more information on how the
+fund will be transferred to your bank account. I am waiting for your
+reply.
 
+May God Bless you,
+Mrs.Anderson Theresa,
