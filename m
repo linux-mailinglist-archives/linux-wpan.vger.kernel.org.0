@@ -2,86 +2,107 @@ Return-Path: <linux-wpan-owner@vger.kernel.org>
 X-Original-To: lists+linux-wpan@lfdr.de
 Delivered-To: lists+linux-wpan@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 645EB4A9123
-	for <lists+linux-wpan@lfdr.de>; Fri,  4 Feb 2022 00:26:19 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 74EB34A92EE
+	for <lists+linux-wpan@lfdr.de>; Fri,  4 Feb 2022 05:09:40 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1355975AbiBCX0S (ORCPT <rfc822;lists+linux-wpan@lfdr.de>);
-        Thu, 3 Feb 2022 18:26:18 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41662 "EHLO
+        id S1356906AbiBDEJj (ORCPT <rfc822;lists+linux-wpan@lfdr.de>);
+        Thu, 3 Feb 2022 23:09:39 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47906 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1355643AbiBCX0S (ORCPT
-        <rfc822;linux-wpan@vger.kernel.org>); Thu, 3 Feb 2022 18:26:18 -0500
-Received: from mail-pl1-x642.google.com (mail-pl1-x642.google.com [IPv6:2607:f8b0:4864:20::642])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 608E1C061714
-        for <linux-wpan@vger.kernel.org>; Thu,  3 Feb 2022 15:26:18 -0800 (PST)
-Received: by mail-pl1-x642.google.com with SMTP id h14so3597051plf.1
-        for <linux-wpan@vger.kernel.org>; Thu, 03 Feb 2022 15:26:18 -0800 (PST)
+        with ESMTP id S1356905AbiBDEJi (ORCPT
+        <rfc822;linux-wpan@vger.kernel.org>); Thu, 3 Feb 2022 23:09:38 -0500
+Received: from mail-io1-xd2f.google.com (mail-io1-xd2f.google.com [IPv6:2607:f8b0:4864:20::d2f])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2729EC061714;
+        Thu,  3 Feb 2022 20:09:38 -0800 (PST)
+Received: by mail-io1-xd2f.google.com with SMTP id s18so5876490ioa.12;
+        Thu, 03 Feb 2022 20:09:38 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=mime-version:sender:from:date:message-id:subject:to;
-        bh=51mpXfg7k7qDketSblbwy3oymqbMO4GZFD8rTFCIIgQ=;
-        b=NYeBGlGVyzr6EH98mqKAPoC0gmZIUwSOvJNdQ0hQk9fwdsStxGS01tCoICZwuXnQ63
-         KjfDpdUfw4O0T/89CNmh+y8ty4zq2zBoo6IurOISD8enEg/gM5oRtB4ydvWLKIrbr1Zt
-         gkGtoow85UpE1Pe8OW2FbCNG3E4bk661/gpFc01K47kJVtnCF4ygvDSts8ajZVxi9BFo
-         XsouGy8YXb4NWg3hhXtuBVOmoG9vFbDj6NHNh6BWFWnIOCKCX23AjB+Afjoernw9po39
-         6UfEB0ekjBWobA1AfFzWX9wA3dA6J6j1TxKrlFxhbUG312NpDOJhYffUKDlzS/IJPU7H
-         Td2Q==
+        h=message-id:date:mime-version:user-agent:subject:content-language:to
+         :cc:references:from:in-reply-to:content-transfer-encoding;
+        bh=9vd5xE0knFEuVKlXB3qXa46DN9ZLxiL/V6mLS4klh6s=;
+        b=OYiVJbaeVKGlU0Qy0/egzhuPTlLjAtl5WWUGYD78em7H+P02gbi4zCXjhW7uM6Np/L
+         LmdfZqNL9vzss4qH3u4psC1QZ3Qr+eRLuY8tr6FvDCLEHWt85900koNhoEMWa9Icubzg
+         +MNGevJHAHWNHtqH3hLVRjQVa9lF3q3U/w/WOPdR/TnN/hHJlnwQITfh+KohtE07pcAC
+         nbHl2DCnjPIR0LJjXKRKW4gMagwrg2dCnynMci2nO3T+tZVyt+MdhAGCNBdXAVX/JdGw
+         T4HDeQ6suivK+wODqxH7ewEOiX2BGAQXWiN2cLzp+hG4us0RUakr0usl3BzzI4tiTtzl
+         Rjkw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:sender:from:date:message-id:subject
-         :to;
-        bh=51mpXfg7k7qDketSblbwy3oymqbMO4GZFD8rTFCIIgQ=;
-        b=txuQejFwJXEZKugCyECX5HTBjPZWcOQLGjJnRUA6enhmdHOazJoIUtlzOYUvcaAKAD
-         iJU5S/Fv8ui48oMePW/qPWLS46yQrJN3KX7FVhl/51OO0IpL1fCribJEja4gIldxVDqd
-         L/AMEV5AlyLUuFUuym50DswVvZG97CC81yBBGHEehm0CkOGQfnCJ2Vu3BsN1G75Uc52I
-         sZhisMGn5FaS2v0fJRqhQLNamCGIjikf7B4NMU+zzZwTlB3XC5IM9Gyu/V6LfHULW28i
-         uCOLpCsxXR684M0b0uQEUSmis24AVQVs0qRtlmIrhITp2yusacZuGA8jrk7PJvZkIr6b
-         PV2A==
-X-Gm-Message-State: AOAM531TvqWH/DYQgvtgwgr/2xWrO5i0ZJbL8cMxX3s3yxur2vFNpsUU
-        qsCVOmRviD2i5pNXmU/3GQ2rh0UI/kCPCOES748=
-X-Google-Smtp-Source: ABdhPJxyOpI1Bp8ghPuQb+0tGeIlbbYCc6UhiXjGhPi9PcnvYormeIB9tG5TlB7n0oRrQLyBojSRWZxmLicmODyY9U4=
-X-Received: by 2002:a17:902:d641:: with SMTP id y1mr486700plh.64.1643930777534;
- Thu, 03 Feb 2022 15:26:17 -0800 (PST)
+        h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+         :content-language:to:cc:references:from:in-reply-to
+         :content-transfer-encoding;
+        bh=9vd5xE0knFEuVKlXB3qXa46DN9ZLxiL/V6mLS4klh6s=;
+        b=viNzLbhTNXzITiihuhsSC2bUGj3buE6pEUQoSwNg9jeUQKKmXSnNAAcFV+XwcAML5L
+         V6nkbAMr1gadIBUgqrlfPtwkD9E7mh3lDdiSDImQHalUSD6TOPSHkyWZredNGjc7HUYZ
+         b4L93lwh1bWXTEEHuNAkuiKQ/a1IiVmtzYRU6e3xfqQQjVIOuczJF1wWuzxpg7INJbJq
+         q1hSH6vA1/g0Nw9z1yjklPtKeh4zTsavvXlm9LwFaaU0ULgAXRliuR9o22MHzemcdu/T
+         wyhPjb0YBQVoV4GYtiDv7yMx6z+cxiiEkNnsyvRPUZMxl0R+wtEaUI7FuHfIAQefPPe8
+         Vd3g==
+X-Gm-Message-State: AOAM531W0IALn87hR6FI6pmdmCdp9ggLCwjWryN2f4FqUo1NDS/aYw33
+        iAN8zaA5NPrehmYu1jPdCvzbmThs+4Q=
+X-Google-Smtp-Source: ABdhPJzXVQkmUfon04VNUqLrSdFDjnJvuv8muUVAdHLB8jLF9LNcZrLvjy0XC22k6CRcl9d16c2pUw==
+X-Received: by 2002:a05:6638:ccb:: with SMTP id e11mr549657jak.206.1643947777569;
+        Thu, 03 Feb 2022 20:09:37 -0800 (PST)
+Received: from ?IPV6:2601:282:800:dc80:8870:ce19:2c7:3513? ([2601:282:800:dc80:8870:ce19:2c7:3513])
+        by smtp.googlemail.com with ESMTPSA id g14sm451139ilr.12.2022.02.03.20.09.36
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 03 Feb 2022 20:09:37 -0800 (PST)
+Message-ID: <35a6322b-cd8d-0fa3-69b2-76c984a48c00@gmail.com>
+Date:   Thu, 3 Feb 2022 21:09:35 -0700
 MIME-Version: 1.0
-Sender: alimahazem02@gmail.com
-Received: by 2002:a05:6a20:ca:b0:6c:eb95:8c69 with HTTP; Thu, 3 Feb 2022
- 15:26:16 -0800 (PST)
-From:   Anderson Thereza <anderson.thereza24@gmail.com>
-Date:   Thu, 3 Feb 2022 15:26:16 -0800
-X-Google-Sender-Auth: 5_GzWBvi8sLqD-Dvdpn1kBpAzl8
-Message-ID: <CABBDEbh0bvR_FLq3C7RWcFqWBnn+r2SEMf38kCxKmc-M8s1-2w@mail.gmail.com>
-Subject: Re: Greetings My Dear,
-To:     undisclosed-recipients:;
-Content-Type: text/plain; charset="UTF-8"
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:91.0)
+ Gecko/20100101 Thunderbird/91.5.1
+Subject: Re: [PATCH net-next v2] net: don't include ndisc.h from ipv6.h
+Content-Language: en-US
+To:     Jakub Kicinski <kuba@kernel.org>, davem@davemloft.net
+Cc:     netdev@vger.kernel.org, Jeremy Kerr <jk@codeconstruct.com.au>,
+        Stefan Schmidt <stefan@datenfreihafen.org>,
+        j.vosburgh@gmail.com, vfalico@gmail.com, andy@greyhouse.net,
+        oliver@neukum.org, yoshfuji@linux-ipv6.org, dsahern@kernel.org,
+        alex.aring@gmail.com, jukka.rissanen@linux.intel.com,
+        matt@codeconstruct.com.au, linux-usb@vger.kernel.org,
+        linux-bluetooth@vger.kernel.org, linux-wpan@vger.kernel.org
+References: <20220203231240.2297588-1-kuba@kernel.org>
+From:   David Ahern <dsahern@gmail.com>
+In-Reply-To: <20220203231240.2297588-1-kuba@kernel.org>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-wpan.vger.kernel.org>
 X-Mailing-List: linux-wpan@vger.kernel.org
 
-Greetings,
+On 2/3/22 4:12 PM, Jakub Kicinski wrote:
+> Nothing in ipv6.h needs ndisc.h, drop it.
+> 
+> Link: https://lore.kernel.org/r/20220203043457.2222388-1-kuba@kernel.org
+> Acked-by: Jeremy Kerr <jk@codeconstruct.com.au>
+> Acked-by: Stefan Schmidt <stefan@datenfreihafen.org>
+> Signed-off-by: Jakub Kicinski <kuba@kernel.org>
+> ---
+> CC: j.vosburgh@gmail.com
+> CC: vfalico@gmail.com
+> CC: andy@greyhouse.net
+> CC: oliver@neukum.org
+> CC: yoshfuji@linux-ipv6.org
+> CC: dsahern@kernel.org
+> CC: alex.aring@gmail.com
+> CC: jukka.rissanen@linux.intel.com
+> CC: matt@codeconstruct.com.au
+> CC: linux-usb@vger.kernel.org
+> CC: linux-bluetooth@vger.kernel.org
+> CC: linux-wpan@vger.kernel.org
+> ---
+>  drivers/net/bonding/bond_alb.c | 1 +
+>  drivers/net/usb/cdc_mbim.c     | 1 +
+>  include/net/ipv6.h             | 1 -
+>  include/net/ipv6_frag.h        | 1 +
+>  net/6lowpan/core.c             | 1 +
+>  net/ieee802154/6lowpan/core.c  | 1 +
+>  net/mctp/device.c              | 1 +
+>  7 files changed, 6 insertions(+), 1 deletion(-)
+> 
 
-I sent this mail praying it will find you in a good condition, since I
-myself am in a very critical health condition in which I sleep every
-night without knowing if I may be alive to see the next day. I am
-Mrs.Anderson Theresa, a widow suffering from a long time illness. I
-have some funds I inherited from my late husband, the sum of
-($11,000,000.00, Eleven Million Dollars) my Doctor told me recently
-that I have serious sickness which is a cancer problem. What disturbs
-me most is my stroke sickness. Having known my condition, I decided to
-donate this fund to a good person that will utilize it the way I am
-going to instruct herein. I need a very honest God.
+Reviewed-by: David Ahern <dsahern@kernel.org>
 
-fearing a person who can claim this money and use it for Charity
-works, for orphanages, widows and also build schools for less
-privileges that will be named after my late husband if possible and to
-promote the word of God and the effort that the house of God is
-maintained. I do not want a situation where this money will be used in
-an ungodly manner. That's why I' making this decision. I'm not afraid
-of death so I know where I'm going. I accept this decision because I
-do not have any child who will inherit this money after I die. Please
-I want your sincere and urgent answer to know if you will be able to
-execute this project, and I will give you more information on how the
-fund will be transferred to your bank account. I am waiting for your
-reply.
 
-May God Bless you,
-Mrs.Anderson Theresa,
