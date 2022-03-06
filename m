@@ -2,351 +2,75 @@ Return-Path: <linux-wpan-owner@vger.kernel.org>
 X-Original-To: lists+linux-wpan@lfdr.de
 Delivered-To: lists+linux-wpan@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id AC1804CD2CF
-	for <lists+linux-wpan@lfdr.de>; Fri,  4 Mar 2022 11:54:40 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 452ED4CE9C6
+	for <lists+linux-wpan@lfdr.de>; Sun,  6 Mar 2022 07:51:47 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232042AbiCDKz0 (ORCPT <rfc822;lists+linux-wpan@lfdr.de>);
-        Fri, 4 Mar 2022 05:55:26 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52046 "EHLO
+        id S233109AbiCFGw1 (ORCPT <rfc822;lists+linux-wpan@lfdr.de>);
+        Sun, 6 Mar 2022 01:52:27 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34140 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231475AbiCDKzZ (ORCPT
-        <rfc822;linux-wpan@vger.kernel.org>); Fri, 4 Mar 2022 05:55:25 -0500
-Received: from relay1-d.mail.gandi.net (relay1-d.mail.gandi.net [IPv6:2001:4b98:dc4:8::221])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6F7771AE67E;
-        Fri,  4 Mar 2022 02:54:37 -0800 (PST)
-Received: (Authenticated sender: miquel.raynal@bootlin.com)
-        by mail.gandi.net (Postfix) with ESMTPSA id 185FD240013;
-        Fri,  4 Mar 2022 10:54:33 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
-        t=1646391275;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=eXWcd5ScNqhkX6C5764mjPM5HnQekhV1ceSNzCWoJJ8=;
-        b=Qdji2veqz6rI0IxZsljA48y18Zp8Wpt2lYcrLCvMi1yoCZLrXiZpLQ2gQ4onihdApod+W9
-        0JBHYcxZRREorOrW/sQDUHeA0hf7Jn67lVmMoAryS8FdfO6BFpN0eCCp/6zNvpy7+SrWse
-        YWXaeqm4ifJ1eI/m2FkZzY5TByKfSKASCWajs+PBGd0FRzIxKgBGxyD9x7i9qvMvq/SDpC
-        bXfVduM5NeegH0bsfNSQTcgznp9D+3sqhB6l7JHHJWV1eFixS2MG9PU/xLEQqEdAjidkku
-        WMxDyg+//hs8wXZFTXOnWxdlfuCiQzErFQcTbQKJ0+b7DWx3Mtj9VyDJeDyzNQ==
-Date:   Fri, 4 Mar 2022 11:54:32 +0100
-From:   Miquel Raynal <miquel.raynal@bootlin.com>
-To:     Alexander Aring <alex.aring@gmail.com>
-Cc:     Stefan Schmidt <stefan@datenfreihafen.org>,
-        linux-wpan - ML <linux-wpan@vger.kernel.org>,
-        "David S. Miller" <davem@davemloft.net>,
-        Jakub Kicinski <kuba@kernel.org>,
-        "open list:NETWORKING [GENERAL]" <netdev@vger.kernel.org>,
-        David Girault <david.girault@qorvo.com>,
-        Romuald Despres <romuald.despres@qorvo.com>,
-        Frederic Blain <frederic.blain@qorvo.com>,
-        Nicolas Schodet <nico@ni.fr.eu.org>,
-        Thomas Petazzoni <thomas.petazzoni@bootlin.com>
-Subject: Re: [PATCH wpan-next v2 13/14] net: mac802154: Introduce a tx queue
- flushing mechanism
-Message-ID: <20220304115432.7913f2ef@xps13>
-In-Reply-To: <20220303191723.39b87766@xps13>
-References: <20220207144804.708118-1-miquel.raynal@bootlin.com>
-        <20220207144804.708118-14-miquel.raynal@bootlin.com>
-        <CAB_54W5ao0b6QE7E_uXFeorbn6UjB6NV4emtibqswL4iXYEfng@mail.gmail.com>
-        <20220303191723.39b87766@xps13>
-Organization: Bootlin
-X-Mailer: Claws Mail 3.17.7 (GTK+ 2.24.32; x86_64-pc-linux-gnu)
+        with ESMTP id S233120AbiCFGwD (ORCPT
+        <rfc822;linux-wpan@vger.kernel.org>); Sun, 6 Mar 2022 01:52:03 -0500
+Received: from mail-lj1-x22e.google.com (mail-lj1-x22e.google.com [IPv6:2a00:1450:4864:20::22e])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BBD1B56744
+        for <linux-wpan@vger.kernel.org>; Sat,  5 Mar 2022 22:51:09 -0800 (PST)
+Received: by mail-lj1-x22e.google.com with SMTP id r22so768709ljd.4
+        for <linux-wpan@vger.kernel.org>; Sat, 05 Mar 2022 22:51:09 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=mime-version:reply-to:sender:from:date:message-id:subject:to;
+        bh=VaaSLAJ+hgNGNq49WyPsh3ndDLo+mnrYcswrOHpJSv8=;
+        b=iTCez46YUJuZ59VH5w4gKXHisiIo6y2u3FxRWYTVHtf//k2/cr92j8m4m3YNnOu/5x
+         VY8uAvGwFuBfV7Mrc/W0HKjKs0H8RFXfDFa5bZAEwjPLs/eIQVGvLLhkfWvV5lbw5qRn
+         kxraYDuro739plh13ZCdkLi8Xdm2LO4VwFAVCAVhwnZpqrYnqE7c3VEM+AVAidaJilZq
+         2b8dKUL6QluXsdnPbARiHyYvi6lfjaikwCGBn+AQiJaxig5+gueqCNQIVPHxz1bHmnyA
+         cEozUn1HGynbdH5xanGdyZvZ8eRbX2t4gKZfVdnWU7qRHqdWnTpM/VBAvPiDsUQbFhOw
+         mjLA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:mime-version:reply-to:sender:from:date
+         :message-id:subject:to;
+        bh=VaaSLAJ+hgNGNq49WyPsh3ndDLo+mnrYcswrOHpJSv8=;
+        b=4EX2ACYzYPRA0jaFCDzdlwMxMa9SEmEZmDiENSaN7Mmd/UshD386eZmUChXr7cYiV1
+         G/kaVDEMMnBEH5L6C2MOAO2H25FIOBXpEUSSBkAn/qusYO3ED31T7hHJpe/gqP2xnukK
+         3aUjpJMnSG0q8Y9iaJX6OqTIAat0t0qvBXNoa6rrqYFIdX71Ud/ZSJiPNDUDBbVvEMzY
+         PDgMgbFEO4a4hbaMew8CkKmr9im3SiODDMtpt7kPrbfl7JnGFCqgkW7TveZoB79Jw0yH
+         UJjryQ9g2KzI4grk2+yesRyK4NzxU/RWimF8d58KtNgsyw4Ce1/Oa9zPcvsJ8u27RBun
+         9jKw==
+X-Gm-Message-State: AOAM532VMvFMlNeGiXNmeHYCg/hbNyTwdbgTOCh+dDaMiZd+7n2Ccx8M
+        jw2AeOpF1qZYzf7QL/j+lRmsLB1/uQl5hXLKJj0=
+X-Google-Smtp-Source: ABdhPJximaKc2DuZ4eKDuKmGQ5B/VLHvzOMG/SuEznp2MF7MCDySDvf7od2ggUlZ6xZn8qkMV7NDwnC5K6rNKHdgzfE=
+X-Received: by 2002:a05:651c:2cb:b0:23e:9985:518 with SMTP id
+ f11-20020a05651c02cb00b0023e99850518mr3882088ljo.18.1646549467918; Sat, 05
+ Mar 2022 22:51:07 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_NONE,SPF_PASS,
-        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
+Reply-To: mrs.susanelwoodhara17@gmail.com
+Sender: mrs.arawyann@gmail.com
+Received: by 2002:ab3:7d89:0:0:0:0:0 with HTTP; Sat, 5 Mar 2022 22:51:07 -0800 (PST)
+From:   Mrs Susan Elwood Hara <mrs.susanelwoodhara17@gmail.com>
+Date:   Sun, 6 Mar 2022 06:51:07 +0000
+X-Google-Sender-Auth: gB-i3oPiTFvFbKKhfBi1HD0hNQ4
+Message-ID: <CACppo45h3xLoqDdBmWyFac6YQk-7j3d1wR-NA_BVuta5RwbZiw@mail.gmail.com>
+Subject: GOD BLESS YOU AS YOU REPLY URGENTLY
+To:     undisclosed-recipients:;
+Content-Type: text/plain; charset="UTF-8"
+X-Spam-Status: No, score=4.9 required=5.0 tests=BAYES_50,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
+        FREEMAIL_REPLYTO_END_DIGIT,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,
+        SUBJ_ALL_CAPS,T_HK_NAME_FM_MR_MRS,T_SCC_BODY_TEXT_LINE,UNDISC_MONEY
+        autolearn=no autolearn_force=no version=3.4.6
+X-Spam-Level: ****
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-wpan.vger.kernel.org>
 X-Mailing-List: linux-wpan@vger.kernel.org
 
-Hi Alexander,
+GOD BLESS YOU AS YOU REPLY URGENTLY
 
-miquel.raynal@bootlin.com wrote on Thu, 3 Mar 2022 19:17:23 +0100:
-
-> Hi Alexander,
->=20
-> alex.aring@gmail.com wrote on Sun, 20 Feb 2022 18:49:06 -0500:
->=20
-> > Hi,
-> >=20
-> > On Mon, Feb 7, 2022 at 9:48 AM Miquel Raynal <miquel.raynal@bootlin.com=
-> wrote: =20
-> > >
-> > > Right now we are able to stop a queue but we have no indication if a
-> > > transmission is ongoing or not.
-> > >
-> > > Thanks to recent additions, we can track the number of ongoing
-> > > transmissions so we know if the last transmission is over. Adding on =
-top
-> > > of it an internal wait queue also allows to be woken up asynchronously
-> > > when this happens. If, beforehands, we marked the queue to be held and
-> > > stopped it, we end up flushing and stopping the tx queue.
-> > >
-> > > Thanks to this feature, we will soon be able to introduce a synchrono=
-us
-> > > transmit API.
-> > >
-> > > Signed-off-by: Miquel Raynal <miquel.raynal@bootlin.com>
-> > > ---
-> > >  include/net/cfg802154.h      |  1 +
-> > >  net/ieee802154/core.c        |  1 +
-> > >  net/mac802154/cfg.c          |  5 ++---
-> > >  net/mac802154/ieee802154_i.h |  1 +
-> > >  net/mac802154/tx.c           | 11 ++++++++++-
-> > >  net/mac802154/util.c         |  3 ++-
-> > >  6 files changed, 17 insertions(+), 5 deletions(-)
-> > >
-> > > diff --git a/include/net/cfg802154.h b/include/net/cfg802154.h
-> > > index 043d8e4359e7..0d385a214da3 100644
-> > > --- a/include/net/cfg802154.h
-> > > +++ b/include/net/cfg802154.h
-> > > @@ -217,6 +217,7 @@ struct wpan_phy {
-> > >         /* Transmission monitoring and control */
-> > >         atomic_t ongoing_txs;
-> > >         atomic_t hold_txs;
-> > > +       wait_queue_head_t sync_txq;
-> > >
-> > >         char priv[] __aligned(NETDEV_ALIGN);
-> > >  };
-> > > diff --git a/net/ieee802154/core.c b/net/ieee802154/core.c
-> > > index de259b5170ab..0953cacafbff 100644
-> > > --- a/net/ieee802154/core.c
-> > > +++ b/net/ieee802154/core.c
-> > > @@ -129,6 +129,7 @@ wpan_phy_new(const struct cfg802154_ops *ops, siz=
-e_t priv_size)
-> > >         wpan_phy_net_set(&rdev->wpan_phy, &init_net);
-> > >
-> > >         init_waitqueue_head(&rdev->dev_wait);
-> > > +       init_waitqueue_head(&rdev->wpan_phy.sync_txq);
-> > >
-> > >         return &rdev->wpan_phy;
-> > >  }
-> > > diff --git a/net/mac802154/cfg.c b/net/mac802154/cfg.c
-> > > index e8aabf215286..da94aaa32fcb 100644
-> > > --- a/net/mac802154/cfg.c
-> > > +++ b/net/mac802154/cfg.c
-> > > @@ -46,8 +46,7 @@ static int ieee802154_suspend(struct wpan_phy *wpan=
-_phy)
-> > >         if (!local->open_count)
-> > >                 goto suspend;
-> > >
-> > > -       atomic_inc(&wpan_phy->hold_txs);
-> > > -       ieee802154_stop_queue(&local->hw);
-> > > +       ieee802154_sync_and_stop_tx(local);
-> > >         synchronize_net();
-> > >
-> > >         /* stop hardware - this must stop RX */
-> > > @@ -73,7 +72,7 @@ static int ieee802154_resume(struct wpan_phy *wpan_=
-phy)
-> > >                 return ret;
-> > >
-> > >  wake_up:
-> > > -       if (!atomic_dec_and_test(&wpan_phy->hold_txs))
-> > > +       if (!atomic_read(&wpan_phy->hold_txs))
-> > >                 ieee802154_wake_queue(&local->hw);
-> > >         local->suspended =3D false;
-> > >         return 0;
-> > > diff --git a/net/mac802154/ieee802154_i.h b/net/mac802154/ieee802154_=
-i.h
-> > > index 56fcd7ef5b6f..295c9ce091e1 100644
-> > > --- a/net/mac802154/ieee802154_i.h
-> > > +++ b/net/mac802154/ieee802154_i.h
-> > > @@ -122,6 +122,7 @@ extern struct ieee802154_mlme_ops mac802154_mlme_=
-wpan;
-> > >
-> > >  void ieee802154_rx(struct ieee802154_local *local, struct sk_buff *s=
-kb);
-> > >  void ieee802154_xmit_sync_worker(struct work_struct *work);
-> > > +void ieee802154_sync_and_stop_tx(struct ieee802154_local *local);
-> > >  netdev_tx_t
-> > >  ieee802154_monitor_start_xmit(struct sk_buff *skb, struct net_device=
- *dev);
-> > >  netdev_tx_t
-> > > diff --git a/net/mac802154/tx.c b/net/mac802154/tx.c
-> > > index abd9a057521e..06ae2e6cea43 100644
-> > > --- a/net/mac802154/tx.c
-> > > +++ b/net/mac802154/tx.c
-> > > @@ -47,7 +47,8 @@ void ieee802154_xmit_sync_worker(struct work_struct=
- *work)
-> > >                 ieee802154_wake_queue(&local->hw);
-> > >
-> > >         kfree_skb(skb);
-> > > -       atomic_dec(&local->phy->ongoing_txs);
-> > > +       if (!atomic_dec_and_test(&local->phy->ongoing_txs))
-> > > +               wake_up(&local->phy->sync_txq);
-> > >         netdev_dbg(dev, "transmission failed\n");
-> > >  }
-> > >
-> > > @@ -117,6 +118,14 @@ ieee802154_hot_tx(struct ieee802154_local *local=
-, struct sk_buff *skb)
-> > >         return ieee802154_tx(local, skb);
-> > >  }
-> > >
-> > > +void ieee802154_sync_and_stop_tx(struct ieee802154_local *local)
-> > > +{
-> > > +       atomic_inc(&local->phy->hold_txs);
-> > > +       ieee802154_stop_queue(&local->hw);
-> > > +       wait_event(local->phy->sync_txq, !atomic_read(&local->phy->on=
-going_txs));
-> > > +       atomic_dec(&local->phy->hold_txs);   =20
-> >=20
-> > In my opinion this _still_ races as I mentioned earlier. You need to
-> > be sure that if you do ieee802154_stop_queue() that no ieee802154_tx()
-> > or hot_tx() is running at this time. Look into the function I
-> > mentioned earlier "?netif_tx_disable()?". =20
->=20
-> I think now I get the problem, but I am having troubles understanding
-> the logic in netif_tx_disable(), or should I say, the idea that I
-> should adapt to our situation.
->=20
-> I understand that we should make sure the following situation does not
-> happen:
-> - ieee802154_subif_start_xmit() is called
-> - ieee802154_subif_start_xmit() is called again
-> - ieee802154_tx() get's executed once and stops the queue
-> - ongoing_txs gets incremented once
-> - the first transfer finishes and ongoing_txs gets decremented
-> - the tx queue is supposedly empty by the current series while
->   the second transfer requested earlier has not yet been processed and
->   will definitely be tried in a short moment.
->=20
-> I don't find a pretty solution for that. Is your suggestion to use the
-> netdev tx_global_lock? If yes, then, how? Because it does not appear
-> clear to me how we should tackle this issue.
-
-I had a second look at it and it appears to me that the issue was
-already there and is structural. We just did not really cared about it
-because we didn't bother with synchronization issues.
-
-Here is a figure to base our discussions on:
-
-                       enable
-                         =E2=94=8C=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=
-=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=
-=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=
-=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=
-=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=
-=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=
-=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=
-=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=90
-                         =E2=94=82                                         =
-                   =E2=94=82
-                         =E2=96=BC                                         =
-                   =E2=94=82
-          packet     =E2=94=8C=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=
-=E2=94=80=E2=94=80=E2=94=80=E2=94=90   =E2=94=8C=E2=94=80=E2=94=80=E2=94=80=
-=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=
-=94=80=E2=94=90   =E2=94=8C=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=
-=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=90   =E2=
-=94=8C=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=
-=90   =E2=94=8C=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=B4=E2=94=
-=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=90
-            =E2=94=8C=E2=94=90       =E2=94=82        =E2=94=82   =E2=94=82=
-            =E2=94=82   =E2=94=82            =E2=94=82   =E2=94=82       =
-=E2=94=82   =E2=94=82           =E2=94=82
-User  =E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=B4=E2=94=
-=B4=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=96=BA=E2=94=82=
- Queue  =E2=94=9C=E2=94=80=E2=94=80=E2=96=BA=E2=94=82 ieee*_tx() =E2=94=9C=
-=E2=94=80=E2=94=80=E2=96=BA=E2=94=82stop_queue()=E2=94=9C=E2=94=80=E2=94=80=
-=E2=96=BA=E2=94=82xmit() =E2=94=9C=E2=94=80=E2=94=80=E2=96=BA=E2=94=82 wait=
-/sync =E2=94=82
-                     =E2=94=82        =E2=94=82   =E2=94=82            =E2=
-=94=82   =E2=94=82            =E2=94=82   =E2=94=82       =E2=94=82   =E2=
-=94=82           =E2=94=82
-                     =E2=94=94=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=
-=E2=94=80=E2=94=80=E2=94=80=E2=94=98   =E2=94=94=E2=94=80=E2=94=80=E2=94=80=
-=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=
-=94=80=E2=94=98   =E2=94=94=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=
-=94=AC=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=98   =E2=
-=94=94=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=
-=98   =E2=94=94=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=
-=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=98
-                         =E2=96=B2                               =E2=94=82
-                         =E2=94=82                               =E2=94=82
-                         =E2=94=82                               =E2=94=82
-                         =E2=94=94=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=
-=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=
-=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=
-=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=
-=94=80=E2=94=80=E2=94=98
-                      disable
-
-I assumed that we don't have the hand on the queuing mechanism (on the
-left of the 'queue' box). I looked at the core code under
-net/ieee802154/ and even if incrementing a counter there would be
-handy, I assumed this was not an acceptable solution.
-
-So then we end up with the possible situation where there are two (or
-more) packets that must be processed by the mac tx logic (at the right
-of the 'queue' box). The problem is of course the atomicity of the
-stop_queue() compared to the number of times the ieee802154_tx()
-function call can be made. We can have several packets being processed,
-we don't have any way to know that.
-
-Moving the stop_queue earlier would just reduce the racy area, without
-fully preventing it, so not a solution per-se.
-
-Perhaps we could monitor the state of the queue, it would help us know
-if we need to retain a packet, but I personally find this a bit crappy,
-yet probably working. Here is a drafted implementation, I'm only half
-convinced this is a good idea and your input is welcome here:
-
---- a/net/mac802154/tx.c
-+++ b/net/mac802154/tx.c
-@@ -77,14 +77,26 @@ ieee802154_tx(struct ieee802154_local *local, struct sk=
-_buff *skb)
-                put_unaligned_le16(crc, skb_put(skb, 2));
-        }
-=20
-+retry:
-+       while (netif_queue_stopped())
-+               schedule();
-+
-+       acquire_lock();
-+       if (netif_queue_stopped()) {
-+               release_lock();
-+               goto retry;
-+       }
-+
-        /* Stop the netif queue on each sub_if_data object. */
-        ieee802154_stop_queue(&local->hw);
-=20
-+       atomic_inc(&local->phy->ongoing_txs);
-+       release_lock();
-+
-        /* Drivers should preferably implement the async callback. In some =
-rare
-         * cases they only provide a sync callback which we will use as a
-         * fallback.
-         */
-        if (local->ops->xmit_async) {
-                unsigned int len =3D skb->len;
-=20
-@@ -122,8 +134,10 @@ int ieee802154_sync_and_stop_tx(struct ieee802154_loca=
-l *local)
- {
-        int ret;
-=20
-+       acquire_lock();
-        atomic_inc(&local->phy->hold_txs);
-        ieee802154_stop_queue(&local->hw);
-+       release_lock();
-        wait_event(local->phy->sync_txq, !atomic_read(&local->phy->ongoing_=
-txs));
-        ret =3D local->tx_result;
-        atomic_dec(&local->phy->hold_txs);
-
-
-If we go in this direction, perhaps it's best to rework the sync API
-like you already proposed: just stopping the queue and syncing the
-ongoing transfers, so that after that we can use a dedicated tx path
-for MLME commands, bypassing the queue-is-stopped check. This way we
-avoid risking to deliver data packets between two MLME calls.
-
-Thanks,
-Miqu=C3=A8l
+ Hello Dear,
+Greetings, I am contacting you regarding an important information i
+have for you please reply to confirm your email address and for more
+details Thanks
+Regards
+Mrs Susan Elwood Hara.
