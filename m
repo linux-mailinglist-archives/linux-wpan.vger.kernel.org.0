@@ -2,75 +2,90 @@ Return-Path: <linux-wpan-owner@vger.kernel.org>
 X-Original-To: lists+linux-wpan@lfdr.de
 Delivered-To: lists+linux-wpan@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 452ED4CE9C6
-	for <lists+linux-wpan@lfdr.de>; Sun,  6 Mar 2022 07:51:47 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id CC60A4D781D
+	for <lists+linux-wpan@lfdr.de>; Sun, 13 Mar 2022 21:07:02 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233109AbiCFGw1 (ORCPT <rfc822;lists+linux-wpan@lfdr.de>);
-        Sun, 6 Mar 2022 01:52:27 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34140 "EHLO
+        id S235088AbiCMUIJ (ORCPT <rfc822;lists+linux-wpan@lfdr.de>);
+        Sun, 13 Mar 2022 16:08:09 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49878 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233120AbiCFGwD (ORCPT
-        <rfc822;linux-wpan@vger.kernel.org>); Sun, 6 Mar 2022 01:52:03 -0500
-Received: from mail-lj1-x22e.google.com (mail-lj1-x22e.google.com [IPv6:2a00:1450:4864:20::22e])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BBD1B56744
-        for <linux-wpan@vger.kernel.org>; Sat,  5 Mar 2022 22:51:09 -0800 (PST)
-Received: by mail-lj1-x22e.google.com with SMTP id r22so768709ljd.4
-        for <linux-wpan@vger.kernel.org>; Sat, 05 Mar 2022 22:51:09 -0800 (PST)
+        with ESMTP id S232809AbiCMUII (ORCPT
+        <rfc822;linux-wpan@vger.kernel.org>); Sun, 13 Mar 2022 16:08:08 -0400
+Received: from mail-lj1-x231.google.com (mail-lj1-x231.google.com [IPv6:2a00:1450:4864:20::231])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 54F772AE32;
+        Sun, 13 Mar 2022 13:07:00 -0700 (PDT)
+Received: by mail-lj1-x231.google.com with SMTP id 25so19148254ljv.10;
+        Sun, 13 Mar 2022 13:07:00 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=mime-version:reply-to:sender:from:date:message-id:subject:to;
-        bh=VaaSLAJ+hgNGNq49WyPsh3ndDLo+mnrYcswrOHpJSv8=;
-        b=iTCez46YUJuZ59VH5w4gKXHisiIo6y2u3FxRWYTVHtf//k2/cr92j8m4m3YNnOu/5x
-         VY8uAvGwFuBfV7Mrc/W0HKjKs0H8RFXfDFa5bZAEwjPLs/eIQVGvLLhkfWvV5lbw5qRn
-         kxraYDuro739plh13ZCdkLi8Xdm2LO4VwFAVCAVhwnZpqrYnqE7c3VEM+AVAidaJilZq
-         2b8dKUL6QluXsdnPbARiHyYvi6lfjaikwCGBn+AQiJaxig5+gueqCNQIVPHxz1bHmnyA
-         cEozUn1HGynbdH5xanGdyZvZ8eRbX2t4gKZfVdnWU7qRHqdWnTpM/VBAvPiDsUQbFhOw
-         mjLA==
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=h5dkyy0nkqUAlW89Y7+liUDjWjAQJ5MhYKATVcex5n4=;
+        b=YZy32EXa+K5Ak2zoZwwQOkrY7HxBb6QIoMA6DYz4IVsyBXBBne/0rCf8IVGJV5hg9v
+         Qxtlfmm43tjsaG5Iby0NK7IniRUXpLxGISspIOM2N9W/Wg7m/KCC7LlF+ql+Y9exTLFw
+         O7JKv3jCdCnAjrPLHyWSoU2oHDEE9h/wU3gI7yNIDHdNzqnB4/WjM39/MDmCqtIaZ3zH
+         BkasncAI1TpwS6OOkHZXpK5Gd5+jzeHuio/Ie4IcInraS0B6WFY4K6YlZ8p5LrO8DHqz
+         kAXdyxPdA8MvOgorjx8Ri/Fk35nOlJmlEZDYdEc977kTuAx6t7QYNKwWVcZJlGj6wH+W
+         gqbg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:reply-to:sender:from:date
-         :message-id:subject:to;
-        bh=VaaSLAJ+hgNGNq49WyPsh3ndDLo+mnrYcswrOHpJSv8=;
-        b=4EX2ACYzYPRA0jaFCDzdlwMxMa9SEmEZmDiENSaN7Mmd/UshD386eZmUChXr7cYiV1
-         G/kaVDEMMnBEH5L6C2MOAO2H25FIOBXpEUSSBkAn/qusYO3ED31T7hHJpe/gqP2xnukK
-         3aUjpJMnSG0q8Y9iaJX6OqTIAat0t0qvBXNoa6rrqYFIdX71Ud/ZSJiPNDUDBbVvEMzY
-         PDgMgbFEO4a4hbaMew8CkKmr9im3SiODDMtpt7kPrbfl7JnGFCqgkW7TveZoB79Jw0yH
-         UJjryQ9g2KzI4grk2+yesRyK4NzxU/RWimF8d58KtNgsyw4Ce1/Oa9zPcvsJ8u27RBun
-         9jKw==
-X-Gm-Message-State: AOAM532VMvFMlNeGiXNmeHYCg/hbNyTwdbgTOCh+dDaMiZd+7n2Ccx8M
-        jw2AeOpF1qZYzf7QL/j+lRmsLB1/uQl5hXLKJj0=
-X-Google-Smtp-Source: ABdhPJximaKc2DuZ4eKDuKmGQ5B/VLHvzOMG/SuEznp2MF7MCDySDvf7od2ggUlZ6xZn8qkMV7NDwnC5K6rNKHdgzfE=
-X-Received: by 2002:a05:651c:2cb:b0:23e:9985:518 with SMTP id
- f11-20020a05651c02cb00b0023e99850518mr3882088ljo.18.1646549467918; Sat, 05
- Mar 2022 22:51:07 -0800 (PST)
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=h5dkyy0nkqUAlW89Y7+liUDjWjAQJ5MhYKATVcex5n4=;
+        b=xDmjqrr9M2kxxYi/aV4EZUGNp84ukKfcZsbG3+7ln2yiuC4Mn0rIAqcoWErgL2UqQN
+         nLaahi3QfUN397rIbllAWbvjrPdmiQv8I3kTVAUYgN2kOcnpXVjTuEGOrEcrhSulREw3
+         ehcjFhu5kT2wrNmbfaHVgaFuwryUgVyUCgCxfUBjn7/eml/2RAYMmFL2VVmTRsOyrpSS
+         dMxuYgHCPGkAqWyHQ8a2UqDCa90WVUwIWPY8b/a3ulSedzsfLBIzXtJauRgx+r4QNlw2
+         lCJu/yfc2DLlPNwZNI+L2uTTCuYQjuDWgVNhZSyhkHF7PFJDGth7gzAa65yHpFIgWQuc
+         83wg==
+X-Gm-Message-State: AOAM532fUvpl4lLOxG0Aslgu5kfoOH0lvsSP7td+Kacx3q6YmKh63lMH
+        mvHYnAtv+EeYZNd0iTDor1uEmJEnEKO6rBq5BH2y+WtU6PI=
+X-Google-Smtp-Source: ABdhPJwcBIJR05XQGluKSFlxI5ViMKoWTLxiKJpVei7xI4smLmIuWW++Rc4kPbQbuL594ueeLIQse1lMGpO4dzABKh4=
+X-Received: by 2002:a2e:1618:0:b0:247:eb53:6d5b with SMTP id
+ w24-20020a2e1618000000b00247eb536d5bmr12222414ljd.312.1647202018503; Sun, 13
+ Mar 2022 13:06:58 -0700 (PDT)
 MIME-Version: 1.0
-Reply-To: mrs.susanelwoodhara17@gmail.com
-Sender: mrs.arawyann@gmail.com
-Received: by 2002:ab3:7d89:0:0:0:0:0 with HTTP; Sat, 5 Mar 2022 22:51:07 -0800 (PST)
-From:   Mrs Susan Elwood Hara <mrs.susanelwoodhara17@gmail.com>
-Date:   Sun, 6 Mar 2022 06:51:07 +0000
-X-Google-Sender-Auth: gB-i3oPiTFvFbKKhfBi1HD0hNQ4
-Message-ID: <CACppo45h3xLoqDdBmWyFac6YQk-7j3d1wR-NA_BVuta5RwbZiw@mail.gmail.com>
-Subject: GOD BLESS YOU AS YOU REPLY URGENTLY
-To:     undisclosed-recipients:;
+References: <20220303182508.288136-1-miquel.raynal@bootlin.com> <20220303182508.288136-6-miquel.raynal@bootlin.com>
+In-Reply-To: <20220303182508.288136-6-miquel.raynal@bootlin.com>
+From:   Alexander Aring <alex.aring@gmail.com>
+Date:   Sun, 13 Mar 2022 16:06:47 -0400
+Message-ID: <CAB_54W7zOY3+Xe=s8ehvcX3mY2bSL1Q5bhsEz50DKXUL1bCw1w@mail.gmail.com>
+Subject: Re: [PATCH wpan-next v3 05/11] net: ieee802154: at86rf230: Assume
+ invalid TRAC if not recognized
+To:     Miquel Raynal <miquel.raynal@bootlin.com>
+Cc:     Stefan Schmidt <stefan@datenfreihafen.org>,
+        linux-wpan - ML <linux-wpan@vger.kernel.org>,
+        "David S. Miller" <davem@davemloft.net>,
+        Jakub Kicinski <kuba@kernel.org>,
+        "open list:NETWORKING [GENERAL]" <netdev@vger.kernel.org>,
+        David Girault <david.girault@qorvo.com>,
+        Romuald Despres <romuald.despres@qorvo.com>,
+        Frederic Blain <frederic.blain@qorvo.com>,
+        Nicolas Schodet <nico@ni.fr.eu.org>,
+        Thomas Petazzoni <thomas.petazzoni@bootlin.com>
 Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: No, score=4.9 required=5.0 tests=BAYES_50,DKIM_SIGNED,
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
         DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
-        FREEMAIL_REPLYTO_END_DIGIT,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,
-        SUBJ_ALL_CAPS,T_HK_NAME_FM_MR_MRS,T_SCC_BODY_TEXT_LINE,UNDISC_MONEY
-        autolearn=no autolearn_force=no version=3.4.6
-X-Spam-Level: ****
+        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-wpan.vger.kernel.org>
 X-Mailing-List: linux-wpan@vger.kernel.org
 
-GOD BLESS YOU AS YOU REPLY URGENTLY
+Hi,
 
- Hello Dear,
-Greetings, I am contacting you regarding an important information i
-have for you please reply to confirm your email address and for more
-details Thanks
-Regards
-Mrs Susan Elwood Hara.
+On Thu, Mar 3, 2022 at 1:25 PM Miquel Raynal <miquel.raynal@bootlin.com> wrote:
+>
+> The TRAC register gives the MAC error codes if any. If the TRAC register
+> reports a value that is unknown, we should probably assume that it is
+> invalid.
+>
+
+Can we instead revert 493bc90a9683 ("at86rf230: add debugfs support")
+it was introduced because of some testing stuff with ack handling but
+now we have an error. We might add a stats handling for such errors in
+the 802.15.4 core in future to get it on a per neighbor basis.
+
+- Alex
