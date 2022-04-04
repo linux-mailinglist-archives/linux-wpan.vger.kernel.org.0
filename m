@@ -2,113 +2,188 @@ Return-Path: <linux-wpan-owner@vger.kernel.org>
 X-Original-To: lists+linux-wpan@lfdr.de
 Delivered-To: lists+linux-wpan@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 80DBD4ECC0E
-	for <lists+linux-wpan@lfdr.de>; Wed, 30 Mar 2022 20:25:13 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 87A3C4F1505
+	for <lists+linux-wpan@lfdr.de>; Mon,  4 Apr 2022 14:40:46 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1349992AbiC3S0z (ORCPT <rfc822;lists+linux-wpan@lfdr.de>);
-        Wed, 30 Mar 2022 14:26:55 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37670 "EHLO
+        id S1347083AbiDDMmk (ORCPT <rfc822;lists+linux-wpan@lfdr.de>);
+        Mon, 4 Apr 2022 08:42:40 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51372 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1350241AbiC3S02 (ORCPT
-        <rfc822;linux-wpan@vger.kernel.org>); Wed, 30 Mar 2022 14:26:28 -0400
-Received: from mail-oa1-x2e.google.com (mail-oa1-x2e.google.com [IPv6:2001:4860:4864:20::2e])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C908749FAA
-        for <linux-wpan@vger.kernel.org>; Wed, 30 Mar 2022 11:23:49 -0700 (PDT)
-Received: by mail-oa1-x2e.google.com with SMTP id 586e51a60fabf-d6e29fb3d7so22919631fac.7
-        for <linux-wpan@vger.kernel.org>; Wed, 30 Mar 2022 11:23:49 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=mime-version:reply-to:sender:from:date:message-id:subject:to
-         :content-transfer-encoding;
-        bh=6PnxJaVdYHTfEoSreao3ANO+XeqxY/p/4dxKSObIH1I=;
-        b=U1oUia1Thamt6Z7oWm6PGNKOk9RXK6Jv76DGrI1cLcYRcY5/d1Tt5qepQRdZm6lsyq
-         RBa/xpJM28ShOu5ibphzafHjPKptRC4OMeOVco0xYKihrCNFhnaGQOBDSvUdgHWgE3gf
-         cWTbx+dPO2nv/wujOZrrbxfJpePUzp7QZ1RCloUPxJhGXTvBKUziPieC1LSkK8oSaB+t
-         E85QJNBGnQK8HE8wei7Zq5jQSpeI5JY8kzofCGcJSUHLIHQXWsBy6ta+brl9WPLZzyWA
-         2jPBZlOFyxLxFI8awBJCcZtcLmSyu35IRMr8cJ72zb2pokIUUqe6EUB9pKUwVKwbq4my
-         ou5A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:reply-to:sender:from:date
-         :message-id:subject:to:content-transfer-encoding;
-        bh=6PnxJaVdYHTfEoSreao3ANO+XeqxY/p/4dxKSObIH1I=;
-        b=qek5+32bMlpVgpro7OGOTzjh+npnzjSZIIdQ0gSvHmuruE2lSfFBDnBdPqxcTS5L0w
-         OKzJrS97Vsd21QHrbyBRzUHjYz5myVcW9M5ev5sCz/+lTXo5/pWhrrJpZBpuZLk/Luop
-         8G62B6/5QaHTi3h3SjKB01kuK5ZuSxYssnj22ko/C0YdUSP4dTO1vl94/we34fueSABl
-         MtQ1VfMpgafgqyyRneyybu23lv7fec2AP/R2YzMf9/YAAmscpMIWzzDqZc3eoDJbSdeS
-         QC94FfOJzOC/AhRmAw62FNWCCo8HcdPpSiBocBV2djrHniTUwW6SQrpBzc2YCYMqZtSh
-         xAsg==
-X-Gm-Message-State: AOAM533M3JKcheKi5JLzyPXJBkK9pvF4jshliNrLgmUaLWxYn0TTmC/e
-        nKWzu19Nmqvx7EQwrstCr7THpyHylwheEqauTFI1BQubJWp2
-X-Google-Smtp-Source: ABdhPJzkTl+tJbylc9dRvis6ZhULbTl7j4ynIkLgm4b/Lu4YSrf6PCWjehKBvofPJCmWKHUKJGD0xbE01MjL0VC50Jo=
-X-Received: by 2002:a17:90b:3143:b0:1c7:5cee:3948 with SMTP id
- ip3-20020a17090b314300b001c75cee3948mr852445pjb.140.1648664618224; Wed, 30
- Mar 2022 11:23:38 -0700 (PDT)
+        with ESMTP id S1346057AbiDDMmj (ORCPT
+        <rfc822;linux-wpan@vger.kernel.org>); Mon, 4 Apr 2022 08:42:39 -0400
+Received: from relay3-d.mail.gandi.net (relay3-d.mail.gandi.net [IPv6:2001:4b98:dc4:8::223])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8A9472E689;
+        Mon,  4 Apr 2022 05:40:42 -0700 (PDT)
+Received: (Authenticated sender: miquel.raynal@bootlin.com)
+        by mail.gandi.net (Postfix) with ESMTPSA id 6778F6000F;
+        Mon,  4 Apr 2022 12:40:39 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
+        t=1649076041;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=pluALRTX+3BTYVs1g0iwHll8/F19OBnKsFlKgubvcKE=;
+        b=hSsRw+QB0r4Uq9KRCsMDiHnoD/GuH/N9WOGNzPO8Ktvd4CZxAoX2lVrhXeEDxZm549pjEX
+        eWoqWXnvwk/V1XBVVzix1fqQmooVljEVbXuCnVEh/xKmHKE2sAeWpo8uO7OW47Grclnx9U
+        OInoi/xOJoKc4w0UJPE5R6z9Gpkef6PpiP6t8AWDM00sP7dGkg6rO7/JMA7VzWzeCPWUiB
+        48OzVgzgsca1aXywVeviac7FIzsupzvcmQmezC5uM++K6SQbI5FRrcnLrpp/0r73pafr96
+        X9jFM+y9ci/gyrcdQ62T80xiGSEeBSH/qF1Bc/7MUSgbjVzQhJmD6T3napMiqQ==
+Date:   Mon, 4 Apr 2022 14:40:38 +0200
+From:   Miquel Raynal <miquel.raynal@bootlin.com>
+To:     Alexander Aring <alex.aring@gmail.com>
+Cc:     Stefan Schmidt <stefan@datenfreihafen.org>,
+        linux-wpan - ML <linux-wpan@vger.kernel.org>,
+        "David S. Miller" <davem@davemloft.net>,
+        Jakub Kicinski <kuba@kernel.org>,
+        "open list:NETWORKING [GENERAL]" <netdev@vger.kernel.org>,
+        David Girault <david.girault@qorvo.com>,
+        Romuald Despres <romuald.despres@qorvo.com>,
+        Frederic Blain <frederic.blain@qorvo.com>,
+        Nicolas Schodet <nico@ni.fr.eu.org>,
+        Thomas Petazzoni <thomas.petazzoni@bootlin.com>
+Subject: Re: [PATCH wpan-next v4 07/11] net: ieee802154: at86rf230: Provide
+ meaningful error codes when possible
+Message-ID: <20220404144038.050ffc2b@xps13>
+In-Reply-To: <20220329183506.513b93cb@xps13>
+References: <20220318185644.517164-1-miquel.raynal@bootlin.com>
+        <20220318185644.517164-8-miquel.raynal@bootlin.com>
+        <CAB_54W5A1xmHO-YrWS3+RD0N_66mzkDpPYjosHU3vHgn1zmONg@mail.gmail.com>
+        <20220329183506.513b93cb@xps13>
+Organization: Bootlin
+X-Mailer: Claws Mail 3.17.7 (GTK+ 2.24.32; x86_64-pc-linux-gnu)
 MIME-Version: 1.0
-Reply-To: isabellasayouba0@gmail.com
-Sender: 040stherchurch@gmail.com
-Received: by 2002:a05:6a20:691d:b0:76:6cf5:d552 with HTTP; Wed, 30 Mar 2022
- 11:23:37 -0700 (PDT)
-From:   Mrs Isabella Sayouba <isabellasayouba0@gmail.com>
-Date:   Wed, 30 Mar 2022 18:23:37 +0000
-X-Google-Sender-Auth: _Xe1kByDkvq-Dn04BagO7gok_qM
-Message-ID: <CAAzQq761QVaWKiKernxpKjqNCK+6V9mRKHBnOcqF8rXJO9Y+aA@mail.gmail.com>
-Subject: =?UTF-8?B?44GC44GE44GV44Gk44CC?=
-To:     undisclosed-recipients:;
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: base64
-X-Spam-Status: No, score=3.8 required=5.0 tests=BAYES_99,BAYES_999,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
-        FREEMAIL_REPLYTO_END_DIGIT,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,
-        T_HK_NAME_FM_MR_MRS,T_SCC_BODY_TEXT_LINE autolearn=no
-        autolearn_force=no version=3.4.6
-X-Spam-Level: ***
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_NONE,SPF_PASS,
+        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-wpan.vger.kernel.org>
 X-Mailing-List: linux-wpan@vger.kernel.org
 
-44GC44GE44GV44Gk44CCDQoNCua2meOCkua1geOBl+OBquOBjOOCieOBk+OBruODoeODvOODq+OC
-kuabuOOBhOOBpuOBhOOBvuOBmeOAguengeOBruebruOBq+OBr+Wkp+OBjeOBquaCsuOBl+OBv+OB
-jOOBguOCiuOBvuOBmeOAguengeOBruWQjeWJjeOBr+OCpOOCtuODmeODqeODu+OCteODqOOCpuOD
-kOOBleOCk+OBp+OBmeOAguODgeODpeODi+OCuOOCouWHuui6q+OBp+OAgeODluODq+OCreODiuOD
-leOCoeOCveOBrueXhemZouOBi+OCiemAo+e1oeOCkuWPluOCiuOBvuOBmeOAguengeOBr+OBguOB
-quOBn+OBq+W/g+OCkumWi+OBhOOBpuaEn+WLleOBl+OBn+OBruOBp+OAgeOBguOBquOBn+OBq+ip
-seOBmeS7peWkluOBq+mBuOaKnuiCouOBr+OBguOCiuOBvuOBm+OCk+OAguengeOBr+OAgTIwMTHl
-ubTjgavkuqHjgY/jgarjgovliY3jgavjg5bjg6vjgq3jg4rjg5XjgqHjgr3jga7jg4Hjg6Xjg4vj
-grjjgqLlpKfkvb/jgag55bm06ZaT5YON44GE44Gm44GE44GfU2F5b3ViYQ0KQnJvd27msI/jgajn
-tZDlqZrjgZfjgb7jgZfjgZ/jgILlrZDkvpvjgarjgZfjgacxMeW5tOmWk+e1kOWpmuOBl+OBn+OA
-gg0KDQrlvbzjga/jgZ/jgaPjgZ815pel6ZaT57aa44GE44Gf55+t44GE55eF5rCX44Gu5b6M44Gn
-5q2744Gr44G+44GX44Gf44CC5b2844Gu5q275b6M44CB56eB44Gv5YaN5ama44GX44Gq44GE44GT
-44Go44Gr5rG644KB44G+44GX44Gf44CC5Lqh44GP44Gq44Gj44Gf5aSr44GM55Sf44GN44Gm44GE
-44Gf44Go44GN44CB5b2844Gv57eP6aGNODUw5LiH44OJ44Or44KS6aCQ44GR44G+44GX44Gf44CC
-DQrvvIg4MDDkuIc1MDAw44OJ44Or77yJ6KW/44Ki44OV44Oq44Kr44Gu44OW44Or44Kt44OK44OV
-44Kh44K944Gu6aaW6YO944Ov44Ks44OJ44Kl44Kw44O844Gu6YqA6KGM44Gn44CC54++5Zyo44CB
-44GT44Gu44GK6YeR44Gv44G+44Gg6YqA6KGM44Gr44GC44KK44G+44GZ44CC5b2844Gv44GT44Gu
-44GK6YeR44KS44OW44Or44Kt44OK44OV44Kh44K944Gu6Ymx5qWt44GL44KJ44Gu6YeR44Gu6Ly4
-5Ye644Gr5Yip55So44Gn44GN44KL44KI44GG44Gr44GX44G+44GX44Gf44CCDQoNCuacgOi/keOA
-geengeOBruWMu+iAheOBr+engeOBjOeZjOOBqOiEs+WNkuS4reOBruWVj+mhjOOBruOBn+OCgeOB
-qzfjg7bmnIjplpPjga/ntprjgYvjgarjgYTjgaDjgo3jgYbjgajnp4HjgavoqIDjgYTjgb7jgZfj
-gZ/jgILnp4HjgpLmnIDjgoLmgqnjgb7jgZvjgabjgYTjgovjga7jga/ohLPljZLkuK3jga7nl4Xm
-sJfjgafjgZnjgILnp4Hjga7nirbmhYvjgpLnn6XjgaPjgZ/jga7jgafjgIHnp4Hjga/jgZPjga7j
-gYrph5HjgpLjgYLjgarjgZ/jgavmuKHjgZfjgabjgIHmgbXjgb7jgozjgarjgYTkurrjgIXjga7k
-uJboqbHjgpLjgZnjgovjgZPjgajjgavjgZfjgb7jgZfjgZ/jgILjgYLjgarjgZ/jga/jgZPjga7j
-gYrph5HjgpLnp4HjgYzjgZPjgZPjgafmjIfnpLrjgZnjgovmlrnms5XjgafliKnnlKjjgZnjgovj
-gafjgZfjgofjgYbjgILnp4Hjga/jgYLjgarjgZ/jgavjgYLjgarjgZ/jga7lgIvkurrnmoTjgark
-vb/nlKjjga7jgZ/jgoHjgavnt4/jgYrph5Hjga4zMOODkeODvOOCu+ODs+ODiOOCkuWPluOBo+OB
-puassuOBl+OBhOOBp+OBmeOAguOBiumHkeOBrjcw77yF44Gv56eB44Gu5ZCN5YmN44Gn5a2k5YWQ
-6Zmi44KS5bu644Gm44CB6YCa44KK44Gu6LKn44GX44GE5Lq644CF44KS5Yqp44GR44KL44Gf44KB
-44Gr5L2/44GG44Gn44GX44KH44GG44CC56eB44Gv5a2k5YWQ44Go44GX44Gm6IKy44Gh44G+44GX
-44Gf44GM44CB56We44Gu5a6244KS57at5oyB44GZ44KL44Gf44KB44Gg44GR44Gr44CB5a625peP
-44Gr44Gv6Kqw44KC44GE44G+44Gb44KT44CC44GT44Gu55eF5rCX44GM56eB44KS44Go44Gm44KC
-6Ium44GX44KB44Gf44Gu44Gn44CB56We44GM56eB44Gu572q44KS6LWm44GX44CB5qW95ZyS44Gn
-56eB44Gu6a2C44KS5Y+X44GR5YWl44KM44KL44KI44GG44Gr44GT44KM44KS44GX44Gm44GE44KL
-44Gu44Gn44GZ44CCDQoNCui/lOS/oeOCkuWPl+OBkeWPluOCiuasoeesrOOAgeODluODq+OCreOD
-iuODleOCoeOCveOBrumKgOihjOOBrumAo+e1oeWFiOOCkuOBiuefpeOCieOBm+OBl+OBvuOBmeOA
-guOBvuOBn+OAgemKgOihjOOBruePvuWcqOOBruWPl+WPluS6uuOBp+OBguOCi+OBk+OBqOOCkuio
-vOaYjuOBmeOCi+aoqemZkOabuOOCkueZuuihjOOBmeOCi+OCiOOBhumKgOihjOmVt+OBq+aMh+ek
-uuOBl+OBvuOBmeOAguengeOBjOOBk+OBk+OBp+i/sOOBueOBn+OCiOOBhuOBq+OBguOBquOBn+OB
-jOOBneOCjOOBq+W/nOOBmOOBpuihjOWLleOBmeOCi+OBk+OBqOOCkuengeOBq+S/neiovOOBl+OB
-puOBj+OBoOOBleOBhOOAgg0KDQrjgqTjgrbjg5njg6njg7vjgrXjg6jjgqbjg5DlpKvkurrjgYvj
-gonjgIINCg==
+Hello,
+
+miquel.raynal@bootlin.com wrote on Tue, 29 Mar 2022 18:35:06 +0200:
+
+> Hi Alexander,
+>=20
+> alex.aring@gmail.com wrote on Sun, 27 Mar 2022 11:46:12 -0400:
+>=20
+> > Hi,
+> >=20
+> > On Fri, Mar 18, 2022 at 2:56 PM Miquel Raynal <miquel.raynal@bootlin.co=
+m> wrote: =20
+> > >
+> > > Either the spi operation failed, or the offloaded transmit operation
+> > > failed and returned a TRAC value. Use this value when available or use
+> > > the default "SYSTEM_ERROR" otherwise, in order to propagate one step
+> > > above the error.
+> > >
+> > > Signed-off-by: Miquel Raynal <miquel.raynal@bootlin.com>
+> > > ---
+> > >  drivers/net/ieee802154/at86rf230.c | 25 +++++++++++++++++++++++--
+> > >  1 file changed, 23 insertions(+), 2 deletions(-)
+> > >
+> > > diff --git a/drivers/net/ieee802154/at86rf230.c b/drivers/net/ieee802=
+154/at86rf230.c
+> > > index d3cf6d23b57e..34d199f597c9 100644
+> > > --- a/drivers/net/ieee802154/at86rf230.c
+> > > +++ b/drivers/net/ieee802154/at86rf230.c
+> > > @@ -358,7 +358,23 @@ static inline void
+> > >  at86rf230_async_error(struct at86rf230_local *lp,
+> > >                       struct at86rf230_state_change *ctx, int rc)
+> > >  {
+> > > -       dev_err(&lp->spi->dev, "spi_async error %d\n", rc);
+> > > +       int reason;
+> > > +
+> > > +       switch (rc) {   =20
+> >=20
+> > I think there was a miscommunication last time, this rc variable is
+> > not a trac register value, it is a linux errno. Also the error here
+> > has nothing to do with a trac error. A trac error is the result of the
+> > offloaded transmit functionality on the transceiver, here we dealing
+> > about bus communication errors produced by the spi subsystem. What we
+> > need is to report it to the softmac layer as "IEEE802154_SYSTEM_ERROR"
+> > (as we decided that this is a user specific error and can be returned
+> > by the transceiver for non 802.15.4 "error" return code. =20
+>=20
+> I think we definitely need to handle both, see below.
+>=20
+> >  =20
+> > > +       case TRAC_CHANNEL_ACCESS_FAILURE:
+> > > +               reason =3D IEEE802154_CHANNEL_ACCESS_FAILURE;
+> > > +               break;
+> > > +       case TRAC_NO_ACK:
+> > > +               reason =3D IEEE802154_NO_ACK;
+> > > +               break;
+> > > +       default:
+> > > +               reason =3D IEEE802154_SYSTEM_ERROR;
+> > > +       }
+> > > +
+> > > +       if (rc < 0)
+> > > +               dev_err(&lp->spi->dev, "spi_async error %d\n", rc);
+> > > +       else
+> > > +               dev_err(&lp->spi->dev, "xceiver error %d\n", reason);
+> > >
+> > >         at86rf230_async_state_change(lp, ctx, STATE_FORCE_TRX_OFF,
+> > >                                      at86rf230_async_error_recover);
+> > > @@ -666,10 +682,15 @@ at86rf230_tx_trac_check(void *context)
+> > >         case TRAC_SUCCESS:
+> > >         case TRAC_SUCCESS_DATA_PENDING:
+> > >                 at86rf230_async_state_change(lp, ctx, STATE_TX_ON, at=
+86rf230_tx_on);
+> > > +               return;
+> > > +       case TRAC_CHANNEL_ACCESS_FAILURE:
+> > > +       case TRAC_NO_ACK:
+> > >                 break;
+> > >         default:
+> > > -               at86rf230_async_error(lp, ctx, -EIO);
+> > > +               trac =3D TRAC_INVALID;
+> > >         }
+> > > +
+> > > +       at86rf230_async_error(lp, ctx, trac);   =20
+> >=20
+> > That makes no sense, at86rf230_async_error() is not a trac error
+> > handling, it is a bus error handling. =20
+>=20
+> Both will have to be handled asynchronously, which means we have to
+> tell the soft mac layer that something bad happened in each case.
+>=20
+> > As noted above. With this change
+> > you mix bus errors and trac errors (which are not bus errors). =20
+>=20
+> In the case of a SPI error, it will happen asynchronously, which means
+> the tx call is over and something bad happened. We are aware that
+> something bad happened and there was a bus error. We need to:
+> - Free the skb
+> - Restart the internal machinery
+> - Somehow tell the soft mac layer something bad happened and the packet
+>   will not be transmitted as expected (IOW, balance the "end" calls
+>   with the "start" calls, just because we did not return immediately
+>   when we got the transmit request).
+>=20
+> In the case of a transmission error, this is a trac condition that is
+> reported to us by an IRQ. We know it is a trac error, we can look at a
+> buffer to find which trac error exactly happened. In this case we need
+> to go through exactly the same steps as above.
+>=20
+> But you are right that a spi_async() error is not a trac error, hence
+> my choice in the switch statement to default to the
+> IEEE80154_SYSTEM_ERROR flag in this case.
+>=20
+> Should I ignore spi bus errors? I don't think I can, so I don't really
+> see how to handle it differently.
+
+Sorry to bother you again, but in the end, do you agree on returning
+IEEE802154_SYSTEM_ERROR upon asynchronous bus errors?
+
+Any other modification of the driver in favor of having two distinct
+paths would be really costly in term of time spent and probability of
+breaking something, so I would rather avoid it, unless I am missing
+something simpler?
+
+Cheers,
+Miqu=C3=A8l
