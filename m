@@ -2,87 +2,106 @@ Return-Path: <linux-wpan-owner@vger.kernel.org>
 X-Original-To: lists+linux-wpan@lfdr.de
 Delivered-To: lists+linux-wpan@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 40AC94F7C78
-	for <lists+linux-wpan@lfdr.de>; Thu,  7 Apr 2022 12:09:50 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 88B9F5034E8
+	for <lists+linux-wpan@lfdr.de>; Sat, 16 Apr 2022 09:51:58 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S244163AbiDGKLj (ORCPT <rfc822;lists+linux-wpan@lfdr.de>);
-        Thu, 7 Apr 2022 06:11:39 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51320 "EHLO
+        id S230248AbiDPHwv (ORCPT <rfc822;lists+linux-wpan@lfdr.de>);
+        Sat, 16 Apr 2022 03:52:51 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44680 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S244129AbiDGKLd (ORCPT
-        <rfc822;linux-wpan@vger.kernel.org>); Thu, 7 Apr 2022 06:11:33 -0400
-Received: from relay3-d.mail.gandi.net (relay3-d.mail.gandi.net [217.70.183.195])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1DDB2237FCA;
-        Thu,  7 Apr 2022 03:09:23 -0700 (PDT)
-Received: (Authenticated sender: miquel.raynal@bootlin.com)
-        by mail.gandi.net (Postfix) with ESMTPSA id 710EE60009;
-        Thu,  7 Apr 2022 10:09:19 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
-        t=1649326162;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=ciS+k9VChIU4H5lHgCsYF4iRcuri5PAr+qW7SczT23g=;
-        b=ddJ1QyAEYMuFQmzcQsiFXJxEXtaRqomeq89oujvWk+O8ULPdeGS+RCBQ6+Dlz308O2AEtu
-        8BDslUIz5X3rgAjWR2xWxkutGB4oVOD3IOWKWPjZhpsgp39d9kQ0qYN8VyMryO7V+zJT6B
-        0oq3KViTXdzzJ835LD+23twJovmbmxJ3hs3jqqfIs8TzYmVrABMYJz22CH7grkd9UIiEUv
-        RZtplSvx3XzTN9towugfBNzvvmfxhGbIh6/fyi2ujg5ZwImJ3n36D8m5DQJyAZFkz6hO+R
-        +9K+2bIPS4NDKUg9NJEQTiuyCM/PICcgTz2p236TJd7rq5C9ANewzYeTcWSRnw==
-From:   Miquel Raynal <miquel.raynal@bootlin.com>
-To:     Alexander Aring <alex.aring@gmail.com>,
-        Stefan Schmidt <stefan@datenfreihafen.org>,
-        linux-wpan@vger.kernel.org
-Cc:     "David S. Miller" <davem@davemloft.net>,
-        Jakub Kicinski <kuba@kernel.org>, netdev@vger.kernel.org,
-        David Girault <david.girault@qorvo.com>,
-        Romuald Despres <romuald.despres@qorvo.com>,
-        Frederic Blain <frederic.blain@qorvo.com>,
-        Nicolas Schodet <nico@ni.fr.eu.org>,
-        Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
-        Miquel Raynal <miquel.raynal@bootlin.com>
-Subject: [PATCH v6 10/10] net: ieee802154: ca8210: Call _xmit_error() when a transmission fails
-Date:   Thu,  7 Apr 2022 12:09:03 +0200
-Message-Id: <20220407100903.1695973-11-miquel.raynal@bootlin.com>
-X-Mailer: git-send-email 2.27.0
-In-Reply-To: <20220407100903.1695973-1-miquel.raynal@bootlin.com>
-References: <20220407100903.1695973-1-miquel.raynal@bootlin.com>
+        with ESMTP id S230249AbiDPHwZ (ORCPT
+        <rfc822;linux-wpan@vger.kernel.org>); Sat, 16 Apr 2022 03:52:25 -0400
+Received: from mail-pg1-x543.google.com (mail-pg1-x543.google.com [IPv6:2607:f8b0:4864:20::543])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A93BA10074D
+        for <linux-wpan@vger.kernel.org>; Sat, 16 Apr 2022 00:49:38 -0700 (PDT)
+Received: by mail-pg1-x543.google.com with SMTP id k14so10113934pga.0
+        for <linux-wpan@vger.kernel.org>; Sat, 16 Apr 2022 00:49:38 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=mime-version:reply-to:from:date:message-id:subject:to;
+        bh=KeMi8W+p20zdR41YZoRj2EapY7imNsLYkAgQIQsIzqY=;
+        b=bJd2DIgtyK+bZCVQpMa9XLiI7bVnFQgVFeGzbZ6bXamjrEFIUCNaIDR9YpvR5iTRQC
+         EoRjHn2hxdGgHpTmUXoJLhLdkz8kw8CpdMkf+RjOM2yxgJf0M2w5tnzpw0NiczM9cGQm
+         aTRY2J48j2+AVBVM6ZplapTERLwB7sqpQHn0KTPy+GATyEE1HlWbU25nZewZyTln9PiO
+         eb2iuPe3VcoLkYjZ6tmC44EeIcF1BzRiek/y+/+gg720T1wEvd/5m2iOgdTIUS3isI5Z
+         q2z1OdX/gYACU6OexrbNcXzEKBC+MKUq0Bm7V68HpmeyS3D5tFhEEP1iOfnkPKJo7x6w
+         XtNg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:mime-version:reply-to:from:date:message-id
+         :subject:to;
+        bh=KeMi8W+p20zdR41YZoRj2EapY7imNsLYkAgQIQsIzqY=;
+        b=4WuMCD8lRWZ45WPckzGiPgu8wAaDwMTvqkfrzteMojHLaTm7i8FeHLYAopoKS5X6aT
+         xkB95t9QdQCQqRPNwEO8gQuGnKPjLUoh8I2fcrWU5o5UrTjW1izUwlnhBmMpQpRWBoSu
+         hxrKjixCeyhlZfAGcaYyV3thmpTkg40qSFXSnXxaoZGGbt32QxVA9tLEvk1yPmyfF+Rd
+         diGHjssQV7NHqGWxF/RtSzCA5JG8+yrd/Y+67/pz4jXSwWIOxKM0sE4o4KiLAqqIpWRz
+         wKwcWtpe0RdqVtGkM6twJWmfoWjqvEnVp4VOAer1yr4LPY6bxnZlFrS09Bte+XjSPoeH
+         CxrQ==
+X-Gm-Message-State: AOAM533sHejepTcXStrvb3f8Xkk4FX3AHzMV5O4cgHtmB2nCfWmCL0XH
+        mnXlN8KqBPNBMursscBLS5tLklk5PynMM+h4B9aKc0ni+hM=
+X-Google-Smtp-Source: ABdhPJzPQ782jxaaybf4v05kBQtFRTzv0MMrux20NcZ4Q10XmGrK6dnUIabFDBNBmBOv8fFyQY5zqzYAgf4Cnc3KaCc=
+X-Received: by 2002:a92:508:0:b0:2cb:ebd8:a76b with SMTP id
+ q8-20020a920508000000b002cbebd8a76bmr1009500ile.156.1650095366830; Sat, 16
+ Apr 2022 00:49:26 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-2.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_LOW,
-        RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,SPF_PASS,
-        T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED autolearn=ham autolearn_force=no
-        version=3.4.6
+Received: by 2002:a05:6638:1309:0:0:0:0 with HTTP; Sat, 16 Apr 2022 00:49:26
+ -0700 (PDT)
+Reply-To: daniel.seyba@yahoo.com
+From:   Seyba Daniel <royhalton13@gmail.com>
+Date:   Sat, 16 Apr 2022 09:49:26 +0200
+Message-ID: <CALSxb2w9zQYotuLcRSCPns53ksvT9UrEMVx-1Cp1f8RE7er3cA@mail.gmail.com>
+Subject: Hello,
+To:     undisclosed-recipients:;
+Content-Type: text/plain; charset="UTF-8"
+X-Spam-Status: Yes, score=5.5 required=5.0 tests=BAYES_50,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_ENVFROM_END_DIGIT,
+        FREEMAIL_FROM,FREEMAIL_REPLYTO,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,
+        SPF_PASS,T_SCC_BODY_TEXT_LINE,UNDISC_FREEM autolearn=no
+        autolearn_force=no version=3.4.6
+X-Spam-Report: * -0.0 RCVD_IN_DNSWL_NONE RBL: Sender listed at
+        *      https://www.dnswl.org/, no trust
+        *      [2607:f8b0:4864:20:0:0:0:543 listed in]
+        [list.dnswl.org]
+        *  0.8 BAYES_50 BODY: Bayes spam probability is 40 to 60%
+        *      [score: 0.5000]
+        * -0.0 SPF_PASS SPF: sender matches SPF record
+        *  0.0 FREEMAIL_FROM Sender email is commonly abused enduser mail
+        *      provider
+        *      [royhalton13[at]gmail.com]
+        *  0.2 FREEMAIL_ENVFROM_END_DIGIT Envelope-from freemail username ends
+        *       in digit
+        *      [royhalton13[at]gmail.com]
+        *  0.0 SPF_HELO_NONE SPF: HELO does not publish an SPF Record
+        * -0.1 DKIM_VALID Message has at least one valid DKIM or DK signature
+        *  0.1 DKIM_SIGNED Message has a DKIM or DK signature, not necessarily
+        *       valid
+        * -0.1 DKIM_VALID_EF Message has a valid DKIM or DK signature from
+        *      envelope-from domain
+        * -0.1 DKIM_VALID_AU Message has a valid DKIM or DK signature from
+        *      author's domain
+        * -0.0 T_SCC_BODY_TEXT_LINE No description available.
+        *  3.7 UNDISC_FREEM Undisclosed recipients + freemail reply-to
+        *  1.0 FREEMAIL_REPLYTO Reply-To/From or Reply-To/body contain
+        *      different freemails
+X-Spam-Level: *****
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-wpan.vger.kernel.org>
 X-Mailing-List: linux-wpan@vger.kernel.org
 
-ieee802154_xmit_error() is the right helper to call when a transmission
-has failed. Let's use it instead of open-coding it.
+Hello,
 
-Signed-off-by: Miquel Raynal <miquel.raynal@bootlin.com>
----
- drivers/net/ieee802154/ca8210.c | 3 +--
- 1 file changed, 1 insertion(+), 2 deletions(-)
+I am so sorry contacting you in this means especially when we have never
+met before. I urgently seek your service to represent me in investing in
+your region / country and you will be rewarded for your service without
+affecting your present job with very little time invested in it.
 
-diff --git a/drivers/net/ieee802154/ca8210.c b/drivers/net/ieee802154/ca8210.c
-index 116aece191cd..3c00310d26e8 100644
---- a/drivers/net/ieee802154/ca8210.c
-+++ b/drivers/net/ieee802154/ca8210.c
-@@ -1729,8 +1729,7 @@ static int ca8210_async_xmit_complete(
- 			status
- 		);
- 		if (status != IEEE802154_TRANSACTION_OVERFLOW) {
--			dev_kfree_skb_any(priv->tx_skb);
--			ieee802154_wake_queue(priv->hw);
-+			ieee802154_xmit_error(priv->hw, priv->tx_skb, status);
- 			return 0;
- 		}
- 	}
--- 
-2.27.0
+My interest is in buying real estate, private schools or companies with
+potentials for rapid growth in long terms.
 
+So please confirm interest by responding back.
+
+My dearest regards
+
+Seyba Daniel
