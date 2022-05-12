@@ -2,137 +2,119 @@ Return-Path: <linux-wpan-owner@vger.kernel.org>
 X-Original-To: lists+linux-wpan@lfdr.de
 Delivered-To: lists+linux-wpan@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 0D5375233B9
-	for <lists+linux-wpan@lfdr.de>; Wed, 11 May 2022 15:10:02 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id E87C7525012
+	for <lists+linux-wpan@lfdr.de>; Thu, 12 May 2022 16:34:22 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S243128AbiEKNJ7 (ORCPT <rfc822;lists+linux-wpan@lfdr.de>);
-        Wed, 11 May 2022 09:09:59 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39898 "EHLO
+        id S1355326AbiELOd1 (ORCPT <rfc822;lists+linux-wpan@lfdr.de>);
+        Thu, 12 May 2022 10:33:27 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52564 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S243129AbiEKNJz (ORCPT
-        <rfc822;linux-wpan@vger.kernel.org>); Wed, 11 May 2022 09:09:55 -0400
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 4CB056973D
-        for <linux-wpan@vger.kernel.org>; Wed, 11 May 2022 06:09:54 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1652274593;
+        with ESMTP id S1355337AbiELOd0 (ORCPT
+        <rfc822;linux-wpan@vger.kernel.org>); Thu, 12 May 2022 10:33:26 -0400
+Received: from relay9-d.mail.gandi.net (relay9-d.mail.gandi.net [IPv6:2001:4b98:dc4:8::229])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0D92425D130;
+        Thu, 12 May 2022 07:33:19 -0700 (PDT)
+Received: (Authenticated sender: miquel.raynal@bootlin.com)
+        by mail.gandi.net (Postfix) with ESMTPSA id 5B329FF80F;
+        Thu, 12 May 2022 14:33:15 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
+        t=1652365998;
         h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
          to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=hi/JeAuE3z2ISAG/TYEpuRUDbYxZ1Oh6j1jmHrsdnag=;
-        b=ZE09KGewRDnAPszcVeU2/+4EZYiI6ufRu/geut4W5Uc5biAKwFr76oHtOPx7xz0vkHvVfa
-        Z+IJ5stjo+PPyeI1LZ99iKPA2+guqrzSc6Ohha/WD9V2nfsf1LoR7EUmgskbiM7G2hClpn
-        a0saMx4fEu8qRdqdA6SNenTtdOVBYgU=
-Received: from mail-qv1-f71.google.com (mail-qv1-f71.google.com
- [209.85.219.71]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-244-gs7iMW_FO8aVCLigNGpkbw-1; Wed, 11 May 2022 09:09:52 -0400
-X-MC-Unique: gs7iMW_FO8aVCLigNGpkbw-1
-Received: by mail-qv1-f71.google.com with SMTP id kc6-20020a056214410600b0045a97658c7dso1929600qvb.16
-        for <linux-wpan@vger.kernel.org>; Wed, 11 May 2022 06:09:52 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=hi/JeAuE3z2ISAG/TYEpuRUDbYxZ1Oh6j1jmHrsdnag=;
-        b=a1TxNR8T742DGIiARUpL7cVelaIDM4/R5ScJWQtN7/QZ+m9hlhbc+iyLXHheWA05QQ
-         2AoXN3xALMhpkeDGSwClhdWVBOXf52WSeB1/gdEgpZTR+I8HmMR9WfNqgd0CkIh31Kp5
-         MkpjYRw/yNr1V4kPpN24aITvu7c7MHQz6Lq8Y+whV4NIDUvx9MTnLHyAhqDn9xql/048
-         YbtFDRjWjxbx8Zah20SBCn/VFJWA+U5g4vYHvSQhPhCY9U5fkyRNSlg+uDqgX/0EwOZp
-         kIJSO/EPW2JD5AGtLRTzIybrvy3bHSsss7UZn5gOPJgj/bjMEHATCJJKG1GFYVN9tsry
-         p3zA==
-X-Gm-Message-State: AOAM531dezcA6rF5kXs49didezGnfQo33kibg2yk0q4WvZ9L2g4YER/6
-        47BzWsrZZ+gJLrr+CjBNyNCWgIDR4DNl7Kar00R9mk0XUt40RVo6JWYADwjmQ5L7SlXQllwv/j0
-        aG6CpwE0lHp6zcA4hkO94uiyZ3fp1PfAN8+4mWQ==
-X-Received: by 2002:a05:620a:40c2:b0:6a0:2b1b:2b86 with SMTP id g2-20020a05620a40c200b006a02b1b2b86mr19075428qko.80.1652274591618;
-        Wed, 11 May 2022 06:09:51 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJz2waDQK91pYxQ5/eTCWX3IFWKTayNe7E6Z9jrM5S3s9zWpzq/aCBXwuIwoK3GX3CW6VbrEY1S8EQtlUFtHLek=
-X-Received: by 2002:a05:620a:40c2:b0:6a0:2b1b:2b86 with SMTP id
- g2-20020a05620a40c200b006a02b1b2b86mr19075398qko.80.1652274591291; Wed, 11
- May 2022 06:09:51 -0700 (PDT)
-MIME-Version: 1.0
-References: <20220427164659.106447-1-miquel.raynal@bootlin.com>
- <20220427164659.106447-7-miquel.raynal@bootlin.com> <CAK-6q+jCYDQ-rtyawz1m2Yt+ti=3d6PrhZebB=-PjcX-6L-Kdg@mail.gmail.com>
- <20220510165237.43382f42@xps13>
-In-Reply-To: <20220510165237.43382f42@xps13>
-From:   Alexander Aring <aahringo@redhat.com>
-Date:   Wed, 11 May 2022 09:09:40 -0400
-Message-ID: <CAK-6q+jeubhGah2gG1JJxfmOW=sNdMrLf+mk_a3X_r+Na=tHXg@mail.gmail.com>
-Subject: Re: [PATCH wpan-next 06/11] net: mac802154: Hold the transmit queue
- when relevant
-To:     Miquel Raynal <miquel.raynal@bootlin.com>
-Cc:     Alexander Aring <alex.aring@gmail.com>,
+         content-transfer-encoding:content-transfer-encoding;
+        bh=0Nolu4+cxZot8KO9Bdp6XNPXS6bQvguk5M6CgMmIybk=;
+        b=gBmQ5J0s5UAv4jRioQSfuDA4lqrk9vZfaEN0od+FtwB6gtHI7bdD32UviPwyG7RibqhUsb
+        LQnWPD/adT3aW7yYQ+//nrJfUn6pR4odm1Uv0EwbEGtgPc7CajTUZRO0YUQSr6NQ5/FyI0
+        NWYG8VRvPhvj1epWdRI0lIc7ARVLzt32LSVjwc8EfVu6GKHe6P/jZlblic0gZ2mz/fTjsU
+        stwkCxYp8Q1emwcAxGFga2ABDNvWUj3mzOYbNpL+jFZDzFWLnVI7nkT1ausVavVgikDp4r
+        0Y42A2CKl4vp2uh+aRvML9enGfIMf6S2DkWX+ysgz42IkyA1jX09CLiuim23Fw==
+From:   Miquel Raynal <miquel.raynal@bootlin.com>
+To:     Alexander Aring <alex.aring@gmail.com>,
         Stefan Schmidt <stefan@datenfreihafen.org>,
-        linux-wpan@vger.kernel.org,
-        "David S. Miller" <davem@davemloft.net>,
+        linux-wpan@vger.kernel.org
+Cc:     "David S. Miller" <davem@davemloft.net>,
         Jakub Kicinski <kuba@kernel.org>,
-        Network Development <netdev@vger.kernel.org>,
+        Paolo Abeni <pabeni@redhat.com>, netdev@vger.kernel.org,
         David Girault <david.girault@qorvo.com>,
         Romuald Despres <romuald.despres@qorvo.com>,
         Frederic Blain <frederic.blain@qorvo.com>,
         Nicolas Schodet <nico@ni.fr.eu.org>,
-        Thomas Petazzoni <thomas.petazzoni@bootlin.com>
-Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: No, score=-3.4 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_LOW,
-        SPF_HELO_NONE,SPF_NONE,T_SCC_BODY_TEXT_LINE autolearn=ham
-        autolearn_force=no version=3.4.6
+        Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
+        Miquel Raynal <miquel.raynal@bootlin.com>
+Subject: [PATCH wpan-next v2 00/11] ieee802154: Synchronous Tx support
+Date:   Thu, 12 May 2022 16:33:03 +0200
+Message-Id: <20220512143314.235604-1-miquel.raynal@bootlin.com>
+X-Mailer: git-send-email 2.27.0
+MIME-Version: 1.0
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-2.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_LOW,SPF_HELO_NONE,
+        SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-wpan.vger.kernel.org>
 X-Mailing-List: linux-wpan@vger.kernel.org
 
-Hi,
+Hello,
 
-On Tue, May 10, 2022 at 10:52 AM Miquel Raynal
-<miquel.raynal@bootlin.com> wrote:
->
-> Hi Alex,
->
-> > > --- a/net/mac802154/tx.c
-> > > +++ b/net/mac802154/tx.c
-> > > @@ -106,6 +106,21 @@ ieee802154_tx(struct ieee802154_local *local, struct sk_buff *skb)
-> > >         return NETDEV_TX_OK;
-> > >  }
-> > >
-> > > +void ieee802154_hold_queue(struct ieee802154_local *local)
-> > > +{
-> > > +       atomic_inc(&local->phy->hold_txs);
-> > > +}
-> > > +
-> > > +void ieee802154_release_queue(struct ieee802154_local *local)
-> > > +{
-> > > +       atomic_dec(&local->phy->hold_txs);
-> > > +}
-> > > +
-> > > +bool ieee802154_queue_is_held(struct ieee802154_local *local)
-> > > +{
-> > > +       return atomic_read(&local->phy->hold_txs);
-> > > +}
-> >
-> > I am not getting this, should the release_queue() function not do
-> > something like:
-> >
-> > if (atomic_dec_and_test(hold_txs))
-> >       ieee802154_wake_queue(local);
-> >
-> > I think we don't need the test of "ieee802154_queue_is_held()" here,
-> > then we need to replace all stop_queue/wake_queue with hold and
-> > release?
->
-> That's actually a good idea. I've implemented it and it looks nice too.
-> I'll clean this up and share a new version with:
-> - The wake call checked everytime hold_txs gets decremented
-> - The removal of the _queue_is_held() helper
-> - _wake/stop_queue() turned static
-> - _hold/release_queue() used everywhere
->
+New series bringing support for that famous synchronous Tx API for MLME
+commands.
 
-I think there is also a lock necessary for atomic inc/dec hitting zero
-and the stop/wake call afterwards... ,there are also a lot of
-optimization techniques to only hold the lock for hitting zero cases
-in such areas. However we will see...
+MLME commands will be used for during scan operations.
 
-- Alex
+We need to be able to be sure that all transfers finished and that no
+transfer will be queued for a short moment.
+
+Cheers,
+Miquèl
+
+Changes in v2:
+* Updated the main tx function error path.
+* Added a missing atomic_dec_at_test() call on the hold counter.
+* Always called (upon a certain condition) the queue wakeup helper from
+  the release queue helper (and similarly in the hold helper) and
+  squashed two existing patches in it to simplify the series.
+* Introduced a mutex to serialize accesses to the increment/decrement of
+  the hold counter and the wake up call.
+* Added a warning in case an MLME Tx gets triggered while the device was
+  stopped.
+* Used the rtnl to ensure the device cannot be stopped while an MLME
+  transmission is ongoing.
+
+Changes in v1 since this series got extracted from a bigger change:
+* Introduced a new atomic variable to know when the queue is actually
+  stopped. So far we only had an atomic to know when the queue was held
+  (indicates a transitioning state towards a stopped queue only) and
+  another atomic indicating if a transfer was still ongoing at this
+  point (used by the wait logic as a condition to wake up).
+
+
+Miquel Raynal (11):
+  net: mac802154: Rename the synchronous xmit worker
+  net: mac802154: Rename the main tx_work struct
+  net: mac802154: Enhance the error path in the main tx helper
+  net: mac802154: Follow the count of ongoing transmissions
+  net: mac802154: Bring the hability to hold the transmit queue
+  net: mac802154: Create a hot tx path
+  net: mac802154: Introduce a helper to disable the queue
+  net: mac802154: Introduce a tx queue flushing mechanism
+  net: mac802154: Introduce a synchronous API for MLME commands
+  net: mac802154: Add a warning in the hot path
+  net: mac802154: Add a warning in the slow path
+
+ include/net/cfg802154.h      |   7 ++
+ include/net/mac802154.h      |  27 --------
+ net/ieee802154/core.c        |   3 +
+ net/mac802154/cfg.c          |   4 +-
+ net/mac802154/ieee802154_i.h |  37 +++++++++-
+ net/mac802154/main.c         |   2 +-
+ net/mac802154/tx.c           | 126 +++++++++++++++++++++++++++++++----
+ net/mac802154/util.c         |  67 +++++++++++++++++--
+ 8 files changed, 220 insertions(+), 53 deletions(-)
+
+-- 
+2.27.0
 
