@@ -2,61 +2,52 @@ Return-Path: <linux-wpan-owner@vger.kernel.org>
 X-Original-To: lists+linux-wpan@lfdr.de
 Delivered-To: lists+linux-wpan@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 3527452A559
-	for <lists+linux-wpan@lfdr.de>; Tue, 17 May 2022 16:53:36 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 6971C52A808
+	for <lists+linux-wpan@lfdr.de>; Tue, 17 May 2022 18:35:07 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1346241AbiEQOxd (ORCPT <rfc822;lists+linux-wpan@lfdr.de>);
-        Tue, 17 May 2022 10:53:33 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46872 "EHLO
+        id S1347238AbiEQQfD (ORCPT <rfc822;lists+linux-wpan@lfdr.de>);
+        Tue, 17 May 2022 12:35:03 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35108 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1349512AbiEQOxX (ORCPT
-        <rfc822;linux-wpan@vger.kernel.org>); Tue, 17 May 2022 10:53:23 -0400
-Received: from relay4-d.mail.gandi.net (relay4-d.mail.gandi.net [IPv6:2001:4b98:dc4:8::224])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7B8CA1EC6D;
-        Tue, 17 May 2022 07:53:05 -0700 (PDT)
+        with ESMTP id S1350912AbiEQQfA (ORCPT
+        <rfc822;linux-wpan@vger.kernel.org>); Tue, 17 May 2022 12:35:00 -0400
+Received: from relay8-d.mail.gandi.net (relay8-d.mail.gandi.net [IPv6:2001:4b98:dc4:8::228])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 567404EF40;
+        Tue, 17 May 2022 09:34:56 -0700 (PDT)
 Received: (Authenticated sender: miquel.raynal@bootlin.com)
-        by mail.gandi.net (Postfix) with ESMTPSA id 89A71E000B;
-        Tue, 17 May 2022 14:53:01 +0000 (UTC)
+        by mail.gandi.net (Postfix) with ESMTPSA id E4FD41BF206;
+        Tue, 17 May 2022 16:34:51 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
-        t=1652799183;
+        t=1652805294;
         h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
          to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=r8NUncwq3s1CVu2P00UGMPhablf+3nQ86dd2EzZyPuU=;
-        b=mAyGveIGQVn1eSiEL28K7wsFioIN3X/1ytQcrccYRxEBln+stTofq1nFApbhUXjmY9mHlY
-        nsb3BIuiyUX+Ko96kIIsF3FGhS0VWPyFtoQ6EoBz75pGduT54v1RfAg/W1a65iFdP7+s/4
-        uKadIFw/R48vBIWTkqa63a2HLXq3iXrC2VBX+sRMkDN/nALUmSXX2jClT/cnSDkvQ/FY7A
-        4C8JNKTQ7EQQ7NYbWnrGJ+pNI+apM1dGQCpn6VPwhmB9qHMlUBNaER3QtVwjb5YLmDUWG3
-        ZkFhF97em/4BU7qrYeRvVHSfdksnh+RofinDXNxmZvm84XjMTvYYQfPoAw/iqQ==
-Date:   Tue, 17 May 2022 16:52:59 +0200
+         content-transfer-encoding:content-transfer-encoding;
+        bh=1C6/OoL4x3xbcNLsvvdThUQzvrdFL+c7yTwDjfyPM+g=;
+        b=aD2gQn7j877VzjZrfHlvv3aeVXEe2vD9tSh0CZzOGNx5FKsxQweFODPmE0vzfdjfiySU5I
+        4GHPJDwyYt19Q1PtsEmkSo7xgP8qdpHUs1Ylhp9Nt39qS55Na+D6qCfkZqiYuGk3DhMLNa
+        qAHitdAoTOopRg5LqOHt8YJAUItZtjkM98mENJTFtm4zx3oQrgV4gMAiZQS148Vgl0Xncu
+        TQ9mQeJpLcr0XW3ksC8gpU8M8ClzKoa8kZ91oYJDTR7gggr+Oqvi/zvZfXhw2DmVhFLIlz
+        CEy+ffUHeQOlOkCIXcoKuXhczNRbFrNnHWkqXWZroM7yrPudbIeMqN7463LuQA==
 From:   Miquel Raynal <miquel.raynal@bootlin.com>
-To:     Alexander Aring <aahringo@redhat.com>
-Cc:     Alexander Aring <alex.aring@gmail.com>,
+To:     Alexander Aring <alex.aring@gmail.com>,
         Stefan Schmidt <stefan@datenfreihafen.org>,
-        linux-wpan - ML <linux-wpan@vger.kernel.org>,
-        "David S. Miller" <davem@davemloft.net>,
-        Jakub Kicinski <kuba@kernel.org>,
-        Paolo Abeni <pabeni@redhat.com>,
-        Network Development <netdev@vger.kernel.org>,
-        David Girault <david.girault@qorvo.com>,
+        linux-wpan@vger.kernel.org
+Cc:     David Girault <david.girault@qorvo.com>,
         Romuald Despres <romuald.despres@qorvo.com>,
         Frederic Blain <frederic.blain@qorvo.com>,
         Nicolas Schodet <nico@ni.fr.eu.org>,
-        Thomas Petazzoni <thomas.petazzoni@bootlin.com>
-Subject: Re: [PATCH wpan-next v2 10/11] net: mac802154: Add a warning in the
- hot path
-Message-ID: <20220517165259.52ddf6fc@xps-13>
-In-Reply-To: <20220517153655.155ba311@xps-13>
-References: <20220512143314.235604-1-miquel.raynal@bootlin.com>
-        <20220512143314.235604-11-miquel.raynal@bootlin.com>
-        <CAK-6q+jYb7A2RzG3u7PJYKZU9D5A=vben-Wnu-3EsUU-rqGT2Q@mail.gmail.com>
-        <20220517153655.155ba311@xps-13>
-Organization: Bootlin
-X-Mailer: Claws Mail 4.0.0 (GTK+ 3.24.33; x86_64-pc-linux-gnu)
+        Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
+        "David S. Miller" <davem@davemloft.net>,
+        Jakub Kicinski <kuba@kernel.org>,
+        Paolo Abeni <pabeni@redhat.com>, netdev@vger.kernel.org,
+        Miquel Raynal <miquel.raynal@bootlin.com>
+Subject: [PATCH wpan-next v3 00/11] ieee802154: Synchronous Tx support
+Date:   Tue, 17 May 2022 18:34:39 +0200
+Message-Id: <20220517163450.240299-1-miquel.raynal@bootlin.com>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
         DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_NONE,SPF_PASS,
         T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
@@ -66,51 +57,73 @@ Precedence: bulk
 List-ID: <linux-wpan.vger.kernel.org>
 X-Mailing-List: linux-wpan@vger.kernel.org
 
+Hello,
 
-miquel.raynal@bootlin.com wrote on Tue, 17 May 2022 15:36:55 +0200:
+This series brings support for that famous synchronous Tx API for MLME
+commands.
 
-> aahringo@redhat.com wrote on Sun, 15 May 2022 18:30:15 -0400:
->=20
-> > Hi,
-> >=20
-> > On Thu, May 12, 2022 at 10:34 AM Miquel Raynal
-> > <miquel.raynal@bootlin.com> wrote: =20
-> > >
-> > > We should never start a transmission after the queue has been stopped.
-> > >
-> > > But because it might work we don't kill the function here but rather
-> > > warn loudly the user that something is wrong.
-> > >
-> > > Set an atomic when the queue will remain stopped. Reset this atomic w=
-hen
-> > > the queue actually gets restarded. Just check this atomic to know if =
-the
-> > > transmission is legitimate, warn if it is not.
-> > >
-> > > Signed-off-by: Miquel Raynal <miquel.raynal@bootlin.com>
-> > > ---
-> > >  include/net/cfg802154.h |  1 +
-> > >  net/mac802154/tx.c      | 16 +++++++++++++++-
-> > >  net/mac802154/util.c    |  1 +
-> > >  3 files changed, 17 insertions(+), 1 deletion(-)
-> > >
-> > > diff --git a/include/net/cfg802154.h b/include/net/cfg802154.h
-> > > index 8b6326aa2d42..a1370e87233e 100644
-> > > --- a/include/net/cfg802154.h
-> > > +++ b/include/net/cfg802154.h
-> > > @@ -218,6 +218,7 @@ struct wpan_phy {
-> > >         struct mutex queue_lock;
-> > >         atomic_t ongoing_txs;
-> > >         atomic_t hold_txs;
-> > > +       atomic_t queue_stopped;   =20
-> >=20
-> > Maybe some test_bit()/set_bit() is better there? =20
->=20
-> What do you mean? Shall I change the atomic_t type of queue_stopped?
-> Isn't the atomic_t preferred in this situation?
+MLME commands will be used during scan operations. In this situation,
+we need to be sure that all transfers finished and that no transfer
+will be queued for a short moment.
 
-Actually I re-read the doc and that's right, a regular unsigned long
-used with test/set_bit might be preferred, I'll make the change.
+Cheers,
+Miquèl
 
-Thanks,
-Miqu=C3=A8l
+Changes in v3:
+* Tested with lockdep enabled, a more aggressive preemption level and
+  the sleeping while atomic warnings enabled.
+* Changed the hold/release queue mutex into a spinlock.
+* Split the mlme_tx function into three, one to hold the queue, then
+  another part that does takes the rtnl and has the real content, and a
+  last helper to release the queue.
+* Fixed the warning condition in the slow path.
+* Used an unsigned long and test/set_bit helpers to follow the queue
+  state instead of an atomic_t.
+
+Changes in v2:
+* Updated the main tx function error path.
+* Added a missing atomic_dec_at_test() call on the hold counter.
+* Always called (upon a certain condition) the queue wakeup helper from
+  the release queue helper (and similarly in the hold helper) and
+  squashed two existing patches in it to simplify the series.
+* Introduced a mutex to serialize accesses to the increment/decrement of
+  the hold counter and the wake up call.
+* Added a warning in case an MLME Tx gets triggered while the device was
+  stopped.
+* Used the rtnl to ensure the device cannot be stopped while an MLME
+  transmission is ongoing.
+
+Changes in v1 since this series got extracted from a bigger change:
+* Introduced a new atomic variable to know when the queue is actually
+  stopped. So far we only had an atomic to know when the queue was held
+  (indicates a transitioning state towards a stopped queue only) and
+  another atomic indicating if a transfer was still ongoing at this
+  point (used by the wait logic as a condition to wake up).
+
+
+Miquel Raynal (11):
+  net: mac802154: Rename the synchronous xmit worker
+  net: mac802154: Rename the main tx_work struct
+  net: mac802154: Enhance the error path in the main tx helper
+  net: mac802154: Follow the count of ongoing transmissions
+  net: mac802154: Bring the ability to hold the transmit queue
+  net: mac802154: Create a hot tx path
+  net: mac802154: Introduce a helper to disable the queue
+  net: mac802154: Introduce a tx queue flushing mechanism
+  net: mac802154: Introduce a synchronous API for MLME commands
+  net: mac802154: Add a warning in the hot path
+  net: mac802154: Add a warning in the slow path
+
+ include/net/cfg802154.h      |   9 ++-
+ include/net/mac802154.h      |  27 -------
+ net/ieee802154/core.c        |   3 +
+ net/mac802154/cfg.c          |   4 +-
+ net/mac802154/ieee802154_i.h |  37 ++++++++-
+ net/mac802154/main.c         |   2 +-
+ net/mac802154/tx.c           | 147 +++++++++++++++++++++++++++++++----
+ net/mac802154/util.c         |  71 +++++++++++++++--
+ 8 files changed, 246 insertions(+), 54 deletions(-)
+
+-- 
+2.34.1
+
