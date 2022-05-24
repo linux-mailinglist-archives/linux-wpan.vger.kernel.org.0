@@ -2,68 +2,58 @@ Return-Path: <linux-wpan-owner@vger.kernel.org>
 X-Original-To: lists+linux-wpan@lfdr.de
 Delivered-To: lists+linux-wpan@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id AD8905326A5
-	for <lists+linux-wpan@lfdr.de>; Tue, 24 May 2022 11:40:49 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 1CE05532829
+	for <lists+linux-wpan@lfdr.de>; Tue, 24 May 2022 12:49:45 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235809AbiEXJkd (ORCPT <rfc822;lists+linux-wpan@lfdr.de>);
-        Tue, 24 May 2022 05:40:33 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56222 "EHLO
+        id S236368AbiEXKtd (ORCPT <rfc822;lists+linux-wpan@lfdr.de>);
+        Tue, 24 May 2022 06:49:33 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35688 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235819AbiEXJkb (ORCPT
-        <rfc822;linux-wpan@vger.kernel.org>); Tue, 24 May 2022 05:40:31 -0400
-X-Greylist: delayed 920 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Tue, 24 May 2022 02:40:31 PDT
-Received: from box.indicandustries.com (hwsrv-970840.hostwindsdns.com [IPv6:2607:5501:3000:21a5::2])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 34D1E663EF
-        for <linux-wpan@vger.kernel.org>; Tue, 24 May 2022 02:40:31 -0700 (PDT)
-Received: from authenticated-user (box.indicandustries.com [104.168.149.109])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by box.indicandustries.com (Postfix) with ESMTPSA id 7268A107FC1
-        for <linux-wpan@vger.kernel.org>; Tue, 24 May 2022 03:24:18 -0600 (MDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-        d=box.indicandustries.com; s=mail; t=1653384258;
-        bh=V6VCn7WEbqHjVVQ20/+SYu6rwS1WmTHcxX88g+j430s=;
-        h=Reply-To:From:To:Subject:Date:From;
-        b=oAQx0qxDBgEgYRcf+cyCIBZWpceteJwypma/vv6L9IXq1riAEYfN/urin0dQm4/An
-         HGleAe3p6MlVcanicR3ZmdT6xHCpiZqmeV7Jw83CN6AWj+9ScGoHa3tc5HKLuAaHLI
-         CZx7r0XZB2N4n0j9S8sr3ypUoUjSZTDzNC/ORynpWkymQiXP3cOu1G3tnKIMvLRIiK
-         0l9/eaZDfVF7nKuWva0ULUrh0/3Jz+rvt9igrpl8SimAPD1Qc5f188A21sbsjDW0y+
-         e0Y/NfLeAKGV0mh4hojLjFJXe3CQkFHInwqlbY2loUex6cNnJ2v234eTtb4gCJ+vgr
-         1cAj9z2QzhlCw==
-Reply-To: amjalia90@gmail.com
-From:   amjad.ali@box.indicandustries.com
-To:     linux-wpan@vger.kernel.org
-Subject: Hello Sir, I seek your urgent consideration.
-Date:   24 May 2022 11:24:18 +0200
-Message-ID: <20220524112418.DA3CED2444C60A5B@box.indicandustries.com>
+        with ESMTP id S233418AbiEXKtb (ORCPT
+        <rfc822;linux-wpan@vger.kernel.org>); Tue, 24 May 2022 06:49:31 -0400
+X-Greylist: delayed 1152 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Tue, 24 May 2022 03:49:30 PDT
+Received: from oftenbest.adminbbserv.bond (adminbbserv.bond [213.108.199.214])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 07D1060059;
+        Tue, 24 May 2022 03:49:30 -0700 (PDT)
+Received: from webmail.adminbbserv.bond (localhost.localdomain [IPv6:::1])
+        by oftenbest.adminbbserv.bond (Postfix) with ESMTPSA id 50A0C5D0A;
+        Tue, 24 May 2022 06:16:17 -0400 (EDT)
+Authentication-Results: oftenbest.adminbbserv.bond;
+        spf=pass (sender IP is ::1) smtp.mailfrom=trade@adminbbserv.bond smtp.helo=webmail.adminbbserv.bond
+Received-SPF: pass (oftenbest.adminbbserv.bond: connection is authenticated)
 MIME-Version: 1.0
-Content-Type: text/plain;
-        charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-X-Spam-Status: No, score=3.0 required=5.0 tests=BAYES_50,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_REPLYTO,
-        FREEMAIL_REPLYTO_END_DIGIT,SPF_HELO_PASS,SPF_PASS,T_SCC_BODY_TEXT_LINE
+Date:   Tue, 24 May 2022 11:16:17 +0100
+From:   HR <trade@adminbbserv.bond>
+To:     undisclosed-recipients:;
+Subject: Alkalmaz
+User-Agent: Roundcube Webmail/1.4.13
+Message-ID: <8d7038d276995d925b2df35d32728886@adminbbserv.bond>
+X-Sender: trade@adminbbserv.bond
+Content-Type: text/plain; charset=UTF-8;
+ format=flowed
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=0.1 required=5.0 tests=BAYES_00,FORGED_SPF_HELO,
+        KHOP_HELO_FCRDNS,MIXED_ES,SPF_HELO_PASS,SPF_NONE,T_SCC_BODY_TEXT_LINE
         autolearn=no autolearn_force=no version=3.4.6
-X-Spam-Level: ***
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-wpan.vger.kernel.org>
 X-Mailing-List: linux-wpan@vger.kernel.org
 
-Hello,
 
-Greetings? I am Amjad. I work with a leading Bio Firm.  Due to=20
-the setbacks of the pandemic, my company has opened a bid in=20
-search of new suppliers for basic raw materials needed in=20
-production.
 
-I am seeking a representative=C2=A0as I am a staff, I can not be=20
-involved directly. It may not be your area of work but the=20
-profits are great and I will guide you through. I have already=20
-sourced a local supplier for this. I only need a reliable=20
-representative.
+Helló,
 
-Please get back to me so I can explain this in full.
+Örömmel értesítjük Önt egy elérhető távmunka részmunkaidős ügyintézői 
+állásról, heti 500 eurós bérért. Ha az időbeosztása elég rugalmas ahhoz, 
+hogy betöltse ezt a pozíciót, kérjük, írjon az 
+"apply@blenheimbuildings.uk" címre a pozícióval kapcsolatos további 
+részletekért. Kérjük, jelentkezéskor tüntesse fel mobiltelefonszámát, 
+valamint a lakóhelyét. Figyelem: Ez a pozíció érkezési sorrendben 
+foglalható el.
 
-Amjad
+Üdvözlettel
+Bánkiné Józsa Mária
+HR vezető/tanácsadó
+Magyarországi Munkaügyi Hivatal.
