@@ -2,109 +2,78 @@ Return-Path: <linux-wpan-owner@vger.kernel.org>
 X-Original-To: lists+linux-wpan@lfdr.de
 Delivered-To: lists+linux-wpan@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id C8F265344F5
-	for <lists+linux-wpan@lfdr.de>; Wed, 25 May 2022 22:35:18 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 1814A53520A
+	for <lists+linux-wpan@lfdr.de>; Thu, 26 May 2022 18:28:28 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1345101AbiEYUfQ (ORCPT <rfc822;lists+linux-wpan@lfdr.de>);
-        Wed, 25 May 2022 16:35:16 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43308 "EHLO
+        id S1344230AbiEZQ2X (ORCPT <rfc822;lists+linux-wpan@lfdr.de>);
+        Thu, 26 May 2022 12:28:23 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52514 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1345088AbiEYUfO (ORCPT
-        <rfc822;linux-wpan@vger.kernel.org>); Wed, 25 May 2022 16:35:14 -0400
-Received: from mail-ej1-x62f.google.com (mail-ej1-x62f.google.com [IPv6:2a00:1450:4864:20::62f])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 712EAAB0FF
-        for <linux-wpan@vger.kernel.org>; Wed, 25 May 2022 13:35:13 -0700 (PDT)
-Received: by mail-ej1-x62f.google.com with SMTP id rq11so21816246ejc.4
-        for <linux-wpan@vger.kernel.org>; Wed, 25 May 2022 13:35:13 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=mime-version:from:date:message-id:subject:to:cc
-         :content-transfer-encoding;
-        bh=jF4MxsPSKKSAh34A0y7fWqFeFSCCDQ9NCjS0um7aELU=;
-        b=VocQsthp4kr71VkA6y/yGQ8r7PzvrX8S0kDee5bYwGXinCWOEWzdKcvX7qcajQQvGu
-         FO46yq2dNFoJHRXEn1midlW/oMmMAE/tH12+3dL6eCDwk/aXnzFoZCoXYF7Tr2XdXAWF
-         A14RSJ7nwmV5Qn/QoKcAQnffjrruBdZQi5J4nFon7T4xNFyrzXHYChC8X8Q7vV/O0l3G
-         Z6kSQfj+bwrSd9gDnvGTu2FkqtNFM/AKycKz8EdP1s6K6YZjA9EDOUYTL090EYLi69Jx
-         FPI6DZKF09Tmz0hCD4UJidqzxCTHlRf+WFpdOUsf3yKhZ6hLlPG8x7UCYJ8ts18QQbpn
-         zECA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:from:date:message-id:subject:to:cc
-         :content-transfer-encoding;
-        bh=jF4MxsPSKKSAh34A0y7fWqFeFSCCDQ9NCjS0um7aELU=;
-        b=teiNzUFylQJsEw1DNYJ2sJtsbcwpPlEpKO4dbjQZy03bQRlc6WAn+GE/zsBDgxsdyM
-         yvhq/2zNB6UN66zRl2URxdpWVEqKhJjNJ4NCvBnFLTMfATuBglzeqTHDzgVTbOztxKTa
-         /nzKO+DbjjjPUvux3GsZ9GSBCAmYTp5zN4lPEMIAYSL3SQC6qdxoOlu/3/13lDPGpSO0
-         ThNQ4sWyLOM7BkRAY/j7i33snNxXHZhyi+2EroVvFz/nvv+9eW9cPRGl4rcAnSTjsho7
-         PaGfD4D8CDFXt+Y5qtqSbPgXIq9osuWCyQ06da033slDM9/Ntviy3Sz0AB0GAvZ5lQEg
-         5reQ==
-X-Gm-Message-State: AOAM533TMRHla9kGQ6rrGSUii4vI5p/3ryrdB91AiNPRJfHFOaf2qxHC
-        Q2CTqMcwz9AI2gvZ/Az0amzo9+2GEVCP7WOug9k=
-X-Google-Smtp-Source: ABdhPJydmv+bbHARzEgvyIwdIWejEqbES0XbtJbkAtabvPybUWLA8/SV0kCjBlZCGBxZXSvZwXoaS3LA/pCN6q+ewUw=
-X-Received: by 2002:a17:907:7242:b0:6f5:2904:5354 with SMTP id
- ds2-20020a170907724200b006f529045354mr32161701ejc.452.1653510911898; Wed, 25
- May 2022 13:35:11 -0700 (PDT)
+        with ESMTP id S229780AbiEZQ2U (ORCPT
+        <rfc822;linux-wpan@vger.kernel.org>); Thu, 26 May 2022 12:28:20 -0400
+Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B2B895D5FC;
+        Thu, 26 May 2022 09:28:19 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1653582499; x=1685118499;
+  h=from:to:cc:subject:date:message-id:mime-version:
+   content-transfer-encoding;
+  bh=gOdOMyeM/Ewif0zQ3Hqg7oUO5xeNmrmmhTh727FQsQQ=;
+  b=b+R2I/ZsN1zv8YoiwtLite1sqpcEo3hmJ3l+qvJiHDwvNqWIwlnl506n
+   MMDOA0o3f4JHLl6D38QfcU+qEVlqSagE1mOvip9l7gW0g+YwKHlZQu7P6
+   FZe+EMIBUTnE0YB2AIMr07GD82TSUePZcBO+yxwE4JuzJ94Rp1amXiZRy
+   BRzzGPDKJXrADFBttZLfyJDe0P+NygysDuvWECQtRh4VDXK4Fxbg6MwID
+   8P2c0iSHnOGY9AbpTBRHaJWHk3YU3aVMdiGFWUB6Xv3khds7mUAMDHwz/
+   7Sz0VIcj9BCc4aisO5PpDlZdZaeweAl5Dj5Rz6Kzpwy70vJYlfrCksBga
+   A==;
+X-IronPort-AV: E=McAfee;i="6400,9594,10359"; a="256274815"
+X-IronPort-AV: E=Sophos;i="5.91,252,1647327600"; 
+   d="scan'208";a="256274815"
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 May 2022 09:28:17 -0700
+X-IronPort-AV: E=Sophos;i="5.91,252,1647327600"; 
+   d="scan'208";a="560275628"
+Received: from jsamoilo-mobl1.ger.corp.intel.com (HELO jrissane-mobl2.fritz.box) ([10.252.41.200])
+  by orsmga002-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 May 2022 09:28:16 -0700
+From:   Jukka Rissanen <jukka.rissanen@linux.intel.com>
+To:     alex.aring@gmail.com
+Cc:     linux-bluetooth@vger.kernel.org, linux-wpan@vger.kernel.org,
+        Jukka Rissanen <jukka.rissanen@linux.intel.com>
+Subject: [PATCH] MAINTAINERS: Remove me as maintainer of 6lowpan
+Date:   Thu, 26 May 2022 19:28:06 +0300
+Message-Id: <20220526162806.16618-1-jukka.rissanen@linux.intel.com>
+X-Mailer: git-send-email 2.36.1
 MIME-Version: 1.0
-Received: by 2002:ab4:a26b:0:0:0:0:0 with HTTP; Wed, 25 May 2022 13:35:11
- -0700 (PDT)
-From:   Luisa Donstin <luisadonstin@gmail.com>
-Date:   Wed, 25 May 2022 22:35:11 +0200
-Message-ID: <CA+QBM2rd1NojOmQ247cmwY+sk9R4hWU6pMA3fqAMrkMrBDEUUw@mail.gmail.com>
-Subject: Bitte kontaktaufnahme Erforderlich !!! Please Contact Required !!!
-To:     contact@firstdiamondbk.com
-Cc:     info@firstdiamondbk.com
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Spam-Status: No, score=0.6 required=5.0 tests=BAYES_50,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
-        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
-        autolearn=ham autolearn_force=no version=3.4.6
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-2.7 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_EF,SPF_HELO_NONE,SPF_NONE,
+        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-wpan.vger.kernel.org>
 X-Mailing-List: linux-wpan@vger.kernel.org
 
-Guten Tag,
+I no longer work on this so better update the file.
 
-Ich habe mich nur gefragt, ob Sie meine vorherige E-Mail bekommen
+Signed-off-by: Jukka Rissanen <jukka.rissanen@linux.intel.com>
+---
+ MAINTAINERS | 1 -
+ 1 file changed, 1 deletion(-)
 
-haben ?
+diff --git a/MAINTAINERS b/MAINTAINERS
+index 6618e9b91b6c..2e03de59d700 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -171,7 +171,6 @@ F:	drivers/scsi/53c700*
+ 
+ 6LOWPAN GENERIC (BTLE/IEEE 802.15.4)
+ M:	Alexander Aring <alex.aring@gmail.com>
+-M:	Jukka Rissanen <jukka.rissanen@linux.intel.com>
+ L:	linux-bluetooth@vger.kernel.org
+ L:	linux-wpan@vger.kernel.org
+ S:	Maintained
+-- 
+2.36.1
 
-Ich habe versucht, Sie per E-Mail zu erreichen.
-
-Kommen Sie bitte schnell zu mir zur=C3=BCck, es ist sehr wichtig.
-
-Danke
-
-Luisa Donstin
-
-luisadonstin@gmail.com
-
-
-
-
-
-
-
-
-
-----------------------------------
-
-
-
-
-Good Afternoon,
-
-I was just wondering if you got my Previous E-mail
-have ?
-
-I tried to reach you by E-mail.
-
-Please come back to me quickly, it is very Important.
-
-Thanks
-
-Luisa Donstin
-
-luisadonstin@gmail.com
