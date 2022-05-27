@@ -2,82 +2,74 @@ Return-Path: <linux-wpan-owner@vger.kernel.org>
 X-Original-To: lists+linux-wpan@lfdr.de
 Delivered-To: lists+linux-wpan@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 47964535ADA
-	for <lists+linux-wpan@lfdr.de>; Fri, 27 May 2022 09:58:10 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id BD87E536371
+	for <lists+linux-wpan@lfdr.de>; Fri, 27 May 2022 15:47:25 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1348329AbiE0H4v (ORCPT <rfc822;lists+linux-wpan@lfdr.de>);
-        Fri, 27 May 2022 03:56:51 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47990 "EHLO
+        id S1352650AbiE0NrY convert rfc822-to-8bit (ORCPT
+        <rfc822;lists+linux-wpan@lfdr.de>); Fri, 27 May 2022 09:47:24 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59670 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1345044AbiE0H4r (ORCPT
-        <rfc822;linux-wpan@vger.kernel.org>); Fri, 27 May 2022 03:56:47 -0400
-Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1F56FFD349;
-        Fri, 27 May 2022 00:56:38 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1653638198; x=1685174198;
-  h=from:to:cc:subject:date:message-id:in-reply-to:
-   references:mime-version:content-transfer-encoding;
-  bh=gOdOMyeM/Ewif0zQ3Hqg7oUO5xeNmrmmhTh727FQsQQ=;
-  b=PdR4UX5HyFgqSNX8KsKsGLZxd2WB4Yr0NJwCYiacQGpQ2FagKjcaKIB1
-   yl+yzFyV8cNJTaJLj9SUX5jdL3Lxv9HqtsuLahP5g7RCpVdiGyp9NcZan
-   TVgGi8nXfKb6AlMKxLy85u4PmR38OYpQUSyaRpnjoi840FEAjbm9zAv/h
-   txqjhf32IjruVIXen3uFhmHm8Lb9rHTo4gVwjUTYq6Qla220i4ShgobQL
-   HxkdC4ZwXY9BzCPCwNXCGkJboI0EMJa5o5ZWiZz71GEahiXeQNnmZsHFI
-   jYKjPwfK6T8DNVX8PG8Qqtx1WfUFdRxf6oul6yYYCtBNbGP70x09wxZOJ
-   w==;
-X-IronPort-AV: E=McAfee;i="6400,9594,10359"; a="360800044"
-X-IronPort-AV: E=Sophos;i="5.91,254,1647327600"; 
-   d="scan'208";a="360800044"
-Received: from orsmga008.jf.intel.com ([10.7.209.65])
-  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 May 2022 00:56:36 -0700
-X-IronPort-AV: E=Sophos;i="5.91,254,1647327600"; 
-   d="scan'208";a="603742445"
-Received: from llistew-mobl1.ger.corp.intel.com (HELO jrissane-mobl2.fritz.box) ([10.252.40.127])
-  by orsmga008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 May 2022 00:56:34 -0700
-From:   Jukka Rissanen <jukka.rissanen@linux.intel.com>
-To:     alex.aring@gmail.com
-Cc:     linux-bluetooth@vger.kernel.org, linux-wpan@vger.kernel.org,
-        pmenzel@molgen.mpg.de,
-        Jukka Rissanen <jukka.rissanen@linux.intel.com>
-Subject: [PATCH] MAINTAINERS: Remove Jukka Rissanen as 6lowpan maintainer
-Date:   Fri, 27 May 2022 10:56:25 +0300
-Message-Id: <20220527075625.9693-1-jukka.rissanen@linux.intel.com>
-X-Mailer: git-send-email 2.36.1
-In-Reply-To: <20220526162806.16618-1-jukka.rissanen@linux.intel.com>
-References: <20220526162806.16618-1-jukka.rissanen@linux.intel.com>
+        with ESMTP id S238218AbiE0NrX (ORCPT
+        <rfc822;linux-wpan@vger.kernel.org>); Fri, 27 May 2022 09:47:23 -0400
+X-Greylist: delayed 9701 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Fri, 27 May 2022 06:47:22 PDT
+Received: from mail.composit.net (mail.composit.net [195.49.185.119])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 6757818358;
+        Fri, 27 May 2022 06:47:22 -0700 (PDT)
+Received: from mail.composit.net (localhost.localdomain [127.0.0.1])
+        by mail.composit.net (Proxmox) with ESMTP id 96007382124;
+        Fri, 27 May 2022 14:02:16 +0300 (MSK)
+Received: from mail.composit.net (unknown [192.168.101.14])
+        by mail.composit.net (Proxmox) with SMTP id 54EBA394BD2;
+        Fri, 27 May 2022 14:02:16 +0300 (MSK)
+Received: from [192.168.1.105] (Unknown [197.234.219.23])
+        by mail.composit.net with ESMTPSA
+        (version=TLSv1 cipher=DHE-RSA-AES256-SHA bits=256)
+        ; Fri, 27 May 2022 14:02:17 +0300
+Message-ID: <0C7B4679-F615-4B2C-9AF8-93D5D9125A7C@mail.composit.net>
+Content-Type: text/plain; charset="iso-8859-1"
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-5.0 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,SPF_HELO_NONE,
-        SPF_NONE,T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no
-        version=3.4.6
+Content-Transfer-Encoding: 8BIT
+Content-Description: Mail message body
+Subject: Greetings From Ukraine.  
+To:     Recipients <heiss@dnet.it>
+From:   "Kostiantyn Chichkov" <heiss@dnet.it>
+Date:   Fri, 27 May 2022 11:59:24 +0100
+Reply-To: kostiantync@online.ee
+X-Spam-Status: Yes, score=5.1 required=5.0 tests=BAYES_50,
+        RCVD_IN_BL_SPAMCOP_NET,RCVD_IN_SBL,RCVD_IN_SORBS_WEB,
+        RCVD_IN_VALIDITY_RPBL,SPF_HELO_NONE,SPF_NONE,T_SCC_BODY_TEXT_LINE
+        autolearn=no autolearn_force=no version=3.4.6
+X-Spam-Report: *  1.3 RCVD_IN_BL_SPAMCOP_NET RBL: Received via a relay in
+        *      bl.spamcop.net
+        *      [Blocked - see <https://www.spamcop.net/bl.shtml?195.49.185.119>]
+        *  0.1 RCVD_IN_SBL RBL: Received via a relay in Spamhaus SBL
+        *      [197.234.219.23 listed in zen.spamhaus.org]
+        *  1.5 RCVD_IN_SORBS_WEB RBL: SORBS: sender is an abusable web server
+        *      [197.234.219.23 listed in dnsbl.sorbs.net]
+        *  0.8 BAYES_50 BODY: Bayes spam probability is 40 to 60%
+        *      [score: 0.5000]
+        *  0.0 SPF_HELO_NONE SPF: HELO does not publish an SPF Record
+        *  0.0 SPF_NONE SPF: sender does not publish an SPF Record
+        *  1.3 RCVD_IN_VALIDITY_RPBL RBL: Relay in Validity RPBL,
+        *      https://senderscore.org/blocklistlookup/
+        *      [195.49.185.119 listed in bl.score.senderscore.com]
+        * -0.0 T_SCC_BODY_TEXT_LINE No description available.
+X-Spam-Level: *****
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-wpan.vger.kernel.org>
 X-Mailing-List: linux-wpan@vger.kernel.org
 
-I no longer work on this so better update the file.
+Good Morning,
 
-Signed-off-by: Jukka Rissanen <jukka.rissanen@linux.intel.com>
----
- MAINTAINERS | 1 -
- 1 file changed, 1 deletion(-)
+We are Kostiantyn Chychkov and Maryna Chudnovska from Ukraine, we need your service, we have gone through your profile and we will like to work with you on an important service that needs urgent attention due to the ongoing war in our country. Kindly acknowledge this inquiry as soon as possible for a detailed discussion about the service.
 
-diff --git a/MAINTAINERS b/MAINTAINERS
-index 6618e9b91b6c..2e03de59d700 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -171,7 +171,6 @@ F:	drivers/scsi/53c700*
- 
- 6LOWPAN GENERIC (BTLE/IEEE 802.15.4)
- M:	Alexander Aring <alex.aring@gmail.com>
--M:	Jukka Rissanen <jukka.rissanen@linux.intel.com>
- L:	linux-bluetooth@vger.kernel.org
- L:	linux-wpan@vger.kernel.org
- S:	Maintained
--- 
-2.36.1
+Thank you.
+
+Yours expectantly,
+
+Kostiantyn Chichkov & Ms. Maryna Chudnovska,
+From Ukraine.
+
 
