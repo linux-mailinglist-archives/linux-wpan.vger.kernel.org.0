@@ -2,74 +2,90 @@ Return-Path: <linux-wpan-owner@vger.kernel.org>
 X-Original-To: lists+linux-wpan@lfdr.de
 Delivered-To: lists+linux-wpan@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id BD87E536371
-	for <lists+linux-wpan@lfdr.de>; Fri, 27 May 2022 15:47:25 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 37341536D96
+	for <lists+linux-wpan@lfdr.de>; Sat, 28 May 2022 17:48:58 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1352650AbiE0NrY convert rfc822-to-8bit (ORCPT
-        <rfc822;lists+linux-wpan@lfdr.de>); Fri, 27 May 2022 09:47:24 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59670 "EHLO
+        id S244839AbiE1Psy (ORCPT <rfc822;lists+linux-wpan@lfdr.de>);
+        Sat, 28 May 2022 11:48:54 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56222 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S238218AbiE0NrX (ORCPT
-        <rfc822;linux-wpan@vger.kernel.org>); Fri, 27 May 2022 09:47:23 -0400
-X-Greylist: delayed 9701 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Fri, 27 May 2022 06:47:22 PDT
-Received: from mail.composit.net (mail.composit.net [195.49.185.119])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 6757818358;
-        Fri, 27 May 2022 06:47:22 -0700 (PDT)
-Received: from mail.composit.net (localhost.localdomain [127.0.0.1])
-        by mail.composit.net (Proxmox) with ESMTP id 96007382124;
-        Fri, 27 May 2022 14:02:16 +0300 (MSK)
-Received: from mail.composit.net (unknown [192.168.101.14])
-        by mail.composit.net (Proxmox) with SMTP id 54EBA394BD2;
-        Fri, 27 May 2022 14:02:16 +0300 (MSK)
-Received: from [192.168.1.105] (Unknown [197.234.219.23])
-        by mail.composit.net with ESMTPSA
-        (version=TLSv1 cipher=DHE-RSA-AES256-SHA bits=256)
-        ; Fri, 27 May 2022 14:02:17 +0300
-Message-ID: <0C7B4679-F615-4B2C-9AF8-93D5D9125A7C@mail.composit.net>
-Content-Type: text/plain; charset="iso-8859-1"
+        with ESMTP id S233172AbiE1Psx (ORCPT
+        <rfc822;linux-wpan@vger.kernel.org>); Sat, 28 May 2022 11:48:53 -0400
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTP id CE95312A
+        for <linux-wpan@vger.kernel.org>; Sat, 28 May 2022 08:48:51 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1653752929;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=5GAhpNoL6mVubSpwZ4APr5XIqQJTwS8OwKgO1Q7qWXM=;
+        b=dZdtc9faiWDozjJPa+MUOQ8Ltp750xU6GcX/ayYXhB3tOExhpKRD7abRY3vbj02lsZD9jq
+        JVCR6ELvSvY3/4xnLu8CA4O2d7FSEhu931dye2U0mu6GZ3y2aMYdmGlGqyE0eqZJ4xifPV
+        yzBdmSOFa5JVld4xvWszgX8djRt44rE=
+Received: from mail-qk1-f200.google.com (mail-qk1-f200.google.com
+ [209.85.222.200]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-613--oCKg88kMfevRnRXaOX5lw-1; Sat, 28 May 2022 11:48:48 -0400
+X-MC-Unique: -oCKg88kMfevRnRXaOX5lw-1
+Received: by mail-qk1-f200.google.com with SMTP id c8-20020a05620a268800b0069c0f1b3206so5896952qkp.18
+        for <linux-wpan@vger.kernel.org>; Sat, 28 May 2022 08:48:47 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=5GAhpNoL6mVubSpwZ4APr5XIqQJTwS8OwKgO1Q7qWXM=;
+        b=PLjTFIJOTbFxHp7JgP+e2s1hzJxZ4K5T+I4AhqvdCG45pI7Yg8RyKA0bZNCArRP3tW
+         6yyx2C+2xXAPLpzPDx7QT/+/+2CHY9d/Qzl+UCaB7MafKdCGGpnfHhAThyo/wwSPwRs/
+         0I8TMpLJSz9eh4Y12PGDj63+z0O8WbAG3ynIKLmf6N2ftm2fIdERz7rr7H+HbWoXEX+S
+         fcnZsv0MrRT5ZB1QoYRh2D7oVzSq5j7q8aG1/PuGF+cDlkqnfF0uN+yufzfU1ZmfhSeC
+         0E5B9QG5YAH45GLxAl+BkeKdT0we6+N8cBMFQugj+3HVHd0VQAUAccvatxRR1risg+6B
+         h9Wg==
+X-Gm-Message-State: AOAM530uiSm4Lo/07Ma4AWrjlxeGJVNP7BPkP/2VYXVbduhRtU4XhzHU
+        14XO8xYwGVZHXai31ow8OpgdRec1Ui+mWNpOf5xY8VD66lxTSdOGWCvCjLse9rxelxmbk7w/Hba
+        GiyhlPQQosv+uRkntqNDuA9BkWW5w5/6K+9Msyg==
+X-Received: by 2002:ac8:5750:0:b0:2f9:410b:7101 with SMTP id 16-20020ac85750000000b002f9410b7101mr19892461qtx.291.1653752927535;
+        Sat, 28 May 2022 08:48:47 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJwmAsucB7ng/+qB+vvkMRhBKq3xcdUohmtwPZcqjrboA1dOIsdMeoqf6NSF/fuav7Oq7do5fGX9GQQTQ5RsLU8=
+X-Received: by 2002:ac8:5750:0:b0:2f9:410b:7101 with SMTP id
+ 16-20020ac85750000000b002f9410b7101mr19892448qtx.291.1653752927345; Sat, 28
+ May 2022 08:48:47 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8BIT
-Content-Description: Mail message body
-Subject: Greetings From Ukraine.  
-To:     Recipients <heiss@dnet.it>
-From:   "Kostiantyn Chichkov" <heiss@dnet.it>
-Date:   Fri, 27 May 2022 11:59:24 +0100
-Reply-To: kostiantync@online.ee
-X-Spam-Status: Yes, score=5.1 required=5.0 tests=BAYES_50,
-        RCVD_IN_BL_SPAMCOP_NET,RCVD_IN_SBL,RCVD_IN_SORBS_WEB,
-        RCVD_IN_VALIDITY_RPBL,SPF_HELO_NONE,SPF_NONE,T_SCC_BODY_TEXT_LINE
-        autolearn=no autolearn_force=no version=3.4.6
-X-Spam-Report: *  1.3 RCVD_IN_BL_SPAMCOP_NET RBL: Received via a relay in
-        *      bl.spamcop.net
-        *      [Blocked - see <https://www.spamcop.net/bl.shtml?195.49.185.119>]
-        *  0.1 RCVD_IN_SBL RBL: Received via a relay in Spamhaus SBL
-        *      [197.234.219.23 listed in zen.spamhaus.org]
-        *  1.5 RCVD_IN_SORBS_WEB RBL: SORBS: sender is an abusable web server
-        *      [197.234.219.23 listed in dnsbl.sorbs.net]
-        *  0.8 BAYES_50 BODY: Bayes spam probability is 40 to 60%
-        *      [score: 0.5000]
-        *  0.0 SPF_HELO_NONE SPF: HELO does not publish an SPF Record
-        *  0.0 SPF_NONE SPF: sender does not publish an SPF Record
-        *  1.3 RCVD_IN_VALIDITY_RPBL RBL: Relay in Validity RPBL,
-        *      https://senderscore.org/blocklistlookup/
-        *      [195.49.185.119 listed in bl.score.senderscore.com]
-        * -0.0 T_SCC_BODY_TEXT_LINE No description available.
-X-Spam-Level: *****
+References: <20220526162806.16618-1-jukka.rissanen@linux.intel.com> <20220527075625.9693-1-jukka.rissanen@linux.intel.com>
+In-Reply-To: <20220527075625.9693-1-jukka.rissanen@linux.intel.com>
+From:   Alexander Aring <aahringo@redhat.com>
+Date:   Sat, 28 May 2022 11:48:36 -0400
+Message-ID: <CAK-6q+icAttyjPFx6LXLTUu4b6WBpj9kwKNxUS9WE=cPz6=DnA@mail.gmail.com>
+Subject: Re: [PATCH] MAINTAINERS: Remove Jukka Rissanen as 6lowpan maintainer
+To:     Jukka Rissanen <jukka.rissanen@linux.intel.com>
+Cc:     Alexander Aring <alex.aring@gmail.com>,
+        linux-bluetooth@vger.kernel.org,
+        linux-wpan - ML <linux-wpan@vger.kernel.org>,
+        pmenzel@molgen.mpg.de
+Content-Type: text/plain; charset="UTF-8"
+X-Spam-Status: No, score=-2.9 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
+        SPF_HELO_NONE,SPF_NONE,T_SCC_BODY_TEXT_LINE autolearn=unavailable
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-wpan.vger.kernel.org>
 X-Mailing-List: linux-wpan@vger.kernel.org
 
-Good Morning,
+Hi,
 
-We are Kostiantyn Chychkov and Maryna Chudnovska from Ukraine, we need your service, we have gone through your profile and we will like to work with you on an important service that needs urgent attention due to the ongoing war in our country. Kindly acknowledge this inquiry as soon as possible for a detailed discussion about the service.
+On Fri, May 27, 2022 at 3:58 AM Jukka Rissanen
+<jukka.rissanen@linux.intel.com> wrote:
+>
+> I no longer work on this so better update the file.
+>
 
-Thank you.
+> Signed-off-by: Jukka Rissanen <jukka.rissanen@linux.intel.com>
 
-Yours expectantly,
+Acked-by: Alexander Aring <aahringo@redhat.com>
 
-Kostiantyn Chichkov & Ms. Maryna Chudnovska,
-From Ukraine.
+:'-(
 
+- Alex
 
