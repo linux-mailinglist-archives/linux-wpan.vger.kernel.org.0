@@ -2,66 +2,92 @@ Return-Path: <linux-wpan-owner@vger.kernel.org>
 X-Original-To: lists+linux-wpan@lfdr.de
 Delivered-To: lists+linux-wpan@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 706FE53AF69
-	for <lists+linux-wpan@lfdr.de>; Thu,  2 Jun 2022 00:50:48 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 3A3E053ADCE
+	for <lists+linux-wpan@lfdr.de>; Wed,  1 Jun 2022 22:49:50 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231205AbiFAVKV (ORCPT <rfc822;lists+linux-wpan@lfdr.de>);
-        Wed, 1 Jun 2022 17:10:21 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54204 "EHLO
+        id S229845AbiFAUpN (ORCPT <rfc822;lists+linux-wpan@lfdr.de>);
+        Wed, 1 Jun 2022 16:45:13 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41754 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231191AbiFAVJ5 (ORCPT
-        <rfc822;linux-wpan@vger.kernel.org>); Wed, 1 Jun 2022 17:09:57 -0400
-Received: from mail-oa1-x33.google.com (mail-oa1-x33.google.com [IPv6:2001:4860:4864:20::33])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 417C23968E
-        for <linux-wpan@vger.kernel.org>; Wed,  1 Jun 2022 14:09:56 -0700 (PDT)
-Received: by mail-oa1-x33.google.com with SMTP id 586e51a60fabf-edeb6c3642so4380607fac.3
-        for <linux-wpan@vger.kernel.org>; Wed, 01 Jun 2022 14:09:55 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=mime-version:reply-to:from:date:message-id:subject:to;
-        bh=Gk4nfCem3ECRa7Gml0J0mN/3RZoOAdfGaQAqyHPKtiI=;
-        b=HLFKV03IvnCnmYNulbqEkPjTK3riUL87h2wHAPtiQ15M9iY6Q8e992KMQxJwLdk6f+
-         yc6asPWVRklcz8AY8oqwyi19SO9Z3FXfSKl8KIcHwdn2diZ16fcVN3Noj9XYHhxCnXOp
-         L86c6aBumcYcai1ti0jT0anzEO5LqUJSpP7KiFxQXIe3O9qnWY7viJfSABa1ly9ubc5O
-         7xqU4M/fQQEbpLLu8u6cCuAo0xRfp/5LoTJYIMP5ne/O4VXGwgI3hKlV02ue3fdzqvYA
-         6IABKhDngCz8ZKTuipfv5GZ/7HEqJFbM8x/u/85qQFiKTPs+Mb3XRU84XoMrlsTu1Zr+
-         PsMA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:reply-to:from:date:message-id
-         :subject:to;
-        bh=Gk4nfCem3ECRa7Gml0J0mN/3RZoOAdfGaQAqyHPKtiI=;
-        b=KbeX+e/sq8WlIOX0XgQDzd/DD4FsStqPoiWjEo/Pismkh39sWv+ssnfF1NAzs73yNY
-         QHCepRDICzZ58mndvualm9XTZKtlEQL880P2yZ4Q6mBGr3F6Bdk+YFFzeDpMZ0dekP8O
-         2LTpkc/zqQKtje9To2gPE7TqFxjupAOsNNi+ZqLaOkvEyvW8iUgYUAsywI3jHioqW/id
-         TZORMQ42Aink1Dcv7Hk9q9quT04sqPpE9P/J3cjZJ8TAEhHl9NYhOCJxdeozBuKCBc3G
-         Ll1yJLG/nbLg5uP5dcbwA6uqGH9rDR6F8wQL0MOcoS9/GNCrl2TIAcUJmcf63aQmanpY
-         uQVQ==
-X-Gm-Message-State: AOAM5324e3zasBYamg6vuUYPYae+qAFhwXzJ3YrOPGuENGs9Esa7rJgf
-        HPoPeigZ8ZYfFcC3+bTXnA+UpRJZ3ogFcIPVjhTqfS9FQGI=
-X-Google-Smtp-Source: ABdhPJzieEZsH3sz7p7h/CGCrygaKC3twss2VqEDgMRTw52PjXyF0yZxDsfC/Wcw+CTWK4gcBihtpQQBph7O0cnThRw=
-X-Received: by 2002:a05:6870:308:b0:f1:ddfe:8ac5 with SMTP id
- m8-20020a056870030800b000f1ddfe8ac5mr16670934oaf.237.1654111051378; Wed, 01
- Jun 2022 12:17:31 -0700 (PDT)
+        with ESMTP id S229707AbiFAUnw (ORCPT
+        <rfc822;linux-wpan@vger.kernel.org>); Wed, 1 Jun 2022 16:43:52 -0400
+Received: from proxima.lasnet.de (proxima.lasnet.de [78.47.171.185])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A27201E4514;
+        Wed,  1 Jun 2022 13:28:41 -0700 (PDT)
+Received: from [IPV6:2003:e9:d72e:f86c:6f28:ee17:a8de:98f4] (p200300e9d72ef86c6f28ee17a8de98f4.dip0.t-ipconnect.de [IPv6:2003:e9:d72e:f86c:6f28:ee17:a8de:98f4])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+        (No client certificate requested)
+        (Authenticated sender: stefan@datenfreihafen.org)
+        by proxima.lasnet.de (Postfix) with ESMTPSA id 86433C0092;
+        Wed,  1 Jun 2022 22:28:37 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=datenfreihafen.org;
+        s=2021; t=1654115317;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=bYesnbLNm6NR5A6+Q6J3A6lN4oBm0gztPKEpqNSh1XU=;
+        b=g70UjYn7M399VlGsAV4Q0LXZ7zeaV3XWO8XlSR3zNtj9cnmo6lSx+BNC5JLqER3xuYOGHm
+        5ENiHbzpi/y3W9afZ6H/nX0DQHJ8jvsxCxBc7Q6KdSQlAbRy3QeziIAWL62qfFkW9OtCva
+        ncgU+9PicDe2fjzUWvoiCaKQbcIUE2zwdjX6Rj9PBNhdpgx7T6BPrh4EwceoTU4EWRvFiY
+        /pKd92i9mCspmK9zWbXE+Sjq0SK8kuyek+q8RmjcRqXLy5fIqR/iSwT2tp2wbCLGj7Xehz
+        DR4ehGW+ht/rqobOMAx/7sx3HmG/tILMZXOJKGC4W3md5BU4h+ds+GUgf5xQng==
+Message-ID: <06164dbe-3c11-c627-0929-a399414c01bf@datenfreihafen.org>
+Date:   Wed, 1 Jun 2022 22:28:35 +0200
 MIME-Version: 1.0
-Received: by 2002:a05:6358:3601:b0:a3:2139:251d with HTTP; Wed, 1 Jun 2022
- 12:17:30 -0700 (PDT)
-Reply-To: johnwinery@online.ee
-From:   johnwinery <alicejohnson8974@gmail.com>
-Date:   Wed, 1 Jun 2022 12:17:30 -0700
-Message-ID: <CAFqHCSSUC0MpbjYK8d-GCxOG4b6Qbk2uH3+xQDZte6cPBsxLGA@mail.gmail.com>
-Subject: 
-To:     undisclosed-recipients:;
-Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_ENVFROM_END_DIGIT,
-        FREEMAIL_FROM,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,
-        T_SCC_BODY_TEXT_LINE autolearn=unavailable autolearn_force=no
-        version=3.4.6
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.8.0
+Subject: Re: [PATCH bluetooth-next 0/3] net: 6lowpan: simplify lookup by nhc
+ id
+Content-Language: en-US
+To:     Alexander Aring <aahringo@redhat.com>,
+        jukka.rissanen@linux.intel.com
+Cc:     linux-bluetooth@vger.kernel.org, linux-wpan@vger.kernel.org,
+        torvalds@linuxfoundation.org
+References: <20220428030534.3220410-1-aahringo@redhat.com>
+From:   Stefan Schmidt <stefan@datenfreihafen.org>
+In-Reply-To: <20220428030534.3220410-1-aahringo@redhat.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Spam-Status: No, score=-5.7 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,RCVD_IN_DNSWL_MED,
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-wpan.vger.kernel.org>
 X-Mailing-List: linux-wpan@vger.kernel.org
 
-Greeting ,I had written an earlier mail to you but without response
+Hello.
+
+On 28.04.22 05:05, Alexander Aring wrote:
+> Hi,
+> 
+> this patch series removes the rb data structure for looking up a nhc by
+> nhc id. Instead we using the existing nexthdr lookup array by iterating
+> over it and find the right nhc by nhc id. It's simply not worth it to
+> use such complex handling for such small amount of nhc. As we only
+> support nhc ids which fits into 1 byte and there are not two byte nhc
+> ids values specified yet, we let the nhc layer only handle 1 byte values.
+> If there is the need for 2 byte nhc values we can add support for it.
+> 
+> - Alex
+> 
+> Alexander Aring (3):
+>    net: 6lowpan: remove const from scalars
+>    net: 6lowpan: use array for find nhc id
+>    net: 6lowpan: constify lowpan_nhc structures
+
+Marcel, Luiz, are you still picking up generic 6lowpan patches or only 
+the ones for bluetooth?
+
+These three have been around for over a month and acked by me and Jukka, 
+but I can't find them anywhere in bluetooth-next or Linus tree.
+
+If 6lowpan is of less concern for you I can route them through my 
+ieee80254 tree as well.
+
+regards
+Stefan Schmidt
