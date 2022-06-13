@@ -2,53 +2,53 @@ Return-Path: <linux-wpan-owner@vger.kernel.org>
 X-Original-To: lists+linux-wpan@lfdr.de
 Delivered-To: lists+linux-wpan@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 56884547DDE
-	for <lists+linux-wpan@lfdr.de>; Mon, 13 Jun 2022 05:13:50 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 3FF7D547E28
+	for <lists+linux-wpan@lfdr.de>; Mon, 13 Jun 2022 05:30:08 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S238700AbiFMDNq (ORCPT <rfc822;lists+linux-wpan@lfdr.de>);
-        Sun, 12 Jun 2022 23:13:46 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54836 "EHLO
+        id S229703AbiFMDaA (ORCPT <rfc822;lists+linux-wpan@lfdr.de>);
+        Sun, 12 Jun 2022 23:30:00 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53300 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S238536AbiFMDNi (ORCPT
-        <rfc822;linux-wpan@vger.kernel.org>); Sun, 12 Jun 2022 23:13:38 -0400
+        with ESMTP id S232067AbiFMD36 (ORCPT
+        <rfc822;linux-wpan@vger.kernel.org>); Sun, 12 Jun 2022 23:29:58 -0400
 Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTP id DEA1115A0C
-        for <linux-wpan@vger.kernel.org>; Sun, 12 Jun 2022 20:13:37 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 5EC081A80B
+        for <linux-wpan@vger.kernel.org>; Sun, 12 Jun 2022 20:29:57 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1655090017;
+        s=mimecast20190719; t=1655090996;
         h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
          to:to:cc:cc:mime-version:mime-version:
          content-transfer-encoding:content-transfer-encoding;
-        bh=unlfd8+PTlyYF5m3vsJe++TdYCyZE4SizGmFc6U81ms=;
-        b=NWk3jCl+UKFDHJp7WPXKQVhF5ouEVzMIaR8n5FjUeJT70m49o4Zzo09Aak7B2kPC21bOpv
-        8iOhCg9ZSuQuewVHzivGE2g3q9MWGyB51hJSr7g1YJUEweVOfi1z5ynrwkzqFf5W/lx1zQ
-        uBlTA/43iEQ/sZADcr3U22Spz2ucQk4=
+        bh=aKrLIz2/fH9wSRg7503YdOZi93Zj103cLf7h7Hd63iM=;
+        b=SvjaiO+E3zM20MpT7c2xb8E5RpOBlFsTBd4nMCoLALRPQSL9hzER1x1RvqBeoBZ9xGz2IM
+        ZpaHw8+a0d0+kAiNSvilcz58UjyJ/k0sAT4GVlt7Lj6x6tVOIXxH/YaH5Ia5wYX0ewa3MR
+        LNJZGbFqpXKlusdLAo1o53LbPS8UpWw=
 Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
  [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-227-2LrfrWBsN02Bzf407nK4OA-1; Sun, 12 Jun 2022 23:13:35 -0400
-X-MC-Unique: 2LrfrWBsN02Bzf407nK4OA-1
+ us-mta-1-rq6WqYbWN62WxILCcKR50Q-1; Sun, 12 Jun 2022 23:29:53 -0400
+X-MC-Unique: rq6WqYbWN62WxILCcKR50Q-1
 Received: from smtp.corp.redhat.com (int-mx10.intmail.prod.int.rdu2.redhat.com [10.11.54.10])
         (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
         (No client certificate requested)
-        by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 2A053802804;
-        Mon, 13 Jun 2022 03:13:35 +0000 (UTC)
+        by mimecast-mx02.redhat.com (Postfix) with ESMTPS id B91E4802804;
+        Mon, 13 Jun 2022 03:29:52 +0000 (UTC)
 Received: from fs-i40c-03.fs.lab.eng.bos.redhat.com (fs-i40c-03.fs.lab.eng.bos.redhat.com [10.16.224.23])
-        by smtp.corp.redhat.com (Postfix) with ESMTP id D7F40492C3B;
-        Mon, 13 Jun 2022 03:13:34 +0000 (UTC)
+        by smtp.corp.redhat.com (Postfix) with ESMTP id 91D20492C3B;
+        Mon, 13 Jun 2022 03:29:52 +0000 (UTC)
 From:   Alexander Aring <aahringo@redhat.com>
 To:     stefan@datenfreihafen.org
-Cc:     linux-wpan@vger.kernel.org, netdev@vger.kernel.org,
-        miquel.raynal@bootlin.com, aahringo@redhat.com
-Subject: [PATCH wpan-next] mac802154: util: fix release queue handling
-Date:   Sun, 12 Jun 2022 23:13:23 -0400
-Message-Id: <20220613031323.999280-1-aahringo@redhat.com>
+Cc:     linux-wpan@vger.kernel.org, linux-bluetooth@vger.kernel.org,
+        netdev@vger.kernel.org, aahringo@redhat.com
+Subject: [PATCH wpan-next 1/2] 6lowpan: nhc: more constify api
+Date:   Sun, 12 Jun 2022 23:29:21 -0400
+Message-Id: <20220613032922.1030739-1-aahringo@redhat.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-Scanned-By: MIMEDefang 2.85 on 10.11.54.10
 X-Spam-Status: No, score=-3.3 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
         DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
-        SPF_HELO_NONE,SPF_NONE,T_SCC_BODY_TEXT_LINE autolearn=ham
+        SPF_HELO_NONE,SPF_NONE,T_SCC_BODY_TEXT_LINE autolearn=unavailable
         autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -56,28 +56,35 @@ Precedence: bulk
 List-ID: <linux-wpan.vger.kernel.org>
 X-Mailing-List: linux-wpan@vger.kernel.org
 
-The semantic of atomic_dec_and_test() is to return true if zero is
-reached and we need call ieee802154_wake_queue() when zero is reached.
+This patch adds an const to the return of lowpan_nhc_by_nexthdr(), as we
+never modify nhcs.
 
-Fixes: f0feb3490473 ("net: mac802154: Introduce a tx queue flushing mechanism")
 Signed-off-by: Alexander Aring <aahringo@redhat.com>
 ---
- net/mac802154/util.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ net/6lowpan/nhc.h | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
-diff --git a/net/mac802154/util.c b/net/mac802154/util.c
-index 60eb7bd3bfc1..60f6c0f10641 100644
---- a/net/mac802154/util.c
-+++ b/net/mac802154/util.c
-@@ -79,7 +79,7 @@ void ieee802154_release_queue(struct ieee802154_local *local)
- 	unsigned long flags;
+diff --git a/net/6lowpan/nhc.h b/net/6lowpan/nhc.h
+index ab7b4977c32b..4ba6b2ffcb47 100644
+--- a/net/6lowpan/nhc.h
++++ b/net/6lowpan/nhc.h
+@@ -66,6 +66,7 @@ struct lowpan_nhc {
  
- 	spin_lock_irqsave(&local->phy->queue_lock, flags);
--	if (!atomic_dec_and_test(&local->phy->hold_txs))
-+	if (atomic_dec_and_test(&local->phy->hold_txs))
- 		ieee802154_wake_queue(&local->hw);
- 	spin_unlock_irqrestore(&local->phy->queue_lock, flags);
- }
+ 	int		(*uncompress)(struct sk_buff *skb, size_t needed);
+ 	int		(*compress)(struct sk_buff *skb, u8 **hc_ptr);
++
+ };
+ 
+ /**
+@@ -73,7 +74,7 @@ struct lowpan_nhc {
+  *
+  * @nexthdr: ipv6 nexthdr value.
+  */
+-struct lowpan_nhc *lowpan_nhc_by_nexthdr(u8 nexthdr);
++const struct lowpan_nhc *lowpan_nhc_by_nexthdr(u8 nexthdr);
+ 
+ /**
+  * lowpan_nhc_check_compression - checks if we support compression format. If
 -- 
 2.31.1
 
