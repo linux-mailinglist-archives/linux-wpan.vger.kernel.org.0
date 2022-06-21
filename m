@@ -2,141 +2,107 @@ Return-Path: <linux-wpan-owner@vger.kernel.org>
 X-Original-To: lists+linux-wpan@lfdr.de
 Delivered-To: lists+linux-wpan@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 012C4552AFC
-	for <lists+linux-wpan@lfdr.de>; Tue, 21 Jun 2022 08:31:55 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 06DFA552EE9
+	for <lists+linux-wpan@lfdr.de>; Tue, 21 Jun 2022 11:41:44 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1345389AbiFUGbt (ORCPT <rfc822;lists+linux-wpan@lfdr.de>);
-        Tue, 21 Jun 2022 02:31:49 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49050 "EHLO
+        id S1349349AbiFUJkR (ORCPT <rfc822;lists+linux-wpan@lfdr.de>);
+        Tue, 21 Jun 2022 05:40:17 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52004 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1345659AbiFUGbs (ORCPT
-        <rfc822;linux-wpan@vger.kernel.org>); Tue, 21 Jun 2022 02:31:48 -0400
-Received: from relay2-d.mail.gandi.net (relay2-d.mail.gandi.net [217.70.183.194])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1FB1713F4D;
-        Mon, 20 Jun 2022 23:31:46 -0700 (PDT)
-Received: (Authenticated sender: miquel.raynal@bootlin.com)
-        by mail.gandi.net (Postfix) with ESMTPSA id 447CB40002;
-        Tue, 21 Jun 2022 06:31:43 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
-        t=1655793105;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=7HkmcEl+3ekas+VWSytVpee6Rucrvmwke3/cA2LAUDs=;
-        b=nkEqQyp1mEqNkdjtP+csD9ZyvpiRxmr9+tK9pcTqvoHQZcUhi6Y0LH75R5zKYIPXg5iVds
-        OwMYukYIX95sc+sg5YQBivdyKSVvf7cElatW2zDNRZ6uIyqhNd6cs10NUfGvlsIA0nJ8Kl
-        RTUgLVqPPaXqOCWcgvhKGx0AgML3AlMEfNprkycrn/a1c0Tnz/KtOW04yspBE4vCx4YWUO
-        FJtQs1dRXNVJjA6Vq1wx61hK4kcaiaKKQD8F83+kuCckfAM4HeeNPOd2BIDCGWz/fbS/jV
-        kuz5i6I5ZCvz1+CpV0PRpEcsLCUQg4EOyPK/uq8DSDZREizgDNLBZSjWXKBpHA==
-Date:   Tue, 21 Jun 2022 08:31:43 +0200
-From:   Miquel Raynal <miquel.raynal@bootlin.com>
-To:     Alexander Aring <aahringo@redhat.com>
-Cc:     Alexander Aring <alex.aring@gmail.com>,
-        Stefan Schmidt <stefan@datenfreihafen.org>,
-        linux-wpan - ML <linux-wpan@vger.kernel.org>,
-        "David S. Miller" <davem@davemloft.net>,
-        Jakub Kicinski <kuba@kernel.org>,
-        Paolo Abeni <pabeni@redhat.com>,
-        Eric Dumazet <edumazet@google.com>,
-        Network Development <netdev@vger.kernel.org>,
-        David Girault <david.girault@qorvo.com>,
-        Romuald Despres <romuald.despres@qorvo.com>,
-        Frederic Blain <frederic.blain@qorvo.com>,
-        Nicolas Schodet <nico@ni.fr.eu.org>,
-        Thomas Petazzoni <thomas.petazzoni@bootlin.com>
-Subject: Re: [PATCH wpan-next v2 2/6] net: ieee802154: Ensure only FFDs can
- become PAN coordinators
-Message-ID: <20220621083143.5dcb766f@xps-13>
-In-Reply-To: <CAK-6q+gN3vJvOmdQdX4dYuqT4vcDHfiYeV8CWVix_UOKcBa_Fw@mail.gmail.com>
-References: <20220617193254.1275912-1-miquel.raynal@bootlin.com>
-        <20220617193254.1275912-3-miquel.raynal@bootlin.com>
-        <CAK-6q+iJaZvtxXsFTPsYyWsDYmKhgVsMHKcDUCrCqmUR2YpEjg@mail.gmail.com>
-        <20220620112834.7e8721a0@xps-13>
-        <CAK-6q+gN3vJvOmdQdX4dYuqT4vcDHfiYeV8CWVix_UOKcBa_Fw@mail.gmail.com>
-Organization: Bootlin
-X-Mailer: Claws Mail 4.0.0 (GTK+ 3.24.33; x86_64-pc-linux-gnu)
+        with ESMTP id S1349359AbiFUJkI (ORCPT
+        <rfc822;linux-wpan@vger.kernel.org>); Tue, 21 Jun 2022 05:40:08 -0400
+Received: from mail-ua1-x92d.google.com (mail-ua1-x92d.google.com [IPv6:2607:f8b0:4864:20::92d])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0A8DF27CD9
+        for <linux-wpan@vger.kernel.org>; Tue, 21 Jun 2022 02:39:55 -0700 (PDT)
+Received: by mail-ua1-x92d.google.com with SMTP id 90so4863851uam.8
+        for <linux-wpan@vger.kernel.org>; Tue, 21 Jun 2022 02:39:55 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=mime-version:reply-to:from:date:message-id:subject:to;
+        bh=/0bRExIb6Mv4sy5raFRmeQINC+UUx7zEZcUUOWWOPJg=;
+        b=NKhg6kSkfnglJlsPDVUWhCY3Iibudx7OhZC5CePFgeNekYJKNrcmU8wB8gkktmjPqY
+         f0o4DET3nwW7oGb1WQAmWVCm6yLISrVrQXMY/9qoCppMNLX7K/jA/JZ+JMs1mNT38j+N
+         qSlM2vTiSOIkQo5cZ6oY4dkMVda7fWn0vzKRT295Q67AStI8u0BTanvw38uSxo4IMvFm
+         mtbeFJOQugEk6bmbrSLJZHxNWvSEoU0AT9TQz59V3jAGDZbWiI6U0Fx8UlroTYMr9wGQ
+         +xC78kHT5AZK7k/f6wmWhdDj3ThC5Cy20ctCKCcYvb/idPExEpgvQXB/UX/ziCu3vO07
+         Q2/g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:mime-version:reply-to:from:date:message-id
+         :subject:to;
+        bh=/0bRExIb6Mv4sy5raFRmeQINC+UUx7zEZcUUOWWOPJg=;
+        b=ywOm47xbH6f9VQmk3BYTF5Oefpo6WPEoKuLzsE/3Bg/nwu24+UVMMeSlxU9ABKYlPN
+         WCmJgBUoRpdJI1bBiJqreTX63KwPFGSVdjzHuLCohG3ZJ63Gv9ZbJaaHNZRdXBi9POh5
+         wGrW7r69EnFcf+wLNezZqeMM3AoiHXaLn9rhelxgSg66jB86qVM2qRORP2ouzDpd6w+l
+         UybaHUiGC1g0KoZmlaW1QkVz3WwoNbvN+MexP+u44B1E7mkGajmpztaSZQRsF6BoVAkp
+         cjWMAOCrVJPROwWFMA9k5MPvfJwM/86FwzeQn9XLpN7ZxKuDzlmOfCkw523gfJc7YHwk
+         lIpA==
+X-Gm-Message-State: AJIora+pV4tCAFa6s0iaM4ClMa/bNxMo2ZCbD/mBstZb3zdYRa+fM8AW
+        nng9oAz57xRw+UHpmxAgbAKON24jePp8kffwes1A47/ntu4RNRvP
+X-Google-Smtp-Source: AGRyM1sTF/SvvxCyraPE52znD36ZX02jNmxmam87lP8bWzXT3yTfChS1a9JgJI9LjBXh9tpS4qLO5E/t+5efudcEruY=
+X-Received: by 2002:a0d:d7c7:0:b0:317:bfe8:4f2 with SMTP id
+ z190-20020a0dd7c7000000b00317bfe804f2mr12417910ywd.276.1655804384555; Tue, 21
+ Jun 2022 02:39:44 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-X-Spam-Status: No, score=-2.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_LOW,
-        RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,SPF_PASS,
-        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
+Received: by 2002:a05:7010:e10a:b0:2d9:e631:94d0 with HTTP; Tue, 21 Jun 2022
+ 02:39:44 -0700 (PDT)
+Reply-To: dimitryedik@gmail.com
+From:   Dimitry Edik <lsbthdwrds@gmail.com>
+Date:   Tue, 21 Jun 2022 02:39:44 -0700
+Message-ID: <CAGrL05aBO8rbFuij24J-APa+Luis69gEjhj35iv_GZfkHCVYDQ@mail.gmail.com>
+Subject: Dear Partner,
+To:     undisclosed-recipients:;
+Content-Type: text/plain; charset="UTF-8"
+X-Spam-Status: Yes, score=7.8 required=5.0 tests=BAYES_50,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,FREEMAIL_REPLYTO,
+        LOTS_OF_MONEY,MONEY_FREEMAIL_REPTO,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,
+        SPF_PASS,T_MONEY_PERCENT,T_SCC_BODY_TEXT_LINE,UNDISC_FREEM,
+        UNDISC_MONEY autolearn=no autolearn_force=no version=3.4.6
+X-Spam-Report: * -0.0 RCVD_IN_DNSWL_NONE RBL: Sender listed at
+        *      https://www.dnswl.org/, no trust
+        *      [2607:f8b0:4864:20:0:0:0:92d listed in]
+        [list.dnswl.org]
+        *  0.8 BAYES_50 BODY: Bayes spam probability is 40 to 60%
+        *      [score: 0.5000]
+        *  0.0 SPF_HELO_NONE SPF: HELO does not publish an SPF Record
+        *  0.0 FREEMAIL_FROM Sender email is commonly abused enduser mail
+        *      provider
+        *      [lsbthdwrds[at]gmail.com]
+        * -0.0 SPF_PASS SPF: sender matches SPF record
+        * -0.1 DKIM_VALID_AU Message has a valid DKIM or DK signature from
+        *      author's domain
+        * -0.1 DKIM_VALID_EF Message has a valid DKIM or DK signature from
+        *      envelope-from domain
+        *  0.1 DKIM_SIGNED Message has a DKIM or DK signature, not necessarily
+        *       valid
+        * -0.1 DKIM_VALID Message has at least one valid DKIM or DK signature
+        *  0.0 LOTS_OF_MONEY Huge... sums of money
+        * -0.0 T_SCC_BODY_TEXT_LINE No description available.
+        *  2.2 UNDISC_FREEM Undisclosed recipients + freemail reply-to
+        *  1.0 FREEMAIL_REPLYTO Reply-To/From or Reply-To/body contain
+        *      different freemails
+        *  2.0 MONEY_FREEMAIL_REPTO Lots of money from someone using free
+        *      email?
+        *  0.0 T_MONEY_PERCENT X% of a lot of money for you
+        *  2.0 UNDISC_MONEY Undisclosed recipients + money/fraud signs
+X-Spam-Level: *******
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-wpan.vger.kernel.org>
 X-Mailing-List: linux-wpan@vger.kernel.org
 
-Hi Alexander,
+Hello Dear,
 
-aahringo@redhat.com wrote on Mon, 20 Jun 2022 22:03:12 -0400:
+My Name is Dimitry Edik from Russia A special assistance to my Russia
+boss who deals in oil import and export He was killed by the Ukraine
+soldiers at the border side. He supplied
+oil to the Philippines company and he was paid over 90 per cent of the
+transaction and the remaining $18.6 Million dollars have been paid into a
+Taiwan bank in the Philippines..i want a partner that will assist me
+with the claims. Is a (DEAL ) 40% for you and 60% for me
+I have all information for the claims.
+Kindly read and reply to me back is 100 per cent risk-free
 
-> Hi,
->=20
-> On Mon, Jun 20, 2022 at 5:28 AM Miquel Raynal <miquel.raynal@bootlin.com>=
- wrote:
-> >
-> > Hi Alex,
-> >
-> > aahringo@redhat.com wrote on Sun, 19 Jun 2022 20:24:48 -0400:
-> > =20
-> > > Hi,
-> > >
-> > > On Fri, Jun 17, 2022 at 3:35 PM Miquel Raynal <miquel.raynal@bootlin.=
-com> wrote: =20
-> > > >
-> > > > This is a limitation clearly listed in the specification. Now that =
-we
-> > > > have device types,let's ensure that only FFDs can become PAN
-> > > > coordinators.
-> > > >
-> > > > Signed-off-by: Miquel Raynal <miquel.raynal@bootlin.com>
-> > > > ---
-> > > >  net/ieee802154/nl802154.c | 3 +++
-> > > >  1 file changed, 3 insertions(+)
-> > > >
-> > > > diff --git a/net/ieee802154/nl802154.c b/net/ieee802154/nl802154.c
-> > > > index 638bf544f102..0c6fc3385320 100644
-> > > > --- a/net/ieee802154/nl802154.c
-> > > > +++ b/net/ieee802154/nl802154.c
-> > > > @@ -924,6 +924,9 @@ static int nl802154_new_interface(struct sk_buf=
-f *skb, struct genl_info *info)
-> > > >                         return -EINVAL;
-> > > >         }
-> > > >
-> > > > +       if (type =3D=3D NL802154_IFTYPE_COORD && !cfg802154_is_ffd(=
-rdev))
-> > > > +               return -EINVAL;
-> > > > + =20
-> > >
-> > > Look at my other mail regarding why the user needs to set this device
-> > > capability, change the errno to "EOPNOTSUPP"... it would be nice to
-> > > have an identically nl80211 handling like nl80211 to see which
-> > > interfaces are supported. Please look how wireless is doing that and
-> > > probably we should not take the standard about those "wording" too
-> > > seriously. What I mean is that according to FFD or RFD it's implied on
-> > > what interfaces you can create on. =20
-> >
-> > This is true, I don't need this _is_ffd() helper, checking on the type
-> > of interface should be enough. I will drop the DEV(PHY)_TYPE enum =20
->=20
-> as I said that the driver needs somehow to report which interface can
-> be created on the phy and such thing also exists in wireless inclusive
-> netlink attribute to check which iftypes are supported (by calling
-> iw)... you can map this information to if it's FFD or RFD.
-
-Yes, this is how I ended up doing things, I'm checking we are on a
-coordinator interface before allowing beacons, for instance.
-
-> I am not
-> sure if such an option makes sense now because we mostly have FFD only
-> supported right now.
-
-Yeah, I've dropped that part in v3 so that we can move forward, it will
-not be too hard to had this information later if we ever have !FFD
-devices which need to be supported anyway.
-
-Thanks,
-Miqu=C3=A8l
+Yours Sincerely
+Dimitry Edik
