@@ -2,157 +2,85 @@ Return-Path: <linux-wpan-owner@vger.kernel.org>
 X-Original-To: lists+linux-wpan@lfdr.de
 Delivered-To: lists+linux-wpan@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 5480A5AE255
-	for <lists+linux-wpan@lfdr.de>; Tue,  6 Sep 2022 10:21:20 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id A6DCA5B0615
+	for <lists+linux-wpan@lfdr.de>; Wed,  7 Sep 2022 16:06:27 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S239098AbiIFIVS (ORCPT <rfc822;lists+linux-wpan@lfdr.de>);
-        Tue, 6 Sep 2022 04:21:18 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42638 "EHLO
+        id S229751AbiIGOG0 (ORCPT <rfc822;lists+linux-wpan@lfdr.de>);
+        Wed, 7 Sep 2022 10:06:26 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58966 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S237446AbiIFIVR (ORCPT
-        <rfc822;linux-wpan@vger.kernel.org>); Tue, 6 Sep 2022 04:21:17 -0400
-Received: from relay9-d.mail.gandi.net (relay9-d.mail.gandi.net [IPv6:2001:4b98:dc4:8::229])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0AF0673325
-        for <linux-wpan@vger.kernel.org>; Tue,  6 Sep 2022 01:21:10 -0700 (PDT)
-Received: (Authenticated sender: miquel.raynal@bootlin.com)
-        by mail.gandi.net (Postfix) with ESMTPSA id F3333FF80E;
-        Tue,  6 Sep 2022 08:21:07 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
-        t=1662452469;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=2ALGGn/CduQXBnOtj94WFZrqbOzJRWr0CNwPvNW0tO8=;
-        b=H2nwUF/1cViTjq7/Lt1LdM2D8bPjAk1BJy315usLcvkFdr0O+NvXwy66NAc3BKlw6rc9HU
-        Him5WfGWGBCBWFaaWapJtygwf3yIobv/P3Z9NKhLVt9MAihYCy1oPuyviLkU1AyDdgILc4
-        RP0ua564ffbEZ8u3UyNs11GnEkpsy+8oLLBvI9Npz5KwaZfnZeXQlVIkYYgFazz2S/zoxv
-        CPDwFOZWlG2oPRMQSBtRDxkCUjJfHEqMusi8s3rEbufBBffniFGWQhKcJoxdogmuQpP+kr
-        FUzUXEWKW64HU/OsqlMqi8BLgcU1wZrouzRkt+Zr52MnX8hl+olwL+Q/Z8CP8g==
-From:   Miquel Raynal <miquel.raynal@bootlin.com>
-To:     werner@almesberger.net
-Cc:     Stefan Schmidt <stefan@datenfreihafen.org>,
-        Alexander Aring <alex.aring@gmail.com>,
-        Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
-        linux-wpan@vger.kernel.org, Alexander Aring <aahringo@redhat.com>,
-        Miquel Raynal <miquel.raynal@bootlin.com>
-Subject: [PATCH atusb/fw v2 3/3] atusb: fw: Provide TRAC status
-Date:   Tue,  6 Sep 2022 10:21:04 +0200
-Message-Id: <20220906082104.1338694-3-miquel.raynal@bootlin.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20220906082104.1338694-1-miquel.raynal@bootlin.com>
-References: <20220906082104.1338694-1-miquel.raynal@bootlin.com>
+        with ESMTP id S229657AbiIGOGZ (ORCPT
+        <rfc822;linux-wpan@vger.kernel.org>); Wed, 7 Sep 2022 10:06:25 -0400
+Received: from mail-ej1-x632.google.com (mail-ej1-x632.google.com [IPv6:2a00:1450:4864:20::632])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C215294EE0
+        for <linux-wpan@vger.kernel.org>; Wed,  7 Sep 2022 07:06:23 -0700 (PDT)
+Received: by mail-ej1-x632.google.com with SMTP id gb36so30582553ejc.10
+        for <linux-wpan@vger.kernel.org>; Wed, 07 Sep 2022 07:06:23 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=content-transfer-encoding:to:subject:message-id:date:from:reply-to
+         :mime-version:from:to:cc:subject:date;
+        bh=5N+aMihLorZXBHcklDfHgYNT/W4ZQvt0cLc1vwY1KVE=;
+        b=ILSSmh5FDSf4xUHjmhsAIvjC+rUrB/c3J453eOFtdx/AkVWmyeCDy41BW7cU0zkndG
+         n37qh7wJtDWKKAtKpqlJKaphY2Lczm6aYOOXsBRXa5rF+Xi4bTFkX95eRqTrjAlK/ySc
+         5fxefAXcgJGtofvLST3H5hVqrDM59a3yGoijI1/vKxueZM237ag7pmbxTIUQ3+YG3ONX
+         0GIuxeYNynb7kf9Tjm9e6BKJqjD1nlujdD7m4gsxvc8Levnuh/LHPi8mflADRmBQ5q+X
+         5pOyWDcBima30VU+IXCwT3vD3C8s4Sc6g3yfVqIHmJ/i+BVXgmUucbtVHLvP7H5+ayRm
+         soeA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=content-transfer-encoding:to:subject:message-id:date:from:reply-to
+         :mime-version:x-gm-message-state:from:to:cc:subject:date;
+        bh=5N+aMihLorZXBHcklDfHgYNT/W4ZQvt0cLc1vwY1KVE=;
+        b=iMPCICaYz0vNMHp2fXWpMa7+ICBQGzjdEoloG6vHzxQ3SpChCYPhNBJXFDWgy19ME4
+         gCaH0ly4NZtNylYsdaI/i+vo6uzpZ5vhOohwUTyGu/WtLaLFOVnAcEI75YUT9r3byNrG
+         TJlzKPR6uWaPc4a3OU3DIlLUYhbi1p3BirKAuAVbcTO3Kg5rrSILZN8b62TOAD32RDa/
+         7a1QnYNo4/A5LVDlBnFSn2S8Ur161qi6tjbrHr/ohMKPYz+w1yJtaQ0f/+l2vt1cSZr3
+         GC2uwRGN1oE6d0oGrcStrdFvD9Intf6USkxmGJRhcLfm35sSehD6K3/+wMnkqwDYPV4E
+         DF/w==
+X-Gm-Message-State: ACgBeo1sEK7KDNsALoTztbkYKpwx72oBciSeU6FIDdktvUpmkOZiIHV+
+        9fv8gp4p8gSjzmSzlxteAkSVl2hCyloFgpw8tQ8=
+X-Google-Smtp-Source: AA6agR7z79jAvOOoMvZpGvQocZ7RguNzumLksOIPxgHDFQj8byZf/NuM2vIU0/qzf9vuuPt73rRBhfXqJbHcmlbj8cs=
+X-Received: by 2002:a17:906:7621:b0:750:c4a3:8fcd with SMTP id
+ c1-20020a170906762100b00750c4a38fcdmr2636607ejn.180.1662559582347; Wed, 07
+ Sep 2022 07:06:22 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-2.4 required=5.0 tests=BAYES_00,DKIM_INVALID,
-        DKIM_SIGNED,RCVD_IN_DNSWL_LOW,SPF_HELO_NONE,SPF_PASS,
-        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
+Received: by 2002:a05:6400:5593:0:0:0:0 with HTTP; Wed, 7 Sep 2022 07:06:21
+ -0700 (PDT)
+Reply-To: jennifermbaya036@gmail.com
+From:   "Mrs.Jennifer Mbaya" <robinrampha409@gmail.com>
+Date:   Wed, 7 Sep 2022 15:06:21 +0100
+Message-ID: <CAOudsvdZB_1kK9xDSYYkY=UTNdg_BWe9=fxrg=wxrHSMZtE2qQ@mail.gmail.com>
+Subject: Edunsaaja
+To:     undisclosed-recipients:;
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Spam-Status: No, score=2.5 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_ENVFROM_END_DIGIT,
+        FREEMAIL_FROM,FREEMAIL_REPLYTO,FREEMAIL_REPLYTO_END_DIGIT,
+        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_HK_NAME_FM_MR_MRS,
+        T_SCC_BODY_TEXT_LINE,UNDISC_FREEM autolearn=no autolearn_force=no
+        version=3.4.6
+X-Spam-Level: **
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-wpan.vger.kernel.org>
 X-Mailing-List: linux-wpan@vger.kernel.org
 
-From: Alexander Aring <aahringo@redhat.com>
+Edunsaaja
 
-Upon Tx done condition, returning the sequence number is useful but we
-might also return the TRAC value which is needed to ensure that the
-packet we sent got ACKed.
-
-We then need to read the TRAC status register upon Tx completion and
-send this information to the atusb Linux driver as part of the status
-message. First byte remains the sequence number for ensuring backward
-compatibility, a second byte is added to forward the TRAC register
-status.
-
-We need to move the transition to RX_AACK_ON after reading the trac
-register value. The current optimization by switchting to RX_AACK_ON
-after invoking transceiver transmission could have the side effect that
-the TRAC register is not read out before a frame is received. Receiving
-another frame will overwrite the TRAC register. We can only switch to
-RX_AACK_ON state after we read out the TRAC register.
-
-Signed-off-by: Alexander Aring <aahringo@redhat.com>
-Tested-by: Miquel Raynal <miquel.raynal@bootlin.com>
-[Miquel Raynal: Moved the data array out of the stack, rewrote commit log]
-Signed-off-by: Miquel Raynal <miquel.raynal@bootlin.com>
----
-
-Changes since v1:
-* Fix race condition (Rx would mess with the TRAC value, so wait for the
-  transmission to have been signaled and the TRAC register to have been
-  read before changing the state to RX_AACK_ON (by Alexander).
-
- atusb/fw/mac.c | 24 ++++++++++++------------
- 1 file changed, 12 insertions(+), 12 deletions(-)
-
-diff --git a/atusb/fw/mac.c b/atusb/fw/mac.c
-index 835002c..165ce30 100644
---- a/atusb/fw/mac.c
-+++ b/atusb/fw/mac.c
-@@ -32,7 +32,7 @@ static uint8_t tx_buf[MAX_PSDU];
- static uint8_t tx_size = 0;
- static bool txing = 0;
- static bool queued_tx_ack = 0;
--static uint8_t next_seq, this_seq, queued_seq;
-+static uint8_t next_seq, this_seq, this_data[2], queued_data[2];
- 
- 
- /* ----- Receive buffer management ----------------------------------------- */
-@@ -65,7 +65,8 @@ static void usb_next(void)
- 	}
- 
- 	if (queued_tx_ack) {
--		usb_send(&eps[1], &queued_seq, 1, tx_ack_done, NULL);
-+		usb_send(&eps[1], queued_data, sizeof(queued_data),
-+			 tx_ack_done, NULL);
- 		queued_tx_ack = 0;	
- 	}
- }
-@@ -124,11 +125,17 @@ static bool handle_irq(void)
- 
- 	if (txing) {
- 		if (eps[1].state == EP_IDLE) {
--			usb_send(&eps[1], &this_seq, 1, tx_ack_done, NULL);
-+			this_data[0] = this_seq;
-+			this_data[1] = reg_read(REG_TRX_STATE);
-+			usb_send(&eps[1], this_data, sizeof(this_data),
-+				 tx_ack_done, NULL);
- 		} else {
- 			queued_tx_ack = 1;
--			queued_seq = this_seq;
-+			queued_data[0] = this_seq;
-+			queued_data[1] = reg_read(REG_TRX_STATE);
- 		}
-+		change_state(TRX_CMD_PLL_ON);
-+		change_state(TRX_CMD_RX_AACK_ON);
- 		txing = 0;
- 		return 1;
- 	}
-@@ -215,13 +222,6 @@ static void do_tx(void *user)
- 
- 	txing = 1;
- 	this_seq = next_seq;
--
--	/*
--	 * Wait until we reach BUSY_TX_ARET, so that we command the transition to
--	 * RX_AACK_ON which will be executed upon TX completion.
--	 */
--	change_state(TRX_CMD_PLL_ON);
--	change_state(TRX_CMD_RX_AACK_ON);
- }
- 
- 
-@@ -242,7 +242,7 @@ void mac_reset(void)
- 	txing = 0;
- 	queued_tx_ack = 0;
- 	rx_in = rx_out = 0;
--	next_seq = this_seq = queued_seq = 0;
-+	next_seq = this_seq = queued_data[0], queued_data[1] = 0;
- 
- 	/* enable CRC and PHY_RSSI (with RX_CRC_VALID) in SPI status return */
- 	reg_write(REG_TRX_CTRL_1,
--- 
-2.34.1
-
+Nimess=C3=A4si on palkinto Yhdistyneilt=C3=A4 Kansakunnilta ja Maailman
+terveysj=C3=A4rjest=C3=B6lt=C3=A4, joka on osa kansainv=C3=A4list=C3=A4 val=
+uuttarahastoa, johon
+s=C3=A4hk=C3=B6postisi, osoite ja raha on luovutettu meille siirtoa varten,
+vahvista yst=C3=A4v=C3=A4llisesti tietosi siirtoa varten.
+Meit=C3=A4 kehotettiin siirt=C3=A4m=C3=A4=C3=A4n kaikki vireill=C3=A4 oleva=
+t tapahtumat
+seuraavien kahden aikana, mutta jos olet vastaanottanut rahasi, j=C3=A4t=C3=
+=A4
+t=C3=A4m=C3=A4 viesti huomioimatta, jos et toimi heti.
+Tarvitsemme kiireellist=C3=A4 vastausta t=C3=A4h=C3=A4n viestiin, t=C3=A4m=
+=C3=A4 ei ole yksi
+niist=C3=A4 Internet-huijareista, se on pandemiaapu.
+Jennifer
