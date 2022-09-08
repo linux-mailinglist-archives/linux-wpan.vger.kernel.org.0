@@ -2,113 +2,137 @@ Return-Path: <linux-wpan-owner@vger.kernel.org>
 X-Original-To: lists+linux-wpan@lfdr.de
 Delivered-To: lists+linux-wpan@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 9973A5B06E1
-	for <lists+linux-wpan@lfdr.de>; Wed,  7 Sep 2022 16:33:12 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 7EADB5B122E
+	for <lists+linux-wpan@lfdr.de>; Thu,  8 Sep 2022 03:40:31 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229908AbiIGOdG (ORCPT <rfc822;lists+linux-wpan@lfdr.de>);
-        Wed, 7 Sep 2022 10:33:06 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47066 "EHLO
+        id S229899AbiIHBk3 (ORCPT <rfc822;lists+linux-wpan@lfdr.de>);
+        Wed, 7 Sep 2022 21:40:29 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45530 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230360AbiIGOcU (ORCPT
-        <rfc822;linux-wpan@vger.kernel.org>); Wed, 7 Sep 2022 10:32:20 -0400
-Received: from mail-ed1-x542.google.com (mail-ed1-x542.google.com [IPv6:2a00:1450:4864:20::542])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 502E2B249C
-        for <linux-wpan@vger.kernel.org>; Wed,  7 Sep 2022 07:32:11 -0700 (PDT)
-Received: by mail-ed1-x542.google.com with SMTP id a70so3867929edf.10
-        for <linux-wpan@vger.kernel.org>; Wed, 07 Sep 2022 07:32:11 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=to:subject:message-id:date:from:reply-to:mime-version:from:to:cc
-         :subject:date;
-        bh=UTPjlhWN0j/3cl0uibj9IdU3K9tIHCNTd74bAPWV+BQ=;
-        b=F9yMmaIgSJ7x+iStBVtJEVNXfuHmNuRwH0oeGQZVEKjdO6DhdtNMd/isOm61Mbr/sg
-         xfKr3XSywaIr4UtWLvFYPLTvFzJ7h/Hm2dTXLAIBAXs8GSUGrRcaGfrF44kItgvLNssI
-         mdCrrU6xo0k06TKggYMVy8FOcAbkBgo1wC5PjqDsVEhsblNCO7wJZs+Uz3UyfKMq66jc
-         LBZlB+02LZPjcLDn2rXew+EJosOoyYb0qI+DEdM9Q7gGpQpAuWFiAiGu2xaPJNPE8Z0z
-         1dPz+Ukvd+R1N2c6VsiSc8mvEG74skD4zo8WmW09cr/Ve033R6BY3xgueFtUzfnE1WmC
-         UQAw==
+        with ESMTP id S229478AbiIHBk2 (ORCPT
+        <rfc822;linux-wpan@vger.kernel.org>); Wed, 7 Sep 2022 21:40:28 -0400
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 47F79C6FC4
+        for <linux-wpan@vger.kernel.org>; Wed,  7 Sep 2022 18:40:27 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1662601226;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=omTeNvcKp/F4WU/b2YX04Q0z1z9EGBUTXmAYav/J+8I=;
+        b=dOlM5IQmVAjNmmq5UzdWy4f9v+SJjLna1L6AprYd1zTZmzT+T/d3rfJsN6I46F0owtdjug
+        ZS8GrELwzqQ794F2eELd7mVhoChstEJvOyJnUs7i555zZwOLL42TY2FDGMZBhxIap3TzBb
+        F/CAl1h9BkxGxILCHMZCMZiAn39TGhk=
+Received: from mail-yb1-f197.google.com (mail-yb1-f197.google.com
+ [209.85.219.197]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-122-nmuYUTu7MGubD1tHs5KGiA-1; Wed, 07 Sep 2022 21:40:25 -0400
+X-MC-Unique: nmuYUTu7MGubD1tHs5KGiA-1
+Received: by mail-yb1-f197.google.com with SMTP id 62-20020a250341000000b006a93b57e2daso6976110ybd.2
+        for <linux-wpan@vger.kernel.org>; Wed, 07 Sep 2022 18:40:25 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=to:subject:message-id:date:from:reply-to:mime-version
-         :x-gm-message-state:from:to:cc:subject:date;
-        bh=UTPjlhWN0j/3cl0uibj9IdU3K9tIHCNTd74bAPWV+BQ=;
-        b=KtXUiIATIPRU0y1kILk3Pt03iXsA+HIL2Hl+Uyfr5bvviAq16m6CMb1uwdgU3xycnC
-         xao0f+YcEh4bxDwqi5EZa2k3rDrMhbe9lyvy5Vy5qabVU6IShpxuJg3dBsHIh5llodRv
-         UdsqXFTe1k/+QJlWayO6AAnV0IDM9u0Od0UP7SjairC/kMA+hqL8/tSza8ZDHdFLkjA7
-         IqvXmmdU7Oj16GAc+lX00KfaGERLpMFzmp7SYhTffkwXcBpkrTjy1cwUAJAXpOyIQHdI
-         iUvA2DxznbzaATVloq8Dl2CbFsj8CCT4QUCktamnJACWO+wkWqg4so7lObQDyOq9PijS
-         gmEQ==
-X-Gm-Message-State: ACgBeo3VlweMPNBB36IAwACt4uyuq+AvBZM8GIPkLCgOAWEdn6kaAnt2
-        b3wBRYP4VQ4O54JJtVaeeeTdIzlgPuBDdaoIHhc=
-X-Google-Smtp-Source: AA6agR4uPOOUp+ayJg7njU0xYMAyBPmGFYJGRdL33Bi7R249qZwUmqVQ08qkjiR05GuTGJWJL9HGuiFQ37xnsFlHbf4=
-X-Received: by 2002:aa7:db8b:0:b0:44e:5ce1:f29a with SMTP id
- u11-20020aa7db8b000000b0044e5ce1f29amr3424831edt.109.1662561128989; Wed, 07
- Sep 2022 07:32:08 -0700 (PDT)
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date;
+        bh=omTeNvcKp/F4WU/b2YX04Q0z1z9EGBUTXmAYav/J+8I=;
+        b=UHLuP628M3qLvHc/RqncowN0ZIsJKT5suSMpw8kIz1TLvC0OTbEDdJrO7sgWd7doI7
+         +ou0XqHGqIecJp+BJ1sH2h0/K6uB955kC22Rt/j9Ex4cKVfKGoey/3mvOn47r8myYkFJ
+         3H9NLiYRDRJfpcr9fIdhTJl3Npt8f3jBwH3dC08DB5H6aLZbJtBwRdsuq8Av/5DARhBW
+         InjdujCkzJhMcrpe1h6RA4t7lMjtIINf6P23jNp/OsQ8bsT0tGN7dCPMZ738SnNHp8sz
+         ttJYXzfHecgIj1v5RQYuI/j7rR86ZRHHpixWGqB3qcxnrFRVKBFrIN58Nc+NWL394HQP
+         8hmQ==
+X-Gm-Message-State: ACgBeo3dzolOTf0+myaJzNl5+rnKf3oyBP9N6ynnrXCeKX8bi7MZJ/RO
+        9KCIK93tQpim0xzcm0KSQup7g51tfg9IrWSb1kIEfbLy5JZDlQwfGhLzSy4mAAm/GxyCmzBUQ1S
+        auVe8h2Hz8Sqk0yDBdYMcnPx/T9F7jPEWLG9D0w==
+X-Received: by 2002:a81:1353:0:b0:345:34b5:ad29 with SMTP id 80-20020a811353000000b0034534b5ad29mr5649142ywt.17.1662601224876;
+        Wed, 07 Sep 2022 18:40:24 -0700 (PDT)
+X-Google-Smtp-Source: AA6agR5LZWdEKyps6F3LhUYn+aKdzCf042LfowbjEVJPv2xs6teQumCPjTo+wP371qgCXE/dW4wx5ZMJEoBMQXO4/y0=
+X-Received: by 2002:a81:1353:0:b0:345:34b5:ad29 with SMTP id
+ 80-20020a811353000000b0034534b5ad29mr5649140ywt.17.1662601224700; Wed, 07 Sep
+ 2022 18:40:24 -0700 (PDT)
 MIME-Version: 1.0
-Received: by 2002:a54:3fc4:0:0:0:0:0 with HTTP; Wed, 7 Sep 2022 07:32:07 -0700 (PDT)
-Reply-To: lumar.casey@outlook.com
-From:   LUMAR CASEY <miriankushrat@gmail.com>
-Date:   Wed, 7 Sep 2022 16:32:07 +0200
-Message-ID: <CAO4StN3iFKypeHLByNWR98VPw-8s6UHDJYgBRpLm-4kdPR=60w@mail.gmail.com>
-Subject: ATTENTION/PROPOSAL
-To:     undisclosed-recipients:;
+References: <20220905203412.1322947-1-miquel.raynal@bootlin.com>
+In-Reply-To: <20220905203412.1322947-1-miquel.raynal@bootlin.com>
+From:   Alexander Aring <aahringo@redhat.com>
+Date:   Wed, 7 Sep 2022 21:40:13 -0400
+Message-ID: <CAK-6q+g64BTFsHKKwoCqRGEERRgwoMSTX2LJMQMmmRseWBi=hQ@mail.gmail.com>
+Subject: Re: [PATCH wpan/next v3 0/9] net: ieee802154: Support scanning/beaconing
+To:     Miquel Raynal <miquel.raynal@bootlin.com>
+Cc:     Alexander Aring <alex.aring@gmail.com>,
+        Stefan Schmidt <stefan@datenfreihafen.org>,
+        linux-wpan - ML <linux-wpan@vger.kernel.org>,
+        "David S. Miller" <davem@davemloft.net>,
+        Jakub Kicinski <kuba@kernel.org>,
+        Paolo Abeni <pabeni@redhat.com>,
+        Eric Dumazet <edumazet@google.com>,
+        Network Development <netdev@vger.kernel.org>,
+        David Girault <david.girault@qorvo.com>,
+        Romuald Despres <romuald.despres@qorvo.com>,
+        Frederic Blain <frederic.blain@qorvo.com>,
+        Nicolas Schodet <nico@ni.fr.eu.org>,
+        Thomas Petazzoni <thomas.petazzoni@bootlin.com>
 Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: Yes, score=6.8 required=5.0 tests=ADVANCE_FEE_4_NEW_MONEY,
-        BAYES_50,DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,
-        FREEMAIL_FROM,FREEMAIL_REPLYTO,LOTS_OF_MONEY,MONEY_FREEMAIL_REPTO,
-        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE,
-        UNDISC_FREEM,UNDISC_MONEY,UPPERCASE_75_100 autolearn=no
+X-Spam-Status: No, score=-2.8 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_LOW,
+        SPF_HELO_NONE,SPF_NONE,T_SCC_BODY_TEXT_LINE autolearn=unavailable
         autolearn_force=no version=3.4.6
-X-Spam-Report: * -0.0 RCVD_IN_DNSWL_NONE RBL: Sender listed at
-        *      https://www.dnswl.org/, no trust
-        *      [2a00:1450:4864:20:0:0:0:542 listed in]
-        [list.dnswl.org]
-        *  0.8 BAYES_50 BODY: Bayes spam probability is 40 to 60%
-        *      [score: 0.5000]
-        *  0.0 SPF_HELO_NONE SPF: HELO does not publish an SPF Record
-        * -0.0 SPF_PASS SPF: sender matches SPF record
-        *  0.0 FREEMAIL_FROM Sender email is commonly abused enduser mail
-        *      provider
-        *      [miriankushrat[at]gmail.com]
-        *  0.1 DKIM_SIGNED Message has a DKIM or DK signature, not necessarily
-        *       valid
-        * -0.1 DKIM_VALID Message has at least one valid DKIM or DK signature
-        * -0.1 DKIM_VALID_EF Message has a valid DKIM or DK signature from
-        *      envelope-from domain
-        * -0.1 DKIM_VALID_AU Message has a valid DKIM or DK signature from
-        *      author's domain
-        * -0.0 T_SCC_BODY_TEXT_LINE No description available.
-        *  0.0 UPPERCASE_75_100 message body is 75-100% uppercase
-        *  0.0 LOTS_OF_MONEY Huge... sums of money
-        *  3.1 UNDISC_FREEM Undisclosed recipients + freemail reply-to
-        *  1.0 FREEMAIL_REPLYTO Reply-To/From or Reply-To/body contain
-        *      different freemails
-        *  2.0 MONEY_FREEMAIL_REPTO Lots of money from someone using free
-        *      email?
-        *  0.2 UNDISC_MONEY Undisclosed recipients + money/fraud signs
-        *  0.0 ADVANCE_FEE_4_NEW_MONEY Advance Fee fraud and lots of money
-X-Spam-Level: ******
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-wpan.vger.kernel.org>
 X-Mailing-List: linux-wpan@vger.kernel.org
 
-ATTENTION
+Hi,
 
-BUSINESS PARTNER,
+On Mon, Sep 5, 2022 at 4:34 PM Miquel Raynal <miquel.raynal@bootlin.com> wrote:
+>
+> Hello,
+>
+> A third version of this series, dropping the scan patches for now
+> because before we need to settle on the filtering topic and the
+> coordinator interface topic. Here is just the filtering part, I've
+> integrated Alexander's patches, as well as the atusb fix. Once this is
+> merge there are a few coordinator-related patches, and finally the
+> scan.
 
-I AM LUMAR CASEY WORKING WITH AN INSURANCE FINANCIAL INSTITUTE, WITH
-MY POSITION AND PRIVILEGES I WAS ABLE TO SOURCE OUT AN OVER DUE
-PAYMENT OF 12.8 MILLION POUNDS THAT IS NOW SECURED WITH A SHIPPING
-DIPLOMATIC OUTLET.
+I think we have a communication problem here and we should talk about
+what the problems are and agree on a way to solve them.
 
-I AM SEEKING YOUR PARTNERSHIP TO RECEIVE THIS CONSIGNMENT AS AS MY
-PARTNER TO INVEST THIS FUND INTO A PROSPEROUS INVESTMENT VENTURE IN
-YOUR COUNTRY.
+The problems are:
 
-I AWAIT YOUR REPLY TO ENABLE US PROCEED WITH THIS BUSINESS PARTNERSHIP TOGETHER.
+1. We never supported switching from an operating phy (interfaces are
+up) into another filtering mode.
 
-REGARDS,
+2. Scan requires to be in "promiscuous mode" (according to the
+802.15.4 spec promiscuous mode). We don't support promiscuous mode
+(according to the 802.15.4 spec promiscuous mode). We "can" however
+use the currently supported mode which does not filter anything
+(IEEE802154_FILTERING_NONE) when we do additional filtering in
+mac802154. _But_ this is only required when the phy is scanning, it
+will also deliver anything to the upper layers.
 
-LUMAR CASEY
+This patch-series tries to do the second thing, okay that's fine. But
+I thought this should only be done while the phy is in "scanning
+mode"? The other receive path while not in promiscuous mode
+(phy->filtering == IEEE802154_FILTERING_4_FRAME_FIELDS) should never
+require any additional filtering. I somehow miss this point here.
+
+For 1), the driver should change the filtering mode" when we start to
+"listen", this is done by the start() driver callback. They should get
+all receive parameters and set up receiving to whatever mac802154,
+currently there is a bit of chaos there. To move it into drv_start()
+is just a workaround to begin this step that we move it at some point
+to the driver. I mention 1) here because that should be part of the
+picture how everything works together when the phy is switched to a
+different filter level while it's operating (I mean there are running
+interfaces on it which requires IEEE802154_FILTERING_4_FRAME_FIELDS)
+which then activates the different receive path for the use case of
+scanning (something like (phy->state & WPANPHY_SCANING) == true)?
+
+I am sorry, but I somehow miss the picture of how those things work
+together. It is not clear for me and I miss those parts to get a whole
+picture of this. For me it's not clear that those patches are going in
+this direction.
+
+- Alex
+
