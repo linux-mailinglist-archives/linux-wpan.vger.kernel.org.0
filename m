@@ -2,68 +2,99 @@ Return-Path: <linux-wpan-owner@vger.kernel.org>
 X-Original-To: lists+linux-wpan@lfdr.de
 Delivered-To: lists+linux-wpan@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 9A6FE5FEFA7
-	for <lists+linux-wpan@lfdr.de>; Fri, 14 Oct 2022 16:04:23 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 5D2F75FF944
+	for <lists+linux-wpan@lfdr.de>; Sat, 15 Oct 2022 10:58:22 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230281AbiJNOER (ORCPT <rfc822;lists+linux-wpan@lfdr.de>);
-        Fri, 14 Oct 2022 10:04:17 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36012 "EHLO
+        id S229556AbiJOI6U (ORCPT <rfc822;lists+linux-wpan@lfdr.de>);
+        Sat, 15 Oct 2022 04:58:20 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57138 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230407AbiJNODi (ORCPT
-        <rfc822;linux-wpan@vger.kernel.org>); Fri, 14 Oct 2022 10:03:38 -0400
-Received: from mail-yb1-xb34.google.com (mail-yb1-xb34.google.com [IPv6:2607:f8b0:4864:20::b34])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5AC7C1D3C68
-        for <linux-wpan@vger.kernel.org>; Fri, 14 Oct 2022 07:02:57 -0700 (PDT)
-Received: by mail-yb1-xb34.google.com with SMTP id e62so5706227yba.6
-        for <linux-wpan@vger.kernel.org>; Fri, 14 Oct 2022 07:02:56 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=to:subject:message-id:date:from:reply-to:mime-version:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=47DEQpj8HBSa+/TImW+5JCeuQeRkm5NMpJWZG3hSuFU=;
-        b=g4G4xdhbJznBvRlhymq0fqnwkphY+F7F8oq55ntDIK+watbk9gtUaHQUK6DE4iGyRr
-         Byk3s8hIeeupysYBS+wvCQ1LjVIqsIaBxrBJRI0tX36DNLvBq5Rmf6eFFExktrt7jkzq
-         oz35k4dg3e3czYorPLUyjvBC3RvTBhbu+Rc2wzOdR5CIgVFpsARpf4z4aYsvn2iagaS0
-         xN6SE0i3u3UsOv5gItt7G9P4ALR7zXhJG/tLqkXAKiN67dMTgWxg6Um0NFtESfVGpqfz
-         0tV4Yf1jNee6kekTy3veZ6iAxxBikiMnsAYVNV4J7/c1hFTt1bS3jGlXBVvUtuGnZWn2
-         CuPg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=to:subject:message-id:date:from:reply-to:mime-version
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=47DEQpj8HBSa+/TImW+5JCeuQeRkm5NMpJWZG3hSuFU=;
-        b=Bxb+KeZshozUjJfiZ0/AjtlcVAawQDhzhxxiiJbP5vnvvAt0AmnjydvGYmip+bF9QD
-         RI5dZ3+9tv9D0H35MAqDvT96YP6T5+s/XuCpW8W+qQCmX3k5T1drhW2Ub8VcWoxSu8VM
-         AsnRKuZOhnSXh5tC0KbHpmDDVeTknEP0AN+BV7TgiJfXij6Fn5xKH7rh2Q4suhBSL6uB
-         GnufQU67o6bUn3O0Ru8uGgv6qkHiPNPNdV9k+Bb/SulDrm5/n9COLyn49JkwPQaQKP8K
-         ZZ913AiubDA8oNkbbutzNoPxld60TkQ394/6TYngMgOMo7WTsXEBhHPs9EVyN0LtiVWf
-         vRVg==
-X-Gm-Message-State: ACrzQf0hW8anh+Eg9lXdeJV/+CKQ4DOpQ1txEeTaEn7lnMoidwbG0L/W
-        D7r5EkLVe0YYCLa8/gSw3FN9wiMViZoknbFL444=
-X-Google-Smtp-Source: AMsMyM6TZTBh2h9tVZ9Ep+pKPSjU6c9LlnuKlNv1AcEWIIbGDmp/UrtX78FDQ+FbZauB4D6uUnUhXIAtnxGOfdYUwhY=
-X-Received: by 2002:a25:1606:0:b0:6c1:7c57:ee97 with SMTP id
- 6-20020a251606000000b006c17c57ee97mr4318493ybw.503.1665756130748; Fri, 14 Oct
- 2022 07:02:10 -0700 (PDT)
+        with ESMTP id S229640AbiJOI6T (ORCPT
+        <rfc822;linux-wpan@vger.kernel.org>); Sat, 15 Oct 2022 04:58:19 -0400
+Received: from relay2-d.mail.gandi.net (relay2-d.mail.gandi.net [IPv6:2001:4b98:dc4:8::222])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 94D5E55094
+        for <linux-wpan@vger.kernel.org>; Sat, 15 Oct 2022 01:58:18 -0700 (PDT)
+Received: (Authenticated sender: miquel.raynal@bootlin.com)
+        by mail.gandi.net (Postfix) with ESMTPSA id A7B7840004;
+        Sat, 15 Oct 2022 08:58:15 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
+        t=1665824296;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=iHhxZFk2BW91kohsTpslpABFXq/4Mb/vKzl4B7bZP5Q=;
+        b=W1/TVXCjtySkpfv3lF0LYH6vfpF5PpvSDIoK6DjnZgfGYXD9DTJscDHv6Tg6nXI2mJoc6s
+        2sfadkCZiNkKE23edJTXv8CyIgZTfOuIVTzO8WGJSV0G7VaD80GW2gnQfAw/fY4vVNC1nq
+        hkc1TN8aAIn/+0I0VFUN+7Nv7NXfsl0pYgXDmr7LnkfFaAzUEo3Dtlb1QU8eLXJ4QC4m7/
+        CebygzSahDyB0FioUdbpEnGPiLPUUb9h0jtvhkEzED4SKPKeq8dJD+C8s8pS+d/O3n7yDa
+        FANSaANCv98v2fd3y2PFEfPNUqxEjFeUXvwbq3sh1gnK8IwglPnqNv8l+Rj27A==
+Date:   Sat, 15 Oct 2022 10:58:13 +0200
+From:   Miquel Raynal <miquel.raynal@bootlin.com>
+To:     Stefan Schmidt <stefan@datenfreihafen.org>
+Cc:     werner@almesberger.net, Alexander Aring <alex.aring@gmail.com>,
+        Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
+        linux-wpan@vger.kernel.org
+Subject: Re: [PATCH atusb/fw v2 2/3] atusb: fw: Update toolchain
+ instructions
+Message-ID: <20221014081808.1b30bba7@xps-13>
+In-Reply-To: <44a98eb6-e8bb-3065-4c6d-9ffb801182ae@datenfreihafen.org>
+References: <20220906082104.1338694-1-miquel.raynal@bootlin.com>
+ <20220906082104.1338694-2-miquel.raynal@bootlin.com>
+ <44a98eb6-e8bb-3065-4c6d-9ffb801182ae@datenfreihafen.org>
+Organization: Bootlin
+X-Mailer: Claws Mail 4.0.0 (GTK+ 3.24.33; x86_64-pc-linux-gnu)
 MIME-Version: 1.0
-Received: by 2002:a05:7000:6c05:b0:3c1:5961:57b5 with HTTP; Fri, 14 Oct 2022
- 07:02:10 -0700 (PDT)
-Reply-To: tatianaarthur72@gmail.com
-From:   "Mrs.Tatiana Arthur" <goowjarwq@gmail.com>
-Date:   Fri, 14 Oct 2022 16:02:10 +0200
-Message-ID: <CAC-x_XFZOWmkghicGS_8EqW6KvXPWZa6y5_cgQxEOxFq2=LuDQ@mail.gmail.com>
-Subject: Did you receive the email I sent you?
-To:     undisclosed-recipients:;
-Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: No, score=4.9 required=5.0 tests=BAYES_50,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,FREEMAIL_REPLYTO,
-        FREEMAIL_REPLYTO_END_DIGIT,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,
-        T_HK_NAME_FM_MR_MRS,UNDISC_FREEM autolearn=no autolearn_force=no
-        version=3.4.6
-X-Spam-Level: ****
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+X-Spam-Status: No, score=-2.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_LOW,SPF_HELO_NONE,
+        SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-wpan.vger.kernel.org>
 X-Mailing-List: linux-wpan@vger.kernel.org
 
+Hi Stefan,
 
+stefan@datenfreihafen.org wrote on Wed, 12 Oct 2022 19:54:49 +0200:
+
+> Hello Miquel.
+>=20
+> On 06.09.22 10:21, Miquel Raynal wrote:
+> > Those instructions do not work anymore for several reaons:
+> > - Two out of the three files to download return a 404 error:
+> >        * The binutils version does not exist, it was 2.21.1 or 2.21.1a
+> >          instead of just 2.21.
+> >        * The avr-libc is no longer hosted on the pointed website, I've
+> >          found an alternate.
+> > - The binutils version mentioned is not able to compile the firmware on
+> >    a recent distribution, the Internet advised to update its version and
+> >    it worked.
+> > - Most of these compilations will throw warnings if you use a recent
+> >    gcc. Sometimes -Werror is set and it fails the build. To avoid that,
+> >    just use --disable-werror in the ./configure options.
+> > - I had issues building the gcc doc but those issues are trivial to
+> >    fix inline.
+> >=20
+> > Update the instructions for building the toolchain and while at it,
+> > start the file by mentioning that this is maybe not useful anymore, and
+> > provide the packets to install. =20
+>=20
+> I can see that it was a frustrating process to get this working. :/
+> Sorry to hear. The truth is only a handful of people did ever build the f=
+irmware themself, I think. Even I have not done it in a while. (ugh, 5 year=
+s ago most likely judging from the git log).
+
+Oh I'm not blaming anyone here ;)
+
+By the way I would like to make a another round of tests because during
+my demos I could observe a wrong LQI, and I don't remember if the LQI
+was valid before my changes or not. I haven't got the time yet to get
+back to it. Or maybe the devices were too close to each other? I don't
+know, I'll need to figure it out so we don't break a useful existing
+feature.
+
+Thanks,
+Miqu=C3=A8l
