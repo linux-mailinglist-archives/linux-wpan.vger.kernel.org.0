@@ -2,97 +2,77 @@ Return-Path: <linux-wpan-owner@vger.kernel.org>
 X-Original-To: lists+linux-wpan@lfdr.de
 Delivered-To: lists+linux-wpan@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 7E3E7607890
-	for <lists+linux-wpan@lfdr.de>; Fri, 21 Oct 2022 15:33:59 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 1F9D7608BAF
+	for <lists+linux-wpan@lfdr.de>; Sat, 22 Oct 2022 12:34:30 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230196AbiJUNd5 (ORCPT <rfc822;lists+linux-wpan@lfdr.de>);
-        Fri, 21 Oct 2022 09:33:57 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50574 "EHLO
+        id S229535AbiJVKe1 (ORCPT <rfc822;lists+linux-wpan@lfdr.de>);
+        Sat, 22 Oct 2022 06:34:27 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56886 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230027AbiJUNd4 (ORCPT
-        <rfc822;linux-wpan@vger.kernel.org>); Fri, 21 Oct 2022 09:33:56 -0400
-Received: from relay1-d.mail.gandi.net (relay1-d.mail.gandi.net [217.70.183.193])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 30F3E272121
-        for <linux-wpan@vger.kernel.org>; Fri, 21 Oct 2022 06:33:53 -0700 (PDT)
-Received: (Authenticated sender: miquel.raynal@bootlin.com)
-        by mail.gandi.net (Postfix) with ESMTPSA id 0A718240005;
-        Fri, 21 Oct 2022 13:33:51 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
-        t=1666359232;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=YeR3qf2+XHUDgnxZ+dFz7I68XzKCUwp87/Q1HEvd2/c=;
-        b=hfwycbj186I9zVdqnhjVgPTx5RlAWYvhMevwualxXhq7o02BMpnxfskffDCCiI3zgc+ML2
-        X/005bpSAJ7KfN4fzqfU3A5NgZxZrDgPisDQHKYZfK9XP/Kf/NmNpY14g6LCGo6nos8QlW
-        0li5H49cVc7eUNKpugzWLVN2GnVdaCwps6fuHT/UZyvVkm27GVfkEpqp3TdA0W9zKVcYRE
-        VpKmR/jS9H6BeQQEcU0DLCHFKqr1NmhwerWD2s7nfdCNtzBCM8jPEqtfs2LDLFJYuqGYw2
-        2C1egI+QqSwF1iSDW49qJH6dErkzgp8JXPSYZ2j4AsmbVxHLxfQeA898O3yebw==
-Date:   Fri, 21 Oct 2022 15:33:51 +0200
-From:   Miquel Raynal <miquel.raynal@bootlin.com>
-To:     Alexander Aring <aahringo@redhat.com>
-Cc:     Stefan Schmidt <stefan@datenfreihafen.org>, werner@almesberger.net,
-        Alexander Aring <alex.aring@gmail.com>,
-        Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
-        linux-wpan@vger.kernel.org
-Subject: Re: [PATCH atusb/fw v2 2/3] atusb: fw: Update toolchain
- instructions
-Message-ID: <20221021153351.1d30f620@xps-13>
-In-Reply-To: <CAK-6q+g6mDWh2xNmMUviqiiDwBs1q835TrOU9wZ-CF7=rOA+Tw@mail.gmail.com>
-References: <20220906082104.1338694-1-miquel.raynal@bootlin.com>
-        <20220906082104.1338694-2-miquel.raynal@bootlin.com>
-        <44a98eb6-e8bb-3065-4c6d-9ffb801182ae@datenfreihafen.org>
-        <20221014081808.1b30bba7@xps-13>
-        <CAK-6q+jbAmTYfF8OTZNZ-KdUNWAfU2RRJE7p8N6nMyHB0xwGMg@mail.gmail.com>
-        <20221019214625.22101769@xps-13>
-        <20221020161713.6004b0cf@xps-13>
-        <CAK-6q+iffiLx0U3W0Gaw=xtDn3ipRb5v5BPKEazxfpe343h5iA@mail.gmail.com>
-        <20221021085353.2ad567d4@xps-13>
-        <CAK-6q+g6mDWh2xNmMUviqiiDwBs1q835TrOU9wZ-CF7=rOA+Tw@mail.gmail.com>
-Organization: Bootlin
-X-Mailer: Claws Mail 4.0.0 (GTK+ 3.24.33; x86_64-pc-linux-gnu)
+        with ESMTP id S230476AbiJVKeF (ORCPT
+        <rfc822;linux-wpan@vger.kernel.org>); Sat, 22 Oct 2022 06:34:05 -0400
+Received: from mail-oi1-x236.google.com (mail-oi1-x236.google.com [IPv6:2607:f8b0:4864:20::236])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 139BD2D2C2F
+        for <linux-wpan@vger.kernel.org>; Sat, 22 Oct 2022 02:50:46 -0700 (PDT)
+Received: by mail-oi1-x236.google.com with SMTP id w196so5868546oiw.8
+        for <linux-wpan@vger.kernel.org>; Sat, 22 Oct 2022 02:50:46 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=to:subject:message-id:date:from:sender:reply-to:mime-version:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=VaaSLAJ+hgNGNq49WyPsh3ndDLo+mnrYcswrOHpJSv8=;
+        b=kj8yT1aescp9KUmhAU+OnX3yqGYsYjZZxBqS8fRj4xt28Y2IJQlH9CwNqevX9hbGEc
+         wxp2ZQjk/f4EJMZSkjixwkk++F/mzVH9Sx3DpbsutyGayWqFlvxHHyPyxo1hfjiqSbfi
+         OnhCJS+ZjbHkV1wSeI+OJ93E2iT35tXhxV36wQK8IuDxPBZwtRAOob0buPtnOlp8uJ3s
+         1RP2wck4q73CCaT81PzJ/90Pv9UVYPgiCAfY6JgCmkwB7CPSeIMcvqntdrF5hgxPi8d/
+         MC1b4imlzF1JTKSalowCETbHXgRz+QwjjxSypZamQ0w/xLIWD9SwCGIMioKkDB5MpUmi
+         kTPw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=to:subject:message-id:date:from:sender:reply-to:mime-version
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=VaaSLAJ+hgNGNq49WyPsh3ndDLo+mnrYcswrOHpJSv8=;
+        b=4WF4PFa9KLwtnvLR/LAljmibEFuAibiRC0DHRB+9FwA4HZwdDoLm988PUH9j1Fq+KT
+         Gi9sobniItJcZsNmkToD0BCfozXLnXVs8R7OBquUuE7+aJC5YOcpP/AHoITDNUrEZEuR
+         +DoqMPYhE1Tel9pUryCUifc6zUXQBWat2Ehfbo2jefL8rW3ksqZgXD+ggITbxALp6rG+
+         zJ2o8maVre+BQOvHqZc5vVYqPU1Y/y3Qal9nw58YZyckXvMk56H2VQLaO/tnYosmAFgi
+         DfwGCZcx2QmTqBk/3fye9tBW9/szBeFrxi5hr9TsuYGtnJsPMLSl/e34v8Tji2lxatrJ
+         BmYQ==
+X-Gm-Message-State: ACrzQf2GtgK0HJwI6IdnZrWCwAIfICPvFwLbL2kReD50GWlWPvYfJMNl
+        qRE+BAgST9l09l0d+mDGRb4TmoWsrv7pV0fDHyW5ppRPjnA=
+X-Google-Smtp-Source: AMsMyM65H/XoedxIoj+eZqLQkEYT3oJp+iV84hYVI9iYrXYEFliH8aQPZ0Vr9M1+f3MAhS7qubeu6BnYJX+6ddGx/f8=
+X-Received: by 2002:a05:6808:13d2:b0:355:1770:c6ef with SMTP id
+ d18-20020a05680813d200b003551770c6efmr21666174oiw.284.1666427421833; Sat, 22
+ Oct 2022 01:30:21 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-X-Spam-Status: No, score=-2.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_LOW,
-        RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,SPF_PASS,
-        URIBL_BLOCKED autolearn=ham autolearn_force=no version=3.4.6
+Reply-To: mrs.susanelwoodhara17@gmail.com
+Sender: mrs.arawayann01@gmail.com
+Received: by 2002:a05:6838:aea5:0:0:0:0 with HTTP; Sat, 22 Oct 2022 01:30:21
+ -0700 (PDT)
+From:   Mrs Susan Elwood Hara <mrs.susanelwoodhara17@gmail.com>
+Date:   Sat, 22 Oct 2022 08:30:21 +0000
+X-Google-Sender-Auth: A6D2lMu0F8qsw51kZmtE-lVfuFw
+Message-ID: <CAAOf0OFL-GNvLwo5BeAcuFerncjSOZ92WVxnF2CpNmZXeRE7XA@mail.gmail.com>
+Subject: GOD BLESS YOU AS YOU REPLY URGENTLY
+To:     undisclosed-recipients:;
+Content-Type: text/plain; charset="UTF-8"
+X-Spam-Status: No, score=4.7 required=5.0 tests=BAYES_50,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_ENVFROM_END_DIGIT,
+        FREEMAIL_FROM,FREEMAIL_REPLYTO_END_DIGIT,RCVD_IN_DNSWL_NONE,
+        SPF_HELO_NONE,SPF_PASS,SUBJ_ALL_CAPS,T_HK_NAME_FM_MR_MRS,UNDISC_MONEY
+        autolearn=no autolearn_force=no version=3.4.6
+X-Spam-Level: ****
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-wpan.vger.kernel.org>
 X-Mailing-List: linux-wpan@vger.kernel.org
 
-Hi Alexander,
+GOD BLESS YOU AS YOU REPLY URGENTLY
 
-aahringo@redhat.com wrote on Fri, 21 Oct 2022 08:13:52 -0400:
-
-> Hi,
->=20
-> On Fri, Oct 21, 2022 at 2:53 AM Miquel Raynal <miquel.raynal@bootlin.com>=
- wrote:
-> ...
-> > I read a little bit more about LQI during this test phase and indeed,
-> > "weak" seems appropriate :-)
-> > =20
->=20
-> * "weak" defined.
->=20
-> > > I heard successful reports also using aluminium foil around transceiv=
-ers... =20
-> >
-> > Indeed I've heard it could work, I'll keep it in mind!
-> > =20
->=20
-> be careful with shortcutting something there, for atusb I recommend [0].
->=20
-> - Alex
->=20
-> [0] https://www.thingiverse.com/thing:2815832
-
-Excellent!
-
-Thanks,
-Miqu=C3=A8l
+ Hello Dear,
+Greetings, I am contacting you regarding an important information i
+have for you please reply to confirm your email address and for more
+details Thanks
+Regards
+Mrs Susan Elwood Hara.
