@@ -2,169 +2,73 @@ Return-Path: <linux-wpan-owner@vger.kernel.org>
 X-Original-To: lists+linux-wpan@lfdr.de
 Delivered-To: lists+linux-wpan@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 16785619F8B
-	for <lists+linux-wpan@lfdr.de>; Fri,  4 Nov 2022 19:17:30 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 872B861D9FA
+	for <lists+linux-wpan@lfdr.de>; Sat,  5 Nov 2022 13:39:01 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231204AbiKDSR2 (ORCPT <rfc822;lists+linux-wpan@lfdr.de>);
-        Fri, 4 Nov 2022 14:17:28 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38314 "EHLO
+        id S229531AbiKEMi5 (ORCPT <rfc822;lists+linux-wpan@lfdr.de>);
+        Sat, 5 Nov 2022 08:38:57 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39806 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230182AbiKDSR1 (ORCPT
-        <rfc822;linux-wpan@vger.kernel.org>); Fri, 4 Nov 2022 14:17:27 -0400
-Received: from relay9-d.mail.gandi.net (relay9-d.mail.gandi.net [217.70.183.199])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7E10E43AEA;
-        Fri,  4 Nov 2022 11:17:25 -0700 (PDT)
-Received: (Authenticated sender: miquel.raynal@bootlin.com)
-        by mail.gandi.net (Postfix) with ESMTPSA id E0B90FF80C;
-        Fri,  4 Nov 2022 18:17:21 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
-        t=1667585844;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=ISRFFPjShTa523N4UQrt9CFTP3J9ZkKLKH2wGQjF6+I=;
-        b=WCpFNL2Fhkhx9xLT6Oaoi8MzRECtIrJwjZkcHhqdmCWXk677VdZosfNA5mUmuykNKTkk0z
-        LdPyOUTfn3jzvAUmromUGULR9hr9/4qrEdndec6tgAMUubeRWQOqtyrclVJKO/+XxcAVJ5
-        5sQWSFbbeZ/TUIo6Ba5dwM/6oaADnWP2MBg0DHoRR3hnf9reKHE1MKYMnnhuiQcZMmkmwH
-        EO7GW+L2IqroI8XFzz44pIcTwYiLTP9vukWpNKQglbL8Lp/D3BN4UgEr2izrvVpaD0SXs+
-        Nq7QY9j52fiOaix0SBl/+j2EgZO1ayqFf8xm9x+fWtQIwfN6wmSyu4N+Y96DqA==
-Date:   Fri, 4 Nov 2022 19:17:20 +0100
-From:   Miquel Raynal <miquel.raynal@bootlin.com>
-To:     Alexander Aring <aahringo@redhat.com>
-Cc:     Alexander Aring <alex.aring@gmail.com>,
-        Stefan Schmidt <stefan@datenfreihafen.org>,
-        linux-wpan@vger.kernel.org,
-        "David S. Miller" <davem@davemloft.net>,
-        Jakub Kicinski <kuba@kernel.org>,
-        Paolo Abeni <pabeni@redhat.com>,
-        Eric Dumazet <edumazet@google.com>, netdev@vger.kernel.org,
-        David Girault <david.girault@qorvo.com>,
-        Romuald Despres <romuald.despres@qorvo.com>,
-        Frederic Blain <frederic.blain@qorvo.com>,
-        Nicolas Schodet <nico@ni.fr.eu.org>,
-        Guilhem Imberton <guilhem.imberton@qorvo.com>,
-        Thomas Petazzoni <thomas.petazzoni@bootlin.com>
-Subject: Re: [PATCH wpan-next v2 0/3] IEEE 802.15.4: Add coordinator
- interfaces
-Message-ID: <20221104191720.776d033e@xps-13>
-In-Reply-To: <CAK-6q+hi1dhyfoYAGET55Ku=_in7BbNNaqWQVX2Z_iOg1+0Nyg@mail.gmail.com>
-References: <20221026093502.602734-1-miquel.raynal@bootlin.com>
-        <CAK-6q+jXPyruvdtS3jgzkuH=f599EiPk7vWTWLhREFCMj5ayNg@mail.gmail.com>
-        <20221102155240.71a1d205@xps-13>
-        <CAK-6q+hi1dhyfoYAGET55Ku=_in7BbNNaqWQVX2Z_iOg1+0Nyg@mail.gmail.com>
-Organization: Bootlin
-X-Mailer: Claws Mail 4.0.0 (GTK+ 3.24.33; x86_64-pc-linux-gnu)
+        with ESMTP id S229740AbiKEMix (ORCPT
+        <rfc822;linux-wpan@vger.kernel.org>); Sat, 5 Nov 2022 08:38:53 -0400
+Received: from mail-pl1-x630.google.com (mail-pl1-x630.google.com [IPv6:2607:f8b0:4864:20::630])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 953B61759F
+        for <linux-wpan@vger.kernel.org>; Sat,  5 Nov 2022 05:38:51 -0700 (PDT)
+Received: by mail-pl1-x630.google.com with SMTP id v17so7221867plo.1
+        for <linux-wpan@vger.kernel.org>; Sat, 05 Nov 2022 05:38:51 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=content-transfer-encoding:to:subject:message-id:date:from:reply-to
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=c8XA1N0uaxkLO/wKHErNWHaSuu64k5Pjb5u9dmcZrOc=;
+        b=dP/vGfJ52tqdGGbdLFa+Ia1xCAutipWeAOPq8jKDnWkU62hZU7sMsZY49TgkwXAA5g
+         1yeGamAlfRFs90wkvR6lgaV3Wg24N6HDnekdo8UURsmSP5otybZlRkZzNxJ7AfUj6Q2+
+         CKiyBj4FP1EFkZc1H9L2i7zRAVvwvNQ+/TJeOdzeNP7tRScDVLp3Vlh/OdENcMPFJkDn
+         oSEUQfZcVQpylzARvlDhQNJui4E2RbhaxAaa7n3Kdgsd4f/k34LkyqWLBylB/XpPW04g
+         dKDuUZyENsU3QsJf+hTLTKsTcNOWBj2897N39hnlhbs7/J2gK6gRaL+j/IeFSdFJ1ntP
+         NWQg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=content-transfer-encoding:to:subject:message-id:date:from:reply-to
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=c8XA1N0uaxkLO/wKHErNWHaSuu64k5Pjb5u9dmcZrOc=;
+        b=qDkQqfws0kEgwcR2zETUkfQu5i0AjxwIAtw07G70MD5Ww3Z/59r1FB83S/wVDuCfva
+         L8iVcSiqUlknC655pzU13IY2Qm/W/LZ2BAvfqw/S/k++0ZmlY2suyZGilxsIJutasW+L
+         HVN665T+An1GSCnfrFh7nPeSRjdr3ZXctnENMSd/nSYXsPVaC29fl94Gm0sxdyOKDnjD
+         gT0dQ8PG3DVPly2QxmVPaGaqAtXUQzyZe864s/g91uuV49K9Q4/o6TQtS6lMirmlwI8d
+         l0XLe2ZTH2ySwno2qKt7QO1IoLz+sGRC8xCoeTjOdhkisbkmwNcS1v6NYUtCsTFPB9RM
+         ZR9g==
+X-Gm-Message-State: ACrzQf10TmnBrEJFk/pxtMFM5esl/gqbt0wbneG8B8u5P7d0bKRJaVMM
+        ycQEVZmXbSdO1AmbCKI5GQeMRKihkYQmyQM+28U=
+X-Google-Smtp-Source: AMsMyM4olsI8J+PUrJBDqcdS3+ybCY1m5BPCD8wMv7D7l+O5tLdAL0JwRK1eWuD3q/Waqjsy5xHfJk1xeIU90M7q0J0=
+X-Received: by 2002:a17:902:f28b:b0:186:b069:63fc with SMTP id
+ k11-20020a170902f28b00b00186b06963fcmr41192256plc.38.1667651930280; Sat, 05
+ Nov 2022 05:38:50 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
+Received: by 2002:a05:7301:2e91:b0:83:922d:c616 with HTTP; Sat, 5 Nov 2022
+ 05:38:49 -0700 (PDT)
+Reply-To: stefanopessia755@hotmail.com
+From:   Stefano Pessina <wamathaibenard@gmail.com>
+Date:   Sat, 5 Nov 2022 15:38:49 +0300
+Message-ID: <CAN7bvZJK9DwWPHW=SDzsdiMac2NZ4YPui9Vp11ivOjS8hNwTjg@mail.gmail.com>
+Subject: Geldspende
+To:     undisclosed-recipients:;
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-X-Spam-Status: No, score=-2.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_LOW,
-        RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_PASS autolearn=ham
-        autolearn_force=no version=3.4.6
+X-Spam-Status: No, score=4.7 required=5.0 tests=BAYES_50,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,FREEMAIL_REPLYTO,
+        FREEMAIL_REPLYTO_END_DIGIT,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,
+        UNDISC_FREEM autolearn=no autolearn_force=no version=3.4.6
+X-Spam-Level: ****
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-wpan.vger.kernel.org>
 X-Mailing-List: linux-wpan@vger.kernel.org
 
-Hi Alexander,
-
-aahringo@redhat.com wrote on Thu, 3 Nov 2022 20:55:38 -0400:
-
-> Hi,
->=20
-> On Wed, Nov 2, 2022 at 10:52 AM Miquel Raynal <miquel.raynal@bootlin.com>=
- wrote:
-> >
-> > Hi Alexander,
-> >
-> > aahringo@redhat.com wrote on Sun, 30 Oct 2022 22:20:03 -0400:
-> > =20
-> > > Hi,
-> > >
-> > > On Wed, Oct 26, 2022 at 5:35 AM Miquel Raynal <miquel.raynal@bootlin.=
-com> wrote: =20
-> > > >
-> > > > Hello,
-> > > > These three patches allow the creation of coordinator interfaces, w=
-hich
-> > > > were already defined without being usable. The idea behind is to use
-> > > > them advertizing PANs through the beaconing feature.
-> > > > =20
-> > >
-> > > I still don't know how exactly those "leaves" and "non-leaves" are
-> > > acting here regarding the coordinator interfaces. If this is just a
-> > > bit here to set in the interface I am fine with it. But yea,
-> > > "relaying" feature is a project on its own, as we said previously.
-> > >
-> > > Another mail I was asking myself what a node interface is then,
-> > > currently it is a mesh interface with none of those 802.15.4 PAN
-> > > management functionality? =20
-> >
-> > Not "none", because I would expect a NODE to be able to perform minimal
-> > management operations, such as:
-> > - scanning
-> > - requesting an association
-> > But in no case it is supposed to:
-> > - send beacons
-> > - manage associations
-> > - be the PAN coordinator
-> > - act as a relay
-> > =20
->=20
-> perfect, thanks. But still there is something which I don't get.
->=20
-> The split you mentioned about the functionality is for me being a
-> coordinator (IEEE spec) or pan coordinator (IEEE spec) which has the
-> additional functionality of "send beacons, manage assocs, act as
-> relay".
-
-I would expect any coordinator (IEEE spec) to be able to send beacons
-and relay (but in this case it only makes sense to send beacons if
-relaying is supported, IMHO).
-
-The PAN coordinator (IEEE spec) only has the following additional
-capability: managing assocs within the PAN. But in practice it is very
-likely that it is the one with the greater computational resources and
-the highest networking capabilities (it is usually the one which acts
-as a bridge with eg. the internet, says the spec).
-
-> So a coordinator (iftype) is a pan coordinator (IEEE spec) and a node
-> (iftype) is a coordinator (IEEE spec), but _only_ when it's
-> associated, before it is just a manually setup mesh node?
-
-Mmmh, actually this is not how I see it. My current mental model:
-- COORD (iftype) may act as:
-  * a leaf device (associating with the PAN coordinator, sending data)
-  * a coordinator (like above + beaconing and relaying) once associated
-  * a PAN coordinator (like above + assoc management) if the device
-    started the PAN or after a PAN coordinator handover.
-  Note: physically, it can only be authorized on FFD.
-- NODE (iftype) may only be a leaf device no matter its association
-  status, this is typically a sensor that sends data.
-  Note: can be authorized on any type of device (FFD or RFD).
-
-If I understand correctly, your idea was to change the interface type
-depending of the role of the device within the network. But IMHO the
-interface type should only be picked up once for all in the lifetime of
-the device. Of course we can switch from one to another by quickly
-turning off and on again the device, but this is not a common use case.
-We must keep in mind that PAN coordinator handover may happen, which
-means the interface must stay on but stop acting as the PAN
-coordinator. Using two different interface types for that is not
-impossible, but does not seem relevant to me.
-
-Would you agree?
-
-> I hope it's clear when meaning iftype and when meaning IEEE spec, but
-> for the manual setup thing (node iftype) there is no IEEE spec,
-> although it is legal to do it in my opinion.
-
-It's clear, no problem. In my previous e-mails, when talking about the
-interfaces I used the uppercase NODE and COORD keywords, while I used
-the plain english lowercase "[leaf] node", "coordinator" or "PAN
-coordinator" words when talking about the IEEE definitions.
-
-Thanks,
-Miqu=C3=A8l
+--=20
+Die Summe von 500.000,00 =E2=82=AC wurde Ihnen von STEFANO PESSINA gespende=
+t.
+Bitte kontaktieren Sie uns f=C3=BCr weitere Informationen =C3=BCber
+stefanopessia755@hotmail.com
