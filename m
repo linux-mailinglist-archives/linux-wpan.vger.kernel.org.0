@@ -2,97 +2,128 @@ Return-Path: <linux-wpan-owner@vger.kernel.org>
 X-Original-To: lists+linux-wpan@lfdr.de
 Delivered-To: lists+linux-wpan@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id AAB3A61ED61
-	for <lists+linux-wpan@lfdr.de>; Mon,  7 Nov 2022 09:49:37 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 7E7B761F03E
+	for <lists+linux-wpan@lfdr.de>; Mon,  7 Nov 2022 11:22:00 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230434AbiKGItg (ORCPT <rfc822;lists+linux-wpan@lfdr.de>);
-        Mon, 7 Nov 2022 03:49:36 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50042 "EHLO
+        id S231527AbiKGKV5 (ORCPT <rfc822;lists+linux-wpan@lfdr.de>);
+        Mon, 7 Nov 2022 05:21:57 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33030 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230239AbiKGItf (ORCPT
-        <rfc822;linux-wpan@vger.kernel.org>); Mon, 7 Nov 2022 03:49:35 -0500
-Received: from relay6-d.mail.gandi.net (relay6-d.mail.gandi.net [IPv6:2001:4b98:dc4:8::226])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 136B513DC3;
-        Mon,  7 Nov 2022 00:49:33 -0800 (PST)
-Received: (Authenticated sender: miquel.raynal@bootlin.com)
-        by mail.gandi.net (Postfix) with ESMTPSA id CC81EC0005;
-        Mon,  7 Nov 2022 08:49:29 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
-        t=1667810972;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=4po5/sAdAejmMVX7B1mMke6jv9XUIrfpCadagSEo9Zs=;
-        b=V0MD+mRH5ooq2ROVyY/Cm5lHpnFneKLdMNtopTwfgBbT0LjjtH8nP+d6LfhglZDH6hmKbA
-        pYfgCunm075LKqR0mXJFgUjlcu2+4iGhUgd0PfZ2HbMRDyJ2tHeWlBbO4gmyaY7tRcRqgD
-        dawDYT9bnN8opXFR+H99KpNiM4cIUqbhcw7Uy5M2lHfNl2QRpL5uzy+MNYpXpZdVIuHGz+
-        4ZsrIVLUydqCkx+5tAiqvS+TCxKx3Tkm5iBAtRVplOBC+92uvAzHLsh6oBanOg474XkLD4
-        ovts6k/4L8O16Yu3wC8Xy9VlnL1mxjCrD/5CL0QDxD7thTwkAAhj3gn4tEFQfw==
-Date:   Mon, 7 Nov 2022 09:49:29 +0100
-From:   Miquel Raynal <miquel.raynal@bootlin.com>
-To:     Alexander Aring <aahringo@redhat.com>
-Cc:     Alexander Aring <alex.aring@gmail.com>,
-        Stefan Schmidt <stefan@datenfreihafen.org>,
-        linux-wpan@vger.kernel.org,
-        David Girault <david.girault@qorvo.com>,
-        Romuald Despres <romuald.despres@qorvo.com>,
-        Frederic Blain <frederic.blain@qorvo.com>,
-        Nicolas Schodet <nico@ni.fr.eu.org>,
-        Guilhem Imberton <guilhem.imberton@qorvo.com>,
-        Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
-        "David S. Miller" <davem@davemloft.net>,
-        Jakub Kicinski <kuba@kernel.org>,
-        Paolo Abeni <pabeni@redhat.com>,
-        Eric Dumazet <edumazet@google.com>, netdev@vger.kernel.org
-Subject: Re: [PATCH wpan-next 3/3] ieee802154: Trace the registration of new
- PANs
-Message-ID: <20221107094929.2a9891b8@xps-13>
-In-Reply-To: <CAK-6q+jDFGr2xhAKLLitZXA2Q2dWgeZjgBXHubHvOvzX-xeB-w@mail.gmail.com>
-References: <20221102151915.1007815-1-miquel.raynal@bootlin.com>
-        <20221102151915.1007815-4-miquel.raynal@bootlin.com>
-        <CAK-6q+jDFGr2xhAKLLitZXA2Q2dWgeZjgBXHubHvOvzX-xeB-w@mail.gmail.com>
-Organization: Bootlin
-X-Mailer: Claws Mail 4.0.0 (GTK+ 3.24.33; x86_64-pc-linux-gnu)
+        with ESMTP id S231550AbiKGKVs (ORCPT
+        <rfc822;linux-wpan@vger.kernel.org>); Mon, 7 Nov 2022 05:21:48 -0500
+Received: from mail-oi1-x241.google.com (mail-oi1-x241.google.com [IPv6:2607:f8b0:4864:20::241])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6A27918E26
+        for <linux-wpan@vger.kernel.org>; Mon,  7 Nov 2022 02:21:26 -0800 (PST)
+Received: by mail-oi1-x241.google.com with SMTP id c129so11675194oia.0
+        for <linux-wpan@vger.kernel.org>; Mon, 07 Nov 2022 02:21:26 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=content-transfer-encoding:to:subject:message-id:date:from:reply-to
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=AOmtRIzmF5dcnWrT0j3skK83MYTC+QvduwZ6ndeN2Ks=;
+        b=L9okY7Icb0Gf5ctoFsS3m7Ms6FyffuhIG/wumllqb99pGSDM0eKoVdXRomu4k2Vvje
+         vaAAA5b5CG4T9vL3DYzTbt6i7ilTYVRiZHeAf51qWroCKMi/06UV8twkwYbbvcb58b0c
+         O8aiXYIeKLPGKFxD8AeTNjdm9XiiwAwYXXYnxXnBzQtt4ZaPQYbu2mn3d4/wBF5dq0sI
+         fYgKey8dWac3TMQ3pm+aZLL8XgADS0c8wc9DQhJYDoGLimjkDspSigMMA/pe1/be4Mmf
+         FTMTprRtatoAeN10/4e16TIuQYPcJ6zZ7AsqjnUqg8Bde3BWUPkO4V20s/KjpolOjYbD
+         1dVg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=content-transfer-encoding:to:subject:message-id:date:from:reply-to
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=AOmtRIzmF5dcnWrT0j3skK83MYTC+QvduwZ6ndeN2Ks=;
+        b=eUZT0JuVHdkRkwL6fbgr6qyiFPV7VSr7rjQfWyuXdhDRvCghI5am+6DpZ0zCS6Bd1P
+         Sbl8kHXcL8BlhqFyGd/aYcXKe7WPTVuO5V4hKkqjlNTD+V3QKdz3m8eJbgmmjh10hnA8
+         NZdNiqb6kwBIVvK5N13uHSRWXbMdrakLN0qQOX/8xz8UXpPVK3Ry4aZTyBQ/SqKeiWhx
+         BZB/3pocqXz0Jh2smmTu1gf645FPRIDL/KUc1UaWh3IYkCnljMxkLQfFOEA2YqZhUVuT
+         CAUCnbA5DXixDKuRB3u+zMjB6KNP1+3OzRtsw4uoa8XT3LfShgTaLX/5m/oA8Fh9CXlb
+         CWSw==
+X-Gm-Message-State: ACrzQf1p62rd/BWDDfPGD4gYGP0BAObsA/0kf19S0/H/iZU5pChvJnR1
+        vFBeTrSPZploLFLpZX6MpGKV6by1sW6zgIZUiZjUpt1K2hQ=
+X-Google-Smtp-Source: AMsMyM4Z92xjGZXgCyg2wym9Bu3/u65n6EL2ZpWI9kWf7s8xWZden0QG/zdZVfFd3uCVmOfceIs+YigxV7lXSF4Af+Y=
+X-Received: by 2002:a17:90b:2393:b0:213:ecb2:2e04 with SMTP id
+ mr19-20020a17090b239300b00213ecb22e04mr38944517pjb.100.1667816475223; Mon, 07
+ Nov 2022 02:21:15 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
+Received: by 2002:a05:6a06:925:b0:587:19e0:c567 with HTTP; Mon, 7 Nov 2022
+ 02:21:14 -0800 (PST)
+Reply-To: contact@ammico.it
+From:   =?UTF-8?Q?Mrs=2E_Monika_Everenov=C3=A1?= <977638ib@gmail.com>
+Date:   Mon, 7 Nov 2022 11:21:14 +0100
+Message-ID: <CAHAXD+Z_SoFK+TjW_6apBCCLtc_awXEjaqOdf77jdLRxxup3TA@mail.gmail.com>
+Subject: Re:
+To:     undisclosed-recipients:;
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-X-Spam-Status: No, score=-2.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_LOW,SPF_HELO_NONE,
-        SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+X-Spam-Status: Yes, score=6.6 required=5.0 tests=ADVANCE_FEE_2_NEW_MONEY,
+        BAYES_50,DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,
+        FREEMAIL_FROM,FROM_STARTS_WITH_NUMS,LOTS_OF_MONEY,RCVD_IN_DNSWL_NONE,
+        SPF_HELO_NONE,SPF_PASS,T_HK_NAME_FM_MR_MRS,UNDISC_MONEY autolearn=no
+        autolearn_force=no version=3.4.6
+X-Spam-Report: * -0.0 RCVD_IN_DNSWL_NONE RBL: Sender listed at
+        *      https://www.dnswl.org/, no trust
+        *      [2607:f8b0:4864:20:0:0:0:241 listed in]
+        [list.dnswl.org]
+        *  0.8 BAYES_50 BODY: Bayes spam probability is 40 to 60%
+        *      [score: 0.5000]
+        *  0.7 FROM_STARTS_WITH_NUMS From: starts with several numbers
+        *  0.0 FREEMAIL_FROM Sender email is commonly abused enduser mail
+        *      provider
+        *      [977638ib[at]gmail.com]
+        *  0.0 SPF_HELO_NONE SPF: HELO does not publish an SPF Record
+        * -0.0 SPF_PASS SPF: sender matches SPF record
+        * -0.1 DKIM_VALID Message has at least one valid DKIM or DK signature
+        * -0.1 DKIM_VALID_EF Message has a valid DKIM or DK signature from
+        *      envelope-from domain
+        *  0.1 DKIM_SIGNED Message has a DKIM or DK signature, not necessarily
+        *       valid
+        * -0.1 DKIM_VALID_AU Message has a valid DKIM or DK signature from
+        *      author's domain
+        *  0.0 T_HK_NAME_FM_MR_MRS No description available.
+        *  0.0 LOTS_OF_MONEY Huge... sums of money
+        *  3.3 UNDISC_MONEY Undisclosed recipients + money/fraud signs
+        *  2.0 ADVANCE_FEE_2_NEW_MONEY Advance Fee fraud and lots of money
+X-Spam-Level: ******
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-wpan.vger.kernel.org>
 X-Mailing-List: linux-wpan@vger.kernel.org
 
-Hi Alexander,
-
-aahringo@redhat.com wrote on Sun, 6 Nov 2022 20:36:21 -0500:
-
-> Hi,
->=20
-> On Wed, Nov 2, 2022 at 11:20 AM Miquel Raynal <miquel.raynal@bootlin.com>=
- wrote:
-> >
-> > From: David Girault <david.girault@qorvo.com>
-> >
-> > Add an internal trace when new PANs get discovered. =20
->=20
-> I guess this will not be the API for the user that there is a PAN
-> discovered? Is it only for debugging purposes? There will be an
-> nl802154 event for this? As we discussed previously with additional
-> commands for start, discovered, etc.?
->=20
-> I am sorry, maybe I can read that somewhere on your previous patch
-> series, just want to be sure.
-
-Yeah no problem, so yes, as you eventually saw in patch 1/3, the
-internal tracing is just here for in-kernel debugging purposes, it's in
-no way related to the user interface. It's a 2015 feature, we're just
-adding support for tracing the new commands.
-
-Let's discuss the nl user interface in the other thread.
-
-Thanks,
-Miqu=C3=A8l
+Hei ja miten voit?
+Nimeni on rouva Evereen, l=C3=A4het=C3=A4n t=C3=A4m=C3=A4n viestin suurella=
+ toivolla
+v=C3=A4lit=C3=B6n vastaus, koska minun on teht=C3=A4v=C3=A4 uusi syd=C3=A4n=
+leikkaus
+t=C3=A4ll=C3=A4 hetkell=C3=A4 huonokuntoinen ja v=C3=A4h=C3=A4iset mahdolli=
+suudet selviyty=C3=A4.
+Mutta ennen kuin min=C3=A4
+Tee toinen vaarallinen operaatio, annan sen sinulle
+Minulla on 6 550 000 dollaria yhdysvaltalaisella pankkitilill=C3=A4
+sijoittamista, hallinnointia ja k=C3=A4ytt=C3=B6=C3=A4 varten
+voittoa hyv=C3=A4ntekev=C3=A4isyysprojektin toteuttamiseen. Tarkoitan saira=
+iden auttamista
+ja k=C3=B6yh=C3=A4t ovat viimeinen haluni maan p=C3=A4=C3=A4ll=C3=A4, sill=
+=C3=A4 minulla ei ole niit=C3=A4
+kenelt=C3=A4 perii rahaa.
+Vastaa minulle nopeasti
+terveisi=C3=A4
+Rouva Monika Evereen
+Florida, Amerikan Yhdysvallat
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D
+Hi and how are you?
+My name is Mrs. Evereen, I am sending this message with great hope for
+an immediate response, as I have to undergo heart reoperation in my
+current poor health with little chance of survival. But before I
+undertake the second dangerous operation, I will give you the
+$6,550,000 I have in my US bank account to invest well, manage and use
+the profits to run a charity project for me. I count helping the sick
+and the poor as my last wish on earth, because I have no one to
+inherit money from.
+Please give me a quick reply
+regards
+Mrs. Monika Evereen
+Florida, United States of America
