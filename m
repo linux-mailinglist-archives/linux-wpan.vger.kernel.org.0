@@ -2,33 +2,33 @@ Return-Path: <linux-wpan-owner@vger.kernel.org>
 X-Original-To: lists+linux-wpan@lfdr.de
 Delivered-To: lists+linux-wpan@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 9E1FB65FF6C
-	for <lists+linux-wpan@lfdr.de>; Fri,  6 Jan 2023 12:18:49 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 9B79665FF6F
+	for <lists+linux-wpan@lfdr.de>; Fri,  6 Jan 2023 12:18:53 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233136AbjAFLSq (ORCPT <rfc822;lists+linux-wpan@lfdr.de>);
-        Fri, 6 Jan 2023 06:18:46 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57596 "EHLO
+        id S229746AbjAFLSw (ORCPT <rfc822;lists+linux-wpan@lfdr.de>);
+        Fri, 6 Jan 2023 06:18:52 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57636 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233167AbjAFLSm (ORCPT
-        <rfc822;linux-wpan@vger.kernel.org>); Fri, 6 Jan 2023 06:18:42 -0500
+        with ESMTP id S233197AbjAFLSs (ORCPT
+        <rfc822;linux-wpan@vger.kernel.org>); Fri, 6 Jan 2023 06:18:48 -0500
 Received: from relay10.mail.gandi.net (relay10.mail.gandi.net [IPv6:2001:4b98:dc4:8::230])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3C405625F5
-        for <linux-wpan@vger.kernel.org>; Fri,  6 Jan 2023 03:18:40 -0800 (PST)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D641C625F5
+        for <linux-wpan@vger.kernel.org>; Fri,  6 Jan 2023 03:18:41 -0800 (PST)
 Received: (Authenticated sender: miquel.raynal@bootlin.com)
-        by mail.gandi.net (Postfix) with ESMTPSA id 989DC240005;
-        Fri,  6 Jan 2023 11:18:37 +0000 (UTC)
+        by mail.gandi.net (Postfix) with ESMTPSA id EC4F024000A;
+        Fri,  6 Jan 2023 11:18:38 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
-        t=1673003918;
+        t=1673003920;
         h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
          to:to:cc:cc:mime-version:mime-version:
          content-transfer-encoding:content-transfer-encoding:
          in-reply-to:in-reply-to:references:references;
-        bh=SC+efU5PqAwVLFuiqQsRReY/dRs97fikxOlstcwAtdM=;
-        b=Uy8IuXigPpLxV9AENRcog6XHdXK+2kbiGfw94jaUy4fcCapXJ5CHsXtvu8dITujZ1YYs/R
-        c23MEFLlSb8y9jD6krdSoRhbyzJgffkIeMBb+jjuK0YMi6Gxfm8HkwnI9Ab45UHxPDViXW
-        Sa0qaeVJap6zG/aHqFhbluT1/Pp1sD4YzTzds5sXvE/u+M4tLpPUEAl9Gp3LefnX51enXD
-        vgYW2fV9ed3BrVDtdrjMa9Ai9QXGFRNYSC025mVCbpcx0eapZORyD5tRy0nNybmkkFtbnh
-        EppC0D/mCNyFPkpCgMG4Wou94axPMoWyzUsjkp7WVAZLVqFIehGt7d6Hd+i9Uw==
+        bh=i3NuLMYQGegEDlsYXHWQTxM+kmTZB4g8rjBeozny6tE=;
+        b=OJaEMt/kVgehjuKxONUiPNGkJLG6jjjmajBnycqWMcA2c60WKJV1q7HOajYvOCdGC8pUtK
+        KWpW8bz2lQA/Fb/56L72WYkQ7seNRkqMO4Q8Hw2XWjMWhBCGazvklapc1fs0wlIAUvhbSQ
+        1F/gD7ZLd35rZw0+vRL2hOrrnDPAuiYBzFVw8qTTa1L0WThQ2QCtLk9QI3VGxjwvRGAiqq
+        eBK0GC0Vfxyiq7XURpshccRYaH0I200siQXqg+Hhmx3VtYCArRHHufIFoZTPi+PxxQJCqb
+        OmjQtuqc570GAk9axthhtt1vw8Y4lwOJXmWd+clu1fhPC8hYYW0xqtR6FbjT9A==
 From:   Miquel Raynal <miquel.raynal@bootlin.com>
 To:     Alexander Aring <alex.aring@gmail.com>,
         Stefan Schmidt <stefan@datenfreihafen.org>,
@@ -39,11 +39,10 @@ Cc:     David Girault <david.girault@qorvo.com>,
         Nicolas Schodet <nico@ni.fr.eu.org>,
         Guilhem Imberton <guilhem.imberton@qorvo.com>,
         Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
-        Romuald Despres <Romuald.Despres@qorvo.com>,
         Miquel Raynal <miquel.raynal@bootlin.com>
-Subject: [PATCH wpan-tools v2 2/8] iwpan: Fix the channels printing
-Date:   Fri,  6 Jan 2023 12:18:25 +0100
-Message-Id: <20230106111831.692202-3-miquel.raynal@bootlin.com>
+Subject: [PATCH wpan-tools v2 3/8] iwpan: Export iwpan_debug
+Date:   Fri,  6 Jan 2023 12:18:26 +0100
+Message-Id: <20230106111831.692202-4-miquel.raynal@bootlin.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20230106111831.692202-1-miquel.raynal@bootlin.com>
 References: <20230106111831.692202-1-miquel.raynal@bootlin.com>
@@ -58,33 +57,41 @@ Precedence: bulk
 List-ID: <linux-wpan.vger.kernel.org>
 X-Mailing-List: linux-wpan@vger.kernel.org
 
-From: Romuald Despres <Romuald.Despres@qorvo.com>
+From: David Girault <david.girault@qorvo.com>
 
-The presence of a channel capability is checked against the tb_msg
-netlink attributes array which is the root one, while here we are
-looking for channel capabilities, themselves being nested and parsed
-into tb_caps. Use tb_caps instead of tb_msg here otherwise we are
-accessing a random index in the upper attributes list.
+This debug flag will be used later on in different files.
 
-Signed-off-by: Romuald Despres <Romuald.Despres@qorvo.com>
+Signed-off-by: David Girault <david.girault@qorvo.com>
 Signed-off-by: Miquel Raynal <miquel.raynal@bootlin.com>
 ---
- src/info.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ src/iwpan.c | 2 +-
+ src/iwpan.h | 2 ++
+ 2 files changed, 3 insertions(+), 1 deletion(-)
 
-diff --git a/src/info.c b/src/info.c
-index f85690c..8ed5e4f 100644
---- a/src/info.c
-+++ b/src/info.c
-@@ -342,7 +342,7 @@ static int print_phy_handler(struct nl_msg *msg, void *arg)
- 			printf("\b \n");
- 		}
+diff --git a/src/iwpan.c b/src/iwpan.c
+index fb7bef1..3cf5fe2 100644
+--- a/src/iwpan.c
++++ b/src/iwpan.c
+@@ -21,7 +21,7 @@
  
--		if (tb_msg[NL802154_CAP_ATTR_CHANNELS]) {
-+		if (tb_caps[NL802154_CAP_ATTR_CHANNELS]) {
- 			int counter = 0;
- 			int rem_pages;
- 			struct nlattr *nl_pages;
+ /* TODO libnl 1.x compatibility code */
+ 
+-static int iwpan_debug = 0;
++int iwpan_debug = 0;
+ 
+ static int nl802154_init(struct nl802154_state *state)
+ {
+diff --git a/src/iwpan.h b/src/iwpan.h
+index 48c4f03..860dd37 100644
+--- a/src/iwpan.h
++++ b/src/iwpan.h
+@@ -120,4 +120,6 @@ DECLARE_SECTION(get);
+ 
+ const char *iftype_name(enum nl802154_iftype iftype);
+ 
++extern int iwpan_debug;
++
+ #endif /* __IWPAN_H */
 -- 
 2.34.1
 
