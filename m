@@ -2,33 +2,33 @@ Return-Path: <linux-wpan-owner@vger.kernel.org>
 X-Original-To: lists+linux-wpan@lfdr.de
 Delivered-To: lists+linux-wpan@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 9B79665FF6F
-	for <lists+linux-wpan@lfdr.de>; Fri,  6 Jan 2023 12:18:53 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 5B87B65FF6D
+	for <lists+linux-wpan@lfdr.de>; Fri,  6 Jan 2023 12:18:52 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229746AbjAFLSw (ORCPT <rfc822;lists+linux-wpan@lfdr.de>);
-        Fri, 6 Jan 2023 06:18:52 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57636 "EHLO
+        id S233167AbjAFLSv (ORCPT <rfc822;lists+linux-wpan@lfdr.de>);
+        Fri, 6 Jan 2023 06:18:51 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57638 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233197AbjAFLSs (ORCPT
+        with ESMTP id S233204AbjAFLSs (ORCPT
         <rfc822;linux-wpan@vger.kernel.org>); Fri, 6 Jan 2023 06:18:48 -0500
-Received: from relay10.mail.gandi.net (relay10.mail.gandi.net [IPv6:2001:4b98:dc4:8::230])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D641C625F5
-        for <linux-wpan@vger.kernel.org>; Fri,  6 Jan 2023 03:18:41 -0800 (PST)
+Received: from relay10.mail.gandi.net (relay10.mail.gandi.net [217.70.178.230])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D645D63187
+        for <linux-wpan@vger.kernel.org>; Fri,  6 Jan 2023 03:18:42 -0800 (PST)
 Received: (Authenticated sender: miquel.raynal@bootlin.com)
-        by mail.gandi.net (Postfix) with ESMTPSA id EC4F024000A;
-        Fri,  6 Jan 2023 11:18:38 +0000 (UTC)
+        by mail.gandi.net (Postfix) with ESMTPSA id 4F416240012;
+        Fri,  6 Jan 2023 11:18:40 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
-        t=1673003920;
+        t=1673003921;
         h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
          to:to:cc:cc:mime-version:mime-version:
          content-transfer-encoding:content-transfer-encoding:
          in-reply-to:in-reply-to:references:references;
-        bh=i3NuLMYQGegEDlsYXHWQTxM+kmTZB4g8rjBeozny6tE=;
-        b=OJaEMt/kVgehjuKxONUiPNGkJLG6jjjmajBnycqWMcA2c60WKJV1q7HOajYvOCdGC8pUtK
-        KWpW8bz2lQA/Fb/56L72WYkQ7seNRkqMO4Q8Hw2XWjMWhBCGazvklapc1fs0wlIAUvhbSQ
-        1F/gD7ZLd35rZw0+vRL2hOrrnDPAuiYBzFVw8qTTa1L0WThQ2QCtLk9QI3VGxjwvRGAiqq
-        eBK0GC0Vfxyiq7XURpshccRYaH0I200siQXqg+Hhmx3VtYCArRHHufIFoZTPi+PxxQJCqb
-        OmjQtuqc570GAk9axthhtt1vw8Y4lwOJXmWd+clu1fhPC8hYYW0xqtR6FbjT9A==
+        bh=7DYGlaVj+dX75xjeCSEzO2H48Gb9JrtGwznnKQcBMSY=;
+        b=Db+T7LspvUQVJ2DPqt9H/IgSG55GX7XRlgr8KJJBI+ywQj/plNHfX+fgnbHLVY0fVPr7lX
+        aIBzEcF0fsiKNBTMf3z6FJUMo66dj41F743EKyu7LViT7bxi7vf3Rj07/7MPJuxWvvvpHL
+        g679j9e3AFeCap5DXZGOHINDdM/ws4Gc2VKmfu4+fhwM1OWJ0xpKBHj2qHHmn4LmULG4Wt
+        V2BoCqW7lP8zj9Ow75viSONXV1jI+TkvHXDC1O7owXjCsjBrsXZ2MH5EBlNUeRYOpMsXh6
+        vX3F2ytjwoqC9nxq18zQO3bzbq/cZqm4S5OvFS7Slty2cv6DqYvRelKoSlgBUQ==
 From:   Miquel Raynal <miquel.raynal@bootlin.com>
 To:     Alexander Aring <alex.aring@gmail.com>,
         Stefan Schmidt <stefan@datenfreihafen.org>,
@@ -40,58 +40,44 @@ Cc:     David Girault <david.girault@qorvo.com>,
         Guilhem Imberton <guilhem.imberton@qorvo.com>,
         Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
         Miquel Raynal <miquel.raynal@bootlin.com>
-Subject: [PATCH wpan-tools v2 3/8] iwpan: Export iwpan_debug
-Date:   Fri,  6 Jan 2023 12:18:26 +0100
-Message-Id: <20230106111831.692202-4-miquel.raynal@bootlin.com>
+Subject: [PATCH wpan-tools v2 4/8] iwpan: Fix a comment
+Date:   Fri,  6 Jan 2023 12:18:27 +0100
+Message-Id: <20230106111831.692202-5-miquel.raynal@bootlin.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20230106111831.692202-1-miquel.raynal@bootlin.com>
 References: <20230106111831.692202-1-miquel.raynal@bootlin.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-Spam-Status: No, score=-2.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_LOW,SPF_HELO_NONE,
-        SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_LOW,
+        RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_PASS autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-wpan.vger.kernel.org>
 X-Mailing-List: linux-wpan@vger.kernel.org
 
-From: David Girault <david.girault@qorvo.com>
+There are a couple of words missing, add them to clarify the comment.
 
-This debug flag will be used later on in different files.
-
-Signed-off-by: David Girault <david.girault@qorvo.com>
 Signed-off-by: Miquel Raynal <miquel.raynal@bootlin.com>
 ---
- src/iwpan.c | 2 +-
- src/iwpan.h | 2 ++
- 2 files changed, 3 insertions(+), 1 deletion(-)
+ src/iwpan.h | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/src/iwpan.c b/src/iwpan.c
-index fb7bef1..3cf5fe2 100644
---- a/src/iwpan.c
-+++ b/src/iwpan.c
-@@ -21,7 +21,7 @@
- 
- /* TODO libnl 1.x compatibility code */
- 
--static int iwpan_debug = 0;
-+int iwpan_debug = 0;
- 
- static int nl802154_init(struct nl802154_state *state)
- {
 diff --git a/src/iwpan.h b/src/iwpan.h
-index 48c4f03..860dd37 100644
+index 860dd37..9d265c6 100644
 --- a/src/iwpan.h
 +++ b/src/iwpan.h
-@@ -120,4 +120,6 @@ DECLARE_SECTION(get);
- 
- const char *iftype_name(enum nl802154_iftype iftype);
- 
-+extern int iwpan_debug;
-+
- #endif /* __IWPAN_H */
+@@ -43,7 +43,7 @@ struct cmd {
+ 	const enum command_identify_by idby;
+ 	/* The handler should return a negative error code,
+ 	 * zero on success, 1 if the arguments were wrong
+-	 * and the usage message should and 2 otherwise.
++	 * and the usage message should be displayed, 2 otherwise.
+ 	 */
+ 	int (*handler)(struct nl802154_state *state,
+ 		       struct nl_cb *cb,
 -- 
 2.34.1
 
