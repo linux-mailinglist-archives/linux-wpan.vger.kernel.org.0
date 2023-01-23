@@ -2,36 +2,65 @@ Return-Path: <linux-wpan-owner@vger.kernel.org>
 X-Original-To: lists+linux-wpan@lfdr.de
 Delivered-To: lists+linux-wpan@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 60322677BA7
-	for <lists+linux-wpan@lfdr.de>; Mon, 23 Jan 2023 13:50:26 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 0BD09677D0F
+	for <lists+linux-wpan@lfdr.de>; Mon, 23 Jan 2023 14:51:40 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231263AbjAWMuZ (ORCPT <rfc822;lists+linux-wpan@lfdr.de>);
-        Mon, 23 Jan 2023 07:50:25 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53200 "EHLO
+        id S231919AbjAWNvf (ORCPT <rfc822;lists+linux-wpan@lfdr.de>);
+        Mon, 23 Jan 2023 08:51:35 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40430 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231437AbjAWMuY (ORCPT
-        <rfc822;linux-wpan@vger.kernel.org>); Mon, 23 Jan 2023 07:50:24 -0500
-Received: from relay6-d.mail.gandi.net (relay6-d.mail.gandi.net [217.70.183.198])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 38A0D12F0D;
-        Mon, 23 Jan 2023 04:49:56 -0800 (PST)
-Received: (Authenticated sender: miquel.raynal@bootlin.com)
-        by mail.gandi.net (Postfix) with ESMTPSA id D81BCC0009;
-        Mon, 23 Jan 2023 12:49:22 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
-        t=1674478166;
+        with ESMTP id S231916AbjAWNvd (ORCPT
+        <rfc822;linux-wpan@vger.kernel.org>); Mon, 23 Jan 2023 08:51:33 -0500
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 59B391701
+        for <linux-wpan@vger.kernel.org>; Mon, 23 Jan 2023 05:50:44 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1674481843;
         h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
          to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
          in-reply-to:in-reply-to:references:references;
-        bh=rIQSstPgcXGmcuQdv16JqxlRCmJme9MN5dDSHfjPQck=;
-        b=is9otCpMHRwafdtuEmY6Bor36GywFgth88qTpDgaNBO02LPYmFSrZSWkaEL6G0alBJj/IE
-        TJc82e0yo3S0baHOFooMqVTjH+K98UclQZEA3ZoHD0pa3B56sZ7KSwzS5HtvdI9dieP+t7
-        mIRT9q99U52m9gZbeRrJrYCGkSeVSl6eq9KhCA3ONShwfVUZxqHWU4S1+w1y6VVOvclwYE
-        vbC7ymf+9u+RcueU/7pnGBF9kln8MsYZdaB82658lsixGjlkXQ/yDhgGIPA1OjfFDWZQAs
-        KfCoZnsL602EpsaepFkkAGJh8yXBNvgSNz2o6ZRxEflYg5l2t5InIsZTV/5FGg==
-Date:   Mon, 23 Jan 2023 13:49:21 +0100
-From:   Miquel Raynal <miquel.raynal@bootlin.com>
-To:     Alexander Aring <aahringo@redhat.com>
+        bh=9vIE8NKX623PCBEKrno0xDIiJG3oiFqDswH3UtKjaTM=;
+        b=bQGsyC9Ak1SCseQVhR/388aU4/AuF1bqZRX1imn8Wc+a2SMw/t+Q9OJrk4ahZTK+vqTHzS
+        ga3U6EzOLqfVFTUSw2kZc+2tbBFnZyNviTOyB0AqTLWpiUywX+zVAIMkJmNOq4cEI5CrAq
+        v6kgX9jhNvtsvfCbJWLcc2DpvmGhu/o=
+Received: from mail-ej1-f70.google.com (mail-ej1-f70.google.com
+ [209.85.218.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-216-n_Dxet4xN3O2qvPm67enJA-1; Mon, 23 Jan 2023 08:50:42 -0500
+X-MC-Unique: n_Dxet4xN3O2qvPm67enJA-1
+Received: by mail-ej1-f70.google.com with SMTP id gn31-20020a1709070d1f00b0087024adbba2so7873374ejc.20
+        for <linux-wpan@vger.kernel.org>; Mon, 23 Jan 2023 05:50:42 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=9vIE8NKX623PCBEKrno0xDIiJG3oiFqDswH3UtKjaTM=;
+        b=tNR8yEUWrqALjLXqcz6sVx+/JeN6BfKS4hVgCHgOsk5XtfptMvSAue5bvaTJ+Nw91u
+         HoiVhVI9T0f7tp1XiYgYJDWGGUwYkOcgkIEUIZrWCMe5olJ2C1XebsHE4frbxUZhHIty
+         Kf6QquHZQN7/Bp2fknR3jw2r7KlOyvuEtoWXSa3dKnoO9oDfd9dmETIaej9YOwdFUWZV
+         2Otts3enOZ+GFtQV1tQXyEAPtclgQ5tuOiEvNqBS0BECTaPRrAitaDBvsyjJvNv4DiD7
+         Gw17If/FbnuUL3NmDtSVDpBe8E8k8nVbmEXJ6VNxlWFWpqskG3Z1PUMv83omZrrv0pIx
+         6M6w==
+X-Gm-Message-State: AFqh2kq7kvK78NUSpAYYnqswT1YEDUcBsS3JQ/ochwWfVeJWx0EH+8K7
+        SMNt7TDQsHILbFSeh+azrsSMcZrDX/6tSQQki8Byn4PtIvTY93ChE6Bdh7Uc7jv85RmdTbJaUEA
+        B8IC85RF+xQ/FlliLD1Dvq4x6/1STLk5D9H+jMw==
+X-Received: by 2002:a17:906:af09:b0:868:17de:900d with SMTP id lx9-20020a170906af0900b0086817de900dmr2965820ejb.412.1674481841287;
+        Mon, 23 Jan 2023 05:50:41 -0800 (PST)
+X-Google-Smtp-Source: AMrXdXts2+4/O5IrKkeUamYxBlfeg/CHDE5BWjcoqePucfpoT7Ix74SvGP4YA70ychLp3624WjRgtIhiGOTaHTGYN6A=
+X-Received: by 2002:a17:906:af09:b0:868:17de:900d with SMTP id
+ lx9-20020a170906af0900b0086817de900dmr2965809ejb.412.1674481841080; Mon, 23
+ Jan 2023 05:50:41 -0800 (PST)
+MIME-Version: 1.0
+References: <20230106113129.694750-1-miquel.raynal@bootlin.com>
+ <CAK-6q+jNmvtBKKxSp1WepVXbaQ65CghZv3bS2ptjB9jyzOSGTA@mail.gmail.com>
+ <20230118102058.3b1f275b@xps-13> <20230123134921.38cdfd42@xps-13>
+In-Reply-To: <20230123134921.38cdfd42@xps-13>
+From:   Alexander Aring <aahringo@redhat.com>
+Date:   Mon, 23 Jan 2023 08:50:29 -0500
+Message-ID: <CAK-6q+g9TxtEpELW1GXchBjPq2HD85CAv06VhDKSHjrQmXPCKA@mail.gmail.com>
+Subject: Re: [PATCH wpan-next 0/2] ieee802154: Beaconing support
+To:     Miquel Raynal <miquel.raynal@bootlin.com>
 Cc:     Alexander Aring <alex.aring@gmail.com>,
         Stefan Schmidt <stefan@datenfreihafen.org>,
         linux-wpan@vger.kernel.org,
@@ -45,57 +74,78 @@ Cc:     Alexander Aring <alex.aring@gmail.com>,
         Nicolas Schodet <nico@ni.fr.eu.org>,
         Guilhem Imberton <guilhem.imberton@qorvo.com>,
         Thomas Petazzoni <thomas.petazzoni@bootlin.com>
-Subject: Re: [PATCH wpan-next 0/2] ieee802154: Beaconing support
-Message-ID: <20230123134921.38cdfd42@xps-13>
-In-Reply-To: <20230118102058.3b1f275b@xps-13>
-References: <20230106113129.694750-1-miquel.raynal@bootlin.com>
-        <CAK-6q+jNmvtBKKxSp1WepVXbaQ65CghZv3bS2ptjB9jyzOSGTA@mail.gmail.com>
-        <20230118102058.3b1f275b@xps-13>
-Organization: Bootlin
-X-Mailer: Claws Mail 4.0.0 (GTK+ 3.24.33; x86_64-pc-linux-gnu)
-MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-X-Spam-Status: No, score=-2.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_LOW,SPF_HELO_NONE,
-        SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset="UTF-8"
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
+        RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_NONE autolearn=unavailable
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-wpan.vger.kernel.org>
 X-Mailing-List: linux-wpan@vger.kernel.org
 
-Hi Alexander,
+Hi,
 
-> > btw: what is about security handling... however I would declare this
-> > feature as experimental anyway. =20
->=20
-> I haven't tested the security layer at all yet, would you have a few
-> commands to start with, which I could try using eg. hwsim?
+On Mon, Jan 23, 2023 at 7:49 AM Miquel Raynal <miquel.raynal@bootlin.com> wrote:
+>
+> Hi Alexander,
+>
+> > > btw: what is about security handling... however I would declare this
+> > > feature as experimental anyway.
+> >
+> > I haven't tested the security layer at all yet, would you have a few
+> > commands to start with, which I could try using eg. hwsim?
+>
+> Using the dev_queue_xmit() doest not bypasses the whole stack anymore,
+> the beacons got rejected by the llsec layer. I did just hack into it
+> just to allow unsecure beacons for now:
+>
 
-Using the dev_queue_xmit() doest not bypasses the whole stack anymore,
-the beacons got rejected by the llsec layer. I did just hack into it
-just to allow unsecure beacons for now:
+Stupid questions: do the beacon frames need to be encrypted? Because
+we bypass llsec always with those mlme functionality.
 
--       if (hlen < 0 || hdr.fc.type !=3D IEEE802154_FC_TYPE_DATA)
-+       if (hlen < 0 ||
-+           (hdr.fc.type !=3D IEEE802154_FC_TYPE_DATA &&
-+            hdr.fc.type !=3D IEEE802154_FC_TYPE_BEACON))
-                return -EINVAL;
+btw: there is currently an issue with the llsec hooks. You will not
+see the transmit side being encrypted via wireshark (so far I
+remember) because the capture is before encryption...
 
-I believe that would be enough as a first step, at least for merging
-beacons support for now.
+> -       if (hlen < 0 || hdr.fc.type != IEEE802154_FC_TYPE_DATA)
+> +       if (hlen < 0 ||
+> +           (hdr.fc.type != IEEE802154_FC_TYPE_DATA &&
+> +            hdr.fc.type != IEEE802154_FC_TYPE_BEACON))
+>                 return -EINVAL;
+>
+> I believe that would be enough as a first step, at least for merging
+> beacons support for now.
+>
 
-However I'll have to look at the spec about security stuff and
-beaconing to know how to handle this properly if security was required,
-but could you drive me through useful resources were I could quickly
-grasp how all that works? Did you make any presentation of it? Perhaps
-just a blog post or something alike? Or even just a script showing its
-use?
+ok.
 
-While I was looking at linux-wpan.org, I realized we should both
-contribute to it with some examples about security stuff and
-beaconing/scanning?
+> However I'll have to look at the spec about security stuff and
+> beaconing to know how to handle this properly if security was required,
+> but could you drive me through useful resources were I could quickly
+> grasp how all that works? Did you make any presentation of it? Perhaps
+> just a blog post or something alike? Or even just a script showing its
+> use?
+>
 
-Thanks,
-Miqu=C3=A8l
+I am pretty sure I have something... you need to construct an ACL
+there and there exist different methods to do a key lookup. Some are
+very easy and some are more difficult to set up. I will look later...
+or just do a setup again with hwsim with should work (but again don't
+trust wireshark/tcpdump).
+
+Also note: currently there exists practical issues on 802.15.4 stack
+(but star topology kind of solves it, so far I understood) to
+synchronize security parameters e.g. frame counter.
+
+> While I was looking at linux-wpan.org, I realized we should both
+> contribute to it with some examples about security stuff and
+> beaconing/scanning?
+>
+
+yes, that would be nice... I am pretty sure there are some examples on
+the mailinglist archive.
+
+- Alex
+
