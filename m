@@ -2,127 +2,64 @@ Return-Path: <linux-wpan-owner@vger.kernel.org>
 X-Original-To: lists+linux-wpan@lfdr.de
 Delivered-To: lists+linux-wpan@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id D50426782CA
-	for <lists+linux-wpan@lfdr.de>; Mon, 23 Jan 2023 18:17:56 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 397176794C9
+	for <lists+linux-wpan@lfdr.de>; Tue, 24 Jan 2023 11:08:29 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233582AbjAWRRy (ORCPT <rfc822;lists+linux-wpan@lfdr.de>);
-        Mon, 23 Jan 2023 12:17:54 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53922 "EHLO
+        id S233220AbjAXKI2 (ORCPT <rfc822;lists+linux-wpan@lfdr.de>);
+        Tue, 24 Jan 2023 05:08:28 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49874 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233558AbjAWRRq (ORCPT
-        <rfc822;linux-wpan@vger.kernel.org>); Mon, 23 Jan 2023 12:17:46 -0500
-Received: from mx07-00178001.pphosted.com (mx07-00178001.pphosted.com [185.132.182.106])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1CBB930182;
-        Mon, 23 Jan 2023 09:17:14 -0800 (PST)
-Received: from pps.filterd (m0288072.ppops.net [127.0.0.1])
-        by mx07-00178001.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 30NEJN7P009518;
-        Mon, 23 Jan 2023 18:16:41 +0100
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=foss.st.com; h=message-id : date :
- mime-version : subject : to : cc : references : from : in-reply-to :
- content-type : content-transfer-encoding; s=selector1;
- bh=R1aMUGjTbxhxY6hkyKRGBk4zxbzWjzxiNcedON6udFo=;
- b=Zm5ggXoNZruq7Bb3b8N1qmVGlQxdkRIHa80INaPpZBBpXyjLW8eCZLOi26l5A6+RB5/w
- Z+PZ3/cL4Va46yqtmJi5PORwYTY46FioxWKylbeuPxm436newkRnSC7hmZnYsKWHL2Kb
- E8O4kMxS5/CdwDsQ4mM0v4xIMFleF1b25tB/cNt2YL3f/fwzgGAIWdrLxxMD8SuKdWQu
- cPFgMv67SOjqXrPKNSoqvl1+YjTlQbFYmJvNya7GzzdG/j6Oyh9icv6JPWXR/j9Hrm2V
- cNegJauCMm20Z1Gl+nUL+NtrY2i2G1zVxWNtOmY+nTZipz1phWQlTPi0LXd8tXF5+ztP QA== 
-Received: from beta.dmz-eu.st.com (beta.dmz-eu.st.com [164.129.1.35])
-        by mx07-00178001.pphosted.com (PPS) with ESMTPS id 3n89epk4d1-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Mon, 23 Jan 2023 18:16:41 +0100
-Received: from euls16034.sgp.st.com (euls16034.sgp.st.com [10.75.44.20])
-        by beta.dmz-eu.st.com (STMicroelectronics) with ESMTP id 995FC100038;
-        Mon, 23 Jan 2023 18:16:37 +0100 (CET)
-Received: from Webmail-eu.st.com (shfdag1node1.st.com [10.75.129.69])
-        by euls16034.sgp.st.com (STMicroelectronics) with ESMTP id 89E49228A2B;
-        Mon, 23 Jan 2023 18:16:37 +0100 (CET)
-Received: from [10.201.21.26] (10.201.21.26) by SHFDAG1NODE1.st.com
- (10.75.129.69) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.13; Mon, 23 Jan
- 2023 18:16:34 +0100
-Message-ID: <e068c541-b492-a513-6212-fd698e4fc9c4@foss.st.com>
-Date:   Mon, 23 Jan 2023 18:16:33 +0100
+        with ESMTP id S233318AbjAXKI1 (ORCPT
+        <rfc822;linux-wpan@vger.kernel.org>); Tue, 24 Jan 2023 05:08:27 -0500
+Received: from relay6-d.mail.gandi.net (relay6-d.mail.gandi.net [IPv6:2001:4b98:dc4:8::226])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 402B0B75D;
+        Tue, 24 Jan 2023 02:08:19 -0800 (PST)
+Received: (Authenticated sender: miquel.raynal@bootlin.com)
+        by mail.gandi.net (Postfix) with ESMTPSA id 4D418C000A;
+        Tue, 24 Jan 2023 10:08:15 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
+        t=1674554898;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=3i5ohLf4wLNRAQx3kpGrIufjr8r+UzfPMXQjZwgDwzw=;
+        b=E8BePmz8bTzR9PGZnnziJdDhqQ7/o0QqqGdAJrH+7NsEHio6tibumlCNVVG0ejiGIMwIa4
+        bE4i0cwDc2VGUSSYBYy6M/OkYxoI5C+dlno6lmSbgRvLCiUDbWIbtbw5tJ5usXlCY3q6kb
+        RkfpEPPIm8aZTRwLiIJ6h29Oa7lhz057YmpNHNTKP9yFmR6YpjUIBPvn+ZM/zr7l2g2ySz
+        Qroj3Hqbui5tnsPNYVBOn5D0s1b+xTB6s/egRRUKWF/yY/V6kJ/eJIpJbWTMAZ+qMzJC+0
+        HtD5sOWWxtviFGueXs8XqZ6qs0nQyJBBeLeq3eZYfYbRlZ/mDJesBtVPkUYgMA==
+Date:   Tue, 24 Jan 2023 11:08:14 +0100
+From:   Miquel Raynal <miquel.raynal@bootlin.com>
+To:     Alexander Aring <aahringo@redhat.com>
+Cc:     Alexander Aring <alex.aring@gmail.com>,
+        Stefan Schmidt <stefan@datenfreihafen.org>,
+        linux-wpan@vger.kernel.org,
+        "David S. Miller" <davem@davemloft.net>,
+        Jakub Kicinski <kuba@kernel.org>,
+        Paolo Abeni <pabeni@redhat.com>,
+        Eric Dumazet <edumazet@google.com>, netdev@vger.kernel.org,
+        David Girault <david.girault@qorvo.com>,
+        Romuald Despres <romuald.despres@qorvo.com>,
+        Frederic Blain <frederic.blain@qorvo.com>,
+        Nicolas Schodet <nico@ni.fr.eu.org>,
+        Guilhem Imberton <guilhem.imberton@qorvo.com>,
+        Thomas Petazzoni <thomas.petazzoni@bootlin.com>
+Subject: Re: [PATCH wpan-next 0/2] ieee802154: Beaconing support
+Message-ID: <20230124110814.6096ecbe@xps-13>
+In-Reply-To: <CAK-6q+gn7W9x2+ihSC41RzkhmBn1E44pKtJFHgqRdd8aBpLrVQ@mail.gmail.com>
+References: <20230106113129.694750-1-miquel.raynal@bootlin.com>
+        <CAK-6q+jNmvtBKKxSp1WepVXbaQ65CghZv3bS2ptjB9jyzOSGTA@mail.gmail.com>
+        <20230118102058.3b1f275b@xps-13>
+        <CAK-6q+gwP8P--5e9HKt2iPhjeefMXrXUVy-G+szGdFXZvgYKvg@mail.gmail.com>
+        <CAK-6q+gn7W9x2+ihSC41RzkhmBn1E44pKtJFHgqRdd8aBpLrVQ@mail.gmail.com>
+Organization: Bootlin
+X-Mailer: Claws Mail 4.0.0 (GTK+ 3.24.33; x86_64-pc-linux-gnu)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.4.2
-Subject: Re: [PATCH v2 02/13] spi: Replace all spi->chip_select and
- spi->cs_gpiod references with function call
-To:     Amit Kumar Mahapatra <amit.kumar-mahapatra@amd.com>,
-        <broonie@kernel.org>, <miquel.raynal@bootlin.com>,
-        <richard@nod.at>, <vigneshr@ti.com>, <jic23@kernel.org>,
-        <tudor.ambarus@microchip.com>, <pratyush@kernel.org>,
-        <sanju.mehta@amd.com>, <chin-ting_kuo@aspeedtech.com>,
-        <clg@kaod.org>, <kdasu.kdev@gmail.com>, <f.fainelli@gmail.com>,
-        <rjui@broadcom.com>, <sbranden@broadcom.com>,
-        <eajames@linux.ibm.com>, <olteanv@gmail.com>, <han.xu@nxp.com>,
-        <john.garry@huawei.com>, <shawnguo@kernel.org>,
-        <s.hauer@pengutronix.de>, <narmstrong@baylibre.com>,
-        <khilman@baylibre.com>, <matthias.bgg@gmail.com>,
-        <haibo.chen@nxp.com>, <linus.walleij@linaro.org>,
-        <daniel@zonque.org>, <haojian.zhuang@gmail.com>,
-        <robert.jarzmik@free.fr>, <agross@kernel.org>,
-        <bjorn.andersson@linaro.org>, <heiko@sntech.de>,
-        <krzysztof.kozlowski@linaro.org>, <andi@etezian.org>,
-        <mcoquelin.stm32@gmail.com>, <alexandre.torgue@foss.st.com>,
-        <wens@csie.org>, <jernej.skrabec@gmail.com>, <samuel@sholland.org>,
-        <masahisa.kojima@linaro.org>, <jaswinder.singh@linaro.org>,
-        <rostedt@goodmis.org>, <mingo@redhat.com>,
-        <l.stelmach@samsung.com>, <davem@davemloft.net>,
-        <edumazet@google.com>, <kuba@kernel.org>, <pabeni@redhat.com>,
-        <alex.aring@gmail.com>, <stefan@datenfreihafen.org>,
-        <kvalo@kernel.org>, <thierry.reding@gmail.com>,
-        <jonathanh@nvidia.com>, <skomatineni@nvidia.com>,
-        <sumit.semwal@linaro.org>, <christian.koenig@amd.com>,
-        <j.neuschaefer@gmx.net>, <vireshk@kernel.org>, <rmfrfs@gmail.com>,
-        <johan@kernel.org>, <elder@kernel.org>,
-        <gregkh@linuxfoundation.org>
-CC:     <git@amd.com>, <linux-spi@vger.kernel.org>,
-        <linux-kernel@vger.kernel.org>, <joel@jms.id.au>,
-        <andrew@aj.id.au>, <radu_nicolae.pirea@upb.ro>,
-        <nicolas.ferre@microchip.com>, <alexandre.belloni@bootlin.com>,
-        <claudiu.beznea@microchip.com>,
-        <bcm-kernel-feedback-list@broadcom.com>, <fancer.lancer@gmail.com>,
-        <kernel@pengutronix.de>, <festevam@gmail.com>, <linux-imx@nxp.com>,
-        <jbrunet@baylibre.com>, <martin.blumenstingl@googlemail.com>,
-        <avifishman70@gmail.com>, <tmaimon77@gmail.com>,
-        <tali.perry1@gmail.com>, <venture@google.com>, <yuenn@google.com>,
-        <benjaminfair@google.com>, <yogeshgaur.83@gmail.com>,
-        <konrad.dybcio@somainline.org>, <alim.akhtar@samsung.com>,
-        <ldewangan@nvidia.com>, <michal.simek@amd.com>,
-        <linux-aspeed@lists.ozlabs.org>, <openbmc@lists.ozlabs.org>,
-        <linux-arm-kernel@lists.infradead.org>,
-        <linux-rpi-kernel@lists.infradead.org>,
-        <linux-amlogic@lists.infradead.org>,
-        <linux-mediatek@lists.infradead.org>,
-        <linux-arm-msm@vger.kernel.org>,
-        <linux-rockchip@lists.infradead.org>,
-        <linux-samsung-soc@vger.kernel.org>,
-        <linux-stm32@st-md-mailman.stormreply.com>,
-        <linux-sunxi@lists.linux.dev>, <linux-tegra@vger.kernel.org>,
-        <netdev@vger.kernel.org>, <linux-wpan@vger.kernel.org>,
-        <libertas-dev@lists.infradead.org>,
-        <linux-wireless@vger.kernel.org>, <linux-mtd@lists.infradead.org>,
-        <lars@metafoo.de>, <Michael.Hennerich@analog.com>,
-        <linux-iio@vger.kernel.org>, <michael@walle.cc>,
-        <palmer@dabbelt.com>, <linux-riscv@lists.infradead.org>,
-        <linux-media@vger.kernel.org>, <dri-devel@lists.freedesktop.org>,
-        <greybus-dev@lists.linaro.org>, <linux-staging@lists.linux.dev>,
-        <amitrkcian2002@gmail.com>
-References: <20230119185342.2093323-1-amit.kumar-mahapatra@amd.com>
- <20230119185342.2093323-3-amit.kumar-mahapatra@amd.com>
-Content-Language: en-US
-From:   Patrice CHOTARD <patrice.chotard@foss.st.com>
-In-Reply-To: <20230119185342.2093323-3-amit.kumar-mahapatra@amd.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [10.201.21.26]
-X-ClientProxiedBy: EQNCAS1NODE4.st.com (10.75.129.82) To SHFDAG1NODE1.st.com
- (10.75.129.69)
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.219,Aquarius:18.0.930,Hydra:6.0.562,FMLib:17.11.122.1
- definitions=2023-01-23_12,2023-01-23_01,2022-06-22_01
-X-Spam-Status: No, score=-3.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,NICE_REPLY_A,RCVD_IN_DNSWL_LOW,SPF_HELO_NONE,
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+X-Spam-Status: No, score=-2.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_LOW,SPF_HELO_NONE,
         SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -130,82 +67,68 @@ Precedence: bulk
 List-ID: <linux-wpan.vger.kernel.org>
 X-Mailing-List: linux-wpan@vger.kernel.org
 
-Hi Amit
+Hi Alexander,
 
-On 1/19/23 19:53, Amit Kumar Mahapatra wrote:
-> Supporting multi-cs in spi drivers would require the chip_select & cs_gpiod
-> members of struct spi_device to be an array. But changing the type of these
-> members to array would break the spi driver functionality. To make the
-> transition smoother introduced four new APIs to get/set the
-> spi->chip_select & spi->cs_gpiod and replaced all spi->chip_select and
-> spi->cs_gpiod references with get or set API calls.
-> While adding multi-cs support in further patches the chip_select & cs_gpiod
-> members of the spi_device structure would be converted to arrays & the
-> "idx" parameter of the APIs would be used as array index i.e.,
-> spi->chip_select[idx] & spi->cs_gpiod[idx] respectively.
-> 
-> Signed-off-by: Amit Kumar Mahapatra <amit.kumar-mahapatra@amd.com>
-> ---
+aahringo@redhat.com wrote on Mon, 23 Jan 2023 09:02:48 -0500:
 
-[...]
+> Hi,
+>=20
+> On Mon, Jan 23, 2023 at 9:01 AM Alexander Aring <aahringo@redhat.com> wro=
+te:
+> >
+> > Hi,
+> >
+> > On Wed, Jan 18, 2023 at 4:21 AM Miquel Raynal <miquel.raynal@bootlin.co=
+m> wrote: =20
+> > >
+> > > Hi Alexander,
+> > >
+> > > aahringo@redhat.com wrote on Sun, 15 Jan 2023 20:54:02 -0500:
+> > > =20
+> > > > Hi,
+> > > >
+> > > > On Fri, Jan 6, 2023 at 6:33 AM Miquel Raynal <miquel.raynal@bootlin=
+.com> wrote: =20
+> > > > >
+> > > > > Scanning being now supported, we can eg. play with hwsim to verify
+> > > > > everything works as soon as this series including beaconing suppo=
+rt gets
+> > > > > merged.
+> > > > > =20
+> > > >
+> > > > I am not sure if a beacon send should be handled by an mlme helper
+> > > > handling as this is a different use-case and the user does not trig=
+ger
+> > > > an mac command and is waiting for some reply and a more complex
+> > > > handling could be involved. There is also no need for hotpath xmit
+> > > > handling is disabled during this time. It is just an async messaging
+> > > > in some interval and just "try" to send it and don't care if it fai=
+ls,
+> > > > or? For mac802154 therefore I think we should use the dev_queue_xmi=
+t()
+> > > > function to queue it up to send it through the hotpath?
+> > > >
+> > > > I can ack those patches, it will work as well. But I think we should
+> > > > switch at some point to dev_queue_xmit(). It should be simple to
+> > > > switch it. Just want to mention there is a difference which will be
+> > > > there in mac-cmds like association. =20
+> > >
+> > > I see what you mean. That's indeed true, we might just switch to
+> > > a less constrained transmit path.
+> > > =20
+> >
+> > I would define the difference in bypass qdisc or not. Whereas the
+> > qdisc can drop or delay transmitting... For me, the qdisc is currently
+> > in a "works for now" state. =20
+>=20
+> probably also bypass other hooks like tc, etc. :-/ Not sure if we want th=
+at.
 
->  drivers/spi/spi-stm32-qspi.c      | 12 ++++++------
+Actually, IIUC, we no longer want to go through the entire net stack.
+We still want to bypass it but without stopping/flushing the full
+queue like with an mlme transmission, so what about using
+ieee802154_subif_start_xmit() instead of dev_queue_xmit()? I think it
+is more appropriate.
 
-[...]
-
-> diff --git a/drivers/spi/spi-stm32-qspi.c b/drivers/spi/spi-stm32-qspi.c
-> index 9131660c1afb..b9e61372dcfb 100644
-> --- a/drivers/spi/spi-stm32-qspi.c
-> +++ b/drivers/spi/spi-stm32-qspi.c
-> @@ -359,7 +359,7 @@ static int stm32_qspi_get_mode(u8 buswidth)
->  static int stm32_qspi_send(struct spi_device *spi, const struct spi_mem_op *op)
->  {
->  	struct stm32_qspi *qspi = spi_controller_get_devdata(spi->master);
-> -	struct stm32_qspi_flash *flash = &qspi->flash[spi->chip_select];
-> +	struct stm32_qspi_flash *flash = &qspi->flash[spi_get_chipselect(spi, 0)];
->  	u32 ccr, cr;
->  	int timeout, err = 0, err_poll_status = 0;
->  
-> @@ -564,7 +564,7 @@ static int stm32_qspi_transfer_one_message(struct spi_controller *ctrl,
->  	struct spi_mem_op op;
->  	int ret = 0;
->  
-> -	if (!spi->cs_gpiod)
-> +	if (!spi_get_csgpiod(spi, 0))
->  		return -EOPNOTSUPP;
->  
->  	ret = pm_runtime_resume_and_get(qspi->dev);
-> @@ -573,7 +573,7 @@ static int stm32_qspi_transfer_one_message(struct spi_controller *ctrl,
->  
->  	mutex_lock(&qspi->lock);
->  
-> -	gpiod_set_value_cansleep(spi->cs_gpiod, true);
-> +	gpiod_set_value_cansleep(spi_get_csgpiod(spi, 0), true);
->  
->  	list_for_each_entry(transfer, &msg->transfers, transfer_list) {
->  		u8 dummy_bytes = 0;
-> @@ -626,7 +626,7 @@ static int stm32_qspi_transfer_one_message(struct spi_controller *ctrl,
->  	}
->  
->  end_of_transfer:
-> -	gpiod_set_value_cansleep(spi->cs_gpiod, false);
-> +	gpiod_set_value_cansleep(spi_get_csgpiod(spi, 0), false);
->  
->  	mutex_unlock(&qspi->lock);
->  
-> @@ -669,8 +669,8 @@ static int stm32_qspi_setup(struct spi_device *spi)
->  
->  	presc = DIV_ROUND_UP(qspi->clk_rate, spi->max_speed_hz) - 1;
->  
-> -	flash = &qspi->flash[spi->chip_select];
-> -	flash->cs = spi->chip_select;
-> +	flash = &qspi->flash[spi_get_chipselect(spi, 0)];
-> +	flash->cs = spi_get_chipselect(spi, 0);
->  	flash->presc = presc;
->  
->  	mutex_lock(&qspi->lock);
-
-Reviewed-by: Patrice Chotard <patrice.chotard@foss.st.com>
-
-Thanks
-Patrice
+Thanks,
+Miqu=C3=A8l
