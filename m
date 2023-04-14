@@ -2,59 +2,43 @@ Return-Path: <linux-wpan-owner@vger.kernel.org>
 X-Original-To: lists+linux-wpan@lfdr.de
 Delivered-To: lists+linux-wpan@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 6BFE36DFF36
-	for <lists+linux-wpan@lfdr.de>; Wed, 12 Apr 2023 21:53:16 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id E32FB6E1E27
+	for <lists+linux-wpan@lfdr.de>; Fri, 14 Apr 2023 10:25:50 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229492AbjDLTxP (ORCPT <rfc822;lists+linux-wpan@lfdr.de>);
-        Wed, 12 Apr 2023 15:53:15 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43756 "EHLO
+        id S229612AbjDNIZu (ORCPT <rfc822;lists+linux-wpan@lfdr.de>);
+        Fri, 14 Apr 2023 04:25:50 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33902 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229679AbjDLTxO (ORCPT
-        <rfc822;linux-wpan@vger.kernel.org>); Wed, 12 Apr 2023 15:53:14 -0400
-Received: from proxima.lasnet.de (proxima.lasnet.de [IPv6:2a01:4f8:121:31eb:3::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CB1281FFE;
-        Wed, 12 Apr 2023 12:52:45 -0700 (PDT)
-Received: from [192.168.2.51] (p4fc2f435.dip0.t-ipconnect.de [79.194.244.53])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature RSA-PSS (4096 bits))
-        (No client certificate requested)
-        (Authenticated sender: stefan@datenfreihafen.org)
-        by proxima.lasnet.de (Postfix) with ESMTPSA id 0E639C042A;
-        Wed, 12 Apr 2023 21:51:15 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=datenfreihafen.org;
-        s=2021; t=1681329075;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=rHhIv4XRWuvy0SOWZF0k4Hfl2JiKD/56whRvSjhKz9E=;
-        b=pgd0CnYchBrUg9IrnuBJXh8qHrspvfwlAKkJncEANg6JarE5CBfb20giSOXEZ1rXvAypDI
-        e5ZvA0wA7v6wBQpj+QtXFeY+SP64AMmbLtvUv7NrAN3zgJT8olOg2FxRXZNdCuT2EwgARY
-        XJ3Yp2HTlkmG4LFYDORUPerFhuSaVyIZEEdUPaX3xgNV75aZkWFr31AMhG8NaOJ9uJmuZ2
-        i5uqEyPMYjdbKnWJu7SrApkvTyxnBv0afxLS6V5EuNo7WlxB0UhjsFHgnOFrYeUE7F7mf5
-        Hh+ojStCllCzzHakZstwj/wkzxVhpPYaOLn6/ReFfdAikVU7l3k7XQ+yYIyDtA==
-Message-ID: <7978e5ed-56aa-dc01-957c-3f110a92ce5f@datenfreihafen.org>
-Date:   Wed, 12 Apr 2023 21:51:14 +0200
+        with ESMTP id S230145AbjDNIZa (ORCPT
+        <rfc822;linux-wpan@vger.kernel.org>); Fri, 14 Apr 2023 04:25:30 -0400
+Received: from mail.feshiecree.pl (mail.feshiecree.pl [89.40.114.103])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4F60B9ED6
+        for <linux-wpan@vger.kernel.org>; Fri, 14 Apr 2023 01:25:06 -0700 (PDT)
+Received: by mail.feshiecree.pl (Postfix, from userid 1001)
+        id A42798ADC1; Fri, 14 Apr 2023 09:20:05 +0100 (BST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=feshiecree.pl;
+        s=mail; t=1681460488;
+        bh=hFxZwVw4rIL+JwfEOGI47p+fdoVOAeqVswP6NWoHSHQ=;
+        h=Date:From:To:Subject:From;
+        b=LSoe4V10uNNnHdXBmnz0Dm4mwkkCQxdHOlfkWr8S42umI8sSCJE0ynwuj+dNwik5H
+         hYjjCVysspuaSN4T4D0f3U7LJexmUbZikkWxIzZYaBTR3VabMpMzaeak/VXf/BQAnu
+         BP3hp5v6yRH8Q86KoSncAVsgLWSusEbmKBSbgJ0+FdsX4UYlwBN83e4xkvo/l3VEoN
+         T9tsWtkPAMLsR/klgIGH408GvtS3+l6k8mDg8muj5+XOTn9QYz1jUkBfoJKsUXjDIO
+         O1VzIE8JRrcPzhtClXS+UEkktZJPpndh3rStt1VHwXczKDj1T46G4QzfvlSE1JduA3
+         ncqdGwYPbih6A==
+Received: by mail.feshiecree.pl for <linux-wpan@vger.kernel.org>; Fri, 14 Apr 2023 08:18:37 GMT
+Message-ID: <20230414085824-0.1.21.aggw.0.n6j289gmfs@feshiecree.pl>
+Date:   Fri, 14 Apr 2023 08:18:37 GMT
+From:   "Krystian Wieczorek" <krystian.wieczorek@feshiecree.pl>
+To:     <linux-wpan@vger.kernel.org>
+Subject: W sprawie samochodu
+X-Mailer: mail.feshiecree.pl
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.8.0
-Subject: Re: [PATCH wpan-next 1/2] MAINTAINERS: Update wpan tree
-Content-Language: en-US
-To:     Jakub Kicinski <kuba@kernel.org>,
-        Miquel Raynal <miquel.raynal@bootlin.com>
-Cc:     Alexander Aring <alex.aring@gmail.com>, linux-wpan@vger.kernel.org,
-        "David S. Miller" <davem@davemloft.net>,
-        Paolo Abeni <pabeni@redhat.com>,
-        Eric Dumazet <edumazet@google.com>, netdev@vger.kernel.org
-References: <20230411090122.419761-1-miquel.raynal@bootlin.com>
- <20230411130209.6ffe1d21@kernel.org>
-From:   Stefan Schmidt <stefan@datenfreihafen.org>
-In-Reply-To: <20230411130209.6ffe1d21@kernel.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-5.5 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,RCVD_IN_DNSWL_MED,
-        SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_SORBS_DUL,SPF_HELO_NONE,
+        SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=unavailable autolearn_force=no
         version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -62,26 +46,23 @@ Precedence: bulk
 List-ID: <linux-wpan.vger.kernel.org>
 X-Mailing-List: linux-wpan@vger.kernel.org
 
-Hello.
+Dzie=C5=84 dobry,
 
-On 11.04.23 22:02, Jakub Kicinski wrote:
-> On Tue, 11 Apr 2023 11:01:21 +0200 Miquel Raynal wrote:
->> The wpan maintainers group is switching from Stefan's tree to a group
->> tree called 'wpan'. We will now maintain:
->> * wpan/wpan.git master:
->>    Fixes targetting the 'net' tree
->> * wpan/wpan-next.git master:
->>    Features targetting the 'net-next' tree
->> * wpan/wpan-next.git staging:
->>    Same as the wpan-next master branch, but we will push there first,
->>    expecting robots to parse the tree and report mistakes we would have
->>    not catch. This branch can be rebased and force pushed, unlike the
->>    others.
-> 
-> Very nice, feel free to ship these two with fixes.
-> We often fast track MAINTAINERS updates.
+chcieliby=C5=9Bmy zapewni=C4=87 Pa=C5=84stwu kompleksowe rozwi=C4=85zania=
+, je=C5=9Bli chodzi o system monitoringu GPS.
 
-That's what I did. Coming with the next ieee802154 pull request to net.
+Precyzyjne monitorowanie pojazd=C3=B3w na mapach cyfrowych, =C5=9Bledzeni=
+e ich parametr=C3=B3w eksploatacyjnych w czasie rzeczywistym oraz kontrol=
+a paliwa to kluczowe funkcjonalno=C5=9Bci naszego systemu.=20
 
-regards
-Stefan Schmidt
+Organizowanie pracy pracownik=C3=B3w jest dzi=C4=99ki temu prostsze i bar=
+dziej efektywne, a oszcz=C4=99dno=C5=9Bci i optymalizacja w zakresie pono=
+szonych koszt=C3=B3w, maj=C4=85 dla ka=C5=BCdego przedsi=C4=99biorcy ogro=
+mne znaczenie.
+
+Dopasujemy nasz=C4=85 ofert=C4=99 do Pa=C5=84stwa oczekiwa=C5=84 i potrze=
+b organizacji. Czy mogliby=C5=9Bmy porozmawia=C4=87 o naszej propozycji?
+
+
+Pozdrawiam
+Krystian Wieczorek
