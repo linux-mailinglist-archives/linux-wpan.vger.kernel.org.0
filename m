@@ -2,193 +2,268 @@ Return-Path: <linux-wpan-owner@vger.kernel.org>
 X-Original-To: lists+linux-wpan@lfdr.de
 Delivered-To: lists+linux-wpan@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 45747720EB9
-	for <lists+linux-wpan@lfdr.de>; Sat,  3 Jun 2023 10:22:33 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id A7C07720F1F
+	for <lists+linux-wpan@lfdr.de>; Sat,  3 Jun 2023 12:10:44 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234821AbjFCIWa (ORCPT <rfc822;lists+linux-wpan@lfdr.de>);
-        Sat, 3 Jun 2023 04:22:30 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60184 "EHLO
+        id S229889AbjFCKKm (ORCPT <rfc822;lists+linux-wpan@lfdr.de>);
+        Sat, 3 Jun 2023 06:10:42 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45592 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229831AbjFCIWa (ORCPT
-        <rfc822;linux-wpan@vger.kernel.org>); Sat, 3 Jun 2023 04:22:30 -0400
-Received: from mail-ua1-x92c.google.com (mail-ua1-x92c.google.com [IPv6:2607:f8b0:4864:20::92c])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BF81299;
-        Sat,  3 Jun 2023 01:22:28 -0700 (PDT)
-Received: by mail-ua1-x92c.google.com with SMTP id a1e0cc1a2514c-7841f18f9f7so750588241.0;
-        Sat, 03 Jun 2023 01:22:28 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1685780548; x=1688372548;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=j8g2hnOGOg2sxpTnLUbSGzAiSvvgwyqIgGFTiGWjGU0=;
-        b=rk5jL5mSq6M2gxVyXs4AUO7B65MmZArJzj3wGRXaSqEsGRuwpHAWF2E9/hMFbKk3c8
-         e4J5pa9SUHMps06XsQ+RxYXPuzuni8NHeYDSYI2xO/UQ49l2A5gS6/4jG3OFwBMYmE81
-         y79noa98hW4pqR2rjBCeCl8nPDi012PX9gVFQNQGk1UXVr4m4XmDvNUqYULKwOFf6Xar
-         2DBh/N6PETCeNBD9+r0VjTjxasPJFUVqVKsrvMFAPkd/Fs7Sx8Pn6rEs/ZTuD7nZ0HIY
-         mfIQvZWI3I+JzOEx6t22cO64rgX3pncWQqcG2P/ECJzu0HB3GMWlTtGYLcMlUX/oO4Mc
-         Bpnw==
+        with ESMTP id S229475AbjFCKKk (ORCPT
+        <rfc822;linux-wpan@vger.kernel.org>); Sat, 3 Jun 2023 06:10:40 -0400
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7E6A11B3
+        for <linux-wpan@vger.kernel.org>; Sat,  3 Jun 2023 03:09:53 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1685786992;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=QgQyDn0kuTs8pW8r/1D0kR3Mu4O4BRdFmzf7RMNRe08=;
+        b=PCfIS3l/XH0414KKwcteYYrLaFvmGiAxONheIKIGVAvxlb2WoFk/TlJtvxm1EAurrrCjQl
+        8hwBrSK4MEkv7PuHloBYYuiEj9blox0MUu5j7YVOIsIE/5hOzPNqM0EEcfmtU9XbxqIoeB
+        wBX65SNcEkOBdSQyvh/IUUFlPPq655s=
+Received: from mail-ej1-f70.google.com (mail-ej1-f70.google.com
+ [209.85.218.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-219-a_PVrjEqPqadAM336r0uAg-1; Sat, 03 Jun 2023 06:09:49 -0400
+X-MC-Unique: a_PVrjEqPqadAM336r0uAg-1
+Received: by mail-ej1-f70.google.com with SMTP id a640c23a62f3a-94a348facbbso227597966b.1
+        for <linux-wpan@vger.kernel.org>; Sat, 03 Jun 2023 03:09:49 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1685780548; x=1688372548;
+        d=1e100.net; s=20221208; t=1685786988; x=1688378988;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=j8g2hnOGOg2sxpTnLUbSGzAiSvvgwyqIgGFTiGWjGU0=;
-        b=RRKZ4/6zYB4JdsufrgTPGIPqUlUFPeNDjmjItfl49H8xQA1i+mH98Mduh/ZBj8t/57
-         ef2sAfzd/23oZpPZps+FTR9F3RlhbMAT5IfAcxc6KDJTu8GmlrWtVFOyZwvNzBqzejZ7
-         xer1a5jEdEvK0hW8+RDRNagCYmLSP+bgL/rWMkfwBbWLkUvi7aHRqgCnGm5l6o6EoIcV
-         nAhdWCQQPiH1Ph1I6SRKrSekVPJ/BCVggfnmOPDDjvkjfRMmP4DXtZ0UR8Uie17Uueag
-         BXIrHR0kwWGZAvpsZHuvEXgqOqjT2XZeLV+28av0/4bNmc5tp5fRDyNN8f0Gx8Ep+qfP
-         OiQQ==
-X-Gm-Message-State: AC+VfDwwaAQ8NRkA7U1br8JHDNtz3ovjgFSmQWrBbbyH7LQUxK+6G7CK
-        1m3wwduG2mWBj7y5FRxCYe2Ny4A1Qm0EmcjklE8=
-X-Google-Smtp-Source: ACHHUZ5ZX5Rv93vS+T0aa4l7PxWVuS+bIALakx92H3qwe7964NQXeeZKVsd/UNfQ8dr18rTvPckahEu218QkzqjD+rk=
-X-Received: by 2002:a1f:6017:0:b0:461:479d:745d with SMTP id
- u23-20020a1f6017000000b00461479d745dmr985295vkb.8.1685780547644; Sat, 03 Jun
- 2023 01:22:27 -0700 (PDT)
+        bh=QgQyDn0kuTs8pW8r/1D0kR3Mu4O4BRdFmzf7RMNRe08=;
+        b=To4/4HcelSqW/pqCR767kWy/LPbsOo6/YydAESB6Aes7ZgmWYev3qn3dd58kBbz4IE
+         vsEv9ZkRmhp2Jgp9rAMhbSlQ1NbpqnB/xyRFrfgXNfsgdPMxCosbcmBCVSNrjTAoFqw1
+         lhgSBJRFAnotT7/JFpfuqtrtGAYKLAsd88TkuhVNXqLzEkW7gvu4s/3viF737u5yIXTQ
+         QJgYWJNGFLWIiu59hq3EOkzvtMIFWxMz/YjDYzbschA9vaWyWPWloFtIKkGxf71/l9pW
+         dIh9tkqUGGnBHiPb7tXTHbCmkRsrXL8KUdEkIg11aJgdEDJG1BFC4DvCFjLb+PvVyMDG
+         6GSg==
+X-Gm-Message-State: AC+VfDyCzKQGwDSGLaXD5mpdofouEgqQMlfe5/ITT4xG9XI+84rYuXxm
+        G91p0o68Z9DfdV++O0XMZeS2ymXXseI9VeP60xDeFXyghBOoef8/yAxEtdPKDxxZNroMVrdkMzI
+        m8+uP2Jrwsy0Lldcwc5EFy3Rwtl2mxlTQQ8fn6A==
+X-Received: by 2002:a17:907:a0a:b0:969:bac4:8e22 with SMTP id bb10-20020a1709070a0a00b00969bac48e22mr1156153ejc.26.1685786988393;
+        Sat, 03 Jun 2023 03:09:48 -0700 (PDT)
+X-Google-Smtp-Source: ACHHUZ4m8lDsi7hvk5I3WNFGujTP7YkoZSj8xdvtVZhnt60axhRAdhbGUZIuyFIg2mocQK+NMwJWrhRWRtK3r8q1x4U=
+X-Received: by 2002:a17:907:a0a:b0:969:bac4:8e22 with SMTP id
+ bb10-20020a1709070a0a00b00969bac48e22mr1156137ejc.26.1685786988102; Sat, 03
+ Jun 2023 03:09:48 -0700 (PDT)
 MIME-Version: 1.0
-References: <20230602163044.1820619-1-leitao@debian.org>
-In-Reply-To: <20230602163044.1820619-1-leitao@debian.org>
-From:   Willem de Bruijn <willemdebruijn.kernel@gmail.com>
-Date:   Sat, 3 Jun 2023 10:21:50 +0200
-Message-ID: <CAF=yD-Kk9mVWPZN50NUu8uGwEbySNS-WzvJ=1HTTcVsA6OOuvA@mail.gmail.com>
-Subject: Re: [PATCH net-next v5] net: ioctl: Use kernel memory on protocol
- ioctl callbacks
-To:     Breno Leitao <leitao@debian.org>
-Cc:     Remi Denis-Courmont <courmisch@gmail.com>,
+References: <20230601154817.754519-1-miquel.raynal@bootlin.com> <20230601154817.754519-5-miquel.raynal@bootlin.com>
+In-Reply-To: <20230601154817.754519-5-miquel.raynal@bootlin.com>
+From:   Alexander Aring <aahringo@redhat.com>
+Date:   Sat, 3 Jun 2023 06:09:36 -0400
+Message-ID: <CAK-6q+ibbYBbvbGK9ehJJoaJAw4hubh6Ff=q2P4mq+Z07ZgR0A@mail.gmail.com>
+Subject: Re: [PATCH wpan-next 04/11] mac802154: Handle associating
+To:     Miquel Raynal <miquel.raynal@bootlin.com>
+Cc:     Alexander Aring <alex.aring@gmail.com>,
+        Stefan Schmidt <stefan@datenfreihafen.org>,
+        linux-wpan@vger.kernel.org,
         "David S. Miller" <davem@davemloft.net>,
-        Eric Dumazet <edumazet@google.com>,
         Jakub Kicinski <kuba@kernel.org>,
         Paolo Abeni <pabeni@redhat.com>,
-        Alexander Aring <alex.aring@gmail.com>,
-        Stefan Schmidt <stefan@datenfreihafen.org>,
-        Miquel Raynal <miquel.raynal@bootlin.com>,
-        David Ahern <dsahern@kernel.org>,
-        Matthieu Baerts <matthieu.baerts@tessares.net>,
-        Mat Martineau <martineau@kernel.org>,
-        Marcelo Ricardo Leitner <marcelo.leitner@gmail.com>,
-        Xin Long <lucien.xin@gmail.com>, axboe@kernel.dk,
-        asml.silence@gmail.com, leit@fb.com, linux-kernel@vger.kernel.org,
-        netdev@vger.kernel.org, dccp@vger.kernel.org,
-        linux-wpan@vger.kernel.org, mptcp@lists.linux.dev,
-        linux-sctp@vger.kernel.org
+        Eric Dumazet <edumazet@google.com>, netdev@vger.kernel.org,
+        David Girault <david.girault@qorvo.com>,
+        Romuald Despres <romuald.despres@qorvo.com>,
+        Frederic Blain <frederic.blain@qorvo.com>,
+        Nicolas Schodet <nico@ni.fr.eu.org>,
+        Guilhem Imberton <guilhem.imberton@qorvo.com>,
+        Thomas Petazzoni <thomas.petazzoni@bootlin.com>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
-        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE,
-        URIBL_BLOCKED autolearn=ham autolearn_force=no version=3.4.6
+X-Spam-Status: No, score=-2.3 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
+        SPF_HELO_NONE,SPF_NONE,T_SCC_BODY_TEXT_LINE autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-wpan.vger.kernel.org>
 X-Mailing-List: linux-wpan@vger.kernel.org
 
-On Fri, Jun 2, 2023 at 6:31=E2=80=AFPM Breno Leitao <leitao@debian.org> wro=
-te:
->
-> Most of the ioctls to net protocols operates directly on userspace
-> argument (arg). Usually doing get_user()/put_user() directly in the
-> ioctl callback.  This is not flexible, because it is hard to reuse these
-> functions without passing userspace buffers.
->
-> Change the "struct proto" ioctls to avoid touching userspace memory and
-> operate on kernel buffers, i.e., all protocol's ioctl callbacks is
-> adapted to operate on a kernel memory other than on userspace (so, no
-> more {put,get}_user() and friends being called in the ioctl callback).
->
-> This changes the "struct proto" ioctl format in the following way:
->
->     int                     (*ioctl)(struct sock *sk, int cmd,
-> -                                        unsigned long arg);
-> +                                        int *karg);
->
-> So, the "karg" argument, which is passed to the ioctl callback, is a
-> pointer allocated to kernel space memory (inside a function wrapper).
-> This buffer (karg) may contain input argument (copied from userspace in
-> a prep function) and it might return a value/buffer, which is copied
-> back to userspace if necessary. There is not one-size-fits-all format
-> (that is I am using 'may' above), but basically, there are three type of
-> ioctls:
->
-> 1) Do not read from userspace, returns a result to userspace
-> 2) Read an input parameter from userspace, and does not return anything
->   to userspace
-> 3) Read an input from userspace, and return a buffer to userspace.
->
-> The default case (1) (where no input parameter is given, and an "int" is
-> returned to userspace) encompasses more than 90% of the cases, but there
-> are two other exceptions. Here is a list of exceptions:
->
-> * Protocol RAW:
->    * cmd =3D SIOCGETVIFCNT:
->      * input and output =3D struct sioc_vif_req
->    * cmd =3D SIOCGETSGCNT
->      * input and output =3D struct sioc_sg_req
->    * Explanation: for the SIOCGETVIFCNT case, userspace passes the input
->      argument, which is struct sioc_vif_req. Then the callback populates
->      the struct, which is copied back to userspace.
->
-> * Protocol RAW6:
->    * cmd =3D SIOCGETMIFCNT_IN6
->      * input and output =3D struct sioc_mif_req6
->    * cmd =3D SIOCGETSGCNT_IN6
->      * input and output =3D struct sioc_sg_req6
->
-> * Protocol PHONET:
->   * cmd =3D=3D SIOCPNADDRESOURCE | SIOCPNDELRESOURCE
->      * input int (4 bytes)
->   * Nothing is copied back to userspace.
->
-> For the exception cases, functions sock_sk_ioctl_inout() will
-> copy the userspace input, and copy it back to kernel space.
->
-> The wrapper that prepare the buffer and put the buffer back to user is
-> sk_ioctl(), so, instead of calling sk->sk_prot->ioctl(), the callee now
-> calls sk_ioctl(), which will handle all cases.
->
-> Signed-off-by: Breno Leitao <leitao@debian.org>
+Hi,
 
-Please check the checkpatch output
-
-https://patchwork.hopto.org/static/nipa/753609/13265673/checkpatch/stdout
-
-> +static inline int phonet_sk_ioctl(struct sock *sk, unsigned int cmd, voi=
-d __user *arg)
-> +{
-> +       int karg;
-> +
-> +       switch (cmd) {
-> +       case SIOCPNADDRESOURCE:
-> +       case SIOCPNDELRESOURCE:
-> +               if (get_user(karg, (int __user *)arg))
-> +                       return -EFAULT;
-> +
-> +               return sk->sk_prot->ioctl(sk, cmd, &karg);
-> +       }
-> +       /* A positive return value means that the ioctl was not processed=
- */
-> +       return 1;
-> +}
+On Thu, Jun 1, 2023 at 11:50=E2=80=AFAM Miquel Raynal <miquel.raynal@bootli=
+n.com> wrote:
+>
+> Joining a PAN officially goes by associating with a coordinator. This
+> coordinator may have been discovered thanks to the beacons it sent in
+> the past. Add support to the MAC layer for these associations, which
+> require:
+> - Sending an association request
+> - Receiving an association response
+>
+> The association response contains the association status, eventually a
+> reason if the association was unsuccessful, and finally a short address
+> that we should use for intra-PAN communication from now on, if we
+> required one (which is the default, and not yet configurable).
+>
+> Signed-off-by: Miquel Raynal <miquel.raynal@bootlin.com>
+> ---
+>  include/linux/ieee802154.h      |   1 +
+>  include/net/cfg802154.h         |   1 +
+>  include/net/ieee802154_netdev.h |   5 ++
+>  net/ieee802154/core.c           |  14 ++++
+>  net/mac802154/cfg.c             |  72 ++++++++++++++++++
+>  net/mac802154/ieee802154_i.h    |  19 +++++
+>  net/mac802154/main.c            |   2 +
+>  net/mac802154/rx.c              |   9 +++
+>  net/mac802154/scan.c            | 127 ++++++++++++++++++++++++++++++++
+>  9 files changed, 250 insertions(+)
+>
+> diff --git a/include/linux/ieee802154.h b/include/linux/ieee802154.h
+> index 140f61ec0f5f..c72bd76cac1b 100644
+> --- a/include/linux/ieee802154.h
+> +++ b/include/linux/ieee802154.h
+> @@ -37,6 +37,7 @@
+>                                          IEEE802154_FCS_LEN)
+>
+>  #define IEEE802154_PAN_ID_BROADCAST    0xffff
+> +#define IEEE802154_ADDR_LONG_BROADCAST 0xffffffffffffffffULL
+>  #define IEEE802154_ADDR_SHORT_BROADCAST        0xffff
+>  #define IEEE802154_ADDR_SHORT_UNSPEC   0xfffe
+>
+> diff --git a/include/net/cfg802154.h b/include/net/cfg802154.h
+> index 3b9d65455b9a..dd0964d351cd 100644
+> --- a/include/net/cfg802154.h
+> +++ b/include/net/cfg802154.h
+> @@ -502,6 +502,7 @@ struct wpan_dev {
+>         struct mutex association_lock;
+>         struct ieee802154_pan_device *parent;
+>         struct list_head children;
+> +       unsigned int association_generation;
+>  };
+>
+>  #define to_phy(_dev)   container_of(_dev, struct wpan_phy, dev)
+> diff --git a/include/net/ieee802154_netdev.h b/include/net/ieee802154_net=
+dev.h
+> index ca8c827d0d7f..e26ffd079556 100644
+> --- a/include/net/ieee802154_netdev.h
+> +++ b/include/net/ieee802154_netdev.h
+> @@ -149,6 +149,11 @@ struct ieee802154_assoc_req_pl {
 >  #endif
-
-> +/* A wrapper around sock ioctls, which copies the data from userspace
-> + * (depending on the protocol/ioctl), and copies back the result to user=
-space.
-> + * The main motivation for this function is to pass kernel memory to the
-> + * protocol ioctl callbacks, instead of userspace memory.
-> + */
-> +int sk_ioctl(struct sock *sk, unsigned int cmd, void __user *arg)
-> +{
-> +       int rc =3D 1;
+>  } __packed;
+>
+> +struct ieee802154_assoc_resp_pl {
+> +       __le16 short_addr;
+> +       u8 status;
+> +} __packed;
 > +
-> +       if (sk_is_ipmr(sk))
-> +               rc =3D ipmr_sk_ioctl(sk, cmd, arg);
-> +       else if (sk_is_icmpv6(sk))
-> +               rc =3D ip6mr_sk_ioctl(sk, cmd, arg);
-> +       else if (sk_is_phonet(sk))
-> +               rc =3D phonet_sk_ioctl(sk, cmd, arg);
+>  enum ieee802154_frame_version {
+>         IEEE802154_2003_STD,
+>         IEEE802154_2006_STD,
+> diff --git a/net/ieee802154/core.c b/net/ieee802154/core.c
+> index cd69bdbfd59f..8bf01bb7e858 100644
+> --- a/net/ieee802154/core.c
+> +++ b/net/ieee802154/core.c
+> @@ -198,6 +198,18 @@ void wpan_phy_free(struct wpan_phy *phy)
+>  }
+>  EXPORT_SYMBOL(wpan_phy_free);
+>
+> +static void cfg802154_free_peer_structures(struct wpan_dev *wpan_dev)
+> +{
+> +       mutex_lock(&wpan_dev->association_lock);
+> +
+> +       if (wpan_dev->parent)
+> +               kfree(wpan_dev->parent);
+> +
+> +       wpan_dev->association_generation++;
+> +
+> +       mutex_unlock(&wpan_dev->association_lock);
+> +}
+> +
+>  int cfg802154_switch_netns(struct cfg802154_registered_device *rdev,
+>                            struct net *net)
+>  {
+> @@ -293,6 +305,8 @@ static int cfg802154_netdev_notifier_call(struct noti=
+fier_block *nb,
+>                 rdev->opencount++;
+>                 break;
+>         case NETDEV_UNREGISTER:
+> +               cfg802154_free_peer_structures(wpan_dev);
+> +
 
-Does this handle all phonet ioctl cases correctly?
+I think the comment below is not relevant here, but I have also no
+idea if this is still the case.
 
-Notably pn_socket_ioctl has a SIOCPNGETOBJECT that reads and writes a u16.
+>                 /* It is possible to get NETDEV_UNREGISTER
+>                  * multiple times. To detect that, check
+>                  * that the interface is still on the list
+> diff --git a/net/mac802154/cfg.c b/net/mac802154/cfg.c
+> index 5c3cb019f751..89112d2bcee7 100644
+> --- a/net/mac802154/cfg.c
+> +++ b/net/mac802154/cfg.c
+> @@ -315,6 +315,77 @@ static int mac802154_stop_beacons(struct wpan_phy *w=
+pan_phy,
+>         return mac802154_stop_beacons_locked(local, sdata);
+>  }
+>
+> +static int mac802154_associate(struct wpan_phy *wpan_phy,
+> +                              struct wpan_dev *wpan_dev,
+> +                              struct ieee802154_addr *coord)
+> +{
+> +       struct ieee802154_local *local =3D wpan_phy_priv(wpan_phy);
+> +       u64 ceaddr =3D swab64((__force u64)coord->extended_addr);
+> +       struct ieee802154_sub_if_data *sdata;
+> +       struct ieee802154_pan_device *parent;
+> +       __le16 short_addr;
+> +       int ret;
+> +
+> +       ASSERT_RTNL();
+> +
+> +       sdata =3D IEEE802154_WPAN_DEV_TO_SUB_IF(wpan_dev);
+> +
+> +       if (wpan_dev->parent) {
+> +               dev_err(&sdata->dev->dev,
+> +                       "Device %8phC is already associated\n", &ceaddr);
+> +               return -EPERM;
+> +       }
+> +
+> +       parent =3D kzalloc(sizeof(*parent), GFP_KERNEL);
+> +       if (!parent)
+> +               return -ENOMEM;
+> +
+> +       parent->pan_id =3D coord->pan_id;
+> +       parent->mode =3D coord->mode;
+> +       if (parent->mode =3D=3D IEEE802154_SHORT_ADDRESSING) {
+> +               parent->short_addr =3D coord->short_addr;
+> +               parent->extended_addr =3D cpu_to_le64(IEEE802154_ADDR_LON=
+G_BROADCAST);
+
+There is no IEEE802154_ADDR_LONG_BROADCAST (extended address) address.
+The broadcast address is always a short address 0xffff. (Talkin about
+destination addresses).
+
+Just to clarify we can have here two different types/length of mac
+addresses being used, whereas the extended address is always present.
+We have the monitor interface set to an invalid extended address
+0x0...0 (talking about source address) which is a reserved EUI64 (what
+long/extended address is) address, 0xffff...ffff is also being
+reserved. Monitors get their address from the socket interface.
+
+If there is a parent, an extended address is always present and known.
+A short address can be set, but is not required as a node to have.
+Sure if a node has a short address, you want to use a short address
+because it saves payload.
+Also remember when an address is unique in the network, an extended
+address (LONG) is always being unique, a short address is unique in
+combination of pan id + short address.
+
+If you save some neighbors you want to store the extended and if
+present panid/shortaddress.
+
+Or I do not understand something here?
+
+btw: as you probably noticed, the netdev interface dev_addr is an
+extended address (because it's always present). Now there comes the
+ugly part, netdevs cannot deal with other dev_addrs with different
+length, that's why it's stored in the wpan specific dev structure and
+things don't get easy and solutions need to be found how to make it
+working... get prepared to get crazy...
+
+- Alex
+
