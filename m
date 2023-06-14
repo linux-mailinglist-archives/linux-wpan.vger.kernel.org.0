@@ -2,76 +2,67 @@ Return-Path: <linux-wpan-owner@vger.kernel.org>
 X-Original-To: lists+linux-wpan@lfdr.de
 Delivered-To: lists+linux-wpan@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 86C6A73065F
-	for <lists+linux-wpan@lfdr.de>; Wed, 14 Jun 2023 19:55:28 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 2D5B9732595
+	for <lists+linux-wpan@lfdr.de>; Fri, 16 Jun 2023 05:04:02 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236024AbjFNRz0 (ORCPT <rfc822;lists+linux-wpan@lfdr.de>);
-        Wed, 14 Jun 2023 13:55:26 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33748 "EHLO
+        id S232704AbjFPDD7 (ORCPT <rfc822;lists+linux-wpan@lfdr.de>);
+        Thu, 15 Jun 2023 23:03:59 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:32814 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233944AbjFNRzZ (ORCPT
-        <rfc822;linux-wpan@vger.kernel.org>); Wed, 14 Jun 2023 13:55:25 -0400
-Received: from mail-oo1-xc35.google.com (mail-oo1-xc35.google.com [IPv6:2607:f8b0:4864:20::c35])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 584AE2128
-        for <linux-wpan@vger.kernel.org>; Wed, 14 Jun 2023 10:55:23 -0700 (PDT)
-Received: by mail-oo1-xc35.google.com with SMTP id 006d021491bc7-558cf3e9963so837373eaf.1
-        for <linux-wpan@vger.kernel.org>; Wed, 14 Jun 2023 10:55:23 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1686765322; x=1689357322;
-        h=to:subject:message-id:date:from:sender:mime-version:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=YgsQjPYSA4x9EUAST26pLIMgzwk5/fmUNEDBBVE+P4A=;
-        b=VCXPNCraZYaTu7G2pWl4+xMj1l4Y4mQDL11K9iSvgOdGsNAHfuHyLjj8V4vW+9sJAI
-         SajL1EFpxLSNeAT8tjhoryQ1i59otgLUMIBl+0+3JLfNTMWsbDYdrYhpKA5/30UpKxBX
-         n2D+t/3BTp0GMr9jxVUNLq/yPERe9miXMvD/00bADfgA6Zp9zSEqSpGr19t/vJAIki9X
-         +OjVADPsqB1VbM2+YxqMIL4yWp+s/JnCACZMmTS2sqPqHEMBu8rvw4ZDkBwzUIZOR7fx
-         H8StQD2KLRvvEREMDSiuq6H53efasEwySKeAQtwg1zgWmreDb1sgoQGNuU0rUdtcCCvy
-         jpyQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1686765322; x=1689357322;
-        h=to:subject:message-id:date:from:sender:mime-version
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=YgsQjPYSA4x9EUAST26pLIMgzwk5/fmUNEDBBVE+P4A=;
-        b=PJB0AFblAcizEFQAGbxUc7UzLO8EYBFLE3bEOyz/2rwgBKwt+dzkZ2Eqy3Bvu0Id8Q
-         7aDkxp3SIZ47NXmGM3gkQeALRozvtJy6QavEzYWgTI8C7+/JScrZ4sEQAeuqwKYgVB4T
-         CnOWRP88HXL81DzYJl6a14UweUoMj7f+pFqv0Vxp8fzfueVQQutWr5Ipx1xQEOwciQKQ
-         oBgzynhhla1npgg+DXpxNQKrZXxNiDJuTvVeOathUbDEGrg2tA4p2mqeJ+zpf81rOYBs
-         r2LdU9vgyoIH9RtLX6FQNM61njp5VnYYOxwucQpFf4n4UYvf+Cfxfv8+ib/rVvfRzShj
-         oNLQ==
-X-Gm-Message-State: AC+VfDw+nv6HozAJbbkQzdVRAxYSKVUMorFXfsTJEcV2Yi1LlEOxzS3Q
-        hol8CP3XTnY0cKJWuGOOdExomyV/oPju2SPCYs4=
-X-Google-Smtp-Source: ACHHUZ6UGFPXXI784rUSMFAGSLlxpr84ES9mILD3wsvvfuIbRnHm7KT7cxnaUJ1SUuE4Jyebch3b6+kaQDNHuerCAbM=
-X-Received: by 2002:a4a:bb05:0:b0:558:b78d:8d1e with SMTP id
- f5-20020a4abb05000000b00558b78d8d1emr10506190oop.7.1686765322435; Wed, 14 Jun
- 2023 10:55:22 -0700 (PDT)
+        with ESMTP id S233287AbjFPDDy (ORCPT
+        <rfc822;linux-wpan@vger.kernel.org>); Thu, 15 Jun 2023 23:03:54 -0400
+Received: from mail.durme.pl (mail.durme.pl [217.182.69.186])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A90242D62
+        for <linux-wpan@vger.kernel.org>; Thu, 15 Jun 2023 20:03:53 -0700 (PDT)
+Received: by mail.durme.pl (Postfix, from userid 1002)
+        id 6B1745F0AD; Wed, 14 Jun 2023 07:40:55 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=durme.pl; s=mail;
+        t=1686732489; bh=hFxZwVw4rIL+JwfEOGI47p+fdoVOAeqVswP6NWoHSHQ=;
+        h=Date:From:To:Subject:From;
+        b=TH8sPPjV2VsWujiguFGtQ9UG2KkYmR8jD4sen1WaHBH/G/3fn/b+8D0gF6Dk5a2bs
+         WCUjVCGyZzofrMlptzmmfyLXonb8n4tYxq6DRltLDp3q+5FbwvebEE6bRHuThVCCPz
+         wNmPJHNMFBbMyetFGVmGpC5lMXdkEUqJNC6vcsOffp/JcIjdwg2M9qRhh0KPjK+Uq9
+         xUIm+1FKW1NHKDmCaUql9sWRQmmVuhMJq/0Y5UdhGtqGMQLWQiQbqR3uNmAiCuFvyk
+         IZsvCM12sGpIUQ6GqV8gXL8am7KVkMsMAII3HwjtjzVUKnhiNGoC2IBoKOGs5ViHJD
+         ZWYsAl0APY3Tw==
+Received: by mail.durme.pl for <linux-wpan@vger.kernel.org>; Wed, 14 Jun 2023 07:40:47 GMT
+Message-ID: <20230614064501-0.1.2h.9j9r.0.p3b4p80fbp@durme.pl>
+Date:   Wed, 14 Jun 2023 07:40:47 GMT
+From:   "Krystian Wieczorek" <krystian.wieczorek@durme.pl>
+To:     <linux-wpan@vger.kernel.org>
+Subject: W sprawie samochodu
+X-Mailer: mail.durme.pl
 MIME-Version: 1.0
-Sender: mrsthereseninna@gmail.com
-Received: by 2002:a05:6358:998a:b0:f1:be9a:c0c5 with HTTP; Wed, 14 Jun 2023
- 10:55:21 -0700 (PDT)
-From:   Dr Lisa Williams <lw4666555@gmail.com>
-Date:   Wed, 14 Jun 2023 10:55:21 -0700
-X-Google-Sender-Auth: vmAb2NVlphKo8pDPEyDrOAbbRyw
-Message-ID: <CAKVHDg9QnTTM9BZ=iEMEOq+CKt3056rmJg2mz1VtnN8BO1D1tQ@mail.gmail.com>
-Subject: Hi,
-To:     undisclosed-recipients:;
 Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: No, score=0.6 required=5.0 tests=BAYES_50,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
-        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
-        autolearn=unavailable autolearn_force=no version=3.4.6
+Content-Transfer-Encoding: quoted-printable
+X-Spam-Status: No, score=3.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_SBL_CSS,SPF_HELO_NONE,
+        SPF_PASS,T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED,URIBL_CSS_A,URIBL_DBL_SPAM
+        autolearn=no autolearn_force=no version=3.4.6
+X-Spam-Level: ***
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-wpan.vger.kernel.org>
 X-Mailing-List: linux-wpan@vger.kernel.org
 
-Hi,
+Dzie=C5=84 dobry,
 
-My name is Dr. Lisa Williams, from the United States, currently living
-in the United Kingdom.
+chcieliby=C5=9Bmy zapewni=C4=87 Pa=C5=84stwu kompleksowe rozwi=C4=85zania=
+, je=C5=9Bli chodzi o system monitoringu GPS.
 
-I hope you consider my friend request. I will share some of my photos
-and more details about me when I get your reply.
+Precyzyjne monitorowanie pojazd=C3=B3w na mapach cyfrowych, =C5=9Bledzeni=
+e ich parametr=C3=B3w eksploatacyjnych w czasie rzeczywistym oraz kontrol=
+a paliwa to kluczowe funkcjonalno=C5=9Bci naszego systemu.=20
 
-With love
-Lisa
+Organizowanie pracy pracownik=C3=B3w jest dzi=C4=99ki temu prostsze i bar=
+dziej efektywne, a oszcz=C4=99dno=C5=9Bci i optymalizacja w zakresie pono=
+szonych koszt=C3=B3w, maj=C4=85 dla ka=C5=BCdego przedsi=C4=99biorcy ogro=
+mne znaczenie.
+
+Dopasujemy nasz=C4=85 ofert=C4=99 do Pa=C5=84stwa oczekiwa=C5=84 i potrze=
+b organizacji. Czy mogliby=C5=9Bmy porozmawia=C4=87 o naszej propozycji?
+
+
+Pozdrawiam
+Krystian Wieczorek
