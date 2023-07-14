@@ -2,98 +2,67 @@ Return-Path: <linux-wpan-owner@vger.kernel.org>
 X-Original-To: lists+linux-wpan@lfdr.de
 Delivered-To: lists+linux-wpan@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 9943A7530B8
-	for <lists+linux-wpan@lfdr.de>; Fri, 14 Jul 2023 06:51:37 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 387BD753383
+	for <lists+linux-wpan@lfdr.de>; Fri, 14 Jul 2023 09:49:25 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234642AbjGNEvg (ORCPT <rfc822;lists+linux-wpan@lfdr.de>);
-        Fri, 14 Jul 2023 00:51:36 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42700 "EHLO
+        id S235458AbjGNHtX (ORCPT <rfc822;lists+linux-wpan@lfdr.de>);
+        Fri, 14 Jul 2023 03:49:23 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43752 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234290AbjGNEvf (ORCPT
-        <rfc822;linux-wpan@vger.kernel.org>); Fri, 14 Jul 2023 00:51:35 -0400
-Received: from bombadil.infradead.org (bombadil.infradead.org [IPv6:2607:7c80:54:3::133])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 67C2C2D5F;
-        Thu, 13 Jul 2023 21:51:34 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
-        MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:Sender
-        :Reply-To:Content-Type:Content-ID:Content-Description;
-        bh=qD1DXByFaVGbY/ACa45ihUzn0y1l3V5o3cGLVTAVR2A=; b=PWbv+b9d71LvMImhJaPVoUOsyn
-        EESuz1kQB92oVOXS/r3VcuSkBWvwM7d5Aa9b4RGvdMeSEujCheplsMm1FP0oZA6DWB6NobAtH5wCZ
-        bFMApdt2/hZKLk1wh6HiB20d03hrtxdhb01KASGTl5rn/wM4XWjMQ8M4DSv4hm6ov4jdX77t7I3ul
-        C+hNt2ncmv1naNPv4BWunZI0rBJ3eRjnU4QaLbNkT8C9e3mkFwV4xU2YPKFNe50U0+pc9xtVXWJhw
-        8qTJ2/QDc515CVUDx7AKzVcFqPSnfaPsiIWmz3bRJgVn+ATUqCwsSeSVmrfL/3uK+mYY+LzlMVGhC
-        l6olE4pw==;
-Received: from [2601:1c2:980:9ec0::2764] (helo=bombadil.infradead.org)
-        by bombadil.infradead.org with esmtpsa (Exim 4.96 #2 (Red Hat Linux))
-        id 1qKAm9-0050ZV-2n;
-        Fri, 14 Jul 2023 04:51:29 +0000
-From:   Randy Dunlap <rdunlap@infradead.org>
-To:     netdev@vger.kernel.org
-Cc:     Randy Dunlap <rdunlap@infradead.org>,
-        "David S. Miller" <davem@davemloft.net>,
-        Eric Dumazet <edumazet@google.com>,
-        Jakub Kicinski <kuba@kernel.org>,
-        Paolo Abeni <pabeni@redhat.com>,
-        Alexander Aring <alex.aring@gmail.com>,
-        Stefan Schmidt <stefan@datenfreihafen.org>,
-        Miquel Raynal <miquel.raynal@bootlin.com>,
-        linux-wpan@vger.kernel.org, Marcel Holtmann <marcel@holtmann.org>
-Subject: [PATCH v2 net 2/9] net: cfg802154: fix kernel-doc notation warnings
-Date:   Thu, 13 Jul 2023 21:51:20 -0700
-Message-ID: <20230714045127.18752-3-rdunlap@infradead.org>
-X-Mailer: git-send-email 2.41.0
-In-Reply-To: <20230714045127.18752-1-rdunlap@infradead.org>
-References: <20230714045127.18752-1-rdunlap@infradead.org>
+        with ESMTP id S233196AbjGNHtW (ORCPT
+        <rfc822;linux-wpan@vger.kernel.org>); Fri, 14 Jul 2023 03:49:22 -0400
+Received: from mail.durme.pl (mail.durme.pl [217.182.69.186])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A13A730E2
+        for <linux-wpan@vger.kernel.org>; Fri, 14 Jul 2023 00:49:19 -0700 (PDT)
+Received: by mail.durme.pl (Postfix, from userid 1002)
+        id 4BF5B4F814; Fri, 14 Jul 2023 07:46:11 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=durme.pl; s=mail;
+        t=1689320824; bh=hFxZwVw4rIL+JwfEOGI47p+fdoVOAeqVswP6NWoHSHQ=;
+        h=Date:From:To:Subject:From;
+        b=bznKJ3VJnl8dk9/3QdBzOZuIdJQ3J2ncjvNSVDUE56HXntNb2Ts/jKWdnsc58d0oK
+         +iGGwOI948CjNUcdyPywH3Y1y2wO51XcBMu6m9wYPh22ElVG4eXxEehM4+xWWuOkRi
+         mbTsACSa++2t6QHExZU/2La0WlurID41oUpHh1Tih9di6Y+AS8KOFaPxGpxWdwN3Io
+         XZZHytXB4UfpOoeofXVuO2cxbSI6eKut14YNtYxN9UPvlKZYwiQVSCKM4HTCjA7Mr7
+         21F48ulVBXSc8SqY10OsyK+JP+3nNnHqPcaZVEQZ1Km2nfErr8lfGp6sWEhxKexiOc
+         IJaFIlOIYnXKw==
+Received: by mail.durme.pl for <linux-wpan@vger.kernel.org>; Fri, 14 Jul 2023 07:45:34 GMT
+Message-ID: <20230714064502-0.1.33.cm57.0.6ituc4cpvc@durme.pl>
+Date:   Fri, 14 Jul 2023 07:45:34 GMT
+From:   "Krystian Wieczorek" <krystian.wieczorek@durme.pl>
+To:     <linux-wpan@vger.kernel.org>
+Subject: W sprawie samochodu
+X-Mailer: mail.durme.pl
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Spam-Status: No, score=1.3 required=5.0 tests=BAYES_00,DKIM_SIGNED,
         DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_BLOCKED,
-        SPF_HELO_NONE,SPF_NONE,T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED
-        autolearn=ham autolearn_force=no version=3.4.6
+        RCVD_IN_SBL_CSS,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE,
+        URIBL_BLOCKED,URIBL_CSS_A autolearn=no autolearn_force=no version=3.4.6
+X-Spam-Level: *
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-wpan.vger.kernel.org>
 X-Mailing-List: linux-wpan@vger.kernel.org
 
-Add an enum heading to the kernel-doc comments to prevent
-kernel-doc warnings.
+Dzie=C5=84 dobry,
 
-cfg802154.h:174: warning: Cannot understand  * @WPAN_PHY_FLAG_TRANSMIT_POWER: Indicates that transceiver will support
- on line 174 - I thought it was a doc line
+chcieliby=C5=9Bmy zapewni=C4=87 Pa=C5=84stwu kompleksowe rozwi=C4=85zania=
+, je=C5=9Bli chodzi o system monitoringu GPS.
 
-cfg802154.h:192: warning: Enum value 'WPAN_PHY_FLAG_TXPOWER' not described in enum 'wpan_phy_flags'
-cfg802154.h:192: warning: Excess enum value 'WPAN_PHY_FLAG_TRANSMIT_POWER' description in 'wpan_phy_flags'
+Precyzyjne monitorowanie pojazd=C3=B3w na mapach cyfrowych, =C5=9Bledzeni=
+e ich parametr=C3=B3w eksploatacyjnych w czasie rzeczywistym oraz kontrol=
+a paliwa to kluczowe funkcjonalno=C5=9Bci naszego systemu.=20
 
-Fixes: edea8f7c75ec ("cfg802154: introduce wpan phy flags")
-Signed-off-by: Randy Dunlap <rdunlap@infradead.org>
-Cc: "David S. Miller" <davem@davemloft.net>
-Cc: Eric Dumazet <edumazet@google.com>
-Cc: Jakub Kicinski <kuba@kernel.org>
-Cc: Paolo Abeni <pabeni@redhat.com>
-Cc: Alexander Aring <alex.aring@gmail.com>
-Cc: Stefan Schmidt <stefan@datenfreihafen.org>
-Cc: Miquel Raynal <miquel.raynal@bootlin.com>
-Cc: linux-wpan@vger.kernel.org
-Cc: Marcel Holtmann <marcel@holtmann.org>
-Acked-by: Miquel Raynal <miquel.raynal@bootlin.com>
----
-v2: add Ack by Miquel;
+Organizowanie pracy pracownik=C3=B3w jest dzi=C4=99ki temu prostsze i bar=
+dziej efektywne, a oszcz=C4=99dno=C5=9Bci i optymalizacja w zakresie pono=
+szonych koszt=C3=B3w, maj=C4=85 dla ka=C5=BCdego przedsi=C4=99biorcy ogro=
+mne znaczenie.
 
- include/net/cfg802154.h |    3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+Dopasujemy nasz=C4=85 ofert=C4=99 do Pa=C5=84stwa oczekiwa=C5=84 i potrze=
+b organizacji. Czy mogliby=C5=9Bmy porozmawia=C4=87 o naszej propozycji?
 
-diff -- a/include/net/cfg802154.h b/include/net/cfg802154.h
---- a/include/net/cfg802154.h
-+++ b/include/net/cfg802154.h
-@@ -170,7 +170,8 @@ wpan_phy_cca_cmp(const struct wpan_phy_c
- }
- 
- /**
-- * @WPAN_PHY_FLAG_TRANSMIT_POWER: Indicates that transceiver will support
-+ * enum wpan_phy_flags - WPAN PHY state flags
-+ * @WPAN_PHY_FLAG_TXPOWER: Indicates that transceiver will support
-  *	transmit power setting.
-  * @WPAN_PHY_FLAG_CCA_ED_LEVEL: Indicates that transceiver will support cca ed
-  *	level setting.
+
+Pozdrawiam
+Krystian Wieczorek
