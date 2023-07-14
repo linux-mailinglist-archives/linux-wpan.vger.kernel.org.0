@@ -2,100 +2,135 @@ Return-Path: <linux-wpan-owner@vger.kernel.org>
 X-Original-To: lists+linux-wpan@lfdr.de
 Delivered-To: lists+linux-wpan@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 91EA574E936
-	for <lists+linux-wpan@lfdr.de>; Tue, 11 Jul 2023 10:36:46 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 6434B7530B9
+	for <lists+linux-wpan@lfdr.de>; Fri, 14 Jul 2023 06:51:38 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231195AbjGKIgo (ORCPT <rfc822;lists+linux-wpan@lfdr.de>);
-        Tue, 11 Jul 2023 04:36:44 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51152 "EHLO
+        id S234654AbjGNEvh (ORCPT <rfc822;lists+linux-wpan@lfdr.de>);
+        Fri, 14 Jul 2023 00:51:37 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42706 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230006AbjGKIgm (ORCPT
-        <rfc822;linux-wpan@vger.kernel.org>); Tue, 11 Jul 2023 04:36:42 -0400
-Received: from relay7-d.mail.gandi.net (relay7-d.mail.gandi.net [217.70.183.200])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 59A6198;
-        Tue, 11 Jul 2023 01:36:39 -0700 (PDT)
-Received: by mail.gandi.net (Postfix) with ESMTPSA id 8B6A320002;
-        Tue, 11 Jul 2023 08:36:35 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
-        t=1689064597;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=TcF/dD7Z8yfzBkNvI4P1fBcyCYyfjI5P6OTKVfbQbv8=;
-        b=U8CkyYbhudE9wDZfge8cSyPHStwQgVvafl7SIb3J50Q1cboyxZRzJf3hRq+AUDnXlPZ18F
-        DF1r/N7EhCkD0mojaqSJrnBnXKgKc8hPrCf9jiSBjON9piRzd/5ARHmmE5xvAnm/+/gmQD
-        zH95es03wpjuDL9oSNuTjqT3rdd02NQTLL0kBTxHwpv9B5AxvlcBdUA3ctcQLXGk6by2bA
-        GDnjUYyH0H21dAwImqnCeSvhG6U6rjgWjCPVsgXqjbjal7stq+ZRYOAnpz1O/j12F/xEMo
-        HJbHZEl9mPGThw2J7ygBIa6JUsvcMh7+tw1bUfnf1Iowy9HB28P6IPWVDByldg==
-Date:   Tue, 11 Jul 2023 10:36:34 +0200
-From:   Miquel Raynal <miquel.raynal@bootlin.com>
-To:     Randy Dunlap <rdunlap@infradead.org>
-Cc:     netdev@vger.kernel.org, "David S. Miller" <davem@davemloft.net>,
+        with ESMTP id S234629AbjGNEvf (ORCPT
+        <rfc822;linux-wpan@vger.kernel.org>); Fri, 14 Jul 2023 00:51:35 -0400
+Received: from bombadil.infradead.org (bombadil.infradead.org [IPv6:2607:7c80:54:3::133])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A9B782D63;
+        Thu, 13 Jul 2023 21:51:34 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
+        MIME-Version:Message-ID:Date:Subject:Cc:To:From:Sender:Reply-To:Content-Type:
+        Content-ID:Content-Description:In-Reply-To:References;
+        bh=fBHNk/5teiKF0xP49UxyZpW8fISmJXjYny9DANXhPDk=; b=2COurhKX5QFYivf6i7Zr/aNn73
+        QFFQ79/cPF9S01KhV09HQkEqM5Bt35VjzWKVmNOKOT3MEeM6pkE3uEDw8ivqQBpq9erUaV3YkcIvf
+        4KKB3kjBHTP34sgqauv/08O/xu4iuu66FaTGHGzWq+YYuAeG1ih+6cqEkeUsYVeJQ23Ksa24W33I3
+        eIVIANOCr6Z4LCeia34z+kHDpbc3bsUYs8FLvJPlbpV5AWHUNH/9CxsPCBrqTMHsyr6o+iU71HABO
+        HhpCvEEbemhL+GihI88F8uZQPx0QmjmcwABlhqL2FW8SBPTYWqGXFgOvVYXoRjVyNu5+T2K6gZcvL
+        8CIe6Kgw==;
+Received: from [2601:1c2:980:9ec0::2764] (helo=bombadil.infradead.org)
+        by bombadil.infradead.org with esmtpsa (Exim 4.96 #2 (Red Hat Linux))
+        id 1qKAm8-0050ZV-2k;
+        Fri, 14 Jul 2023 04:51:28 +0000
+From:   Randy Dunlap <rdunlap@infradead.org>
+To:     netdev@vger.kernel.org
+Cc:     Randy Dunlap <rdunlap@infradead.org>,
+        "David S. Miller" <davem@davemloft.net>,
         Eric Dumazet <edumazet@google.com>,
         Jakub Kicinski <kuba@kernel.org>,
         Paolo Abeni <pabeni@redhat.com>,
+        linux-wireless@vger.kernel.org, linux-wpan@vger.kernel.org,
+        Jay Vosburgh <j.vosburgh@gmail.com>,
+        Andy Gospodarek <andy@greyhouse.net>,
+        Johannes Berg <johannes@sipsolutions.net>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
         Alexander Aring <alex.aring@gmail.com>,
         Stefan Schmidt <stefan@datenfreihafen.org>,
-        linux-wpan@vger.kernel.org, Marcel Holtmann <marcel@holtmann.org>
-Subject: Re: [PATCH net 03/12] net: cfg802154: fix kernel-doc notation
- warnings
-Message-ID: <20230711103634.450e66c7@xps-13>
-In-Reply-To: <20230710230312.31197-4-rdunlap@infradead.org>
-References: <20230710230312.31197-1-rdunlap@infradead.org>
-        <20230710230312.31197-4-rdunlap@infradead.org>
-Organization: Bootlin
-X-Mailer: Claws Mail 4.0.0 (GTK+ 3.24.33; x86_64-pc-linux-gnu)
+        Miquel Raynal <miquel.raynal@bootlin.com>,
+        Marcel Holtmann <marcel@holtmann.org>,
+        Jamal Hadi Salim <jhs@mojatatu.com>,
+        Cong Wang <xiyou.wangcong@gmail.com>,
+        Jiri Pirko <jiri@resnulli.us>,
+        Dave Taht <dave.taht@bufferbloat.net>,
+        Moshe Shemesh <moshe@mellanox.com>,
+        Jacob Keller <jacob.e.keller@intel.com>,
+        Nikolay Aleksandrov <razor@blackwall.org>,
+        Benjamin Berg <benjamin.berg@intel.com>,
+        Jiri Benc <jbenc@redhat.com>,
+        Leslie Monis <lesliemonis@gmail.com>,
+        "Mohit P. Tahiliani" <tahiliani@nitk.edu.in>,
+        Gautam Ramakrishnan <gautamramk@gmail.com>,
+        Prameela Rani Garnepudi <prameela.j04cs@gmail.com>,
+        Siva Rebbagondla <siva.rebbagondla@redpinesignals.com>,
+        Kalle Valo <kvalo@kernel.org>
+Subject: [PATCH v2 net 0/9] net: fix kernel-doc problems in include/net/
+Date:   Thu, 13 Jul 2023 21:51:18 -0700
+Message-ID: <20230714045127.18752-1-rdunlap@infradead.org>
+X-Mailer: git-send-email 2.41.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-X-GND-Sasl: miquel.raynal@bootlin.com
-X-Spam-Status: No, score=-2.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_LOW,
-        RCVD_IN_MSPIKE_H4,RCVD_IN_MSPIKE_WL,SPF_HELO_PASS,SPF_PASS,
-        T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED autolearn=ham autolearn_force=no
-        version=3.4.6
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_BLOCKED,
+        SPF_HELO_NONE,SPF_NONE,T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-wpan.vger.kernel.org>
 X-Mailing-List: linux-wpan@vger.kernel.org
 
-Hello,
+Fix many (but not all) kernel-doc warnings in include/net/.
 
-rdunlap@infradead.org wrote on Mon, 10 Jul 2023 16:03:03 -0700:
+ [PATCH v2 net 1/9] net: bonding: remove kernel-doc comment marker
+ [PATCH v2 net 2/9] net: cfg802154: fix kernel-doc notation warnings
+ [PATCH v2 net 3/9] codel: fix kernel-doc notation warnings
+ [PATCH v2 net 4/9] devlink: fix kernel-doc notation warnings
+ [PATCH v2 net 5/9] inet: frags: remove kernel-doc comment marker
+ [PATCH v2 net 6/9] net: llc: fix kernel-doc notation warnings
+ [PATCH v2 net 7/9] net: NSH: fix kernel-doc notation warning
+ [PATCH v2 net 8/9] pie: fix kernel-doc notation warning
+ [PATCH v2 net 9/9] rsi: remove kernel-doc comment marker
 
-> Add an enum heading to the kernel-doc comments to prevent
-> kernel-doc warnings.
->=20
-> cfg802154.h:174: warning: Cannot understand  * @WPAN_PHY_FLAG_TRANSMIT_PO=
-WER: Indicates that transceiver will support
->  on line 174 - I thought it was a doc line
->=20
-> cfg802154.h:192: warning: Enum value 'WPAN_PHY_FLAG_TXPOWER' not describe=
-d in enum 'wpan_phy_flags'
-> cfg802154.h:192: warning: Excess enum value 'WPAN_PHY_FLAG_TRANSMIT_POWER=
-' description in 'wpan_phy_flags'
->=20
-> Fixes: edea8f7c75ec ("cfg802154: introduce wpan phy flags")
-> Signed-off-by: Randy Dunlap <rdunlap@infradead.org>
-> Cc: "David S. Miller" <davem@davemloft.net>
-> Cc: Eric Dumazet <edumazet@google.com>
-> Cc: Jakub Kicinski <kuba@kernel.org>
-> Cc: Paolo Abeni <pabeni@redhat.com>
-> Cc: Alexander Aring <alex.aring@gmail.com>
-> Cc: Stefan Schmidt <stefan@datenfreihafen.org>
-> Cc: Miquel Raynal <miquel.raynal@bootlin.com>
-> Cc: linux-wpan@vger.kernel.org
-> Cc: Marcel Holtmann <marcel@holtmann.org>
+v2: drop the wifi/80211 patches, waiting for their reviewers or
+    maintainers;
+    include/linux/inet_frag.h: keep the kernel-doc comment;
 
-I believe the whole series is subject to be taken directly by the net
-maintainers, so:
+ include/net/bonding.h            |    2 +-
+ include/net/cfg80211.h           |    1 -
+ include/net/cfg802154.h          |    3 ++-
+ include/net/codel.h              |    4 ++--
+ include/net/devlink.h            |   28 ++++++++++++++++------------
+ include/net/ieee80211_radiotap.h |    3 ++-
+ include/net/inet_frag.h          |    2 +-
+ include/net/llc_pdu.h            |    6 ++++--
+ include/net/mac80211.h           |    1 +
+ include/net/nsh.h                |    2 +-
+ include/net/pie.h                |    2 +-
+ include/net/rsi_91x.h            |    2 +-
+ 12 files changed, 32 insertions(+), 24 deletions(-)
 
-Acked-by: Miquel Raynal <miquel.raynal@bootlin.com>
-
-Please let me know if I should instead consider this patch for the wpan
-tree.
-
-Thanks,
-Miqu=C3=A8l
+Cc: "David S. Miller" <davem@davemloft.net>
+Cc: Eric Dumazet <edumazet@google.com>
+Cc: Jakub Kicinski <kuba@kernel.org>
+Cc: Paolo Abeni <pabeni@redhat.com>
+Cc: linux-wireless@vger.kernel.org
+Cc: linux-wpan@vger.kernel.org
+Cc: Jay Vosburgh <j.vosburgh@gmail.com>
+Cc: Andy Gospodarek <andy@greyhouse.net>
+Cc: Johannes Berg <johannes@sipsolutions.net>
+Cc: Mauro Carvalho Chehab <mchehab@kernel.org>
+Cc: Alexander Aring <alex.aring@gmail.com>
+Cc: Stefan Schmidt <stefan@datenfreihafen.org>
+Cc: Miquel Raynal <miquel.raynal@bootlin.com>
+Cc: Marcel Holtmann <marcel@holtmann.org>
+Cc: Jamal Hadi Salim <jhs@mojatatu.com>
+Cc: Cong Wang <xiyou.wangcong@gmail.com>
+Cc: Jiri Pirko <jiri@resnulli.us>
+Cc: Dave Taht <dave.taht@bufferbloat.net>
+Cc: Moshe Shemesh <moshe@mellanox.com>
+Cc: Jacob Keller <jacob.e.keller@intel.com>
+Cc: Nikolay Aleksandrov <razor@blackwall.org>
+Cc: Benjamin Berg <benjamin.berg@intel.com>
+Cc: Jiri Benc <jbenc@redhat.com>
+Cc: Leslie Monis <lesliemonis@gmail.com>
+Cc: "Mohit P. Tahiliani" <tahiliani@nitk.edu.in>
+Cc: Gautam Ramakrishnan <gautamramk@gmail.com>
+Cc: Prameela Rani Garnepudi <prameela.j04cs@gmail.com>
+Cc: Siva Rebbagondla <siva.rebbagondla@redpinesignals.com>
+Cc: Kalle Valo <kvalo@kernel.org>
