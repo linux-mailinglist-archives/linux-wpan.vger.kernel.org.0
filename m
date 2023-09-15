@@ -2,33 +2,32 @@ Return-Path: <linux-wpan-owner@vger.kernel.org>
 X-Original-To: lists+linux-wpan@lfdr.de
 Delivered-To: lists+linux-wpan@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 9024679BF8A
-	for <lists+linux-wpan@lfdr.de>; Tue, 12 Sep 2023 02:19:10 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 0E0AE7A17E6
+	for <lists+linux-wpan@lfdr.de>; Fri, 15 Sep 2023 10:01:44 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235510AbjIKV0K (ORCPT <rfc822;lists+linux-wpan@lfdr.de>);
-        Mon, 11 Sep 2023 17:26:10 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35216 "EHLO
+        id S231997AbjIOIBq (ORCPT <rfc822;lists+linux-wpan@lfdr.de>);
+        Fri, 15 Sep 2023 04:01:46 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57968 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235528AbjIKIvg (ORCPT
-        <rfc822;linux-wpan@vger.kernel.org>); Mon, 11 Sep 2023 04:51:36 -0400
-X-Greylist: delayed 2167 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Mon, 11 Sep 2023 01:51:32 PDT
+        with ESMTP id S230454AbjIOIBp (ORCPT
+        <rfc822;linux-wpan@vger.kernel.org>); Fri, 15 Sep 2023 04:01:45 -0400
 Received: from mail.arnisdale.pl (mail.arnisdale.pl [151.80.133.87])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0DDBC1A1
-        for <linux-wpan@vger.kernel.org>; Mon, 11 Sep 2023 01:51:32 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 90E73AC
+        for <linux-wpan@vger.kernel.org>; Fri, 15 Sep 2023 01:01:37 -0700 (PDT)
 Received: by mail.arnisdale.pl (Postfix, from userid 1002)
-        id 82727248FD; Mon, 11 Sep 2023 08:15:20 +0000 (UTC)
+        id AA9342A7D7; Fri, 15 Sep 2023 07:57:22 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=arnisdale.pl; s=mail;
-        t=1694420122; bh=6DhEsVYOGxxfetVY3oiVeew+7Cm34ArcvgDq2WQYIRw=;
+        t=1694764698; bh=6DhEsVYOGxxfetVY3oiVeew+7Cm34ArcvgDq2WQYIRw=;
         h=Date:From:To:Subject:From;
-        b=xsIqNTu5A/bTGGxY+l6p6V2kMq+++14MnN3kwCWEbKUgXDDjbypPUmGO3oSo1ra6i
-         3m8MczfnTDZ04RAyDe7pfYpY4sULSW7fDCXxbLjM0INNG3rJidqhtMbA/yKPi4MyrX
-         RucJBAWL9K8+awj545TM0Zi0vd2jNl9C2L2a96eC7PO/KQFOFZnMKDD3O7TRvpe0d0
-         K+Pr2H98pH6I0gDmYlfwFlSRDJb/NEH228WPVAtLHstar/JNEiAXs13cUN9DesWg2Q
-         AF3hJGNFESDsJmjNnXm2YQvFEKBoCEAZXeuQoHYGX5qIAsV2vz5jInZM59nhKWMmq4
-         ARM/adTWoLYSw==
-Received: by mail.arnisdale.pl for <linux-wpan@vger.kernel.org>; Mon, 11 Sep 2023 08:15:18 GMT
-Message-ID: <20230911064501-0.1.6u.1y3gu.0.j1kg8fzygg@arnisdale.pl>
-Date:   Mon, 11 Sep 2023 08:15:18 GMT
+        b=jzLXVVFOx4qvwlSXx2rVjIurB80vBr2nNsNWhn1K9gmE7GS3fibyOuPjWxqbSS/Kx
+         wJIVu5vlZ4IGPUqbtJst9BpGbQPDfsq/0pk6Uw5LERH7RavF4HF4i4CA8idtmFQ1TB
+         z1hearB6aesgMH0CX7mutuUXHN50QkN/4QLVbq61NUwO3AHgWHGvWVEFuQ55WEJOHS
+         c1oyF/NZlaKrhmkX2D3nXJHDuUbOra08eVp31FM6T9gals97y4WlWPSAuyLGRjM/AX
+         atQJ4r2/xoTNsli8tAErDUN+nLKfJs8JdZ8hjqYEg8oMMsQaBd7CMiMp+k2xALyQyO
+         mCKs05ixCmxEA==
+Received: by mail.arnisdale.pl for <linux-wpan@vger.kernel.org>; Fri, 15 Sep 2023 07:55:32 GMT
+Message-ID: <20230915064502-0.1.6y.1y3gu.0.1yzp124ffi@arnisdale.pl>
+Date:   Fri, 15 Sep 2023 07:55:32 GMT
 From:   "Maciej Telka" <maciej.telka@arnisdale.pl>
 To:     <linux-wpan@vger.kernel.org>
 Subject: =?UTF-8?Q?Prosz=C4=99_o_kontakt?=
@@ -36,10 +35,9 @@ X-Mailer: mail.arnisdale.pl
 MIME-Version: 1.0
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-X-Spam-Status: No, score=-0.2 required=5.0 tests=BAYES_20,DKIM_SIGNED,
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
         DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_BLOCKED,
-        SPF_HELO_NONE,SPF_PASS autolearn=unavailable autolearn_force=no
-        version=3.4.6
+        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
