@@ -2,49 +2,69 @@ Return-Path: <linux-wpan-owner@vger.kernel.org>
 X-Original-To: lists+linux-wpan@lfdr.de
 Delivered-To: lists+linux-wpan@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 858137A3124
-	for <lists+linux-wpan@lfdr.de>; Sat, 16 Sep 2023 17:37:22 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 7EB9F7A3569
+	for <lists+linux-wpan@lfdr.de>; Sun, 17 Sep 2023 13:53:03 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232394AbjIPPgx (ORCPT <rfc822;lists+linux-wpan@lfdr.de>);
-        Sat, 16 Sep 2023 11:36:53 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34396 "EHLO
+        id S235312AbjIQLwe (ORCPT <rfc822;lists+linux-wpan@lfdr.de>);
+        Sun, 17 Sep 2023 07:52:34 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57652 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233110AbjIPPgu (ORCPT
-        <rfc822;linux-wpan@vger.kernel.org>); Sat, 16 Sep 2023 11:36:50 -0400
-Received: from proxima.lasnet.de (proxima.lasnet.de [78.47.171.185])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3FBCCCE3
-        for <linux-wpan@vger.kernel.org>; Sat, 16 Sep 2023 08:36:45 -0700 (PDT)
-Received: from [192.168.2.51] (p4fe718a3.dip0.t-ipconnect.de [79.231.24.163])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature RSA-PSS (4096 bits))
-        (No client certificate requested)
-        (Authenticated sender: stefan@datenfreihafen.org)
-        by proxima.lasnet.de (Postfix) with ESMTPSA id D7A8BC0E1B;
-        Sat, 16 Sep 2023 17:36:41 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=datenfreihafen.org;
-        s=2021; t=1694878602;
+        with ESMTP id S231377AbjIQLwC (ORCPT
+        <rfc822;linux-wpan@vger.kernel.org>); Sun, 17 Sep 2023 07:52:02 -0400
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 70979F7
+        for <linux-wpan@vger.kernel.org>; Sun, 17 Sep 2023 04:51:11 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1694951470;
         h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
          to:to:cc:cc:mime-version:mime-version:content-type:content-type:
          content-transfer-encoding:content-transfer-encoding:
          in-reply-to:in-reply-to:references:references;
-        bh=txoP9qso+zll7gHcm7QuU9pRu9dFt/xb8/N1YC8yrKI=;
-        b=vS0Ben+CsyVNJdv/1ApqGOE4V0+KTpj/MM76mHq5Cl54ZyTe5tLKUDGzhxJIrqSLFZLtdz
-        bdGIKoIElpO2XNzcePxMvXe8H84Y6E7CC4QDE8ESmi9XL8ZjItpel1tJH1eyxYs7O53FMU
-        fAE63/ezGaAZbMz4ckpdU+fqYWrPiziIycTtwyifPg9UcQhPF+uJEkDvtMLcDMXJAYSPJ2
-        nSnhwFj25ZIx/35DmtKH1+5DgBnZeeecY8AtDBKpX9z4LpdqoMHwbkfM7MaCs40EaKCF57
-        bFt4omrc7gB7Y8bksi4A1FCqCAXGJCXI+hQ8MVj9VGwyAuCKhEeaN4aNjFIKng==
-Message-ID: <385bff6c-1322-d2ea-16df-6e005888db0b@datenfreihafen.org>
-Date:   Sat, 16 Sep 2023 17:36:41 +0200
+        bh=KTAUl3MxkxMzRLvthhHrinXr0DGTE9HMQ6lKXfM/moc=;
+        b=gvkfN/1HOnouuQCQKmBeccrRPypENrUe9wWC9JlPJJK/NrUbd9/J7Z6IrVEf7zrwNXdrh2
+        r7Z356l2sNKvqfIG783lQYrAreBmuQb33YevzQeP91s0YkGGv05XVtod/mMqfx1rs3B6JA
+        UKyEXUFNCvdfYYEm9UCYozGUoVwX5N0=
+Received: from mail-lf1-f69.google.com (mail-lf1-f69.google.com
+ [209.85.167.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-116-tAwv6k-GOu6V2a21iWpUtQ-1; Sun, 17 Sep 2023 07:51:09 -0400
+X-MC-Unique: tAwv6k-GOu6V2a21iWpUtQ-1
+Received: by mail-lf1-f69.google.com with SMTP id 2adb3069b0e04-502aafb8ae7so4090964e87.1
+        for <linux-wpan@vger.kernel.org>; Sun, 17 Sep 2023 04:51:08 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1694951467; x=1695556267;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=KTAUl3MxkxMzRLvthhHrinXr0DGTE9HMQ6lKXfM/moc=;
+        b=oJv/btxP6XGyAjvlfX3+zzNDyjk8EkaKy3H3Qoh4nO4zhPw9nodsanxyD/uYAg/O2Z
+         3TBTSlNcd1ZvnU3w/z8mC3CnTLINYTMlXgP67H2Da+hD5R8QnyQS8qCuei8Ro0iBk9MI
+         mZg/QPa4ygNXMVsVCDq5lOuBOaNExsYl0U311wdOfUCPiVMxcknciXEHJJsWF/fHrAJ1
+         Z3wf7ZoI1vuXxB23zAhyoyTr2BD7qRqj8j9P+/uiydLe8HV4LBz9t+dmGoMOxXtLA7Hy
+         x7Hn9tspPT7ZNd/X3auK5kFuOHfRZHD/xoxfIg0Jq+UmbV5pjD1IsO+TBJh8+U9mpIsu
+         Myag==
+X-Gm-Message-State: AOJu0Yz30mQm2Wn6BgARBVC1Jh1lpZTU/ssde95WI4mKgE3MEicumoOi
+        8yIBeJPzL1abAI4ejeqTKOhCYKd69eNb6hz92B5QKgrq6LlC2YxaGqB20y1gmAUh7+zsCtrfVYO
+        N6TZ9OTATE8RHV96kMEMY/wgJ7WIeox1zuavvMA==
+X-Received: by 2002:a05:651c:1207:b0:2bf:aba1:d951 with SMTP id i7-20020a05651c120700b002bfaba1d951mr5787698lja.10.1694951467673;
+        Sun, 17 Sep 2023 04:51:07 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IFvgcuYUeeQvN/TE5OihHoj0Rk8IsxlIiUoWPObpauFRACf4R2FjwLvQlFysf8xsyCHxXvl5ifRFwbsI/vJNr4=
+X-Received: by 2002:a05:651c:1207:b0:2bf:aba1:d951 with SMTP id
+ i7-20020a05651c120700b002bfaba1d951mr5787689lja.10.1694951467323; Sun, 17 Sep
+ 2023 04:51:07 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.13.0
-From:   Stefan Schmidt <stefan@datenfreihafen.org>
-Subject: Re: [PATCH wpan-next v2 11/11] ieee802154: Give the user the
- association list
-To:     Miquel Raynal <miquel.raynal@bootlin.com>,
+References: <20230901170501.1066321-1-miquel.raynal@bootlin.com>
+ <20230901170501.1066321-3-miquel.raynal@bootlin.com> <32cfbf0f-7ac8-5a4c-d9cd-9650a64fc0ea@datenfreihafen.org>
+In-Reply-To: <32cfbf0f-7ac8-5a4c-d9cd-9650a64fc0ea@datenfreihafen.org>
+From:   Alexander Aring <aahringo@redhat.com>
+Date:   Sun, 17 Sep 2023 07:50:55 -0400
+Message-ID: <CAK-6q+h1rbG+6=M+ZZfUznHq9GxOwtA1i0c=C9dgQH1qC7sQ=A@mail.gmail.com>
+Subject: Re: [PATCH wpan-next v2 02/11] ieee802154: Internal PAN management
+To:     Stefan Schmidt <stefan@datenfreihafen.org>
+Cc:     Miquel Raynal <miquel.raynal@bootlin.com>,
         Alexander Aring <alex.aring@gmail.com>,
-        linux-wpan@vger.kernel.org
-Cc:     "David S. Miller" <davem@davemloft.net>,
+        linux-wpan@vger.kernel.org,
+        "David S. Miller" <davem@davemloft.net>,
         Jakub Kicinski <kuba@kernel.org>,
         Paolo Abeni <pabeni@redhat.com>,
         Eric Dumazet <edumazet@google.com>, netdev@vger.kernel.org,
@@ -54,133 +74,193 @@ Cc:     "David S. Miller" <davem@davemloft.net>,
         Nicolas Schodet <nico@ni.fr.eu.org>,
         Guilhem Imberton <guilhem.imberton@qorvo.com>,
         Thomas Petazzoni <thomas.petazzoni@bootlin.com>
-References: <20230901170501.1066321-1-miquel.raynal@bootlin.com>
- <20230901170501.1066321-12-miquel.raynal@bootlin.com>
-Content-Language: en-US
-In-Reply-To: <20230901170501.1066321-12-miquel.raynal@bootlin.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-3.6 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,
-        RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED
-        autolearn=ham autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,
+        RCVD_IN_DNSWL_BLOCKED,RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,
+        SPF_HELO_NONE,SPF_NONE autolearn=unavailable autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-wpan.vger.kernel.org>
 X-Mailing-List: linux-wpan@vger.kernel.org
 
-Hello Miquel.
+Hi,
 
-On 01.09.23 19:05, Miquel Raynal wrote:
-> Upon request, we must be able to provide to the user the list of
-> associations currently in place. Let's add a new netlink command and
-> attribute for this purpose.
-> 
-> Signed-off-by: Miquel Raynal <miquel.raynal@bootlin.com>
-> ---
->   include/net/nl802154.h    |  18 ++++++-
->   net/ieee802154/nl802154.c | 107 ++++++++++++++++++++++++++++++++++++++
->   2 files changed, 123 insertions(+), 2 deletions(-)
-> 
-> diff --git a/include/net/nl802154.h b/include/net/nl802154.h
-> index 8b26faae49e8..4c752f799957 100644
-> --- a/include/net/nl802154.h
-> +++ b/include/net/nl802154.h
-> @@ -81,6 +81,7 @@ enum nl802154_commands {
->   	NL802154_CMD_ASSOCIATE,
->   	NL802154_CMD_DISASSOCIATE,
->   	NL802154_CMD_SET_MAX_ASSOCIATIONS,
-> +	NL802154_CMD_LIST_ASSOCIATIONS,
->   
->   	/* add new commands above here */
->   
-> @@ -151,6 +152,7 @@ enum nl802154_attrs {
->   	NL802154_ATTR_SCAN_DONE_REASON,
->   	NL802154_ATTR_BEACON_INTERVAL,
->   	NL802154_ATTR_MAX_ASSOCIATIONS,
-> +	NL802154_ATTR_PEER,
->   
->   	/* add attributes here, update the policy in nl802154.c */
->   
-> @@ -389,8 +391,6 @@ enum nl802154_supported_bool_states {
->   	NL802154_SUPPORTED_BOOL_MAX = __NL802154_SUPPORTED_BOOL_AFTER_LAST - 1
->   };
->   
-> -#ifdef CONFIG_IEEE802154_NL802154_EXPERIMENTAL
-> -
->   enum nl802154_dev_addr_modes {
->   	NL802154_DEV_ADDR_NONE,
->   	__NL802154_DEV_ADDR_INVALID,
-> @@ -410,12 +410,26 @@ enum nl802154_dev_addr_attrs {
->   	NL802154_DEV_ADDR_ATTR_SHORT,
->   	NL802154_DEV_ADDR_ATTR_EXTENDED,
->   	NL802154_DEV_ADDR_ATTR_PAD,
-> +	NL802154_DEV_ADDR_ATTR_PEER_TYPE,
->   
->   	/* keep last */
->   	__NL802154_DEV_ADDR_ATTR_AFTER_LAST,
->   	NL802154_DEV_ADDR_ATTR_MAX = __NL802154_DEV_ADDR_ATTR_AFTER_LAST - 1
->   };
->   
-> +enum nl802154_peer_type {
-> +	NL802154_PEER_TYPE_UNSPEC,
-> +
-> +	NL802154_PEER_TYPE_PARENT,
-> +	NL802154_PEER_TYPE_CHILD,
-> +
-> +	/* keep last */
-> +	__NL802154_PEER_TYPE_AFTER_LAST,
-> +	NL802154_PEER_TYPE_MAX = __NL802154_PEER_TYPE_AFTER_LAST - 1
-> +};
-> +
-> +#ifdef CONFIG_IEEE802154_NL802154_EXPERIMENTAL
-> +
->   enum nl802154_key_id_modes {
->   	NL802154_KEY_ID_MODE_IMPLICIT,
->   	NL802154_KEY_ID_MODE_INDEX,
-> diff --git a/net/ieee802154/nl802154.c b/net/ieee802154/nl802154.c
-> index e16e57fc34d0..e26d7cec02ce 100644
-> --- a/net/ieee802154/nl802154.c
-> +++ b/net/ieee802154/nl802154.c
-> @@ -235,6 +235,7 @@ static const struct nla_policy nl802154_policy[NL802154_ATTR_MAX+1] = {
->   	[NL802154_ATTR_BEACON_INTERVAL] =
->   		NLA_POLICY_MAX(NLA_U8, IEEE802154_ACTIVE_SCAN_DURATION),
->   	[NL802154_ATTR_MAX_ASSOCIATIONS] = { .type = NLA_U32 },
-> +	[NL802154_ATTR_PEER] = { .type = NLA_NESTED },
->   
->   #ifdef CONFIG_IEEE802154_NL802154_EXPERIMENTAL
->   	[NL802154_ATTR_SEC_ENABLED] = { .type = NLA_U8, },
-> @@ -1717,6 +1718,107 @@ static int nl802154_set_max_associations(struct sk_buff *skb, struct genl_info *
->   	return 0;
->   }
->   
-> +static int nl802154_send_peer_info(struct sk_buff *msg,
-> +				   struct netlink_callback *cb,
-> +				   u32 seq, int flags,
-> +				   struct cfg802154_registered_device *rdev,
-> +				   struct wpan_dev *wpan_dev,
-> +				   struct ieee802154_pan_device *peer,
-> +				   enum nl802154_peer_type type)
-> +{
-> +	struct nlattr *nla;
-> +	void *hdr;
-> +
-> +	ASSERT_RTNL();
-> +
-> +	hdr = nl802154hdr_put(msg, NETLINK_CB(cb->skb).portid, seq, flags,
-> +			      NL802154_CMD_LIST_ASSOCIATIONS);
-> +	if (!hdr)
-> +		return -ENOBUFS;
-> +
-> +	genl_dump_check_consistent(cb, hdr);
-> +
-> +	if (nla_put_u32(msg, NL802154_ATTR_GENERATION,
-> +			wpan_dev->association_generation))
+On Sat, Sep 16, 2023 at 11:39=E2=80=AFAM Stefan Schmidt
+<stefan@datenfreihafen.org> wrote:
+>
+> Hello Miquel.
+>
+> On 01.09.23 19:04, Miquel Raynal wrote:
+> > Introduce structures to describe peer devices in a PAN as well as a few
+> > related helpers. We basically care about:
+> > - Our unique parent after associating with a coordinator.
+> > - Peer devices, children, which successfully associated with us.
+> >
+> > Signed-off-by: Miquel Raynal <miquel.raynal@bootlin.com>
+> > ---
+> >   include/net/cfg802154.h | 46 ++++++++++++++++++++++++++++
+> >   net/ieee802154/Makefile |  2 +-
+> >   net/ieee802154/core.c   |  2 ++
+> >   net/ieee802154/pan.c    | 66 ++++++++++++++++++++++++++++++++++++++++=
++
+> >   4 files changed, 115 insertions(+), 1 deletion(-)
+> >   create mode 100644 net/ieee802154/pan.c
+> >
+> > diff --git a/include/net/cfg802154.h b/include/net/cfg802154.h
+> > index f79ce133e51a..6c7193b4873c 100644
+> > --- a/include/net/cfg802154.h
+> > +++ b/include/net/cfg802154.h
+> > @@ -303,6 +303,22 @@ struct ieee802154_coord_desc {
+> >       bool gts_permit;
+> >   };
+> >
+> > +/**
+> > + * struct ieee802154_pan_device - PAN device information
+> > + * @pan_id: the PAN ID of this device
+> > + * @mode: the preferred mode to reach the device
+> > + * @short_addr: the short address of this device
+> > + * @extended_addr: the extended address of this device
+> > + * @node: the list node
+> > + */
+> > +struct ieee802154_pan_device {
+> > +     __le16 pan_id;
+> > +     u8 mode;
+> > +     __le16 short_addr;
+> > +     __le64 extended_addr;
+> > +     struct list_head node;
+> > +};
+> > +
+> >   /**
+> >    * struct cfg802154_scan_request - Scan request
+> >    *
+> > @@ -478,6 +494,11 @@ struct wpan_dev {
+> >
+> >       /* fallback for acknowledgment bit setting */
+> >       bool ackreq;
+> > +
+> > +     /* Associations */
+> > +     struct mutex association_lock;
+> > +     struct ieee802154_pan_device *parent;
+> > +     struct list_head children;
+> >   };
+> >
+> >   #define to_phy(_dev)        container_of(_dev, struct wpan_phy, dev)
+> > @@ -529,4 +550,29 @@ static inline const char *wpan_phy_name(struct wpa=
+n_phy *phy)
+> >   void ieee802154_configure_durations(struct wpan_phy *phy,
+> >                                   unsigned int page, unsigned int chann=
+el);
+> >
+> > +/**
+> > + * cfg802154_device_is_associated - Checks whether we are associated t=
+o any device
+> > + * @wpan_dev: the wpan device
+>
+> Missing return value documentation.
+>
+> > + */
+> > +bool cfg802154_device_is_associated(struct wpan_dev *wpan_dev);
+> > +
+> > +/**
+> > + * cfg802154_device_is_parent - Checks if a device is our coordinator
+> > + * @wpan_dev: the wpan device
+> > + * @target: the expected parent
+> > + * @return: true if @target is our coordinator
+> > + */
+> > +bool cfg802154_device_is_parent(struct wpan_dev *wpan_dev,
+> > +                             struct ieee802154_addr *target);
+> > +
+> > +/**
+> > + * cfg802154_device_is_child - Checks whether a device is associated t=
+o us
+> > + * @wpan_dev: the wpan device
+> > + * @target: the expected child
+> > + * @return: the PAN device
+> > + */
+> > +struct ieee802154_pan_device *
+> > +cfg802154_device_is_child(struct wpan_dev *wpan_dev,
+> > +                       struct ieee802154_addr *target);
+> > +
+> >   #endif /* __NET_CFG802154_H */
+> > diff --git a/net/ieee802154/Makefile b/net/ieee802154/Makefile
+> > index f05b7bdae2aa..7bce67673e83 100644
+> > --- a/net/ieee802154/Makefile
+> > +++ b/net/ieee802154/Makefile
+> > @@ -4,7 +4,7 @@ obj-$(CONFIG_IEEE802154_SOCKET) +=3D ieee802154_socket.=
+o
+> >   obj-y +=3D 6lowpan/
+> >
+> >   ieee802154-y :=3D netlink.o nl-mac.o nl-phy.o nl_policy.o core.o \
+> > -                header_ops.o sysfs.o nl802154.o trace.o
+> > +                header_ops.o sysfs.o nl802154.o trace.o pan.o
+> >   ieee802154_socket-y :=3D socket.o
+> >
+> >   CFLAGS_trace.o :=3D -I$(src)
+> > diff --git a/net/ieee802154/core.c b/net/ieee802154/core.c
+> > index 57546e07e06a..cd69bdbfd59f 100644
+> > --- a/net/ieee802154/core.c
+> > +++ b/net/ieee802154/core.c
+> > @@ -276,6 +276,8 @@ static int cfg802154_netdev_notifier_call(struct no=
+tifier_block *nb,
+> >               wpan_dev->identifier =3D ++rdev->wpan_dev_id;
+> >               list_add_rcu(&wpan_dev->list, &rdev->wpan_dev_list);
+> >               rdev->devlist_generation++;
+> > +             mutex_init(&wpan_dev->association_lock);
+> > +             INIT_LIST_HEAD(&wpan_dev->children);
+> >
+> >               wpan_dev->netdev =3D dev;
+> >               break;
+> > diff --git a/net/ieee802154/pan.c b/net/ieee802154/pan.c
+> > new file mode 100644
+> > index 000000000000..e2a12a42ba2b
+> > --- /dev/null
+> > +++ b/net/ieee802154/pan.c
+> > @@ -0,0 +1,66 @@
+> > +// SPDX-License-Identifier: GPL-2.0
+> > +/*
+> > + * IEEE 802.15.4 PAN management
+> > + *
+> > + * Copyright (C) 2021 Qorvo US, Inc
+> > + * Authors:
+> > + *   - David Girault <david.girault@qorvo.com>
+> > + *   - Miquel Raynal <miquel.raynal@bootlin.com>
+> > + */
+> > +
+> > +#include <linux/kernel.h>
+> > +#include <net/cfg802154.h>
+> > +#include <net/af_ieee802154.h>
+> > +
+> > +static bool cfg802154_same_addr(struct ieee802154_pan_device *a,
+> > +                             struct ieee802154_addr *b)
+> > +{
+> > +     if (!a || !b)
+> > +             return false;
+> > +
+> > +     switch (b->mode) {
+> > +     case IEEE802154_ADDR_SHORT:
+> > +             return a->short_addr =3D=3D b->short_addr;
+> > +     case IEEE802154_ADDR_LONG:
+> > +             return a->extended_addr =3D=3D b->extended_addr;
+> > +     default:
+> > +             return false;
+> > +     }
+> > +}
+>
+> Don't we already have such a helper already?
 
+There must also be a check on (a->mode !=3D b->mode) because short_addr
+and extended_addr share memory in this struct.
 
-This one still confuses me. I only ever see it increasing in the code. 
-Did I miss something?
+We have something "similar" [0] to this with also checks on panid,
+however it depends what Miquel tries to do here. I can imagine that we
+extend the helper with an enum opt about what to compare.
 
-regards
-Stefan Schmidt
+- Alex
+
+[0] https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree=
+/include/net/ieee802154_netdev.h?h=3Dv6.6-rc1#n232
+
