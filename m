@@ -2,33 +2,35 @@ Return-Path: <linux-wpan-owner@vger.kernel.org>
 X-Original-To: lists+linux-wpan@lfdr.de
 Delivered-To: lists+linux-wpan@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 16DAC7A4BBC
-	for <lists+linux-wpan@lfdr.de>; Mon, 18 Sep 2023 17:21:39 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 1CF937A4ED3
+	for <lists+linux-wpan@lfdr.de>; Mon, 18 Sep 2023 18:27:29 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236845AbjIRPVm (ORCPT <rfc822;lists+linux-wpan@lfdr.de>);
-        Mon, 18 Sep 2023 11:21:42 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47352 "EHLO
+        id S229809AbjIRQ1c (ORCPT <rfc822;lists+linux-wpan@lfdr.de>);
+        Mon, 18 Sep 2023 12:27:32 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52950 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S236284AbjIRPVl (ORCPT
-        <rfc822;linux-wpan@vger.kernel.org>); Mon, 18 Sep 2023 11:21:41 -0400
-Received: from relay8-d.mail.gandi.net (relay8-d.mail.gandi.net [217.70.183.201])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5820FCE8;
-        Mon, 18 Sep 2023 08:18:06 -0700 (PDT)
-Received: by mail.gandi.net (Postfix) with ESMTPSA id 988AD1BF210;
-        Mon, 18 Sep 2023 15:18:02 +0000 (UTC)
+        with ESMTP id S229810AbjIRQ1R (ORCPT
+        <rfc822;linux-wpan@vger.kernel.org>); Mon, 18 Sep 2023 12:27:17 -0400
+Received: from mslow1.mail.gandi.net (mslow1.mail.gandi.net [217.70.178.240])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C2AA7349E2;
+        Mon, 18 Sep 2023 09:24:17 -0700 (PDT)
+Received: from relay5-d.mail.gandi.net (unknown [IPv6:2001:4b98:dc4:8::225])
+        by mslow1.mail.gandi.net (Postfix) with ESMTP id AF10AD1910;
+        Mon, 18 Sep 2023 15:08:44 +0000 (UTC)
+Received: by mail.gandi.net (Postfix) with ESMTPSA id 037A31C0014;
+        Mon, 18 Sep 2023 15:08:42 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
-        t=1695050285;
+        t=1695049724;
         h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         to:to:cc:cc:mime-version:mime-version:
          content-transfer-encoding:content-transfer-encoding:
          in-reply-to:in-reply-to:references:references;
-        bh=qiGOD37imbNte3fXJU+s3bnG+Fbhu+81zISmYzDoyC4=;
-        b=TAULgYdyOHaL1moXRCKQSLREGH1r4T7UEW7j4kalgUzom2Tl4MAE9RTIh7Pu18ve44ZBM/
-        eQZRbBmrfiUCCJg4MpZDB33/QOZCH4H8FVOobg7cxGm0Rz7yvH5kgk+fy58abOTqgztGMn
-        akLCYeylJqT0ZqZnM5HfmQL7nclL6Hv+ZyH/4lU4m/A14QUbYxrRn2VnvnhbTtnEezaXV1
-        OSb8D8fTAmpXMxJz1T8CMkCzjEuO3qlOvHyURv5vOw76JHp+2DoVcXtjPuRTVzWfcA8c6a
-        S121Z2bzgoqRA9V7AGGYqmBiXRjYh/TarlfV3WiBc3Ow8c72HAIz93jwqDz7pg==
-Date:   Mon, 18 Sep 2023 17:18:01 +0200
+        bh=C5Vkva5HZnVM4Ixi9QUntO5y0V2AbU4F4e7tb6GhRRI=;
+        b=SxCaaljdNENIY33lLp8j/TFGhnIJlLJMl11K89xczy5wJN+ig6J9q3ETDgG01TIMvwvxsO
+        MhVzF07H2GANK2TvT2CPJg3juITXNUXGRU56r6LwocP8PrZtDDz+IcO1w9gqiEvnxJGtDa
+        CwwQwytK7RA1T6BHCqgDYBthotaJqFT5e+bhnb7i4pfXUy6CY3Yvr7uJeFDdDBIlxvALrl
+        EZgKiN4dmIwl8sdDEntfQYMzEplLBdzgBoO2WH8nUHC7TKPUnpVvR8kXcwuYP8pQzPUKLw
+        7sV4ySijdqWBrRlX4s2BmWK2j8/5hOS+8hjGWrUQ0MTCOwq0ReOV+lRThtTsJA==
 From:   Miquel Raynal <miquel.raynal@bootlin.com>
 To:     Alexander Aring <alex.aring@gmail.com>,
         Stefan Schmidt <stefan@datenfreihafen.org>,
@@ -42,142 +44,133 @@ Cc:     "David S. Miller" <davem@davemloft.net>,
         Frederic Blain <frederic.blain@qorvo.com>,
         Nicolas Schodet <nico@ni.fr.eu.org>,
         Guilhem Imberton <guilhem.imberton@qorvo.com>,
-        Thomas Petazzoni <thomas.petazzoni@bootlin.com>
-Subject: Re: [PATCH wpan-next v3 00/11] ieee802154: Associations between
- devices
-Message-ID: <20230918171801.42af9b5a@xps-13>
+        Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
+        Miquel Raynal <miquel.raynal@bootlin.com>
+Subject: [PATCH wpan-next v3 09/11] mac802154: Follow the number of associated devices
+Date:   Mon, 18 Sep 2023 17:08:07 +0200
+Message-Id: <20230918150809.275058-10-miquel.raynal@bootlin.com>
+X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20230918150809.275058-1-miquel.raynal@bootlin.com>
 References: <20230918150809.275058-1-miquel.raynal@bootlin.com>
-Organization: Bootlin
-X-Mailer: Claws Mail 4.0.0 (GTK+ 3.24.33; x86_64-pc-linux-gnu)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 X-GND-Sasl: miquel.raynal@bootlin.com
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_BLOCKED,
-        RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_PASS,SPF_PASS
-        autolearn=ham autolearn_force=no version=3.4.6
+X-Spam-Status: No, score=-2.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_LOW,SPF_HELO_PASS,
+        SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-wpan.vger.kernel.org>
 X-Mailing-List: linux-wpan@vger.kernel.org
 
+Track the count of associated devices. Limit the number of associations
+using the value provided by the user if any. If we reach the maximum
+number of associations, we tell the device we are at capacity. If the
+user do not want to accept any more associations, it may specify the
+value 0 to the maximum number of associations, which will lead to an
+access denied error status returned to the peers trying to associate.
 
-miquel.raynal@bootlin.com wrote on Mon, 18 Sep 2023 17:07:58 +0200:
+Signed-off-by: Miquel Raynal <miquel.raynal@bootlin.com>
+---
+ include/net/cfg802154.h |  1 +
+ net/ieee802154/core.c   |  2 ++
+ net/mac802154/cfg.c     |  1 +
+ net/mac802154/scan.c    | 33 +++++++++++++++++++++++----------
+ 4 files changed, 27 insertions(+), 10 deletions(-)
 
-> Hello,
->=20
-> [I know we are in the middle of the merge window, I don't think it
-> matters on the wpan side, so as the wpan subsystem did not evolve
-> much since the previous merge window I figured I would not delay the
-> sending of this series given the fact that I should have send it at the
-> beginning of the summer...]
-
-Of course this is outdated, but the following still stands :)
-
-Cheers,
-Miqu=C3=A8l
-
-> Now that we can discover our peer coordinators or make ourselves
-> dynamically discoverable, we may use the information about surrounding
-> devices to create PANs dynamically. This involves of course:
-> * Requesting an association to a coordinator, waiting for the response
-> * Sending a disassociation notification to a coordinator
-> * Receiving an association request when we are coordinator, answering
->   the request (for now all devices are accepted up to a limit, to be
->   refined)
-> * Sending a disassociation notification to a child
-> * Users may request the list of associated devices (the parent and the
->   children).
->=20
-> Here are a few example of userspace calls that can be made:
-> iwpan dev <dev> associate pan_id 2 coord $COORD
-> iwpan dev <dev> list_associations
-> iwpan dev <dev> disassociate ext_addr $COORD
->=20
-> I used a small using hwsim to scan for a coordinator, associate with
-> it, look at the associations on both sides, disassociate from it and
-> check the associations again:
-> ./assoc-demo
-> *** Scan ***
-> PAN 0x0002 (on wpan1)
-> 	coordinator 0x060f3b35169a498f
-> 	page 0
-> 	channel 13
-> 	preamble code 0
-> 	mean prf 0
-> 	superframe spec. 0xcf11
-> 	LQI ff
-> *** End of scan ***
-> Associating wpan1 with coord0 0x060f3b35169a498f...
-> Dumping coord0 assoc:
-> child : 0x0b6f / 0xba7633ae47ccfb21
-> Dumping wpan1 assoc:
-> parent: 0xffff / 0x060f3b35169a498f
-> Disassociating from wpan1
-> Dumping coord0 assoc:
-> Dumping wpan1 assoc:
->=20
-> I could also successfully interact with a smaller device running Zephir,
-> using its command line interface to associate and then disassociate from
-> the Linux coordinator.
->=20
-> Thanks!
-> Miqu=C3=A8l
->=20
-> Changes in v3:
-> * Clarify a helper which compares if two devices seem to be identical by
->   adding two comments. This is a static function that is only used by
->   the PAN management core to operate or not an
->   association/disassociation request. In this helper, a new check is
->   introduced to be sure we compare fields which have been populated.
-> * Dropped the "association_generation" counter and all its uses along
->   the code. I tried to mimic some other counter but I agree it is not
->   super useful and could be dropped anyway.
-> * Dropped a faulty sequence number hardcoded to 10. This had no impact
->   because a few lines later the same entry was set to a valid value.
->=20
-> Changes in v2:
-> * Drop the misleading IEEE802154_ADDR_LONG_BROADCAST definition and its
->   only use which was useless anyway.
-> * Clarified how devices are defined when the user requests to associate
->   with a coordinator: for now only the extended address of the
->   coordinator is relevant so this is the only address we care about.
-> * Drop a useless NULL check before a kfree() call.
-> * Add a check when allocating a child short address: it must be
->   different than ours.
-> * Rebased on top of v6.5.
->=20
-> Miquel Raynal (11):
->   ieee802154: Let PAN IDs be reset
->   ieee802154: Internal PAN management
->   ieee802154: Add support for user association requests
->   mac802154: Handle associating
->   ieee802154: Add support for user disassociation requests
->   mac802154: Handle disassociations
->   mac802154: Handle association requests from peers
->   ieee802154: Add support for limiting the number of associated devices
->   mac802154: Follow the number of associated devices
->   mac802154: Handle disassociation notifications from peers
->   ieee802154: Give the user the association list
->=20
->  include/net/cfg802154.h         |  69 ++++++
->  include/net/ieee802154_netdev.h |  60 +++++
->  include/net/nl802154.h          |  22 +-
->  net/ieee802154/Makefile         |   2 +-
->  net/ieee802154/core.c           |  24 ++
->  net/ieee802154/nl802154.c       | 223 +++++++++++++++++-
->  net/ieee802154/pan.c            | 115 +++++++++
->  net/ieee802154/rdev-ops.h       |  30 +++
->  net/ieee802154/trace.h          |  38 +++
->  net/mac802154/cfg.c             | 170 ++++++++++++++
->  net/mac802154/ieee802154_i.h    |  27 +++
->  net/mac802154/main.c            |   2 +
->  net/mac802154/rx.c              |  25 ++
->  net/mac802154/scan.c            | 397 ++++++++++++++++++++++++++++++++
->  14 files changed, 1191 insertions(+), 13 deletions(-)
->  create mode 100644 net/ieee802154/pan.c
->=20
+diff --git a/include/net/cfg802154.h b/include/net/cfg802154.h
+index bb09ccaf56c2..fe5310cb8d60 100644
+--- a/include/net/cfg802154.h
++++ b/include/net/cfg802154.h
+@@ -507,6 +507,7 @@ struct wpan_dev {
+ 	struct ieee802154_pan_device *parent;
+ 	struct list_head children;
+ 	unsigned int max_associations;
++	unsigned int nchildren;
+ };
+ 
+ #define to_phy(_dev)	container_of(_dev, struct wpan_phy, dev)
+diff --git a/net/ieee802154/core.c b/net/ieee802154/core.c
+index 2d6fe45efa05..60e8fff1347e 100644
+--- a/net/ieee802154/core.c
++++ b/net/ieee802154/core.c
+@@ -212,6 +212,8 @@ static void cfg802154_free_peer_structures(struct wpan_dev *wpan_dev)
+ 		kfree(child);
+ 	}
+ 
++	wpan_dev->nchildren = 0;
++
+ 	mutex_unlock(&wpan_dev->association_lock);
+ }
+ 
+diff --git a/net/mac802154/cfg.c b/net/mac802154/cfg.c
+index 0d0aed788f57..4a85fa674f66 100644
+--- a/net/mac802154/cfg.c
++++ b/net/mac802154/cfg.c
+@@ -454,6 +454,7 @@ static int mac802154_disassociate_child(struct wpan_phy *wpan_phy,
+ 		return ret;
+ 
+ 	list_del(&child->node);
++	wpan_dev->nchildren--;
+ 	kfree(child);
+ 
+ 	return 0;
+diff --git a/net/mac802154/scan.c b/net/mac802154/scan.c
+index 76f04550aabb..9ba45984e9de 100644
+--- a/net/mac802154/scan.c
++++ b/net/mac802154/scan.c
+@@ -800,20 +800,32 @@ int mac802154_process_association_req(struct ieee802154_sub_if_data *sdata,
+ 	child->mode = IEEE802154_EXTENDED_ADDRESSING;
+ 	ceaddr = swab64((__force u64)child->extended_addr);
+ 
+-	assoc_resp_pl.status = IEEE802154_ASSOCIATION_SUCCESSFUL;
+-	if (assoc_req_pl.alloc_addr) {
+-		assoc_resp_pl.short_addr = cfg802154_get_free_short_addr(wpan_dev);
+-		child->mode = IEEE802154_SHORT_ADDRESSING;
++	if (wpan_dev->nchildren >= wpan_dev->max_associations) {
++		if (!wpan_dev->max_associations)
++			assoc_resp_pl.status = IEEE802154_PAN_ACCESS_DENIED;
++		else
++			assoc_resp_pl.status = IEEE802154_PAN_AT_CAPACITY;
++		assoc_resp_pl.short_addr = cpu_to_le16(IEEE802154_ADDR_SHORT_BROADCAST);
++		dev_dbg(&sdata->dev->dev,
++			"Refusing ASSOC REQ from child %8phC, %s\n", &ceaddr,
++			assoc_resp_pl.status == IEEE802154_PAN_ACCESS_DENIED ?
++			"access denied" : "too many children");
+ 	} else {
+-		assoc_resp_pl.short_addr = cpu_to_le16(IEEE802154_ADDR_SHORT_UNSPEC);
++		assoc_resp_pl.status = IEEE802154_ASSOCIATION_SUCCESSFUL;
++		if (assoc_req_pl.alloc_addr) {
++			assoc_resp_pl.short_addr = cfg802154_get_free_short_addr(wpan_dev);
++			child->mode = IEEE802154_SHORT_ADDRESSING;
++		} else {
++			assoc_resp_pl.short_addr = cpu_to_le16(IEEE802154_ADDR_SHORT_UNSPEC);
++		}
++		child->short_addr = assoc_resp_pl.short_addr;
++		dev_dbg(&sdata->dev->dev,
++			"Accepting ASSOC REQ from child %8phC, providing short address 0x%04x\n",
++			&ceaddr, le16_to_cpu(child->short_addr));
+ 	}
+-	child->short_addr = assoc_resp_pl.short_addr;
+-	dev_dbg(&sdata->dev->dev,
+-		"Accepting ASSOC REQ from child %8phC, providing short address 0x%04x\n",
+-		&ceaddr, le16_to_cpu(child->short_addr));
+ 
+ 	ret = mac802154_send_association_resp_locked(sdata, child, &assoc_resp_pl);
+-	if (ret) {
++	if (ret || assoc_resp_pl.status != IEEE802154_ASSOCIATION_SUCCESSFUL) {
+ 		kfree(child);
+ 		goto unlock;
+ 	}
+@@ -837,6 +849,7 @@ int mac802154_process_association_req(struct ieee802154_sub_if_data *sdata,
+ 	}
+ 
+ 	list_add(&child->node, &wpan_dev->children);
++	wpan_dev->nchildren++;
+ 
+ unlock:
+ 	mutex_unlock(&wpan_dev->association_lock);
+-- 
+2.34.1
 
