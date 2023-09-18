@@ -2,47 +2,71 @@ Return-Path: <linux-wpan-owner@vger.kernel.org>
 X-Original-To: lists+linux-wpan@lfdr.de
 Delivered-To: lists+linux-wpan@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 2B3C77A4E18
-	for <lists+linux-wpan@lfdr.de>; Mon, 18 Sep 2023 18:06:44 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 9F0B57A5603
+	for <lists+linux-wpan@lfdr.de>; Tue, 19 Sep 2023 01:02:19 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229925AbjIRQGr (ORCPT <rfc822;lists+linux-wpan@lfdr.de>);
-        Mon, 18 Sep 2023 12:06:47 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46456 "EHLO
+        id S230099AbjIRXCX (ORCPT <rfc822;lists+linux-wpan@lfdr.de>);
+        Mon, 18 Sep 2023 19:02:23 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51886 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230001AbjIRQGh (ORCPT
-        <rfc822;linux-wpan@vger.kernel.org>); Mon, 18 Sep 2023 12:06:37 -0400
-Received: from proxima.lasnet.de (proxima.lasnet.de [78.47.171.185])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5701059FB;
-        Mon, 18 Sep 2023 09:05:17 -0700 (PDT)
-Received: from [IPV6:2003:e9:d74f:c0a3:b8f6:e95d:8f78:dac0] (p200300e9d74fc0a3b8f6e95d8f78dac0.dip0.t-ipconnect.de [IPv6:2003:e9:d74f:c0a3:b8f6:e95d:8f78:dac0])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature RSA-PSS (4096 bits))
-        (No client certificate requested)
-        (Authenticated sender: stefan@datenfreihafen.org)
-        by proxima.lasnet.de (Postfix) with ESMTPSA id BF87CC022B;
-        Mon, 18 Sep 2023 17:41:57 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=datenfreihafen.org;
-        s=2021; t=1695051718;
+        with ESMTP id S229907AbjIRXCW (ORCPT
+        <rfc822;linux-wpan@vger.kernel.org>); Mon, 18 Sep 2023 19:02:22 -0400
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3A8EA8F
+        for <linux-wpan@vger.kernel.org>; Mon, 18 Sep 2023 16:01:30 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1695078089;
         h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
          to:to:cc:cc:mime-version:mime-version:content-type:content-type:
          content-transfer-encoding:content-transfer-encoding:
          in-reply-to:in-reply-to:references:references;
-        bh=eMxJwvme9DMZpEInft8cU0mZbNbC2TjVjNfFSKKYXKg=;
-        b=wICNrpohZ9JLbkd9dM4hdtBSwjVku71juEU+C8O/9SSXPBS33jSKbB1x2osfKVWYnp584W
-        2UPDlwOb45TnqDR2bobpbEIqk2W7hQ9GiaJW6ZYzq/AyV0ciP3OG1PSOr/UuxRfgyZa979
-        2IvwthwTKnIOpXvys2NfCz0RdotUwKA/vN/bRJfb8uSKDoluJDxnzhpWuMOLTeav+9a4xM
-        V9XDnMZVIQJVGup69/DhiIMAN8jCXax2s+SxLszc8hduoeBlzE2ZOa8011yLsMFRtr2CDc
-        HVJC03L3DUQF21pQ7+40A8mmDNTMarwR/FouKiDPK0XzVZcJdj+1wf5UxNktaQ==
-Message-ID: <f4ac1b85-be98-e068-4d64-f180a52e0ac7@datenfreihafen.org>
-Date:   Mon, 18 Sep 2023 17:41:57 +0200
+        bh=84tq1/HWKdqyn9xUbNRRu/FsaxXpGe6unkYsbFc8YX4=;
+        b=BCRuWQc8BQFnPVDMQ394FXqfMD5KYrV4rMEjwmBaEQur0efqn4at7oPBA9V0rO1Zb/9M1Q
+        KWDbZZ93c10ScbBZe8t+6cfsXK+E0jcJ01CRD2/B08eMVSFrsC/nnHDKrBnWNPgH3ZGYad
+        30xnAH/EgATzXhDKES1EO9fIZEAIyU0=
+Received: from mail-ej1-f72.google.com (mail-ej1-f72.google.com
+ [209.85.218.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-428-f3ivlwZcP1u75b0-9IPt1Q-1; Mon, 18 Sep 2023 19:01:26 -0400
+X-MC-Unique: f3ivlwZcP1u75b0-9IPt1Q-1
+Received: by mail-ej1-f72.google.com with SMTP id a640c23a62f3a-9adc78b386cso255900866b.0
+        for <linux-wpan@vger.kernel.org>; Mon, 18 Sep 2023 16:01:26 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1695078086; x=1695682886;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=84tq1/HWKdqyn9xUbNRRu/FsaxXpGe6unkYsbFc8YX4=;
+        b=r0lECTFng/2lUp6/fS74amKC34HN/zB/IKULr2ipUIkUISQ+Aec726FmkyD/5ivbjQ
+         /rykjQpiDZp2iN9Y/MqotNJQYYS+Q0Hp37f3XIsSIcute1q1/PMWiq4/zRnwstjyPuZq
+         rLPeJ+4Y+ccXF+jOlhId114alxxUVg37mNnOaeVp4XZV31R/BhN9bwW9M4jKy2U/5GAA
+         hrfU0WvZCYe45MrepoRqRigEhVfCPsDHy68I1rOkNNtm1bWfub+YOoBpAg9BIrlXpuAs
+         9e1XC+JhumnExrqwQWx/RWWD5e+dbEK1Uzyd3CYilLLsT/A7ZIILsvdieDSMHe5eIZAR
+         ZSkw==
+X-Gm-Message-State: AOJu0YyUt3rclVPpphQLCnMqOagrLMG6iuUO41PYmzirJGmDSLR1VAyP
+        zMoGC05xCGONHfXojFdalaxcs7wiiOcaO7iMqNocNYnteMHtZv7S3UybJJ+HzRhDJSeTao52c7N
+        aYpnZuAi5fxusXLsvKYz1z5sxh3AwwWreMeAqOA==
+X-Received: by 2002:a17:906:23f1:b0:9ad:e18a:734 with SMTP id j17-20020a17090623f100b009ade18a0734mr7659082ejg.26.1695078085932;
+        Mon, 18 Sep 2023 16:01:25 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IHZb740y3CJWM79Ipv7jWnaLd2HvL5Ms/v2bRprk8HjmElljLYl0tycSr2t52+5ywuSL2GObd4afK6ypcux+7E=
+X-Received: by 2002:a17:906:23f1:b0:9ad:e18a:734 with SMTP id
+ j17-20020a17090623f100b009ade18a0734mr7659068ejg.26.1695078085662; Mon, 18
+ Sep 2023 16:01:25 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.13.0
-Subject: Re: [PATCH wpan-next v2 11/11] ieee802154: Give the user the
- association list
-Content-Language: en-US
+References: <20230901170501.1066321-1-miquel.raynal@bootlin.com>
+ <20230901170501.1066321-3-miquel.raynal@bootlin.com> <32cfbf0f-7ac8-5a4c-d9cd-9650a64fc0ea@datenfreihafen.org>
+ <CAK-6q+h1rbG+6=M+ZZfUznHq9GxOwtA1i0c=C9dgQH1qC7sQ=A@mail.gmail.com>
+ <20230918110102.19a43db1@xps-13> <CAK-6q+gcqr=Sgswgzd1pzMQoPEV1jG=_0m51+HsKU_=1b7NYUg@mail.gmail.com>
+ <20230918161502.69818794@xps-13>
+In-Reply-To: <20230918161502.69818794@xps-13>
+From:   Alexander Aring <aahringo@redhat.com>
+Date:   Mon, 18 Sep 2023 19:01:14 -0400
+Message-ID: <CAK-6q+g5d=LNfqTLpFTTPcscjHqoGGyUOtb+M9unTbE-Jpwxbg@mail.gmail.com>
+Subject: Re: [PATCH wpan-next v2 02/11] ieee802154: Internal PAN management
 To:     Miquel Raynal <miquel.raynal@bootlin.com>
-Cc:     Alexander Aring <alex.aring@gmail.com>, linux-wpan@vger.kernel.org,
+Cc:     Stefan Schmidt <stefan@datenfreihafen.org>,
+        Alexander Aring <alex.aring@gmail.com>,
+        linux-wpan@vger.kernel.org,
         "David S. Miller" <davem@davemloft.net>,
         Jakub Kicinski <kuba@kernel.org>,
         Paolo Abeni <pabeni@redhat.com>,
@@ -53,140 +77,100 @@ Cc:     Alexander Aring <alex.aring@gmail.com>, linux-wpan@vger.kernel.org,
         Nicolas Schodet <nico@ni.fr.eu.org>,
         Guilhem Imberton <guilhem.imberton@qorvo.com>,
         Thomas Petazzoni <thomas.petazzoni@bootlin.com>
-References: <20230901170501.1066321-1-miquel.raynal@bootlin.com>
- <20230901170501.1066321-12-miquel.raynal@bootlin.com>
- <385bff6c-1322-d2ea-16df-6e005888db0b@datenfreihafen.org>
- <20230918090808.37d53674@xps-13>
-From:   Stefan Schmidt <stefan@datenfreihafen.org>
-In-Reply-To: <20230918090808.37d53674@xps-13>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
+        RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,SPF_NONE
+        autolearn=ham autolearn_force=no version=3.4.6
+X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
+        lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-wpan.vger.kernel.org>
 X-Mailing-List: linux-wpan@vger.kernel.org
 
-Hello Miquel.
+Hi,
 
-On 18.09.23 09:08, Miquel Raynal wrote:
-> Hi Stefan,
-> 
-> stefan@datenfreihafen.org wrote on Sat, 16 Sep 2023 17:36:41 +0200:
-> 
->> Hello Miquel.
->>
->> On 01.09.23 19:05, Miquel Raynal wrote:
->>> Upon request, we must be able to provide to the user the list of
->>> associations currently in place. Let's add a new netlink command and
->>> attribute for this purpose.
->>>
->>> Signed-off-by: Miquel Raynal <miquel.raynal@bootlin.com>
->>> ---
->>>    include/net/nl802154.h    |  18 ++++++-
->>>    net/ieee802154/nl802154.c | 107 ++++++++++++++++++++++++++++++++++++++
->>>    2 files changed, 123 insertions(+), 2 deletions(-)
->>>
->>> diff --git a/include/net/nl802154.h b/include/net/nl802154.h
->>> index 8b26faae49e8..4c752f799957 100644
->>> --- a/include/net/nl802154.h
->>> +++ b/include/net/nl802154.h
->>> @@ -81,6 +81,7 @@ enum nl802154_commands {
->>>    	NL802154_CMD_ASSOCIATE,
->>>    	NL802154_CMD_DISASSOCIATE,
->>>    	NL802154_CMD_SET_MAX_ASSOCIATIONS,
->>> +	NL802154_CMD_LIST_ASSOCIATIONS,
->>>    >   	/* add new commands above here */
->>>    > @@ -151,6 +152,7 @@ enum nl802154_attrs {
->>>    	NL802154_ATTR_SCAN_DONE_REASON,
->>>    	NL802154_ATTR_BEACON_INTERVAL,
->>>    	NL802154_ATTR_MAX_ASSOCIATIONS,
->>> +	NL802154_ATTR_PEER,
->>>    >   	/* add attributes here, update the policy in nl802154.c */
->>>    > @@ -389,8 +391,6 @@ enum nl802154_supported_bool_states {
->>>    	NL802154_SUPPORTED_BOOL_MAX = __NL802154_SUPPORTED_BOOL_AFTER_LAST - 1
->>>    };
->>>    > -#ifdef CONFIG_IEEE802154_NL802154_EXPERIMENTAL
->>> -
->>>    enum nl802154_dev_addr_modes {
->>>    	NL802154_DEV_ADDR_NONE,
->>>    	__NL802154_DEV_ADDR_INVALID,
->>> @@ -410,12 +410,26 @@ enum nl802154_dev_addr_attrs {
->>>    	NL802154_DEV_ADDR_ATTR_SHORT,
->>>    	NL802154_DEV_ADDR_ATTR_EXTENDED,
->>>    	NL802154_DEV_ADDR_ATTR_PAD,
->>> +	NL802154_DEV_ADDR_ATTR_PEER_TYPE,
->>>    >   	/* keep last */
->>>    	__NL802154_DEV_ADDR_ATTR_AFTER_LAST,
->>>    	NL802154_DEV_ADDR_ATTR_MAX = __NL802154_DEV_ADDR_ATTR_AFTER_LAST - 1
->>>    };
->>>    > +enum nl802154_peer_type {
->>> +	NL802154_PEER_TYPE_UNSPEC,
->>> +
->>> +	NL802154_PEER_TYPE_PARENT,
->>> +	NL802154_PEER_TYPE_CHILD,
->>> +
->>> +	/* keep last */
->>> +	__NL802154_PEER_TYPE_AFTER_LAST,
->>> +	NL802154_PEER_TYPE_MAX = __NL802154_PEER_TYPE_AFTER_LAST - 1
->>> +};
->>> +
->>> +#ifdef CONFIG_IEEE802154_NL802154_EXPERIMENTAL
->>> +
->>>    enum nl802154_key_id_modes {
->>>    	NL802154_KEY_ID_MODE_IMPLICIT,
->>>    	NL802154_KEY_ID_MODE_INDEX,
->>> diff --git a/net/ieee802154/nl802154.c b/net/ieee802154/nl802154.c
->>> index e16e57fc34d0..e26d7cec02ce 100644
->>> --- a/net/ieee802154/nl802154.c
->>> +++ b/net/ieee802154/nl802154.c
->>> @@ -235,6 +235,7 @@ static const struct nla_policy nl802154_policy[NL802154_ATTR_MAX+1] = {
->>>    	[NL802154_ATTR_BEACON_INTERVAL] =
->>>    		NLA_POLICY_MAX(NLA_U8, IEEE802154_ACTIVE_SCAN_DURATION),
->>>    	[NL802154_ATTR_MAX_ASSOCIATIONS] = { .type = NLA_U32 },
->>> +	[NL802154_ATTR_PEER] = { .type = NLA_NESTED },
->>>    >   #ifdef CONFIG_IEEE802154_NL802154_EXPERIMENTAL
->>>    	[NL802154_ATTR_SEC_ENABLED] = { .type = NLA_U8, },
->>> @@ -1717,6 +1718,107 @@ static int nl802154_set_max_associations(struct sk_buff *skb, struct genl_info *
->>>    	return 0;
->>>    }
->>>    > +static int nl802154_send_peer_info(struct sk_buff *msg,
->>> +				   struct netlink_callback *cb,
->>> +				   u32 seq, int flags,
->>> +				   struct cfg802154_registered_device *rdev,
->>> +				   struct wpan_dev *wpan_dev,
->>> +				   struct ieee802154_pan_device *peer,
->>> +				   enum nl802154_peer_type type)
->>> +{
->>> +	struct nlattr *nla;
->>> +	void *hdr;
->>> +
->>> +	ASSERT_RTNL();
->>> +
->>> +	hdr = nl802154hdr_put(msg, NETLINK_CB(cb->skb).portid, seq, flags,
->>> +			      NL802154_CMD_LIST_ASSOCIATIONS);
->>> +	if (!hdr)
->>> +		return -ENOBUFS;
->>> +
->>> +	genl_dump_check_consistent(cb, hdr);
->>> +
->>> +	if (nla_put_u32(msg, NL802154_ATTR_GENERATION,
->>> +			wpan_dev->association_generation))
->>
->>
->> This one still confuses me. I only ever see it increasing in the code. Did I miss something?
-> 
-> I think I took inspiration from nl802154_send_wpan_phy() and
-> and nl802154_send_iface() which both use an increasing counter to tell
-> userspace the "version" of the data that is being sent. If the
-> "version" numbers are identical, the user (I guess) can assume nothing
-> changed and save itself from parsing the whole payload or something
-> like that.
-> 
-> TBH I just tried here to mimic the existing behavior inside
-> nl802154_send_peer_info(), but I will drop that counter with no regrets.
+On Mon, Sep 18, 2023 at 10:15=E2=80=AFAM Miquel Raynal
+<miquel.raynal@bootlin.com> wrote:
+>
+> Hi Alexander,
+>
+>
+> > > > > > +// SPDX-License-Identifier: GPL-2.0
+> > > > > > +/*
+> > > > > > + * IEEE 802.15.4 PAN management
+> > > > > > + *
+> > > > > > + * Copyright (C) 2021 Qorvo US, Inc
+> > > > > > + * Authors:
+> > > > > > + *   - David Girault <david.girault@qorvo.com>
+> > > > > > + *   - Miquel Raynal <miquel.raynal@bootlin.com>
+> > > > > > + */
+> > > > > > +
+> > > > > > +#include <linux/kernel.h>
+> > > > > > +#include <net/cfg802154.h>
+> > > > > > +#include <net/af_ieee802154.h>
+> > > > > > +
+> > > > > > +static bool cfg802154_same_addr(struct ieee802154_pan_device *=
+a,
+> > > > > > +                             struct ieee802154_addr *b)
+> > > > > > +{
+> > > > > > +     if (!a || !b)
+> > > > > > +             return false;
+> > > > > > +
+> > > > > > +     switch (b->mode) {
+> > > > > > +     case IEEE802154_ADDR_SHORT:
+> > > > > > +             return a->short_addr =3D=3D b->short_addr;
+> > > > > > +     case IEEE802154_ADDR_LONG:
+> > > > > > +             return a->extended_addr =3D=3D b->extended_addr;
+> > > > > > +     default:
+> > > > > > +             return false;
+> > > > > > +     }
+> > > > > > +}
+> > > > >
+> > > > > Don't we already have such a helper already?
+> > > >
+> > > > There must also be a check on (a->mode !=3D b->mode) because short_=
+addr
+> > > > and extended_addr share memory in this struct.
+> > >
+> > > True.
+> > >
+> > > Actually the ieee802154_addr structure uses an enum to store either
+> > > the short address or the extended addres, while at the MAC level I'd
+> > > like to compare with what I call a ieee802154_pan_device: the PAN
+> > > device is part of a list defining the associated neighbors and contai=
+ns
+> > > both an extended address and a short address once associated.
+> > >
+> > > I do not want to compare the PAN ID here and I do not need to compare
+> > > if the modes are different because the device the code is running on
+> > > is known to have both an extended address and a short address field
+> > > which have been initialized.
+> > >
+> >
+> > I see, so it is guaranteed that the mode value is the same?
+>
+> I looked more carefully at the code of the association section,
+> we will always know the extended address of the devices which are
+> associated to us, however there may be situations where the second
+> device to compare with this list only comes with a short address and pan
+> ID, so your initial comment needs to be addressed.
+>
+> > > With all these constraints, I think it would require more code to
+> > > re-use that small function than just writing a slightly different one
+> > > here which fully covers the "under association/disassociation" case, =
+no?
+> > >
+> >
+> > I am questioning here currently myself if it's enough to uniquely
+> > identify devices with only short or extended. For extended I would say
+> > yes, for short I would say no.
+>
+> As long as we know the PAN ID, it should be fine.
+>
 
-Yes, please drop for now. I does not serve a real purpose at the moment. 
-If we need such a mechanism for userspace later we can see how we 
-implement it when we have clear use cases.
+yep, so you will add a check of panid when mode is short address type?
 
-regards
-Stefan Schmidt
+- Alex
+
