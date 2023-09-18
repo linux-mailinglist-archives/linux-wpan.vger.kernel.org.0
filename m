@@ -2,42 +2,39 @@ Return-Path: <linux-wpan-owner@vger.kernel.org>
 X-Original-To: lists+linux-wpan@lfdr.de
 Delivered-To: lists+linux-wpan@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 4D7817A4D7A
-	for <lists+linux-wpan@lfdr.de>; Mon, 18 Sep 2023 17:50:39 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 76A2A7A4CF5
+	for <lists+linux-wpan@lfdr.de>; Mon, 18 Sep 2023 17:44:27 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229468AbjIRPun (ORCPT <rfc822;lists+linux-wpan@lfdr.de>);
-        Mon, 18 Sep 2023 11:50:43 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36758 "EHLO
+        id S229468AbjIRPob (ORCPT <rfc822;lists+linux-wpan@lfdr.de>);
+        Mon, 18 Sep 2023 11:44:31 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53172 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229447AbjIRPum (ORCPT
-        <rfc822;linux-wpan@vger.kernel.org>); Mon, 18 Sep 2023 11:50:42 -0400
+        with ESMTP id S229632AbjIRPo3 (ORCPT
+        <rfc822;linux-wpan@vger.kernel.org>); Mon, 18 Sep 2023 11:44:29 -0400
 Received: from mslow1.mail.gandi.net (mslow1.mail.gandi.net [IPv6:2001:4b98:dc4:8::240])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8FDA81720;
-        Mon, 18 Sep 2023 08:47:24 -0700 (PDT)
-Received: from relay3-d.mail.gandi.net (unknown [IPv6:2001:4b98:dc4:8::223])
-        by mslow1.mail.gandi.net (Postfix) with ESMTP id 75A89C3D0C;
-        Mon, 18 Sep 2023 14:15:07 +0000 (UTC)
-Received: by mail.gandi.net (Postfix) with ESMTPSA id 8C0566000B;
-        Mon, 18 Sep 2023 14:15:03 +0000 (UTC)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E9E6B10A;
+        Mon, 18 Sep 2023 08:43:00 -0700 (PDT)
+Received: from relay5-d.mail.gandi.net (unknown [IPv6:2001:4b98:dc4:8::225])
+        by mslow1.mail.gandi.net (Postfix) with ESMTP id 6AB81D18B1;
+        Mon, 18 Sep 2023 15:08:25 +0000 (UTC)
+Received: by mail.gandi.net (Postfix) with ESMTPSA id 7515B1C0007;
+        Mon, 18 Sep 2023 15:08:09 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
-        t=1695046507;
+        t=1695049704;
         h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
          to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=Ifw++N/wrKSagoAI3Ql4WyzXOkLc1sHNSg9jooTsU0I=;
-        b=Tr1fUX+hNCU9hmhLlTQypMsGMGrKOveY2MafDVRXSMdRIkwXfFKgRDzTkB1RzcXyhR9mtW
-        tKNwhGjSYZtfqMeFxvunqkJRAGrEAhurXhZWjfODoMKpjGGC8qf7OnrH4A/Q45lAdl1YSB
-        SWU1ycuunJpqt6sbpN4MWGhM0L3Nsn8Zgtw+nQRVej+AjNIKkOd80Ph/cjvk+tnbq60D4J
-        KJxg+o0lKhiDgf/Kb9BC+boVsPgwyFUcmRc/Q+psGhwyb+KTONY6D/0ya2vPR5uNkOC0/Y
-        KS8ixfvlRgM67E/y0Kz1jEqWCO2A/JRBYuaIxPm4MRq902JJK8U7vdFeW8BgSQ==
-Date:   Mon, 18 Sep 2023 16:15:02 +0200
+         content-transfer-encoding:content-transfer-encoding;
+        bh=ICEwPkNaYsSfx6qOGqNqEqfrERmHi6fPl1ADzWGyEK0=;
+        b=CSHHUcyHUDcGQ7PORq1Lv96qz9aNr689LddmmLIf4hfgAe/XSipg40omwzhozpy7hdhML6
+        sAi5q/er4cqweQM77hSgSwIovOgVbo0pFlvWqubCve37U1jFOOaWEHr+AQk2/360Jk6LE9
+        ggFJV/bEKju+YCImzwFm5Auh/dKhVAhTTN0tzE8A9F1oEaQUYgv+4odK4JKvGaBBxxhx6b
+        8rT77i6e/MaHArve+7AuuTDOAHJm0uwLaxSab6P5tJ5Sk7W8Q7iIZmt8nJukW4TX7Ckw+U
+        wMlyvwMwRRn7ZNaJ6deHkeK976iPxQNTsVMiXP7ttnAKPGLSHvMRsV8TLmOCvw==
 From:   Miquel Raynal <miquel.raynal@bootlin.com>
-To:     Alexander Aring <aahringo@redhat.com>
-Cc:     Stefan Schmidt <stefan@datenfreihafen.org>,
-        Alexander Aring <alex.aring@gmail.com>,
-        linux-wpan@vger.kernel.org,
-        "David S. Miller" <davem@davemloft.net>,
+To:     Alexander Aring <alex.aring@gmail.com>,
+        Stefan Schmidt <stefan@datenfreihafen.org>,
+        linux-wpan@vger.kernel.org
+Cc:     "David S. Miller" <davem@davemloft.net>,
         Jakub Kicinski <kuba@kernel.org>,
         Paolo Abeni <pabeni@redhat.com>,
         Eric Dumazet <edumazet@google.com>, netdev@vger.kernel.org,
@@ -46,108 +43,133 @@ Cc:     Stefan Schmidt <stefan@datenfreihafen.org>,
         Frederic Blain <frederic.blain@qorvo.com>,
         Nicolas Schodet <nico@ni.fr.eu.org>,
         Guilhem Imberton <guilhem.imberton@qorvo.com>,
-        Thomas Petazzoni <thomas.petazzoni@bootlin.com>
-Subject: Re: [PATCH wpan-next v2 02/11] ieee802154: Internal PAN management
-Message-ID: <20230918161502.69818794@xps-13>
-In-Reply-To: <CAK-6q+gcqr=Sgswgzd1pzMQoPEV1jG=_0m51+HsKU_=1b7NYUg@mail.gmail.com>
-References: <20230901170501.1066321-1-miquel.raynal@bootlin.com>
-        <20230901170501.1066321-3-miquel.raynal@bootlin.com>
-        <32cfbf0f-7ac8-5a4c-d9cd-9650a64fc0ea@datenfreihafen.org>
-        <CAK-6q+h1rbG+6=M+ZZfUznHq9GxOwtA1i0c=C9dgQH1qC7sQ=A@mail.gmail.com>
-        <20230918110102.19a43db1@xps-13>
-        <CAK-6q+gcqr=Sgswgzd1pzMQoPEV1jG=_0m51+HsKU_=1b7NYUg@mail.gmail.com>
-Organization: Bootlin
-X-Mailer: Claws Mail 4.0.0 (GTK+ 3.24.33; x86_64-pc-linux-gnu)
+        Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
+        Miquel Raynal <miquel.raynal@bootlin.com>
+Subject: [PATCH wpan-next v3 00/11] ieee802154: Associations between devices
+Date:   Mon, 18 Sep 2023 17:07:58 +0200
+Message-Id: <20230918150809.275058-1-miquel.raynal@bootlin.com>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 X-GND-Sasl: miquel.raynal@bootlin.com
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
-        SPF_HELO_PASS,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+X-Spam-Status: No, score=-0.2 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
+        DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,SPF_HELO_PASS,SPF_PASS
+        autolearn=unavailable autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-wpan.vger.kernel.org>
 X-Mailing-List: linux-wpan@vger.kernel.org
 
-Hi Alexander,
+Hello,
 
+[I know we are in the middle of the merge window, I don't think it
+matters on the wpan side, so as the wpan subsystem did not evolve
+much since the previous merge window I figured I would not delay the
+sending of this series given the fact that I should have send it at the
+beginning of the summer...]
 
-> > > > > +// SPDX-License-Identifier: GPL-2.0
-> > > > > +/*
-> > > > > + * IEEE 802.15.4 PAN management
-> > > > > + *
-> > > > > + * Copyright (C) 2021 Qorvo US, Inc
-> > > > > + * Authors:
-> > > > > + *   - David Girault <david.girault@qorvo.com>
-> > > > > + *   - Miquel Raynal <miquel.raynal@bootlin.com>
-> > > > > + */
-> > > > > +
-> > > > > +#include <linux/kernel.h>
-> > > > > +#include <net/cfg802154.h>
-> > > > > +#include <net/af_ieee802154.h>
-> > > > > +
-> > > > > +static bool cfg802154_same_addr(struct ieee802154_pan_device *a,
-> > > > > +                             struct ieee802154_addr *b)
-> > > > > +{
-> > > > > +     if (!a || !b)
-> > > > > +             return false;
-> > > > > +
-> > > > > +     switch (b->mode) {
-> > > > > +     case IEEE802154_ADDR_SHORT:
-> > > > > +             return a->short_addr =3D=3D b->short_addr;
-> > > > > +     case IEEE802154_ADDR_LONG:
-> > > > > +             return a->extended_addr =3D=3D b->extended_addr;
-> > > > > +     default:
-> > > > > +             return false;
-> > > > > +     }
-> > > > > +} =20
-> > > >
-> > > > Don't we already have such a helper already? =20
-> > >
-> > > There must also be a check on (a->mode !=3D b->mode) because short_ad=
-dr
-> > > and extended_addr share memory in this struct. =20
-> >
-> > True.
-> >
-> > Actually the ieee802154_addr structure uses an enum to store either
-> > the short address or the extended addres, while at the MAC level I'd
-> > like to compare with what I call a ieee802154_pan_device: the PAN
-> > device is part of a list defining the associated neighbors and contains
-> > both an extended address and a short address once associated.
-> >
-> > I do not want to compare the PAN ID here and I do not need to compare
-> > if the modes are different because the device the code is running on
-> > is known to have both an extended address and a short address field
-> > which have been initialized.
-> > =20
->=20
-> I see, so it is guaranteed that the mode value is the same?
+Now that we can discover our peer coordinators or make ourselves
+dynamically discoverable, we may use the information about surrounding
+devices to create PANs dynamically. This involves of course:
+* Requesting an association to a coordinator, waiting for the response
+* Sending a disassociation notification to a coordinator
+* Receiving an association request when we are coordinator, answering
+  the request (for now all devices are accepted up to a limit, to be
+  refined)
+* Sending a disassociation notification to a child
+* Users may request the list of associated devices (the parent and the
+  children).
 
-I looked more carefully at the code of the association section,
-we will always know the extended address of the devices which are
-associated to us, however there may be situations where the second
-device to compare with this list only comes with a short address and pan
-ID, so your initial comment needs to be addressed.
+Here are a few example of userspace calls that can be made:
+iwpan dev <dev> associate pan_id 2 coord $COORD
+iwpan dev <dev> list_associations
+iwpan dev <dev> disassociate ext_addr $COORD
 
-> > With all these constraints, I think it would require more code to
-> > re-use that small function than just writing a slightly different one
-> > here which fully covers the "under association/disassociation" case, no?
-> > =20
->=20
-> I am questioning here currently myself if it's enough to uniquely
-> identify devices with only short or extended. For extended I would say
-> yes, for short I would say no.
+I used a small using hwsim to scan for a coordinator, associate with
+it, look at the associations on both sides, disassociate from it and
+check the associations again:
+./assoc-demo
+*** Scan ***
+PAN 0x0002 (on wpan1)
+	coordinator 0x060f3b35169a498f
+	page 0
+	channel 13
+	preamble code 0
+	mean prf 0
+	superframe spec. 0xcf11
+	LQI ff
+*** End of scan ***
+Associating wpan1 with coord0 0x060f3b35169a498f...
+Dumping coord0 assoc:
+child : 0x0b6f / 0xba7633ae47ccfb21
+Dumping wpan1 assoc:
+parent: 0xffff / 0x060f3b35169a498f
+Disassociating from wpan1
+Dumping coord0 assoc:
+Dumping wpan1 assoc:
 
-As long as we know the PAN ID, it should be fine.
+I could also successfully interact with a smaller device running Zephir,
+using its command line interface to associate and then disassociate from
+the Linux coordinator.
 
-> Somehow I don't get it, maybe because
-> it's on the setup to be associated and we know the panid already but
-> it is not being set at this point?
+Thanks!
+Miquèl
 
-Yes, this code is used *when* we associate or disassociate.
+Changes in v3:
+* Clarify a helper which compares if two devices seem to be identical by
+  adding two comments. This is a static function that is only used by
+  the PAN management core to operate or not an
+  association/disassociation request. In this helper, a new check is
+  introduced to be sure we compare fields which have been populated.
+* Dropped the "association_generation" counter and all its uses along
+  the code. I tried to mimic some other counter but I agree it is not
+  super useful and could be dropped anyway.
+* Dropped a faulty sequence number hardcoded to 10. This had no impact
+  because a few lines later the same entry was set to a valid value.
 
-Thanks,
-Miqu=C3=A8l
+Changes in v2:
+* Drop the misleading IEEE802154_ADDR_LONG_BROADCAST definition and its
+  only use which was useless anyway.
+* Clarified how devices are defined when the user requests to associate
+  with a coordinator: for now only the extended address of the
+  coordinator is relevant so this is the only address we care about.
+* Drop a useless NULL check before a kfree() call.
+* Add a check when allocating a child short address: it must be
+  different than ours.
+* Rebased on top of v6.5.
+
+Miquel Raynal (11):
+  ieee802154: Let PAN IDs be reset
+  ieee802154: Internal PAN management
+  ieee802154: Add support for user association requests
+  mac802154: Handle associating
+  ieee802154: Add support for user disassociation requests
+  mac802154: Handle disassociations
+  mac802154: Handle association requests from peers
+  ieee802154: Add support for limiting the number of associated devices
+  mac802154: Follow the number of associated devices
+  mac802154: Handle disassociation notifications from peers
+  ieee802154: Give the user the association list
+
+ include/net/cfg802154.h         |  69 ++++++
+ include/net/ieee802154_netdev.h |  60 +++++
+ include/net/nl802154.h          |  22 +-
+ net/ieee802154/Makefile         |   2 +-
+ net/ieee802154/core.c           |  24 ++
+ net/ieee802154/nl802154.c       | 223 +++++++++++++++++-
+ net/ieee802154/pan.c            | 115 +++++++++
+ net/ieee802154/rdev-ops.h       |  30 +++
+ net/ieee802154/trace.h          |  38 +++
+ net/mac802154/cfg.c             | 170 ++++++++++++++
+ net/mac802154/ieee802154_i.h    |  27 +++
+ net/mac802154/main.c            |   2 +
+ net/mac802154/rx.c              |  25 ++
+ net/mac802154/scan.c            | 397 ++++++++++++++++++++++++++++++++
+ 14 files changed, 1191 insertions(+), 13 deletions(-)
+ create mode 100644 net/ieee802154/pan.c
+
+-- 
+2.34.1
+
