@@ -2,32 +2,32 @@ Return-Path: <linux-wpan-owner@vger.kernel.org>
 X-Original-To: lists+linux-wpan@lfdr.de
 Delivered-To: lists+linux-wpan@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id C85897AC7FF
-	for <lists+linux-wpan@lfdr.de>; Sun, 24 Sep 2023 14:23:02 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 3F0E17AC801
+	for <lists+linux-wpan@lfdr.de>; Sun, 24 Sep 2023 14:23:04 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229540AbjIXMXG (ORCPT <rfc822;lists+linux-wpan@lfdr.de>);
-        Sun, 24 Sep 2023 08:23:06 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60194 "EHLO
+        id S229570AbjIXMXI (ORCPT <rfc822;lists+linux-wpan@lfdr.de>);
+        Sun, 24 Sep 2023 08:23:08 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60222 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229606AbjIXMXG (ORCPT
-        <rfc822;linux-wpan@vger.kernel.org>); Sun, 24 Sep 2023 08:23:06 -0400
+        with ESMTP id S229569AbjIXMXH (ORCPT
+        <rfc822;linux-wpan@vger.kernel.org>); Sun, 24 Sep 2023 08:23:07 -0400
 Received: from proxima.lasnet.de (proxima.lasnet.de [78.47.171.185])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C65D4112
-        for <linux-wpan@vger.kernel.org>; Sun, 24 Sep 2023 05:22:58 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 657A1101
+        for <linux-wpan@vger.kernel.org>; Sun, 24 Sep 2023 05:23:01 -0700 (PDT)
 Received: from localhost.localdomain.datenfreihafen.local (p200300e9d71918519b00d9454c2dda6a.dip0.t-ipconnect.de [IPv6:2003:e9:d719:1851:9b00:d945:4c2d:da6a])
         (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
          key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
         (No client certificate requested)
         (Authenticated sender: stefan@sostec.de)
-        by proxima.lasnet.de (Postfix) with ESMTPSA id 643EEC127E;
+        by proxima.lasnet.de (Postfix) with ESMTPSA id A5E38C1289;
         Sun, 24 Sep 2023 14:22:51 +0200 (CEST)
 From:   Stefan Schmidt <stefan@datenfreihafen.org>
 To:     linux-wpan@vger.kernel.org
 Cc:     alex.aring@gmail.com, miquel.raynal@bootlin.com,
         david.girault@qorvo.com, Stefan Schmidt <stefan@datenfreihafen.org>
-Subject: [PATCH 8/9] misc: switch remaining files to SPDX header for license and copyright
-Date:   Sun, 24 Sep 2023 14:22:30 +0200
-Message-ID: <20230924122231.716878-9-stefan@datenfreihafen.org>
+Subject: [PATCH 9/9] workflow: add reuse job to check for REUSE compliance
+Date:   Sun, 24 Sep 2023 14:22:31 +0200
+Message-ID: <20230924122231.716878-10-stefan@datenfreihafen.org>
 X-Mailer: git-send-email 2.41.0
 In-Reply-To: <20230924122231.716878-1-stefan@datenfreihafen.org>
 References: <20230924122231.716878-1-stefan@datenfreihafen.org>
@@ -42,77 +42,43 @@ Precedence: bulk
 List-ID: <linux-wpan.vger.kernel.org>
 X-Mailing-List: linux-wpan@vger.kernel.org
 
+The linter ensures we can catch problems early on and keeps the codebase
+reuse compliant. A big step for ard for all downstream users who care
+about license compliance and SBOM generation.
+
+As extra step we generate a SBOM file as artifact.
+
 Signed-off-by: Stefan Schmidt <stefan@datenfreihafen.org>
 ---
- .github/workflows/main.yml | 4 ++++
- .gitignore                 | 4 ++++
- Makefile.am                | 4 ++++
- autogen.sh                 | 4 ++++
- configure.ac               | 4 ++++
- 5 files changed, 20 insertions(+)
+ .github/workflows/reuse.yml | 19 +++++++++++++++++++
+ 1 file changed, 19 insertions(+)
+ create mode 100644 .github/workflows/reuse.yml
 
-diff --git a/.github/workflows/main.yml b/.github/workflows/main.yml
-index c7b878f..cde0f19 100644
---- a/.github/workflows/main.yml
-+++ b/.github/workflows/main.yml
-@@ -1,3 +1,7 @@
+diff --git a/.github/workflows/reuse.yml b/.github/workflows/reuse.yml
+new file mode 100644
+index 0000000..194a7d7
+--- /dev/null
++++ b/.github/workflows/reuse.yml
+@@ -0,0 +1,19 @@
 +# SPDX-FileCopyrightText: 2023 Stefan Schmidt <stefan@datenfreihafen.org>
 +#
 +# SPDX-License-Identifier: ISC
 +
- name: Basic compile test for wpan-tools
- on: push
- 
-diff --git a/.gitignore b/.gitignore
-index cad8dee..1d2621b 100644
---- a/.gitignore
-+++ b/.gitignore
-@@ -1,3 +1,7 @@
-+# SPDX-FileCopyrightText: 2014 Alexander Aring <alex.aring@gmail.com>
-+#
-+# SPDX-License-Identifier: ISC
++name: Check for REUSE compliance of wpan-tools
++on: push
 +
- *.o
- tags
- TAGS
-diff --git a/Makefile.am b/Makefile.am
-index 3f15825..50893e7 100644
---- a/Makefile.am
-+++ b/Makefile.am
-@@ -1,3 +1,7 @@
-+# SPDX-FileCopyrightText: 2014 Alexander Aring <alex.aring@gmail.com>
-+#
-+# SPDX-License-Identifier: ISC
-+
- EXTRA_DIST =
- CLEANFILES =
- ACLOCAL_AMFLAGS = -I m4 ${ACLOCAL_FLAGS}
-diff --git a/autogen.sh b/autogen.sh
-index 0d60b0a..db24799 100755
---- a/autogen.sh
-+++ b/autogen.sh
-@@ -1,5 +1,9 @@
- #!/bin/sh -e
- 
-+# SPDX-FileCopyrightText: 2014 Alexander Aring <alex.aring@gmail.com>
-+#
-+# SPDX-License-Identifier: ISC
-+
- if [ -f .git/hooks/pre-commit.sample -a ! -f .git/hooks/pre-commit ] ; then
-         cp -p .git/hooks/pre-commit.sample .git/hooks/pre-commit && \
-         chmod +x .git/hooks/pre-commit && \
-diff --git a/configure.ac b/configure.ac
-index f7bd7f7..fee4b44 100644
---- a/configure.ac
-+++ b/configure.ac
-@@ -1,3 +1,7 @@
-+dnl SPDX-FileCopyrightText: 2014 Alexander Aring <alex.aring@gmail.com>
-+dnl
-+dnl SPDX-License-Identifier: ISC
-+
- AC_PREREQ(2.60)
- AC_INIT([Userspace tools for Linux IEEE 802.15.4 stack],
- 	[0.9], [linux-wpan@vger.kernel.org], [wpan-tools],
++jobs:
++  reuse:
++    runs-on: ubuntu-latest
++    steps:
++    - name: Check out repository
++      uses: actions/checkout@v4
++    - name: Install reuse tool
++      run: pip3 install reuse
++    - name: Run reuse lint
++      run: reuse lint
++    - name: Create SBOM
++      run: reuse spdx > sbom.txt
 -- 
 2.41.0
 
