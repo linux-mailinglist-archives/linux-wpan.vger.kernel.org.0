@@ -2,106 +2,111 @@ Return-Path: <linux-wpan-owner@vger.kernel.org>
 X-Original-To: lists+linux-wpan@lfdr.de
 Delivered-To: lists+linux-wpan@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 035D87B7C7F
-	for <lists+linux-wpan@lfdr.de>; Wed,  4 Oct 2023 11:43:39 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id D78E67BA8FF
+	for <lists+linux-wpan@lfdr.de>; Thu,  5 Oct 2023 20:25:49 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S241000AbjJDJnj (ORCPT <rfc822;lists+linux-wpan@lfdr.de>);
-        Wed, 4 Oct 2023 05:43:39 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44728 "EHLO
+        id S230195AbjJESZt (ORCPT <rfc822;lists+linux-wpan@lfdr.de>);
+        Thu, 5 Oct 2023 14:25:49 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52656 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S242070AbjJDJnh (ORCPT
-        <rfc822;linux-wpan@vger.kernel.org>); Wed, 4 Oct 2023 05:43:37 -0400
-Received: from mail-ot1-x344.google.com (mail-ot1-x344.google.com [IPv6:2607:f8b0:4864:20::344])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B0CA21B9
-        for <linux-wpan@vger.kernel.org>; Wed,  4 Oct 2023 02:43:22 -0700 (PDT)
-Received: by mail-ot1-x344.google.com with SMTP id 46e09a7af769-6c644a1845cso1236609a34.2
-        for <linux-wpan@vger.kernel.org>; Wed, 04 Oct 2023 02:43:22 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1696412601; x=1697017401; darn=vger.kernel.org;
-        h=to:subject:message-id:date:from:reply-to:mime-version:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=kU548seJ+5zMe+Z5LSygRVRGtbVoNQXTGH3w2Ep9TOM=;
-        b=BE5eXA8L2bvROOCZ3cfUQZ9JYiyBgvwMULDzCOYZliG7XawROohfjnT5GtVyx+W4aw
-         u369wZXTSzzC7jOyBYRF9/kdpIixLuMn03bDhovmHVwMGlnycnJwX8LZ5xA0u5ZOpF9o
-         WUodgdG1KERXhKdj2ZwBScMnOJ9RIN96aK6wdcr5NDV4/8BAGg11HSjsZB0eo+RLoXIs
-         0V+NAO5v9jenlohJrub+LYl7ePaHx8sLAIPRte4vT2kPtHdyTZ18kowCqHqssmmrWr3B
-         +muHejNH9MDiFyz2JHZGEhO4IhOvzwjS7LMLQujqPq+/KgkncHiYSagQQoz2HhyuR0ji
-         itHA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1696412601; x=1697017401;
-        h=to:subject:message-id:date:from:reply-to:mime-version
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=kU548seJ+5zMe+Z5LSygRVRGtbVoNQXTGH3w2Ep9TOM=;
-        b=QnQBX+gbTZKOGqSkcRc9/ZDuG/dMzGBXoO/sfSAcTCbCj1kES6ZpYJ3E9kDzGly/ZH
-         J4bA4G3ZKCqD8ndcsxFM+0sSWF58XlZ+BABfiH749sBOz5k49zAF3k/9CTarpsUGt/+1
-         4moPpuoehXTg6Wd+HV9UxD/oSwk92qBBPZKOKlJlA88kXGjz/rG2OJo6wQbTJNT49sMZ
-         B4d0pBbTY0QPeJYhd6DGdmYs/DupSNMyiNUSBiq4jZjyO2yvI9WJIkpmdHfLYLtm3iHt
-         /ck119eCIjc/qlfgBDw7A2lvrjwBc+0yqMUsrVHezjhlfySEACtKe3Xt0Y/6C7YaG/sC
-         PBmA==
-X-Gm-Message-State: AOJu0YxSlioAflY0OIXZPjqlU6v6oZ3JtvE3yW1BC2jv/vKjW7xdePd1
-        yeXbA5Tp8VwxTw/FgPnkfU79joUZ4UgWbIy50uw=
-X-Google-Smtp-Source: AGHT+IGU1pxuxLSxjOP+CuFF6xfKArQnu8a/NBnlQ5qASTxXKBZnY6mzoOCJmZS5sf3Mg+7mHLoEfEj+4JQq7QIV1YA=
-X-Received: by 2002:a05:6870:5489:b0:1bb:bcc3:c96 with SMTP id
- f9-20020a056870548900b001bbbcc30c96mr1893879oan.33.1696412601399; Wed, 04 Oct
- 2023 02:43:21 -0700 (PDT)
+        with ESMTP id S229598AbjJESZs (ORCPT
+        <rfc822;linux-wpan@vger.kernel.org>); Thu, 5 Oct 2023 14:25:48 -0400
+Received: from proxima.lasnet.de (proxima.lasnet.de [IPv6:2a01:4f8:121:31eb:3::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C9CD290;
+        Thu,  5 Oct 2023 11:25:46 -0700 (PDT)
+Received: from [IPV6:2003:e9:d713:f546:fe91:5ada:5c69:ea2] (p200300e9d713f546fe915ada5c690ea2.dip0.t-ipconnect.de [IPv6:2003:e9:d713:f546:fe91:5ada:5c69:ea2])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+        (No client certificate requested)
+        (Authenticated sender: stefan@datenfreihafen.org)
+        by proxima.lasnet.de (Postfix) with ESMTPSA id CC188C0A55;
+        Thu,  5 Oct 2023 20:25:43 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=datenfreihafen.org;
+        s=2021; t=1696530344;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=BCz0xrZEJh/I2HqJVZxugSbqgKFbCIBzS8dZmHy4Zvc=;
+        b=VX9GN7FUHLyHTV7HYN59Q2bt91mX08gzJXQNgDmmRPFL0AMsjTRYAISp/i2IQiaytfYJ04
+        OBTK/K33VlnPbdB7dJaCNgPQxSnp2XKhNWupGAnWZmlAIJ+UGRb50oVaspWyz8xpkgkyoX
+        iZIa7qZpG9ndBvzGR7zmCPcYoiuxpBIusv9NViGG6wG/vHkcZ/LWEXf2fgdFNYIeR9ygus
+        zanBzgv11foBFHRs/I0mA3htXpeAI4fo1QQuyJ9iY88wcls2HmDwc7tirEPqBu+uR+7imL
+        gcBiCR2nYGNArxeDnXdfiUgX7sGtf/W7Yn1e/nH7QekMQFwx034ZgV1IJzqHaw==
+Message-ID: <1ed2f41f-ac5a-0b76-1012-410857d4da54@datenfreihafen.org>
+Date:   Thu, 5 Oct 2023 20:25:43 +0200
 MIME-Version: 1.0
-Received: by 2002:a05:6358:318a:b0:143:322c:caa8 with HTTP; Wed, 4 Oct 2023
- 02:43:21 -0700 (PDT)
-Reply-To: mrsaishag06@yahoo.com
-From:   Mrs Aisha Al-Qaddafi <mrsaishag89@gmail.com>
-Date:   Wed, 4 Oct 2023 10:43:21 +0100
-Message-ID: <CAF-3XQQyFPhvQCTztws82QyyadmFurxiu2kMMpBzAXnLXjEPWw@mail.gmail.com>
-Subject: please dearest did you received my last email
-To:     undisclosed-recipients:;
-Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: Yes, score=6.4 required=5.0 tests=BAYES_50,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_ENVFROM_END_DIGIT,
-        FREEMAIL_FROM,FREEMAIL_REPLYTO,FREEMAIL_REPLYTO_END_DIGIT,
-        HK_NAME_FM_MR_MRS,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,
-        UNDISC_FREEM autolearn=no autolearn_force=no version=3.4.6
-X-Spam-Report: * -0.0 RCVD_IN_DNSWL_NONE RBL: Sender listed at
-        *      https://www.dnswl.org/, no trust
-        *      [2607:f8b0:4864:20:0:0:0:344 listed in]
-        [list.dnswl.org]
-        *  0.8 BAYES_50 BODY: Bayes spam probability is 40 to 60%
-        *      [score: 0.5388]
-        *  0.0 FREEMAIL_FROM Sender email is commonly abused enduser mail
-        *      provider
-        *      [mrsaishag89[at]gmail.com]
-        *  0.0 SPF_HELO_NONE SPF: HELO does not publish an SPF Record
-        *  0.2 FREEMAIL_ENVFROM_END_DIGIT Envelope-from freemail username ends
-        *       in digit
-        *      [mrsaishag89[at]gmail.com]
-        * -0.0 SPF_PASS SPF: sender matches SPF record
-        *  0.2 FREEMAIL_REPLYTO_END_DIGIT Reply-To freemail username ends in
-        *      digit
-        *      [mrsaishag06[at]yahoo.com]
-        * -0.1 DKIM_VALID_EF Message has a valid DKIM or DK signature from
-        *      envelope-from domain
-        * -0.1 DKIM_VALID_AU Message has a valid DKIM or DK signature from
-        *      author's domain
-        *  0.1 DKIM_SIGNED Message has a DKIM or DK signature, not necessarily
-        *       valid
-        * -0.1 DKIM_VALID Message has at least one valid DKIM or DK signature
-        *  1.5 HK_NAME_FM_MR_MRS No description available.
-        *  2.8 UNDISC_FREEM Undisclosed recipients + freemail reply-to
-        *  1.0 FREEMAIL_REPLYTO Reply-To/From or Reply-To/body contain
-        *      different freemails
-X-Spam-Level: ******
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.13.0
+Subject: Re: [PATCH] [v3] ieee802154: ca8210: Fix a potential UAF in
+ ca8210_probe
+Content-Language: en-US
+To:     kernel test robot <lkp@intel.com>,
+        Dinghao Liu <dinghao.liu@zju.edu.cn>
+Cc:     oe-kbuild-all@lists.linux.dev, stable@vger.kernel.org,
+        Alexander Aring <alex.aring@gmail.com>,
+        Miquel Raynal <miquel.raynal@bootlin.com>,
+        Eric Dumazet <edumazet@google.com>,
+        Jakub Kicinski <kuba@kernel.org>,
+        Paolo Abeni <pabeni@redhat.com>,
+        Harry Morris <harrymorris12@gmail.com>,
+        Marcel Holtmann <marcel@holtmann.org>,
+        linux-wpan@vger.kernel.org, netdev@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+References: <20231001054949.14624-1-dinghao.liu@zju.edu.cn>
+ <202310011548.qyQMuodI-lkp@intel.com>
+From:   Stefan Schmidt <stefan@datenfreihafen.org>
+In-Reply-To: <202310011548.qyQMuodI-lkp@intel.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Spam-Status: No, score=-6.3 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,
+        RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-wpan.vger.kernel.org>
 X-Mailing-List: linux-wpan@vger.kernel.org
 
-My dear Beloved One, i need your assistance.
+Hello Dinghao,
 
-Please bear with me. I am writing this letter to you with tears and
-sorrow from my heart.
 
-I am Aisha Muammar Gaddafi, the only daughter of the embattled
-president of Libya, Hon. Muammar Gaddafi.
-Yours Sincerely
-Best Regard,
-Aisha Gaddafi
-mrsaishag06@yahoo.com
+On 01.10.23 09:19, kernel test robot wrote:
+> Hi Dinghao,
+> 
+> kernel test robot noticed the following build warnings:
+> 
+> [auto build test WARNING on linus/master]
+> [also build test WARNING on v6.6-rc3 next-20230929]
+> [If your patch is applied to the wrong git tree, kindly drop us a note.
+> And when submitting patch, we suggest to use '--base' as documented in
+> https://git-scm.com/docs/git-format-patch#_base_tree_information]
+> 
+> url:    https://github.com/intel-lab-lkp/linux/commits/Dinghao-Liu/ieee802154-ca8210-Fix-a-potential-UAF-in-ca8210_probe/20231001-135130
+> base:   linus/master
+> patch link:    https://lore.kernel.org/r/20231001054949.14624-1-dinghao.liu%40zju.edu.cn
+> patch subject: [PATCH] [v3] ieee802154: ca8210: Fix a potential UAF in ca8210_probe
+> config: m68k-allyesconfig (https://download.01.org/0day-ci/archive/20231001/202310011548.qyQMuodI-lkp@intel.com/config)
+> compiler: m68k-linux-gcc (GCC) 13.2.0
+> reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231001/202310011548.qyQMuodI-lkp@intel.com/reproduce)
+> 
+> If you fix the issue in a separate patch/commit (i.e. not just a new version of
+> the same patch/commit), kindly add following tags
+> | Reported-by: kernel test robot <lkp@intel.com>
+> | Closes: https://lore.kernel.org/oe-kbuild-all/202310011548.qyQMuodI-lkp@intel.com/
+> 
+> All warnings (new ones prefixed by >>):
+> 
+>     drivers/net/ieee802154/ca8210.c: In function 'ca8210_register_ext_clock':
+>>> drivers/net/ieee802154/ca8210.c:2743:13: warning: unused variable 'ret' [-Wunused-variable]
+>      2743 |         int ret = 0;
+>           |             ^~~
+> 
+
+Please take care of this now unused variable after your re-factor.
+With this fixed and send out as v4 I am happy to get this applied to the 
+wpan tree.
+
+regards
+Stefan Schmidt
