@@ -2,61 +2,81 @@ Return-Path: <linux-wpan-owner@vger.kernel.org>
 X-Original-To: lists+linux-wpan@lfdr.de
 Delivered-To: lists+linux-wpan@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 249647E003D
-	for <lists+linux-wpan@lfdr.de>; Fri,  3 Nov 2023 11:29:44 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id A09547E1721
+	for <lists+linux-wpan@lfdr.de>; Sun,  5 Nov 2023 23:00:15 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235795AbjKCJFe (ORCPT <rfc822;lists+linux-wpan@lfdr.de>);
-        Fri, 3 Nov 2023 05:05:34 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43014 "EHLO
+        id S229888AbjKEWAO (ORCPT <rfc822;lists+linux-wpan@lfdr.de>);
+        Sun, 5 Nov 2023 17:00:14 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53356 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235200AbjKCJFd (ORCPT
-        <rfc822;linux-wpan@vger.kernel.org>); Fri, 3 Nov 2023 05:05:33 -0400
-X-Greylist: delayed 576 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Fri, 03 Nov 2023 02:05:25 PDT
-Received: from mail.virtuosogains.pl (mail.virtuosogains.pl [217.61.23.190])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EBFA0D42
-        for <linux-wpan@vger.kernel.org>; Fri,  3 Nov 2023 02:05:25 -0700 (PDT)
-Received: by mail.virtuosogains.pl (Postfix, from userid 1002)
-        id 41A028283A; Fri,  3 Nov 2023 09:55:44 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=virtuosogains.pl;
-        s=mail; t=1699001747;
-        bh=xfCxG2PwL4Soyu/txE3kDbffBY80YcuDtnfTg/uF7DU=;
-        h=Date:From:To:Subject:From;
-        b=RZ84q7aVXjMCAQ4wuqIyNtZXXmfwnqTKI8lrV63E6J3jJ29tsq8mCluFfT0/qZLa7
-         +8N00A59s9cfRVo/E6JR64p6bgmzuGucU0PcITwavAaDFhD2M6yDe8lm0GiAKwhOd1
-         aC4ZCbydlHcbHmvkr2Y/5QupcTDobAiVEX9bvScKinI+SXX0cvgA/u7OO0d7hDpYJh
-         DVk4pocycKmduUfji+dU6iDVUfik0993oUriqCVBFgyNTMixGnl5y5YZqGYelTLEQY
-         jq2gSofCHLW67dLsQRMPGLp4f0rb+8/xYeJTD0QcB2E6GpmQ3DRot/ACGkjiyOAG3g
-         58HtVVhX7dYbg==
-Received: by mail.virtuosogains.pl for <linux-wpan@vger.kernel.org>; Fri,  3 Nov 2023 08:55:39 GMT
-Message-ID: <20231103084500-0.1.1l.3sri.0.zd4z4qbjmk@virtuosogains.pl>
-Date:   Fri,  3 Nov 2023 08:55:39 GMT
-From:   "Renata Tarabasz" <renata.tarabasz@virtuosogains.pl>
-To:     <linux-wpan@vger.kernel.org>
-Subject: =?UTF-8?Q?Udzia=C5=82_w_post=C4=99powaniu?=
-X-Mailer: mail.virtuosogains.pl
+        with ESMTP id S229897AbjKEWAM (ORCPT
+        <rfc822;linux-wpan@vger.kernel.org>); Sun, 5 Nov 2023 17:00:12 -0500
+X-Greylist: delayed 5224 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Sun, 05 Nov 2023 14:00:09 PST
+Received: from SMTP-HCRC-200.brggroup.vn (unknown [42.112.212.144])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 20A37BF;
+        Sun,  5 Nov 2023 14:00:09 -0800 (PST)
+Received: from SMTP-HCRC-200.brggroup.vn (localhost [127.0.0.1])
+        by SMTP-HCRC-200.brggroup.vn (SMTP-CTTV) with ESMTP id 3945C19092;
+        Mon,  6 Nov 2023 01:57:29 +0700 (+07)
+Received: from zimbra.hcrc.vn (unknown [192.168.200.66])
+        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+        (No client certificate requested)
+        by SMTP-HCRC-200.brggroup.vn (SMTP-CTTV) with ESMTPS id 3268215767;
+        Mon,  6 Nov 2023 01:57:29 +0700 (+07)
+Received: from localhost (localhost [127.0.0.1])
+        by zimbra.hcrc.vn (Postfix) with ESMTP id C2FC61B824EE;
+        Mon,  6 Nov 2023 01:57:30 +0700 (+07)
+Received: from zimbra.hcrc.vn ([127.0.0.1])
+        by localhost (zimbra.hcrc.vn [127.0.0.1]) (amavisd-new, port 10032)
+        with ESMTP id BYnJRaubdInR; Mon,  6 Nov 2023 01:57:30 +0700 (+07)
+Received: from localhost (localhost [127.0.0.1])
+        by zimbra.hcrc.vn (Postfix) with ESMTP id 90B211B8252B;
+        Mon,  6 Nov 2023 01:57:30 +0700 (+07)
+DKIM-Filter: OpenDKIM Filter v2.10.3 zimbra.hcrc.vn 90B211B8252B
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=hcrc.vn;
+        s=64D43D38-C7D6-11ED-8EFE-0027945F1BFA; t=1699210650;
+        bh=WOZURJ77pkiMUL2pPLC14ifVPRvyTQIBEQmxuN1ezAA=;
+        h=MIME-Version:To:From:Date:Message-Id;
+        b=upWRS3OWyxENQWiCJDQqoAuBx3OUjTR85kSnv2scqx6A1F42g8nqyYUjt+I5ce4vr
+         bQYcrGrcWfWZZvgCjeRQChMyKD62P+veWPd4lYhvL++Tzmq898af5S04ieADHCh3uu
+         ypLh5lK3OEt5fDWYP7nW7ckd8giU4UvAWRK+JgbtWp2d2CewMceL2dVsL170kvFfco
+         uoM3gUJ52BPln5LrikSbWHyHu6+pxRcpJrtBmWskbhAG+JRB60JYiTv7xGrB5ndSRP
+         BwWlwFJgb9RsV9IxEIzvpfeEyfoDrYijfo+akAxpE0jTk/gKV3aT540xx/h4O/GOZr
+         yVIJTd4XXVB9g==
+X-Virus-Scanned: amavisd-new at hcrc.vn
+Received: from zimbra.hcrc.vn ([127.0.0.1])
+        by localhost (zimbra.hcrc.vn [127.0.0.1]) (amavisd-new, port 10026)
+        with ESMTP id kRSVfju_rQx3; Mon,  6 Nov 2023 01:57:30 +0700 (+07)
+Received: from [192.168.1.152] (unknown [51.179.100.52])
+        by zimbra.hcrc.vn (Postfix) with ESMTPSA id 4D2C31B824EE;
+        Mon,  6 Nov 2023 01:57:24 +0700 (+07)
+Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-X-Spam-Status: No, score=0.6 required=5.0 tests=BAYES_50,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_NONE,SPF_PASS,
-        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
+Content-Description: Mail message body
+Subject: =?utf-8?b?4oKsIDEwMC4wMDAuMDAwPw==?=
+To:     Recipients <ch.31hamnghi@hcrc.vn>
+From:   ch.31hamnghi@hcrc.vn
+Date:   Sun, 05 Nov 2023 19:57:13 +0100
+Reply-To: joliushk@gmail.com
+Message-Id: <20231105185724.4D2C31B824EE@zimbra.hcrc.vn>
+X-Spam-Status: No, score=2.7 required=5.0 tests=BAYES_50,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FORGED_REPLYTO,
+        RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE,
+        URIBL_BLOCKED autolearn=no autolearn_force=no version=3.4.6
+X-Spam-Level: **
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-wpan.vger.kernel.org>
 X-Mailing-List: linux-wpan@vger.kernel.org
 
-Dzie=C5=84 dobry,
-
-czy odnotowuj=C4=85 Pa=C5=84stwo zaleg=C5=82e p=C5=82atno=C5=9Bci od Klie=
-nt=C3=B3w?
-
-Pomagamy wszystkim przedsi=C4=99biorcom, kt=C3=B3rzy szukaj=C4=85 gwaranc=
-ji bezpiecze=C5=84stwa i p=C5=82ynno=C5=9Bci finansowej.
-
-B=C4=99d=C4=99 wdzi=C4=99czna za informacj=C4=99 czy s=C4=85 Pa=C5=84stwo=
- zainteresowani odzyskaniem swoich nale=C5=BCno=C5=9Bci.
+Goededag,
+Ik ben mevrouw Joanna Liu en een medewerker van Citi Bank Hong Kong.
+Kan ik =E2=82=AC 100.000.000 aan u overmaken? Kan ik je vertrouwen
 
 
-Z powa=C5=BCaniem
-Renata Tarabasz
+Ik wacht op jullie reacties
+Met vriendelijke groeten
+mevrouw Joanna Liu
+
