@@ -2,68 +2,197 @@ Return-Path: <linux-wpan-owner@vger.kernel.org>
 X-Original-To: lists+linux-wpan@lfdr.de
 Delivered-To: lists+linux-wpan@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id D01597E880A
-	for <lists+linux-wpan@lfdr.de>; Sat, 11 Nov 2023 02:58:01 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id E02927E9C70
+	for <lists+linux-wpan@lfdr.de>; Mon, 13 Nov 2023 13:53:27 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1343841AbjKKB6C (ORCPT <rfc822;lists+linux-wpan@lfdr.de>);
-        Fri, 10 Nov 2023 20:58:02 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41530 "EHLO
+        id S229511AbjKMMx3 (ORCPT <rfc822;lists+linux-wpan@lfdr.de>);
+        Mon, 13 Nov 2023 07:53:29 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33868 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229730AbjKKB6C (ORCPT
-        <rfc822;linux-wpan@vger.kernel.org>); Fri, 10 Nov 2023 20:58:02 -0500
-Received: from mail.maprial.com (mail.maprial.com [190.181.35.27])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 08C39448C;
-        Fri, 10 Nov 2023 17:57:58 -0800 (PST)
-Received: from localhost (localhost [127.0.0.1])
-        by mail.maprial.com (Postfix) with ESMTP id 1D7D5877DB2B;
-        Fri, 10 Nov 2023 19:03:14 -0400 (-04)
-Received: from mail.maprial.com ([127.0.0.1])
-        by localhost (mail.maprial.com [127.0.0.1]) (amavisd-new, port 10032)
-        with ESMTP id uudwnPmQtw6C; Fri, 10 Nov 2023 19:03:13 -0400 (-04)
-Received: from localhost (localhost [127.0.0.1])
-        by mail.maprial.com (Postfix) with ESMTP id A7020877C931;
-        Fri, 10 Nov 2023 17:53:03 -0400 (-04)
-DKIM-Filter: OpenDKIM Filter v2.10.3 mail.maprial.com A7020877C931
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=maprial.com;
-        s=8A254412-65B9-11ED-A564-8B9C10001A2B; t=1699653183;
-        bh=WOZURJ77pkiMUL2pPLC14ifVPRvyTQIBEQmxuN1ezAA=;
-        h=MIME-Version:To:From:Date:Message-Id;
-        b=WGSRQvgsV5hZsUl5/3P22rHnUAUfNmG8nLDKLEq7Jsur50k8tGlJ3SJtdEINx7hQD
-         i2dZFdI647gdEy0rDN/YzW44Qy2KejjgS2UsLYG1iHbPpUiIbaige2iujPRmzIMt5K
-         tMjtasDxnLD6VT0TAe3OMBFs42pbB5GOptz51MG8=
-X-Virus-Scanned: amavisd-new at mail.maprial.com
-Received: from mail.maprial.com ([127.0.0.1])
-        by localhost (mail.maprial.com [127.0.0.1]) (amavisd-new, port 10026)
-        with ESMTP id YEse06XlwEdt; Fri, 10 Nov 2023 17:53:03 -0400 (-04)
-Received: from [192.168.1.152] (unknown [51.179.104.230])
-        by mail.maprial.com (Postfix) with ESMTPSA id 486AC815E1DE;
-        Fri, 10 Nov 2023 17:03:41 -0400 (-04)
-Content-Type: text/plain; charset="utf-8"
+        with ESMTP id S229507AbjKMMx2 (ORCPT
+        <rfc822;linux-wpan@vger.kernel.org>); Mon, 13 Nov 2023 07:53:28 -0500
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id ADA23D68
+        for <linux-wpan@vger.kernel.org>; Mon, 13 Nov 2023 04:52:39 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1699879958;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=ZnUtca0D5C0XPHxlPtQvKGqukhORv7SHWA8KedKey5k=;
+        b=CfGDtvhRLGY4SSpwt0YuziW+JyKbjcjxrqsa4fQVJBLzgcX8ZO7/NFggG9Uquz6NjuwvJy
+        eou+QismNw/hb182ZFgswtcPnQshus5bfrRqNDlgxLqZ8pdpPL5nSXAQp725gD84j4RZFJ
+        XYK+gg82DrdPpzxRLN7uhj/wOQS06+U=
+Received: from mail-ej1-f69.google.com (mail-ej1-f69.google.com
+ [209.85.218.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-626-oS9KUtSDOSaNiAh66GSuHQ-1; Mon, 13 Nov 2023 07:52:37 -0500
+X-MC-Unique: oS9KUtSDOSaNiAh66GSuHQ-1
+Received: by mail-ej1-f69.google.com with SMTP id a640c23a62f3a-9e644d94d85so308452166b.0
+        for <linux-wpan@vger.kernel.org>; Mon, 13 Nov 2023 04:52:37 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1699879956; x=1700484756;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=ZnUtca0D5C0XPHxlPtQvKGqukhORv7SHWA8KedKey5k=;
+        b=vRqyEYUQ+7drmQCTQElkPmfQduf+KqaGo95U3HGSFz8h6lOxcYvdU17DMPUVPL7cyW
+         sozXhcFXVpWioLFyPAD/R0iv2tCw1biZrZem4FfiIpS/qW6HSPfQy4LEVE7sq/2KKAYg
+         RO6pQIpNjsNrspTK9f31Qc5KvhQja5qxifaUHQlHft/GoE/jGJ3VTe9iU/ikjy/YVD7E
+         tkJaRrr7Zd2KoVcWBEH+jLX8MoVMFHR8tuFIxDDUKulkNo8G8WTqYJJktpw8bajjG6bZ
+         F5bf0zuwymQVBl9Ld21jPkFrI32uf/lsqeQnj9+RgFf0wMj+a9/PSboiJKkjyQiGEiKY
+         IzdA==
+X-Gm-Message-State: AOJu0YwOhXUeG3QNvLxwU1XI3DQWAQMsBSZRuRA7nOLpnD1k2qnthiNp
+        1fBYEuncZsqdP+2rEgOeFCmun/VI53QSvO6S1K7GkL26pWAdgtqdqpTzZEyDJ2YVNOrzFMX2DrV
+        qHa6uDrbbvcBrhkf+JhUXeQ4ZwMKB1fW7x2YMzw==
+X-Received: by 2002:a17:907:c913:b0:9b2:b37d:17ff with SMTP id ui19-20020a170907c91300b009b2b37d17ffmr8036001ejc.19.1699879956602;
+        Mon, 13 Nov 2023 04:52:36 -0800 (PST)
+X-Google-Smtp-Source: AGHT+IE8wRqBXyTcz5o2Yg/BKUm2neXUHVSvWYk4dKDU3CaR+5fQtk8GT71yB/NlVbBR/NK8YSBtyNON3vl8KmEzKMI=
+X-Received: by 2002:a17:907:c913:b0:9b2:b37d:17ff with SMTP id
+ ui19-20020a170907c91300b009b2b37d17ffmr8035986ejc.19.1699879956317; Mon, 13
+ Nov 2023 04:52:36 -0800 (PST)
 MIME-Version: 1.0
+References: <20230927181214.129346-1-miquel.raynal@bootlin.com>
+In-Reply-To: <20230927181214.129346-1-miquel.raynal@bootlin.com>
+From:   Alexander Aring <aahringo@redhat.com>
+Date:   Mon, 13 Nov 2023 07:52:25 -0500
+Message-ID: <CAK-6q+i=biD0pgWsY002PpY_bp3bM56=PdMgqdo5x4bH+JsznA@mail.gmail.com>
+Subject: Re: [PATCH wpan-next v5 00/11] ieee802154: Associations between devices
+To:     Miquel Raynal <miquel.raynal@bootlin.com>
+Cc:     Alexander Aring <alex.aring@gmail.com>,
+        Stefan Schmidt <stefan@datenfreihafen.org>,
+        linux-wpan@vger.kernel.org,
+        "David S. Miller" <davem@davemloft.net>,
+        Jakub Kicinski <kuba@kernel.org>,
+        Paolo Abeni <pabeni@redhat.com>,
+        Eric Dumazet <edumazet@google.com>, netdev@vger.kernel.org,
+        David Girault <david.girault@qorvo.com>,
+        Romuald Despres <romuald.despres@qorvo.com>,
+        Frederic Blain <frederic.blain@qorvo.com>,
+        Nicolas Schodet <nico@ni.fr.eu.org>,
+        Guilhem Imberton <guilhem.imberton@qorvo.com>,
+        Thomas Petazzoni <thomas.petazzoni@bootlin.com>
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-Content-Description: Mail message body
-Subject: =?utf-8?b?4oKsIDEwMC4wMDAuMDAwPw==?=
-To:     Recipients <gvalencia@maprial.com>
-From:   gvalencia@maprial.com
-Date:   Fri, 10 Nov 2023 22:03:31 +0100
-Reply-To: joliushk@gmail.com
-Message-Id: <20231110210342.486AC815E1DE@mail.maprial.com>
-X-Spam-Status: No, score=3.1 required=5.0 tests=BAYES_50,DKIM_INVALID,
-        DKIM_SIGNED,FREEMAIL_FORGED_REPLYTO,SPF_HELO_NONE,SPF_PASS,
-        T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED autolearn=no autolearn_force=no
-        version=3.4.6
-X-Spam-Level: ***
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
+        RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,SPF_NONE,
+        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-wpan.vger.kernel.org>
 X-Mailing-List: linux-wpan@vger.kernel.org
 
-Goededag,
-Ik ben mevrouw Joanna Liu en een medewerker van Citi Bank Hong Kong.
-Kan ik =E2=82=AC 100.000.000 aan u overmaken? Kan ik je vertrouwen
+Hi,
 
+On Wed, Sep 27, 2023 at 2:12=E2=80=AFPM Miquel Raynal <miquel.raynal@bootli=
+n.com> wrote:
+>
+> Hello,
+>
+> Now that we can discover our peer coordinators or make ourselves
+> dynamically discoverable, we may use the information about surrounding
+> devices to create PANs dynamically. This involves of course:
+> * Requesting an association to a coordinator, waiting for the response
+> * Sending a disassociation notification to a coordinator
+> * Receiving an association request when we are coordinator, answering
+>   the request (for now all devices are accepted up to a limit, to be
+>   refined)
+> * Sending a disassociation notification to a child
+> * Users may request the list of associated devices (the parent and the
+>   children).
+>
+> Here are a few example of userspace calls that can be made:
+> iwpan dev <dev> associate pan_id 2 coord $COORD
+> iwpan dev <dev> list_associations
+> iwpan dev <dev> disassociate ext_addr $COORD
+>
+> I used a small using hwsim to scan for a coordinator, associate with
+> it, look at the associations on both sides, disassociate from it and
+> check the associations again:
+> ./assoc-demo
+> *** Scan ***
+> PAN 0x0002 (on wpan1)
+>         coordinator 0x060f3b35169a498f
+>         page 0
+>         channel 13
+>         preamble code 0
+>         mean prf 0
+>         superframe spec. 0xcf11
+>         LQI ff
+> *** End of scan ***
+> Associating wpan1 with coord0 0x060f3b35169a498f...
+> Dumping coord0 assoc:
+> child : 0x0b6f / 0xba7633ae47ccfb21
+> Dumping wpan1 assoc:
+> parent: 0xffff / 0x060f3b35169a498f
+> Disassociating from wpan1
+> Dumping coord0 assoc:
+> Dumping wpan1 assoc:
+>
+> I could also successfully interact with a smaller device running Zephir,
+> using its command line interface to associate and then disassociate from
+> the Linux coordinator.
+>
+> Thanks!
+> Miqu=C3=A8l
+>
+> Changes in v5:
+> * Fixed (again) the helper supposed to check whether a device requesting
+>   association/disassociation is already (or not) in our PAN. We don't
+>   nee to check short addresses there.
+> * Changed the name of the helper a second time to make it more relevant
+>   and understandable:
+>   cfg802154_device_in_pan() -> cfg802154_pan_device_is_matching()
+> * Fixed a kernel test robot report where we would use an int instead of
+>   a __le16. Solved that by using cpu_to_le16 like in the other places
+>   where we use definitions as arguments.
+>
+> Changes in v4:
+> * Ensured any disassociation would only be processed if the destination
+>   pan ID matches ours.
+> * Association requests should be made using extended addressing, it's
+>   the specification, so ensure this is true. Doing so helps reducing the
+>   checks down the road.
+> * Updated a copyright from 2021 to 2023.
+> * Improved the comment for cfg802154_device_in_pan() and only accept
+>   extended addressing when using this internal function because there is
+>   no point in checking short addresses here.
+> * Move nl802154_prepare_wpan_dev_dump() and
+>   nl802154_finish_wpan_dev_dump() outside of a
+>   CONFIG_IEEE802154_NL802154_EXPERIMENTAL #ifdef bloc as now used in
+>   regular code (not only experimental).
+> * Added a missing return value in the kernel doc of
+>   cfg802154_device_is_associated().
+>
+> Changes in v3:
+> * Clarify a helper which compares if two devices seem to be identical by
+>   adding two comments. This is a static function that is only used by
+>   the PAN management core to operate or not an
+>   association/disassociation request. In this helper, a new check is
+>   introduced to be sure we compare fields which have been populated.
+> * Dropped the "association_generation" counter and all its uses along
+>   the code. I tried to mimic some other counter but I agree it is not
+>   super useful and could be dropped anyway.
+> * Dropped a faulty sequence number hardcoded to 10. This had no impact
+>   because a few lines later the same entry was set to a valid value.
+>
+> Changes in v2:
+> * Drop the misleading IEEE802154_ADDR_LONG_BROADCAST definition and its
+>   only use which was useless anyway.
+> * Clarified how devices are defined when the user requests to associate
+>   with a coordinator: for now only the extended address of the
+>   coordinator is relevant so this is the only address we care about.
+> * Drop a useless NULL check before a kfree() call.
+> * Add a check when allocating a child short address: it must be
+>   different than ours.
+> * Rebased on top of v6.5.
 
-Ik wacht op jullie reacties
-Met vriendelijke groeten
-mevrouw Joanna Liu
+Acked-by: Alexander Aring <aahringo@redhat.com>
+
+Thanks for working on this!
+
+- Alex
+
