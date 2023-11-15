@@ -2,43 +2,71 @@ Return-Path: <linux-wpan-owner@vger.kernel.org>
 X-Original-To: lists+linux-wpan@lfdr.de
 Delivered-To: lists+linux-wpan@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 83AB07EABC7
-	for <lists+linux-wpan@lfdr.de>; Tue, 14 Nov 2023 09:42:43 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 4B6947EBEA3
+	for <lists+linux-wpan@lfdr.de>; Wed, 15 Nov 2023 09:37:34 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232230AbjKNImn (ORCPT <rfc822;lists+linux-wpan@lfdr.de>);
-        Tue, 14 Nov 2023 03:42:43 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37064 "EHLO
+        id S234675AbjKOIhf (ORCPT <rfc822;lists+linux-wpan@lfdr.de>);
+        Wed, 15 Nov 2023 03:37:35 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50276 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232151AbjKNImm (ORCPT
-        <rfc822;linux-wpan@vger.kernel.org>); Tue, 14 Nov 2023 03:42:42 -0500
-Received: from mail.commercesolutions.pl (unknown [162.19.155.126])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 866BEA4
-        for <linux-wpan@vger.kernel.org>; Tue, 14 Nov 2023 00:42:36 -0800 (PST)
-Received: by mail.commercesolutions.pl (Postfix, from userid 1002)
-        id B456022F79; Tue, 14 Nov 2023 08:41:05 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=commercesolutions.pl;
-        s=mail; t=1699951278;
-        bh=PcMncQpBfIZCnTOfZJY5G1G+gaLn4c9QPfFvoXrE4rA=;
+        with ESMTP id S234651AbjKOIhf (ORCPT
+        <rfc822;linux-wpan@vger.kernel.org>); Wed, 15 Nov 2023 03:37:35 -0500
+Received: from mail.tradestry.pl (mail.tradestry.pl [141.94.250.68])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0B95E10D
+        for <linux-wpan@vger.kernel.org>; Wed, 15 Nov 2023 00:37:32 -0800 (PST)
+Received: by mail.tradestry.pl (Postfix, from userid 1002)
+        id CC0C7A373C; Wed, 15 Nov 2023 08:36:29 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=tradestry.pl; s=mail;
+        t=1700037450; bh=Y0HnXqH+26AP5Uq6M8BQXaj1HIAPQY/WndV9tkpAHHU=;
         h=Date:From:To:Subject:From;
-        b=aBUYv8TqeH1J32mjeO5MD0ddP2qRQfuU6Hr0ajRXG9gA2vP5liK0TzJfhhOQaFH2y
-         zPnV4FWhPknAHOH4dIvV+WQzb8wrvmJs53+LRzwCF3h2Z872aCiNES0qOKAjRI4m+3
-         cgHK9pjXCuhkDFA5qiEo2mgRQDDv1uY37ItWwmzVIk6QGzGmZWeQeYL+DbOEewiXuq
-         +pguuM1ebv0Nu4jk9zOlb7jUDSa9VvehuYlc/L3ao6kw6SBJZxxX6//4BkA5XK7ssg
-         kR1ldaxSrKrJ4v6WbihBUG+CDSM6POuwF3u5eLnmdpWWu/JxmWeXcIdtDdjd7Eq3GW
-         +R1a8hhtbAEUg==
-Received: by mail.commercesolutions.pl for <linux-wpan@vger.kernel.org>; Tue, 14 Nov 2023 08:40:40 GMT
-Message-ID: <20231114074500-0.1.9w.20622.0.d6gb4pio4s@commercesolutions.pl>
-Date:   Tue, 14 Nov 2023 08:40:40 GMT
-From:   "Kamil Tralewski" <kamil.tralewski@commercesolutions.pl>
+        b=JEped5wBA0CroRLfx7U9PM5DoJg9SSS12dE5Vs9yb8OTKl1/z2OyK7B0IQUhFMdnq
+         /440hPtXmo04r0tSuW4wrlfZEExaNHH8inWlfOceE9DZ4ySqSXFRNB6vGpoQ2AhPsh
+         RZHP6dz7Px5zL6r05mLdeyaFDK+M5aXnwgxDFF9ch6BCZ1lcnGTqGAQKj7Gv1g2sCt
+         EkuHuGuhQOVGNYxsqFRj+cJcSSPaRYsHYr7//bTk/nHkoKpQkzK08e8d+tiSnVy82G
+         mWnUQ+CHDcEfuzGlvt5muRiVyQHNxHVQJzjSjqPoOHYBUs0NoDH8oJakP10C9sX+0N
+         dZyPHUjPmAxAQ==
+Received: by mail.tradestry.pl for <linux-wpan@vger.kernel.org>; Wed, 15 Nov 2023 08:36:04 GMT
+Message-ID: <20231115074501-0.1.dp.1keef.0.sd0g873pne@tradestry.pl>
+Date:   Wed, 15 Nov 2023 08:36:04 GMT
+From:   "Damian Cichocki" <damian.cichocki@tradestry.pl>
 To:     <linux-wpan@vger.kernel.org>
-Subject: =?UTF-8?Q?S=C5=82owa_kluczowe_do_wypozycjonowania?=
-X-Mailer: mail.commercesolutions.pl
+Subject: =?UTF-8?Q?Pytanie_o_samoch=C3=B3d?=
+X-Mailer: mail.tradestry.pl
 MIME-Version: 1.0
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-X-Spam-Status: No, score=-1.7 required=5.0 tests=BAYES_00,DKIM_INVALID,
-        DKIM_SIGNED,RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_PASS,
-        T_SCC_BODY_TEXT_LINE autolearn=no autolearn_force=no version=3.4.6
+X-Spam-Status: Yes, score=7.8 required=5.0 tests=BAYES_05,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_SBL_CSS,
+        RCVD_IN_VALIDITY_RPBL,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE,
+        URIBL_ABUSE_SURBL,URIBL_CSS_A,URIBL_DBL_SPAM autolearn=no
+        autolearn_force=no version=3.4.6
+X-Spam-Report: *  1.2 URIBL_ABUSE_SURBL Contains an URL listed in the ABUSE SURBL
+        *      blocklist
+        *      [URIs: tradestry.pl]
+        *  2.5 URIBL_DBL_SPAM Contains a spam URL listed in the Spamhaus DBL
+        *      blocklist
+        *      [URIs: tradestry.pl]
+        *  3.3 RCVD_IN_SBL_CSS RBL: Received via a relay in Spamhaus SBL-CSS
+        *      [141.94.250.68 listed in zen.spamhaus.org]
+        *  0.1 URIBL_CSS_A Contains URL's A record listed in the Spamhaus CSS
+        *      blocklist
+        *      [URIs: tradestry.pl]
+        * -0.5 BAYES_05 BODY: Bayes spam probability is 1 to 5%
+        *      [score: 0.0114]
+        *  1.3 RCVD_IN_VALIDITY_RPBL RBL: Relay in Validity RPBL,
+        *      https://senderscore.org/blocklistlookup/
+        *      [141.94.250.68 listed in bl.score.senderscore.com]
+        * -0.0 SPF_PASS SPF: sender matches SPF record
+        *  0.0 SPF_HELO_NONE SPF: HELO does not publish an SPF Record
+        * -0.1 DKIM_VALID Message has at least one valid DKIM or DK signature
+        * -0.1 DKIM_VALID_EF Message has a valid DKIM or DK signature from
+        *      envelope-from domain
+        * -0.1 DKIM_VALID_AU Message has a valid DKIM or DK signature from
+        *      author's domain
+        *  0.1 DKIM_SIGNED Message has a DKIM or DK signature, not necessarily
+        *       valid
+        * -0.0 T_SCC_BODY_TEXT_LINE No description available.
+X-Spam-Level: *******
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
@@ -47,16 +75,10 @@ X-Mailing-List: linux-wpan@vger.kernel.org
 
 Dzie=C5=84 dobry,
 
-zapozna=C5=82em si=C4=99 z Pa=C5=84stwa ofert=C4=85 i z przyjemno=C5=9Bci=
-=C4=85 przyznaj=C4=99, =C5=BCe przyci=C4=85ga uwag=C4=99 i zach=C4=99ca d=
-o dalszych rozm=C3=B3w.=20
+Czy interesuje Pa=C5=84stwa rozwi=C4=85zanie umo=C5=BCliwiaj=C4=85ce moni=
+torowanie samochod=C3=B3w firmowych oraz optymalizacj=C4=99 koszt=C3=B3w =
+ich utrzymania?=20
 
-Pomy=C5=9Bla=C5=82em, =C5=BCe mo=C5=BCe m=C3=B3g=C5=82bym mie=C4=87 sw=C3=
-=B3j wk=C5=82ad w Pa=C5=84stwa rozw=C3=B3j i pom=C3=B3c dotrze=C4=87 z t=C4=
-=85 ofert=C4=85 do wi=C4=99kszego grona odbiorc=C3=B3w. Pozycjonuj=C4=99 =
-strony www, dzi=C4=99ki czemu generuj=C4=85 =C5=9Bwietny ruch w sieci.
 
-Mo=C5=BCemy porozmawia=C4=87 w najbli=C5=BCszym czasie?
-
-Pozdrawiam
-Kamil Tralewski
+Pozdrawiam,
+Damian Cichocki
