@@ -1,36 +1,37 @@
-Return-Path: <linux-wpan+bounces-2-lists+linux-wpan=lfdr.de@vger.kernel.org>
+Return-Path: <linux-wpan+bounces-3-lists+linux-wpan=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-wpan@lfdr.de
 Delivered-To: lists+linux-wpan@lfdr.de
 Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8CF977FB93A
-	for <lists+linux-wpan@lfdr.de>; Tue, 28 Nov 2023 12:17:09 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 422B07FB93C
+	for <lists+linux-wpan@lfdr.de>; Tue, 28 Nov 2023 12:17:13 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 80EA9B20D94
-	for <lists+linux-wpan@lfdr.de>; Tue, 28 Nov 2023 11:17:06 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id A4CFEB21D88
+	for <lists+linux-wpan@lfdr.de>; Tue, 28 Nov 2023 11:17:10 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0C1F94F5EF;
-	Tue, 28 Nov 2023 11:17:03 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3A95A4F603;
+	Tue, 28 Nov 2023 11:17:04 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="Q5BZDqSL"
+	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="hDD7HRH6"
 X-Original-To: linux-wpan@vger.kernel.org
-Received: from relay6-d.mail.gandi.net (relay6-d.mail.gandi.net [IPv6:2001:4b98:dc4:8::226])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EC24ED6;
-	Tue, 28 Nov 2023 03:16:59 -0800 (PST)
-Received: by mail.gandi.net (Postfix) with ESMTPSA id C3C56C000A;
-	Tue, 28 Nov 2023 11:16:55 +0000 (UTC)
+Received: from relay6-d.mail.gandi.net (relay6-d.mail.gandi.net [217.70.183.198])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 105E9109;
+	Tue, 28 Nov 2023 03:17:00 -0800 (PST)
+Received: by mail.gandi.net (Postfix) with ESMTPSA id 91213C000F;
+	Tue, 28 Nov 2023 11:16:58 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
-	t=1701170218;
+	t=1701170219;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding;
-	bh=bwSOSEy0Nrk7Z4MK3Ma1HzJQsew5/R4JHeCSbA3yyO8=;
-	b=Q5BZDqSLz7xhixGnBCM0LOgKnq6NyEhMY7yz879MzB4Vk81GOWtZ7HsYzHz+yb6/oBs+v1
-	N+2MhoWtXw0cHQ5C4vv11n0dGf1WdNCzyiEo0c5CmEcg9M4xmcX6qbfhdTw6h9zNDh5YH8
-	aEQYbcbrxHEJyy2lbAFNCxUTnca9Fq3oNbxfmeyE7H0PBUHqwAYQPOlih+v5cLRftUgehv
-	VOv/U9q0brUgxZm/Uu9PEwyAOgN4+qt0lTVvGNqy1Ejuv8zXE31vxV5ctb/BIy6G682Sqi
-	N4/Ko/pwp8S5Vp/6eAq8aznHim8Mn1H9xBFa1ffEo3tRnZ0aXi+RubA8/y/kCg==
+	 to:to:cc:cc:mime-version:mime-version:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=aTh1FtK8KxFr4g7tE0WFtAC6xt11QyMpr4cp9khROnQ=;
+	b=hDD7HRH6glOLkZIQfmkpTAt/Iffn8WSug+GMZs5ApFRw3mrpxb1xMxszo6vE84WHZfDVt+
+	8WlCSH05ZRNOMzOe8xU0/6VNxEJZ3cD4ks4YAtY/MWfzJqnpg2va4H3sSiQ+bhIcVsyhLv
+	D2vE7ahDThBcYirvX+gO8uMqdB8gHSNMZv+xDOHNMK4aVuow0nUHldoJidDaOJgcm6RhoG
+	xh6m4fXUiVF38/9S6t/HbxkfrEMP5MlkXbYvdFT4ufA3t+lAACM+WtIQ5cXyP0rt5boq7C
+	SsRua32772EI5coKjl9NjM5bWhF/G/Y4chaxQ+ZeF3m6C+qMCdzCjCXMlmisfQ==
 From: Miquel Raynal <miquel.raynal@bootlin.com>
 To: Alexander Aring <alex.aring@gmail.com>,
 	Stefan Schmidt <stefan@datenfreihafen.org>,
@@ -47,45 +48,56 @@ Cc: David Girault <david.girault@qorvo.com>,
 	Eric Dumazet <edumazet@google.com>,
 	netdev@vger.kernel.org,
 	Miquel Raynal <miquel.raynal@bootlin.com>
-Subject: [PATCH wpan-next 0/5] ieee802154: Association tweaks
-Date: Tue, 28 Nov 2023 12:16:50 +0100
-Message-Id: <20231128111655.507479-1-miquel.raynal@bootlin.com>
+Subject: [PATCH wpan-next 1/5] mac80254: Provide real PAN coordinator info in beacons
+Date: Tue, 28 Nov 2023 12:16:51 +0100
+Message-Id: <20231128111655.507479-2-miquel.raynal@bootlin.com>
 X-Mailer: git-send-email 2.34.1
+In-Reply-To: <20231128111655.507479-1-miquel.raynal@bootlin.com>
+References: <20231128111655.507479-1-miquel.raynal@bootlin.com>
 Precedence: bulk
 X-Mailing-List: linux-wpan@vger.kernel.org
 List-Id: <linux-wpan.vger.kernel.org>
 List-Subscribe: <mailto:linux-wpan+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-wpan+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
+X-GND-Spam-Score: 300
+X-GND-Status: SPAM
 X-GND-Sasl: miquel.raynal@bootlin.com
 
-Hello,
+Sending a beacon is a way to advertise a PAN, but also ourselves as
+coordinator in the PAN. There is only one PAN coordinator in a PAN, this
+is the device without parent (not associated itself to an "upper"
+coordinator). Instead of blindly saying that we are the PAN coordinator,
+let's actually use our internal information to fill this field.
 
-Last serie on this area to clarify a few points and avoid to confuse the
-network too much. I believe more will come while using this stack, but
-that's a first round I kept aside. Nothing particularly problematic
-here, just a few clarifications.
+Signed-off-by: Miquel Raynal <miquel.raynal@bootlin.com>
+---
+ net/mac802154/scan.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-Thanks,
-Miquèl
-
-Miquel Raynal (5):
-  mac80254: Provide real PAN coordinator info in beacons
-  mac802154: Use the PAN coordinator parameter when stamping packets
-  mac802154: Only allow PAN controllers to process association requests
-  ieee802154: Avoid confusing changes after associating
-  mac802154: Avoid new associations while disassociating
-
- include/net/cfg802154.h   |  4 +++-
- net/ieee802154/nl802154.c | 30 ++++++++++++++++++------------
- net/ieee802154/pan.c      |  8 +++++++-
- net/mac802154/cfg.c       | 11 ++++++++---
- net/mac802154/rx.c        | 11 +++++++----
- net/mac802154/scan.c      | 10 ++++++++--
- 6 files changed, 51 insertions(+), 23 deletions(-)
-
+diff --git a/net/mac802154/scan.c b/net/mac802154/scan.c
+index 7597072aed57..5873da634fb4 100644
+--- a/net/mac802154/scan.c
++++ b/net/mac802154/scan.c
+@@ -466,6 +466,7 @@ int mac802154_send_beacons_locked(struct ieee802154_sub_if_data *sdata,
+ 				  struct cfg802154_beacon_request *request)
+ {
+ 	struct ieee802154_local *local = sdata->local;
++	struct wpan_dev *wpan_dev = &sdata->wpan_dev;
+ 
+ 	ASSERT_RTNL();
+ 
+@@ -495,8 +496,7 @@ int mac802154_send_beacons_locked(struct ieee802154_sub_if_data *sdata,
+ 		local->beacon.mac_pl.superframe_order = request->interval;
+ 	local->beacon.mac_pl.final_cap_slot = 0xf;
+ 	local->beacon.mac_pl.battery_life_ext = 0;
+-	/* TODO: Fill this field with the coordinator situation in the network */
+-	local->beacon.mac_pl.pan_coordinator = 1;
++	local->beacon.mac_pl.pan_coordinator = !wpan_dev->parent;
+ 	local->beacon.mac_pl.assoc_permit = 1;
+ 
+ 	if (request->interval == IEEE802154_ACTIVE_SCAN_DURATION)
 -- 
 2.34.1
 
