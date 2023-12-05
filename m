@@ -1,51 +1,64 @@
-Return-Path: <linux-wpan+bounces-14-lists+linux-wpan=lfdr.de@vger.kernel.org>
+Return-Path: <linux-wpan+bounces-17-lists+linux-wpan=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-wpan@lfdr.de
 Delivered-To: lists+linux-wpan@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0BFEB803D09
-	for <lists+linux-wpan@lfdr.de>; Mon,  4 Dec 2023 19:31:50 +0100 (CET)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
+	by mail.lfdr.de (Postfix) with ESMTPS id C66DE804A98
+	for <lists+linux-wpan@lfdr.de>; Tue,  5 Dec 2023 07:51:32 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id B9DB0281164
-	for <lists+linux-wpan@lfdr.de>; Mon,  4 Dec 2023 18:31:48 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 6952BB20B96
+	for <lists+linux-wpan@lfdr.de>; Tue,  5 Dec 2023 06:51:30 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 90DC02FC40;
-	Mon,  4 Dec 2023 18:31:40 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4811C12E71;
+	Tue,  5 Dec 2023 06:51:26 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="HzwMXPNm"
 X-Original-To: linux-wpan@vger.kernel.org
-Received: from metis.whiteo.stw.pengutronix.de (metis.whiteo.stw.pengutronix.de [IPv6:2a0a:edc0:2:b01:1d::104])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 30A26F0
-	for <linux-wpan@vger.kernel.org>; Mon,  4 Dec 2023 10:31:34 -0800 (PST)
-Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
-	by metis.whiteo.stw.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
-	(Exim 4.92)
-	(envelope-from <ukl@pengutronix.de>)
-	id 1rADj4-0003Ex-Up; Mon, 04 Dec 2023 19:31:26 +0100
-Received: from [2a0a:edc0:0:900:1d::77] (helo=ptz.office.stw.pengutronix.de)
-	by drehscheibe.grey.stw.pengutronix.de with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
-	(Exim 4.94.2)
-	(envelope-from <ukl@pengutronix.de>)
-	id 1rADj4-00DZmx-GY; Mon, 04 Dec 2023 19:31:26 +0100
-Received: from ukl by ptz.office.stw.pengutronix.de with local (Exim 4.94.2)
-	(envelope-from <ukl@pengutronix.de>)
-	id 1rADj4-00EE7r-7B; Mon, 04 Dec 2023 19:31:26 +0100
-From: =?UTF-8?q?Uwe=20Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>
-To: "David S. Miller" <davem@davemloft.net>,
-	Eric Dumazet <edumazet@google.com>,
-	Jakub Kicinski <kuba@kernel.org>,
-	Paolo Abeni <pabeni@redhat.com>
-Cc: Alexander Aring <alex.aring@gmail.com>,
-	Stefan Schmidt <stefan@datenfreihafen.org>,
-	Miquel Raynal <miquel.raynal@bootlin.com>,
-	linux-wpan@vger.kernel.org,
-	netdev@vger.kernel.org,
-	kernel@pengutronix.de
-Subject: [PATCH net-next v2 9/9] ieee802154: hwsim: Convert to platform remove callback returning void
-Date: Mon,  4 Dec 2023 19:30:49 +0100
-Message-ID:  <29b9d8edea7bc03d9726253afcc7259d4dd5d431.1701713943.git.u.kleine-koenig@pengutronix.de>
-X-Mailer: git-send-email 2.42.0
+Received: from relay6-d.mail.gandi.net (relay6-d.mail.gandi.net [IPv6:2001:4b98:dc4:8::226])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D9D20FF;
+	Mon,  4 Dec 2023 22:51:21 -0800 (PST)
+Received: by mail.gandi.net (Postfix) with ESMTPSA id 6524CC0006;
+	Tue,  5 Dec 2023 06:51:12 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
+	t=1701759080;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=HmV/ix9amwJ7r86i5eKjinKKZ2rsJiuszC6Rdqdxvkc=;
+	b=HzwMXPNmz6whc7Lpk85Qn6zY/OATY25BeMWTJQcAXyjnM7VJJ2VXeAX+YWpdVRQT5Vur3R
+	QhFZ7m94EhMmFpc68Pu+TvXUbkN3AaCfoqMJ0YM3jNWfTv11ZKeKS7C84B6FNIcMZ89Qdd
+	f89dxnTRE9h3fG5NI+WkwypaPQVKVGnFiIr48c7zyn6ybn2r/QuBMHWvDYFzi6znO8Y3qN
+	XPXYuxTqDh3Xqrxv3JjU1Am74IpMqk2rwYgmjR25xwAIZbpmMtvveNvFwlEljiCzPDcsKq
+	xIkKhTMqxIgnw5KCI9gpuOxkCqGDN40qtrKms0AhQXax6Bc4/UCoa1hw6m14cg==
+Date: Tue, 5 Dec 2023 07:51:10 +0100
+From: Miquel Raynal <miquel.raynal@bootlin.com>
+To: Uwe =?UTF-8?B?S2xlaW5lLUvDtm5pZw==?= <u.kleine-koenig@pengutronix.de>
+Cc: "David S. Miller" <davem@davemloft.net>, Eric Dumazet
+ <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>, Paolo Abeni
+ <pabeni@redhat.com>, Alex Elder <elder@kernel.org>, netdev@vger.kernel.org,
+ kernel@pengutronix.de, Marc Kleine-Budde <mkl@pengutronix.de>, Nick Child
+ <nnac123@linux.ibm.com>, Christian Marangi <ansuelsmth@gmail.com>,
+ =?UTF-8?B?Q2zDqW1lbnQgTMOpZ2Vy?= <clement.leger@bootlin.com>, Andrew Lunn
+ <andrew@lunn.ch>, Heiner Kallweit <hkallweit1@gmail.com>, Russell King
+ <linux@armlinux.org.uk>, linux-renesas-soc@vger.kernel.org, Zhao Qiang
+ <qiang.zhao@nxp.com>, linuxppc-dev@lists.ozlabs.org, Linus Walleij
+ <linusw@kernel.org>, Imre Kaloz <kaloz@openwrt.org>,
+ linux-arm-kernel@lists.infradead.org, Stephan Gerhold
+ <stephan@gerhold.net>, Andy Gross <agross@kernel.org>, Bjorn Andersson
+ <andersson@kernel.org>, Konrad Dybcio <konrad.dybcio@linaro.org>, Loic
+ Poulain <loic.poulain@linaro.org>, Sergey Ryazanov
+ <ryazanov.s.a@gmail.com>, Johannes Berg <johannes@sipsolutions.net>,
+ linux-arm-msm@vger.kernel.org, Alexander Aring <alex.aring@gmail.com>,
+ Stefan Schmidt <stefan@datenfreihafen.org>, linux-wpan@vger.kernel.org
+Subject: Re: [PATCH net-next v2 0/9] net*: Convert to platform remove
+ callback returning void
+Message-ID: <20231205075110.795b88d2@xps-13>
 In-Reply-To: <cover.1701713943.git.u.kleine-koenig@pengutronix.de>
 References: <cover.1701713943.git.u.kleine-koenig@pengutronix.de>
+Organization: Bootlin
+X-Mailer: Claws Mail 4.0.0 (GTK+ 3.24.33; x86_64-pc-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-wpan@vger.kernel.org
 List-Id: <linux-wpan.vger.kernel.org>
@@ -53,63 +66,45 @@ List-Subscribe: <mailto:linux-wpan+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-wpan+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1906; i=u.kleine-koenig@pengutronix.de; h=from:subject:message-id; bh=C0ftBvvArAEACL2sNAQ3DQ2N8lu4DJJST9N+PNpK0YY=; b=owEBbQGS/pANAwAKAY+A+1h9Ev5OAcsmYgBlbhrpAfo+Ey/oKNme5QtDMIBIZNARHKvIiADJZ gxujNE74d2JATMEAAEKAB0WIQQ/gaxpOnoeWYmt/tOPgPtYfRL+TgUCZW4a6QAKCRCPgPtYfRL+ ThIMB/9PonopCsA6WMmgplNNDhzAM4byiT+LgjISMi175umw8zTQjvG2MGRqfZK3530xSZeBuae u+h3n4tQGbO203KsJJz0CEs4260Q2rwZbUi9GLWnMHRnWj9hZOKzgTHZ6QDRoCQgUmHsHNkGV3h SS+K2LHlQdY465kp2CJzvbztLV4nnBrCli59sNBNDl3O+4k1nPVc+2u76ElO1FCWhm+2ilm+iAO 8RyUZNiaCXNK/c/YYGd4sp07M3TBfUR15g392JJ1mwgWaGrNdCOwuyfh/0t+NhbCR3kUgTKYy5J Ic0dD7+OwEqrQEu5tG2EUjDsR6M/nR3fWOaqdxszYv1HmeCO
-X-Developer-Key: i=u.kleine-koenig@pengutronix.de; a=openpgp; fpr=0D2511F322BFAB1C1580266BE2DCDD9132669BD6
-Content-Transfer-Encoding: 8bit
-X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
-X-SA-Exim-Mail-From: ukl@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.whiteo.stw.pengutronix.de); SAEximRunCond expanded to false
-X-PTX-Original-Recipient: linux-wpan@vger.kernel.org
+Content-Transfer-Encoding: quoted-printable
+X-GND-Sasl: miquel.raynal@bootlin.com
 
-The .remove() callback for a platform driver returns an int which makes
-many driver authors wrongly assume it's possible to do error handling by
-returning an error code. However the value returned is ignored (apart
-from emitting a warning) and this typically results in resource leaks.
+Hi Uwe,
 
-To improve here there is a quest to make the remove callback return
-void. In the first step of this quest all drivers are converted to
-.remove_new(), which already returns void. Eventually after all drivers
-are converted, .remove_new() will be renamed to .remove().
+u.kleine-koenig@pengutronix.de wrote on Mon,  4 Dec 2023 19:30:40 +0100:
 
-Trivially convert this driver from always returning zero in the remove
-callback to the void returning variant.
+> Hello,
+>=20
+> (implicit) v1 of this series can be found at
+> https://lore.kernel.org/netdev/20231117095922.876489-1-u.kleine-koenig@pe=
+ngutronix.de.
+> Changes since then:
+>=20
+>  - Dropped patch #1 as Alex objected. Patch #1 (was #2 before) now
+>    converts ipa to remove_new() and introduces an error message in the
+>    error path that failed before.
+>=20
+>  - Rebased to today's next
+>=20
+>  - Add the tags received in the previous round.
+>=20
+> Uwe Kleine-K=C3=B6nig (9):
+>   net: ipa: Convert to platform remove callback returning void
+>   net: fjes: Convert to platform remove callback returning void
+>   net: pcs: rzn1-miic: Convert to platform remove callback returning
+>     void
+>   net: sfp: Convert to platform remove callback returning void
+>   net: wan/fsl_ucc_hdlc: Convert to platform remove callback returning
+>     void
+>   net: wan/ixp4xx_hss: Convert to platform remove callback returning
+>     void
+>   net: wwan: qcom_bam_dmux: Convert to platform remove callback
+>     returning void
+>   ieee802154: fakelb: Convert to platform remove callback returning void
+>   ieee802154: hwsim: Convert to platform remove callback returning void
 
-Acked-by: Stefan Schmidt <stefan@datenfreihafen.org>
-Link: https://lore.kernel.org/r/20231117095922.876489-11-u.kleine-koenig@pengutronix.de
-Signed-off-by: Uwe Kleine-König <u.kleine-koenig@pengutronix.de>
----
- drivers/net/ieee802154/mac802154_hwsim.c | 6 ++----
- 1 file changed, 2 insertions(+), 4 deletions(-)
+FYI, I plan on taking patches 8 and 9 through wpan-next.
 
-diff --git a/drivers/net/ieee802154/mac802154_hwsim.c b/drivers/net/ieee802154/mac802154_hwsim.c
-index 31cba9aa7636..2c2483bbe780 100644
---- a/drivers/net/ieee802154/mac802154_hwsim.c
-+++ b/drivers/net/ieee802154/mac802154_hwsim.c
-@@ -1035,7 +1035,7 @@ static int hwsim_probe(struct platform_device *pdev)
- 	return err;
- }
- 
--static int hwsim_remove(struct platform_device *pdev)
-+static void hwsim_remove(struct platform_device *pdev)
- {
- 	struct hwsim_phy *phy, *tmp;
- 
-@@ -1043,13 +1043,11 @@ static int hwsim_remove(struct platform_device *pdev)
- 	list_for_each_entry_safe(phy, tmp, &hwsim_phys, list)
- 		hwsim_del(phy);
- 	mutex_unlock(&hwsim_phys_lock);
--
--	return 0;
- }
- 
- static struct platform_driver mac802154hwsim_driver = {
- 	.probe = hwsim_probe,
--	.remove = hwsim_remove,
-+	.remove_new = hwsim_remove,
- 	.driver = {
- 			.name = "mac802154_hwsim",
- 	},
--- 
-2.42.0
-
+Thanks,
+Miqu=C3=A8l
 
