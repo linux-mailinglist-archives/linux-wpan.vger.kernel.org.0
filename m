@@ -1,117 +1,95 @@
-Return-Path: <linux-wpan+bounces-78-lists+linux-wpan=lfdr.de@vger.kernel.org>
+Return-Path: <linux-wpan+bounces-76-lists+linux-wpan=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-wpan@lfdr.de
 Delivered-To: lists+linux-wpan@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id C86D78371C4
-	for <lists+linux-wpan@lfdr.de>; Mon, 22 Jan 2024 20:03:57 +0100 (CET)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2EED3837232
+	for <lists+linux-wpan@lfdr.de>; Mon, 22 Jan 2024 20:16:12 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id C7B63294283
-	for <lists+linux-wpan@lfdr.de>; Mon, 22 Jan 2024 19:03:54 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id A5E26B2437C
+	for <lists+linux-wpan@lfdr.de>; Mon, 22 Jan 2024 18:49:45 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id C255C5BAF7;
-	Mon, 22 Jan 2024 18:46:13 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 200B444385;
+	Mon, 22 Jan 2024 18:17:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="CiwkLTW3"
 X-Original-To: linux-wpan@vger.kernel.org
-Received: from mail-lf1-f47.google.com (mail-lf1-f47.google.com [209.85.167.47])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from relay5-d.mail.gandi.net (relay5-d.mail.gandi.net [217.70.183.197])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1EBB15BAF4;
-	Mon, 22 Jan 2024 18:46:11 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.47
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 83C3744381;
+	Mon, 22 Jan 2024 18:17:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.70.183.197
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1705949173; cv=none; b=F2LnxvVOucF7ANThIGuAy31Q7tOBbcAVnQag6oKeLtCojLWS0gyMhNaaIZiyTRMAY8MF2Dkb9H1QY2gOsUFu5T0Ele2ZHmyg5e6TQ+d5m1a4g25+asgkSUgmZqt7M1LYFGl+LXElb4xMk1cyYyAIWYRLI7tAkAdgnKSRpLmqMe8=
+	t=1705947423; cv=none; b=CMqhh30dRKZDhdase0baAWroImeJX0CT3tz6Ew+muONph3mgT7EAr5RJIQMnJ13vG+LdSbUijhKXKy/D2UC4OSd2JbFQ4a4SePicX6+iNidV4YaKfXoeDHh/4jpTyg5qJQNV7f/3wVVbAG2ohUyzGQw9droKXpIhaq/U8YrwE0U=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1705949173; c=relaxed/simple;
-	bh=kf6bmK/5lk9stkBN4Rpip7baFHcgUQQrvt2ce0mTj0A=;
-	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=T45xNXk7ikpQEMWI/IErebV5Mx/udVn1iV++QQX52aWwTal0tAhetRG1DPwY5Bvauyd9yqkAqvIgVgZuravkvbBRukFRlJV2dtYRReBb/61Yf9LgwKvNOYJT6XFFGGm6kXLQhhXf/uy6/y4K1+oqAKSrrMtmpWeMSRPsMefS4fM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=debian.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.167.47
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=debian.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-lf1-f47.google.com with SMTP id 2adb3069b0e04-50eac018059so4731035e87.0;
-        Mon, 22 Jan 2024 10:46:11 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1705949170; x=1706553970;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=gE9feN88FqRXaolmPa4tAqvmCByBo2Odu5gsqKyhyy4=;
-        b=jZlsyW6DNcvgX411KZ3o+Usl4k0/rzDjyDK9kRQpBSoabodQbcVGhEUnLALiUnexwZ
-         QrEl1/Z8psdDA79xU115lyA5qOfjj88JnziKAjfaODRUjdUEMOmf+My5p9+jCBWClgwf
-         WD/Yonhh9I0xNPeHLulYOzFIMpID6TQSRlho5jWCbX8dGNABIzSeMfbuXx3aQ0BNJeOr
-         hB/Go/3dKupBlPcfeSlo2p9LhufbM4C8LO5+urU40UVSJTUWdywbSxnJJuelhOnaRE25
-         9rIYZop4eH8umxE6HxOHbdr7z0aeco98K/MsyNoAZ1SQox1gZ6biY0gnPg+k11wXWauI
-         F1XA==
-X-Gm-Message-State: AOJu0YwmXs+EwJ4nUMmHvvoZNFwgWQGr1d1pqOa8eWVlBTh/bU05mwth
-	/b1WWpyuU+V53dp7K3w0iMPtpPklg+gjWcHLPrSz00TjjeYcap+b
-X-Google-Smtp-Source: AGHT+IFB2B+Hq2ok+823r8fiTTqB1mjG3L7ABIBpjIfvIoVlOZ5/UWi090tl3GheYU1piJ2Aft2FaA==
-X-Received: by 2002:ac2:5f72:0:b0:50e:bb4d:e502 with SMTP id c18-20020ac25f72000000b0050ebb4de502mr1872429lfc.122.1705949169857;
-        Mon, 22 Jan 2024 10:46:09 -0800 (PST)
-Received: from localhost (fwdproxy-lla-119.fbsv.net. [2a03:2880:30ff:77::face:b00c])
-        by smtp.gmail.com with ESMTPSA id a13-20020a170906274d00b00a2b608ad048sm13593462ejd.28.2024.01.22.10.46.09
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 22 Jan 2024 10:46:09 -0800 (PST)
-From: Breno Leitao <leitao@debian.org>
-To: kuba@kernel.org,
-	davem@davemloft.net,
-	abeni@redhat.com,
-	edumazet@google.com,
-	Alexander Aring <alex.aring@gmail.com>,
-	Stefan Schmidt <stefan@datenfreihafen.org>,
-	Miquel Raynal <miquel.raynal@bootlin.com>,
-	Paolo Abeni <pabeni@redhat.com>
-Cc: dsahern@kernel.org,
-	weiwan@google.com,
-	linux-wpan@vger.kernel.org (open list:IEEE 802.15.4 SUBSYSTEM),
-	netdev@vger.kernel.org (open list:NETWORKING [GENERAL]),
-	linux-kernel@vger.kernel.org (open list)
-Subject: [PATCH net-next 02/22] net: fill in MODULE_DESCRIPTION()s for ieee802154
-Date: Mon, 22 Jan 2024 10:45:23 -0800
-Message-Id: <20240122184543.2501493-3-leitao@debian.org>
-X-Mailer: git-send-email 2.39.3
-In-Reply-To: <20240122184543.2501493-1-leitao@debian.org>
-References: <20240122184543.2501493-1-leitao@debian.org>
+	s=arc-20240116; t=1705947423; c=relaxed/simple;
+	bh=EJO7ijoy/QEyNtkXI5m0dLezfhXMbbi40EIs5xDpTNw=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=K9V2gpGj24ZXp89mmVPiUJRQUXpTHqmnkln2MJtyTLV4oRTOTmE9jDFlibSbiDZuK5BZG8H96MshREkDW0Tew8c+KJ+8YR8kuPK8e1OkG/F0S0KLBHZZI4A5tse5Qxa6nIU+4urvLYeG1Ey41m7LurDDWDISlYAJKunDS85yG4Q=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=CiwkLTW3; arc=none smtp.client-ip=217.70.183.197
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
+Received: by mail.gandi.net (Postfix) with ESMTPSA id 199FB1C0006;
+	Mon, 22 Jan 2024 18:16:52 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
+	t=1705947418;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=EJO7ijoy/QEyNtkXI5m0dLezfhXMbbi40EIs5xDpTNw=;
+	b=CiwkLTW30HAq8YFrXK6atoT0l2XdjZd3qmaXQJ/VjXYEmI5zC8E7u17mfvI++Icaf62caw
+	BZeks39EpN24q6ATPbYW2L6YoHBHRWiK0/asNvq6O2fQG2EbH/RcwCpq8lXwiEyT3s5zGW
+	xMSDGjKTdOvFbxenrPd17/Sjn0W7CB260iJXHm0MvUSFxzMMb1zkihOynkvcnFlIe2MTW1
+	TGgKKVg0DGh49LtJd46zd0eCTRaubE+yWNOdV6EvBJWMumk/DWGCqCBIz9/bwWvkdmGXsu
+	oRCBVb/1PJN4BI8odcy52PRWMmDP0NEBole9OU7Wzy8qj/u3juWzN3e2vn3teQ==
+Date: Mon, 22 Jan 2024 19:16:45 +0100
+From: Miquel Raynal <miquel.raynal@bootlin.com>
+To: Uwe =?UTF-8?B?S2xlaW5lLUvDtm5pZw==?= <u.kleine-koenig@pengutronix.de>
+Cc: Mark Brown <broonie@kernel.org>, kernel@pengutronix.de, Alexander Aring
+ <alex.aring@gmail.com>, Stefan Schmidt <stefan@datenfreihafen.org>, "David
+ S. Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>, Jakub
+ Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
+ linux-wpan@vger.kernel.org, netdev@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-spi@vger.kernel.org, Simon Horman
+ <horms@kernel.org>
+Subject: Re: [PATCH v2 02/33] ieee802154: ca8210: Follow renaming of SPI
+ "master" to "controller"
+Message-ID: <20240122191026.1041a09f@xps-13>
+In-Reply-To: <145fba5c430e40114ab861229e52efd3ff941e42.1705944943.git.u.kleine-koenig@pengutronix.de>
+References: <cover.1705944943.git.u.kleine-koenig@pengutronix.de>
+	<145fba5c430e40114ab861229e52efd3ff941e42.1705944943.git.u.kleine-koenig@pengutronix.de>
+Organization: Bootlin
+X-Mailer: Claws Mail 4.0.0 (GTK+ 3.24.33; x86_64-pc-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-wpan@vger.kernel.org
 List-Id: <linux-wpan.vger.kernel.org>
 List-Subscribe: <mailto:linux-wpan+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-wpan+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+X-GND-Sasl: miquel.raynal@bootlin.com
 
-W=1 builds now warn if module is built without a MODULE_DESCRIPTION().
-Add descriptions to ieee802154 modules.
+Hi Uwe,
 
-Signed-off-by: Breno Leitao <leitao@debian.org>
-Acked-by: Stefan Schmidt <stefan@datenfreihafen.org>
----
- net/ieee802154/6lowpan/core.c | 1 +
- net/ieee802154/socket.c       | 1 +
- 2 files changed, 2 insertions(+)
+u.kleine-koenig@pengutronix.de wrote on Mon, 22 Jan 2024 19:06:57 +0100:
 
-diff --git a/net/ieee802154/6lowpan/core.c b/net/ieee802154/6lowpan/core.c
-index 2c087b7f17c5..e643f52663f9 100644
---- a/net/ieee802154/6lowpan/core.c
-+++ b/net/ieee802154/6lowpan/core.c
-@@ -280,5 +280,6 @@ static void __exit lowpan_cleanup_module(void)
- 
- module_init(lowpan_init_module);
- module_exit(lowpan_cleanup_module);
-+MODULE_DESCRIPTION("IPv6 over Low power Wireless Personal Area Network IEEE 802.15.4 core");
- MODULE_LICENSE("GPL");
- MODULE_ALIAS_RTNL_LINK("lowpan");
-diff --git a/net/ieee802154/socket.c b/net/ieee802154/socket.c
-index 00302e8b9615..990a83455dcf 100644
---- a/net/ieee802154/socket.c
-+++ b/net/ieee802154/socket.c
-@@ -1137,4 +1137,5 @@ module_init(af_ieee802154_init);
- module_exit(af_ieee802154_remove);
- 
- MODULE_LICENSE("GPL");
-+MODULE_DESCRIPTION("IEEE 802.15.4 socket interface");
- MODULE_ALIAS_NETPROTO(PF_IEEE802154);
--- 
-2.39.3
+> In commit 8caab75fd2c2 ("spi: Generalize SPI "master" to "controller"")
+> some functions and struct members were renamed. To not break all drivers
+> compatibility macros were provided.
+>=20
+> To be able to remove these compatibility macros push the renaming into
+> this driver.
+>=20
+> Reviewed-by: Simon Horman <horms@kernel.org>
+> Acked-by: Stefan Schmidt <stefan@datenfreihafen.org>
+> Signed-off-by: Uwe Kleine-K=C3=B6nig <u.kleine-koenig@pengutronix.de>
 
+Acked-by: Miquel Raynal <miquel.raynal@bootlin.com>
+
+Thanks,
+Miqu=C3=A8l
 
