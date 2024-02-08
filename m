@@ -1,114 +1,109 @@
-Return-Path: <linux-wpan+bounces-111-lists+linux-wpan=lfdr.de@vger.kernel.org>
+Return-Path: <linux-wpan+bounces-113-lists+linux-wpan=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-wpan@lfdr.de
 Delivered-To: lists+linux-wpan@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id DB31C84D176
-	for <lists+linux-wpan@lfdr.de>; Wed,  7 Feb 2024 19:44:54 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id BECFE84E54E
+	for <lists+linux-wpan@lfdr.de>; Thu,  8 Feb 2024 17:44:42 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 067961C253C6
-	for <lists+linux-wpan@lfdr.de>; Wed,  7 Feb 2024 18:44:54 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 652901F21A20
+	for <lists+linux-wpan@lfdr.de>; Thu,  8 Feb 2024 16:44:42 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0511D126F09;
-	Wed,  7 Feb 2024 18:43:22 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 48DD48614C;
+	Thu,  8 Feb 2024 16:43:04 +0000 (UTC)
 X-Original-To: linux-wpan@vger.kernel.org
-Received: from metis.whiteo.stw.pengutronix.de (metis.whiteo.stw.pengutronix.de [185.203.201.7])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ej1-f51.google.com (mail-ej1-f51.google.com [209.85.218.51])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E208A8563C
-	for <linux-wpan@vger.kernel.org>; Wed,  7 Feb 2024 18:43:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.203.201.7
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8E02385276;
+	Thu,  8 Feb 2024 16:43:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.51
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1707331401; cv=none; b=C8zlk3QwS0CMKbtue3mGbcvTH+nnioH7/WMlZWgiCW0dsWSvIxK/hrN0IWYHKhF2RFfkjyPqXkAlLt3UDbUS9fUXd/vw+9QjchyutJZuxoHF+GrsjzsR4VkKkfaEYMa4c3FVJKYCbuBodmKpdGrKHoafEtp1KmqIqlXSu+DwQgo=
+	t=1707410584; cv=none; b=m/YdOYvKLRC0XzGNoh/2oVolCady9olaX2JcDMshYlhmstLV3TeDlHXqmWq6XzpDky2Rs5XbjVXvYACr1Fh/aUrYQBvR8T991dd+esBdfD4Gc+h0nCRQNOabeZG3oN9vhkCKcmdjhHEJPPrqD2EzdS1SV9v8SXoieX3pTuddUFE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1707331401; c=relaxed/simple;
-	bh=jhiShNIsUFW7WZuiPMMO9tp0A0zw/Nl6K1uMEilFM+o=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=FxtuNq9PbF2A/9zdPwewUKlJoIe21+Usm5K+LUdrDesoJd+UNyn+ejqUShlB9qkmi7mVpdtqTIJ87jyBpShCxJe21Kz9unoLJBq7BKaV7GrzNsITO/nHPhTTMF1A+DkRA+N/lSuTZFDsTUQVbnbupGtjDZ7k7i6pv8IGvmdKvPU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de; spf=pass smtp.mailfrom=pengutronix.de; arc=none smtp.client-ip=185.203.201.7
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=pengutronix.de
-Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
-	by metis.whiteo.stw.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
-	(Exim 4.92)
-	(envelope-from <ukl@pengutronix.de>)
-	id 1rXmt4-0007PH-4K; Wed, 07 Feb 2024 19:43:10 +0100
-Received: from [2a0a:edc0:0:900:1d::77] (helo=ptz.office.stw.pengutronix.de)
-	by drehscheibe.grey.stw.pengutronix.de with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
-	(Exim 4.94.2)
-	(envelope-from <ukl@pengutronix.de>)
-	id 1rXmt1-0054Wu-TG; Wed, 07 Feb 2024 19:43:07 +0100
-Received: from ukl by ptz.office.stw.pengutronix.de with local (Exim 4.96)
-	(envelope-from <ukl@pengutronix.de>)
-	id 1rXmt1-00HRrp-2b;
-	Wed, 07 Feb 2024 19:43:07 +0100
-From: =?UTF-8?q?Uwe=20Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>
-To: Mark Brown <broonie@kernel.org>
-Cc: kernel@pengutronix.de,
-	Alexander Aring <alex.aring@gmail.com>,
-	Stefan Schmidt <stefan@datenfreihafen.org>,
-	Miquel Raynal <miquel.raynal@bootlin.com>,
-	"David S. Miller" <davem@davemloft.net>,
-	Eric Dumazet <edumazet@google.com>,
-	Jakub Kicinski <kuba@kernel.org>,
-	Paolo Abeni <pabeni@redhat.com>,
-	linux-wpan@vger.kernel.org,
-	netdev@vger.kernel.org,
+	s=arc-20240116; t=1707410584; c=relaxed/simple;
+	bh=0TJr9SPkwnlTG9uKVj59UILIzyUJlgu+VRGvyidgXCc=;
+	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
+	 MIME-Version; b=Wq8qvcV8UnHK1TIAELk0u63Rt8zx7+agq5cOVJ12gn30l43TzSQhPNbkLwpyx2b/O17hdIfcJpBzv2MahWb5skMXDkdGaVAob1nMThdcfrc767ERU3w/KHFRlbyXeTW2MS27Dg9mXrG7e1JdYUV0PFT9kfOxPuNBJKupbse3GXk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=debian.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.218.51
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=debian.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-ej1-f51.google.com with SMTP id a640c23a62f3a-a3916c1f9b0so170888466b.1;
+        Thu, 08 Feb 2024 08:43:02 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1707410581; x=1708015381;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=j6NrglvQNA8UcjFWlDsn4D/ol88i9iFcMKr2mLjvwfI=;
+        b=bWPMmAv5PPpeZ6rf6Mcp/rDTI2AtRyoiqfI0nedN1n+8SlC0fZkhrvXqxA0yGxH2Fb
+         VlMHoZ2YrlxvdUCn9uNbReXueajwM7rDe2GKuMAUhs/FqpDSY4AiFlDmIwy9kLcFbNmB
+         VDAFNPO/dd3oRXUyX4pOVaXVc6j+A0QMC8K2umU14YlvrwR+vWI8EYoJgsbh4/1+pLUn
+         GqXXnYXL3RdWtRrm4Fe1NzV8Ysa1Z7SkmlmTgWvJmugU6cHq6iS3Us0Ttf9AvkjbXsGy
+         YaZWU3HE0LOa5qJYGGLh9Tgj9GZMxyNmrv5LsyZ0zmnOMt1nawqywPXsdmbdPWknHbmh
+         4IOw==
+X-Forwarded-Encrypted: i=1; AJvYcCWS+GvJycw6FeHL3/I8c8fDMuvXYavmq/XTRPX/SfC3pxsw8+AsRgwrXGKb7/9HMa04EUT+5jyEyhPFaBwuiyKA5xa8SRSZi/5euljDaxNt4NUdTINYwe72QaudbxDLq72EuCKlHGzhwYQOJv31m/r8NNHqhg1UM22teWxiM741vBpOWSaLOawrPw==
+X-Gm-Message-State: AOJu0YzcSJVapR1fgF0hkMalfEBeehItCPnxJDqh5nq29ldlRlK97/yD
+	+RQZpvGNaG3TWhQusTCaCFRhrMN3R2KM7EHppwYIdEeP7YJXgsR6
+X-Google-Smtp-Source: AGHT+IEVdByW8vdmM232leKEL2grx8yFSsfrFp4uRJEt8bXULYqon2r5VuiscI/p1X3+2J9ZpGGShA==
+X-Received: by 2002:a17:906:7cc:b0:a38:e745:fb88 with SMTP id m12-20020a17090607cc00b00a38e745fb88mr2410396ejc.57.1707410580613;
+        Thu, 08 Feb 2024 08:43:00 -0800 (PST)
+X-Forwarded-Encrypted: i=1; AJvYcCV2V2LpfZ0wvPrNAyW+/jX8LM07o02stddr3VyFKzA/uf4lP94qe7uR3OZVYf+Cb3dmSMS+bRTuQ1Z0UsZ8ASHSOkZYDA7mhPlQaLK+dYmFgbH0kRcWajiF4jvarfERj2tzJAbvOxCBwtIp+7/xYxkmbT8WARVLjt6NHZXtu1TrTn8pIMw8sn867qFb5Qelcbg04Yk7NaIuKhpG5IH+z2VpdwsMh1Ofpink/9xYnewUiOGFuIqZYm1+9xNgxzxEP9jZjCmfcOzA81zU85I7udqsxpRKOQZUbF9U6pT7shyAgI8DwuvEmGoiCRCJFBDeLYLb9iQv/C8VLVj07ke3Q5T8FpMVTrs4nehtzhwGJ/zcvrRu4fNL/1VwIwMLoOgIBrcNNaIGSHAgRteVd1XS/uLhs//qZJL/DeCrE/c=
+Received: from localhost (fwdproxy-lla-006.fbsv.net. [2a03:2880:30ff:6::face:b00c])
+        by smtp.gmail.com with ESMTPSA id g15-20020a170906198f00b00a3809ce7e00sm215713ejd.196.2024.02.08.08.42.59
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 08 Feb 2024 08:43:00 -0800 (PST)
+From: Breno Leitao <leitao@debian.org>
+To: kuba@kernel.org,
+	davem@davemloft.net,
+	pabeni@redhat.com,
+	edumazet@google.com,
+	Alexander Aring <alex.aring@gmail.com>
+Cc: netdev@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
-	Simon Horman <horms@kernel.org>,
-	Jonathan Cameron <Jonathan.Cameron@huawei.com>
-Subject: [PATCH v3 02/32] ieee802154: ca8210: Follow renaming of SPI "master" to "controller"
-Date: Wed,  7 Feb 2024 19:40:16 +0100
-Message-ID:  <dec96b1d3cf43bb442128957b27d02007ffeb68d.1707324794.git.u.kleine-koenig@pengutronix.de>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <cover.1707324793.git.u.kleine-koenig@pengutronix.de>
-References: <cover.1707324793.git.u.kleine-koenig@pengutronix.de>
+	horms@kernel.org,
+	andrew@lunn.ch,
+	f.fainelli@gmail.com,
+	jhs@mojatatu.com,
+	Alexander Aring <aahringo@redhat.com>,
+	linux-bluetooth@vger.kernel.org (open list:6LOWPAN GENERIC (BTLE/IEEE 802.15.4)),
+	linux-wpan@vger.kernel.org (open list:6LOWPAN GENERIC (BTLE/IEEE 802.15.4))
+Subject: [PATCH net v3 4/9] net: fill in MODULE_DESCRIPTION()s for 6LoWPAN
+Date: Thu,  8 Feb 2024 08:42:39 -0800
+Message-Id: <20240208164244.3818498-5-leitao@debian.org>
+X-Mailer: git-send-email 2.39.3
+In-Reply-To: <20240208164244.3818498-1-leitao@debian.org>
+References: <20240208164244.3818498-1-leitao@debian.org>
 Precedence: bulk
 X-Mailing-List: linux-wpan@vger.kernel.org
 List-Id: <linux-wpan.vger.kernel.org>
 List-Subscribe: <mailto:linux-wpan+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-wpan+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1119; i=u.kleine-koenig@pengutronix.de; h=from:subject:message-id; bh=jhiShNIsUFW7WZuiPMMO9tp0A0zw/Nl6K1uMEilFM+o=; b=owEBbQGS/pANAwAKAY+A+1h9Ev5OAcsmYgBlw86YpPADTu1RuChoK8XIhMWiUShig6V8EeR+A faon0258syJATMEAAEKAB0WIQQ/gaxpOnoeWYmt/tOPgPtYfRL+TgUCZcPOmAAKCRCPgPtYfRL+ Tk6LB/9wjazXcYYE7uG7eQtfAxFqUm9bUtQLOuOGo6MAeDXe6a5q6Di/eDdcaU7n+YTl43PLWn2 JwzVRuZ9NUPC01hYfdcKEMm9imlqBsOQf76A+3QCkiULt7kK8yvKDDRqp6t3c79K+wThBQiHLdJ QscK83OjZMtls5lniE9ZCOyPOsKhOz3baheWT+BZGzmA+n3vYo6P8TNM4S+3/XVVzX0JiVH13BN 0/dks7nExTrhJr6EN8CAmAkaOn2+ICax5hIVHZi6sLEjCZoZju8UDpljS3JtKFRJwUxl/+XnPgX 9auINxcE5koDy+wsS38mAqJiZVGP8QgM8pcatTeQuoVefGL4
-X-Developer-Key: i=u.kleine-koenig@pengutronix.de; a=openpgp; fpr=0D2511F322BFAB1C1580266BE2DCDD9132669BD6
 Content-Transfer-Encoding: 8bit
-X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
-X-SA-Exim-Mail-From: ukl@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.whiteo.stw.pengutronix.de); SAEximRunCond expanded to false
-X-PTX-Original-Recipient: linux-wpan@vger.kernel.org
 
-In commit 8caab75fd2c2 ("spi: Generalize SPI "master" to "controller"")
-some functions and struct members were renamed. To not break all drivers
-compatibility macros were provided.
+W=1 builds now warn if module is built without a MODULE_DESCRIPTION().
+Add descriptions to IPv6 over Low power Wireless Personal Area Network.
 
-To be able to remove these compatibility macros push the renaming into
-this driver.
-
+Signed-off-by: Breno Leitao <leitao@debian.org>
+Acked-by: Alexander Aring <aahringo@redhat.com>
 Reviewed-by: Simon Horman <horms@kernel.org>
-Acked-by: Stefan Schmidt <stefan@datenfreihafen.org>
-Acked-by: Miquel Raynal <miquel.raynal@bootlin.com>
-Acked-by: Jonathan Cameron <Jonathan.Cameron@huawei.com>
-Signed-off-by: Uwe Kleine-König <u.kleine-koenig@pengutronix.de>
 ---
- drivers/net/ieee802154/ca8210.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ net/6lowpan/core.c | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/drivers/net/ieee802154/ca8210.c b/drivers/net/ieee802154/ca8210.c
-index 4ec0dab38872..f732c150462b 100644
---- a/drivers/net/ieee802154/ca8210.c
-+++ b/drivers/net/ieee802154/ca8210.c
-@@ -2956,7 +2956,7 @@ static int ca8210_test_interface_init(struct ca8210_priv *priv)
- 		node_name,
- 		sizeof(node_name),
- 		"ca8210@%d_%d",
--		priv->spi->master->bus_num,
-+		priv->spi->controller->bus_num,
- 		spi_get_chipselect(priv->spi, 0)
- 	);
+diff --git a/net/6lowpan/core.c b/net/6lowpan/core.c
+index 7b3341cef926..850d4a185f55 100644
+--- a/net/6lowpan/core.c
++++ b/net/6lowpan/core.c
+@@ -179,4 +179,5 @@ static void __exit lowpan_module_exit(void)
+ module_init(lowpan_module_init);
+ module_exit(lowpan_module_exit);
  
++MODULE_DESCRIPTION("IPv6 over Low-Power Wireless Personal Area Network core module");
+ MODULE_LICENSE("GPL");
 -- 
-2.43.0
+2.39.3
 
 
