@@ -1,107 +1,122 @@
-Return-Path: <linux-wpan+bounces-148-lists+linux-wpan=lfdr.de@vger.kernel.org>
+Return-Path: <linux-wpan+bounces-150-lists+linux-wpan=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-wpan@lfdr.de
 Delivered-To: lists+linux-wpan@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id B151E8741E4
-	for <lists+linux-wpan@lfdr.de>; Wed,  6 Mar 2024 22:22:02 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2A44B875791
+	for <lists+linux-wpan@lfdr.de>; Thu,  7 Mar 2024 20:53:15 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id ECF181C2132E
-	for <lists+linux-wpan@lfdr.de>; Wed,  6 Mar 2024 21:22:01 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id C16A01F24620
+	for <lists+linux-wpan@lfdr.de>; Thu,  7 Mar 2024 19:53:14 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0279A1A29A;
-	Wed,  6 Mar 2024 21:21:59 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=datenfreihafen.org header.i=@datenfreihafen.org header.b="FOUQWrEU"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 10DE213848C;
+	Thu,  7 Mar 2024 19:51:32 +0000 (UTC)
 X-Original-To: linux-wpan@vger.kernel.org
 Received: from proxima.lasnet.de (proxima.lasnet.de [78.47.171.185])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 25BAF175A5;
-	Wed,  6 Mar 2024 21:21:56 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0D095137C39;
+	Thu,  7 Mar 2024 19:51:27 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=78.47.171.185
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1709760118; cv=none; b=NYzPnK0gDfUL1mj9lKeqMyqrgYXrjS+Ll278XhKLxjPrKLV9OD63ktzxlyTNBihS3+RkYzjiK6aOCf6C+3isXY1zkaDtSrlIw0O16TJamaYRvl0yB+UfL/RasM+BakSkKnzTQFKUz/oFSLAbq91z5yHSRw1JImf9xYiNISL9S3s=
+	t=1709841092; cv=none; b=bByI9k6A/CBG6KO200GOB/SKwjkyNOxrJJyBdo7VwZ0SXNTTsb4KIulq1+7zGy2IKZRDDoLwGr2+BV6QQ9RgkoDT2p/+CERf/Zme7AldrY42eIbYLt5T+5MlRN+DXDD56AsD3O7/f9lvFcFNH0quw8Va+3bery4sjPhkrK1v7HM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1709760118; c=relaxed/simple;
-	bh=A45dKxd8Vr/o7Ri8lNpfa+iXwIOMMQ4L+1bvVK4BQ3k=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=Lhxs3VqSgm7/h3LIZd5nePOSYdedI8CZDtLo+su+3Z/CtktKTJlaYOULYEuDe/08yyKW5ZfiV2EBxiFenDj/1Y+fZBg9lMwy/jM/tHOaGVMa9f8ciw83KfVZCmmb/DxREBz3uph0LUVitqbF7KzKrRNf+ao2Gc+xDiV2f2dVjxU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=datenfreihafen.org; spf=pass smtp.mailfrom=datenfreihafen.org; dkim=pass (2048-bit key) header.d=datenfreihafen.org header.i=@datenfreihafen.org header.b=FOUQWrEU; arc=none smtp.client-ip=78.47.171.185
+	s=arc-20240116; t=1709841092; c=relaxed/simple;
+	bh=a1xb1mMQy8YqL8oScQ6h8lSK/elVzB3caUVbGFJlCSM=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=UfDljUVKDbuDiyydz7Dp6egD6gDJnjHMjE4fDI2TnjyGEpeF+7+qK/T7NECooWSlNKdD/eQuh83v+C9WhYwxV5MQMs72V3xKfTMVYBG5keOxZwsy4HTRtZgPBm/srFwa1gHbFNuI7TVsa0c+qJTmX48/ti8L5J3mkcFm6fmCk3I=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=datenfreihafen.org; spf=pass smtp.mailfrom=datenfreihafen.org; arc=none smtp.client-ip=78.47.171.185
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=datenfreihafen.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=datenfreihafen.org
-Received: from [IPV6:2a00:20:700b:bdb7:2491:aaf9:faf7:2090] (unknown [IPv6:2a00:20:700b:bdb7:2491:aaf9:faf7:2090])
+Received: from localhost.localdomain (unknown [45.118.184.53])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	(Authenticated sender: stefan@datenfreihafen.org)
-	by proxima.lasnet.de (Postfix) with ESMTPSA id 9A760C08B2;
-	Wed,  6 Mar 2024 22:21:54 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=datenfreihafen.org;
-	s=2021; t=1709760115;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=7rUyQUV1pCO/tmmVIZpuhQjIooyInuiRI+/0DW02pz8=;
-	b=FOUQWrEUWyNo29i2MYh8JQZZRmHk2rzO+Na1eACTvx0h8t3Vn0LDGNp8qO5rtDVxNPEF+g
-	csPNQG/f17UIh/5mRmFCBBzAtbFIfXOyCmwsdNDm9zV8kTd5v4aFZ1A6kehV3i72bCLoap
-	3L77YK1f63M3jCF7zkIo1xv+zWxNkPE87yBGbk+tdLI6+ave7lrE3f17FjHdQn11cB9BTg
-	tzPMAYyrAtvdnd5h9yOZNvTRCZjF2u4kzCkq4PKICFlMpdJdLezZOm2M/xEonyQwmTLaFC
-	VQo7ZxTQn0K3ifSz9VSUMqDU37ZkfVQZTkYXDJeRW6E5wYWP6xHZzBt/73HXeA==
-Message-ID: <843b0011-d03d-4da9-8130-3eb1e08e87e3@datenfreihafen.org>
-Date: Wed, 6 Mar 2024 22:21:54 +0100
+	(Authenticated sender: stefan@sostec.de)
+	by proxima.lasnet.de (Postfix) with ESMTPSA id 37CC3C08B2;
+	Thu,  7 Mar 2024 20:51:25 +0100 (CET)
+From: Stefan Schmidt <stefan@datenfreihafen.org>
+To: davem@davemloft.net,
+	kuba@kernel.org,
+	pabeni@redhat.com
+Cc: linux-wpan@vger.kernel.org,
+	alex.aring@gmail.com,
+	miquel.raynal@bootlin.com,
+	netdev@vger.kernel.org
+Subject: pull-request: ieee802154-next 2024-03-07
+Date: Thu,  7 Mar 2024 20:51:05 +0100
+Message-ID: <20240307195105.292085-1-stefan@datenfreihafen.org>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-wpan@vger.kernel.org
 List-Id: <linux-wpan.vger.kernel.org>
 List-Subscribe: <mailto:linux-wpan+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-wpan+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH net-next v1 1/1] ieee802154: mcr20a: Remove unused
- of_gpio.h
-Content-Language: en-US
-To: Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
- linux-wpan@vger.kernel.org, netdev@vger.kernel.org,
- linux-kernel@vger.kernel.org
-Cc: Alexander Aring <alex.aring@gmail.com>,
- Miquel Raynal <miquel.raynal@bootlin.com>,
- "David S. Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>,
- Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>
-References: <20240304175320.1199496-1-andriy.shevchenko@linux.intel.com>
-From: Stefan Schmidt <stefan@datenfreihafen.org>
-In-Reply-To: <20240304175320.1199496-1-andriy.shevchenko@linux.intel.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
-Hello.
+Hello Dave, Jakub, Paolo.
 
-On 04.03.24 18:53, Andy Shevchenko wrote:
-> of_gpio.h is deprecated and subject to remove.
-> The driver doesn't use it, simply remove the unused header.
-> 
-> Signed-off-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-> ---
->   drivers/net/ieee802154/mcr20a.c | 1 -
->   1 file changed, 1 deletion(-)
-> 
-> diff --git a/drivers/net/ieee802154/mcr20a.c b/drivers/net/ieee802154/mcr20a.c
-> index efb1be3c644e..433fb5839203 100644
-> --- a/drivers/net/ieee802154/mcr20a.c
-> +++ b/drivers/net/ieee802154/mcr20a.c
-> @@ -12,7 +12,6 @@
->   #include <linux/interrupt.h>
->   #include <linux/irq.h>
->   #include <linux/skbuff.h>
-> -#include <linux/of_gpio.h>
->   #include <linux/regmap.h>
->   #include <linux/ieee802154.h>
->   #include <linux/debugfs.h>
+A little late, but hopefully still in time.
 
-This patch has been applied to the wpan-next tree and will be
-part of the next pull request to net-next. Thanks!
+An update from ieee802154 for your *net-next* tree:
+
+Various cross tree patches for ieee802154v drivers and a resource leak
+fix for ieee802154 llsec.
+
+Andy Shevchenko changed GPIO header usage for at86rf230 and mcr20a to
+only include needed headers.
+
+Bo Liu converted the at86rf230, mcr20a and mrf24j40 driver regmap
+support to use the maple tree register cache.
+
+Fedor Pchelkin fixed a resource leak in the llsec key deletion path.
+
+Ricardo B. Marliere made wpan_phy_class const.
+
+Tejun Heo removed WQ_UNBOUND from a workqueue call in ca8210.
 
 regards
 Stefan Schmidt
+
+The following changes since commit 2373699560a754079579b7722b50d1d38de1960e:
+
+  mac802154: Avoid new associations while disassociating (2023-12-15 11:14:57 +0100)
+
+are available in the Git repository at:
+
+  git://git.kernel.org/pub/scm/linux/kernel/git/wpan/wpan-next.git tags/ieee802154-for-net-next-2024-03-07
+
+for you to fetch changes up to b2d23256615c8f8b3215f0155b0234f0e310dfde:
+
+  ieee802154: cfg802154: make wpan_phy_class constant (2024-03-06 21:23:10 +0100)
+
+----------------------------------------------------------------
+Andy Shevchenko (2):
+      ieee802154: at86rf230: Replace of_gpio.h by proper one
+      ieee802154: mcr20a: Remove unused of_gpio.h
+
+Bo Liu (3):
+      net: ieee802154: at86rf230: convert to use maple tree register cache
+      net: ieee802154: mcr20a: convert to use maple tree register cache
+      net: ieee802154: mrf24j40: convert to use maple tree register cache
+
+Fedor Pchelkin (1):
+      mac802154: fix llsec key resources release in mac802154_llsec_key_del
+
+Ricardo B. Marliere (1):
+      ieee802154: cfg802154: make wpan_phy_class constant
+
+Tejun Heo (1):
+      ieee802154: ca8210: Drop spurious WQ_UNBOUND from alloc_ordered_workqueue() call
+
+ drivers/net/ieee802154/at86rf230.c |  5 ++---
+ drivers/net/ieee802154/ca8210.c    | 10 ++--------
+ drivers/net/ieee802154/mcr20a.c    |  5 ++---
+ drivers/net/ieee802154/mrf24j40.c  |  4 ++--
+ include/net/cfg802154.h            |  1 +
+ net/ieee802154/sysfs.c             |  2 +-
+ net/ieee802154/sysfs.h             |  2 +-
+ net/mac802154/llsec.c              | 18 +++++++++++++-----
+ 8 files changed, 24 insertions(+), 23 deletions(-)
 
