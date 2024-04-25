@@ -1,570 +1,417 @@
-Return-Path: <linux-wpan+bounces-190-lists+linux-wpan=lfdr.de@vger.kernel.org>
+Return-Path: <linux-wpan+bounces-193-lists+linux-wpan=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-wpan@lfdr.de
 Delivered-To: lists+linux-wpan@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 10EA48AA126
-	for <lists+linux-wpan@lfdr.de>; Thu, 18 Apr 2024 19:33:35 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8FC9C8B20F4
+	for <lists+linux-wpan@lfdr.de>; Thu, 25 Apr 2024 14:03:59 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 908981F223B6
-	for <lists+linux-wpan@lfdr.de>; Thu, 18 Apr 2024 17:33:34 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 07E021F25189
+	for <lists+linux-wpan@lfdr.de>; Thu, 25 Apr 2024 12:03:59 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5412C172790;
-	Thu, 18 Apr 2024 17:33:31 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5BA4F12BF3F;
+	Thu, 25 Apr 2024 12:03:40 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="JMLBZWMe"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Jv5/3gzC"
 X-Original-To: linux-wpan@vger.kernel.org
-Received: from mail-oa1-f45.google.com (mail-oa1-f45.google.com [209.85.160.45])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3EDC3175549
-	for <linux-wpan@vger.kernel.org>; Thu, 18 Apr 2024 17:33:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.45
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F39D012AAF8;
+	Thu, 25 Apr 2024 12:03:39 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1713461611; cv=none; b=ATdnyJOke+3ACIiotVNF2JQh2kq851FGdjSIDZ4pHMYVFjzro57HpELEbgUdAnGbw/foqboC2mJdCdO3hcQ+Lza9ELZJ/fnRU1UN6ao0xPpLWmnPvP0SHj1iZ3UPKBTIJ93j+mXH9dJmEq5CgTuOBHWIAKoB/aJ4oJyEK18+qhg=
+	t=1714046620; cv=none; b=fOvyxq0h32+Lxl/s5aciJfeUQY8CuZDBSmBvr/S3vgt/p2LqLpPaYvqlc4SPHRnjm/ZMAJB3dvJNlQJIKvt7ST+2Ls/+Aw4/jfJMMx+ZJixSYQyzJEKA4ag/Q79DfIMfXCSiq3De/Dh/bTS85JW+yokF8XiR79wckNf1WosvsFM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1713461611; c=relaxed/simple;
-	bh=vVoc5zq0qVRDbnyGYqUu5jY97W87uQbiK+3UuEoP9F8=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=RWZGvVkbfKBOGCUq8/uqobXTN56OBUFYZY+uLr6/M8hrgee1Hjv8G5vw4TBMdPEvZQDrOEi8Ly2VgSiJXper88URdPFUwqcemyBPLsfRxnNcapplyx0QSiIhrVpDKY10ovJCFrj4ZGYhqykaX6edS8Qax8U9Ke4Nt4b0uc9SmIM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=JMLBZWMe; arc=none smtp.client-ip=209.85.160.45
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
-Received: by mail-oa1-f45.google.com with SMTP id 586e51a60fabf-22ed075a629so543865fac.3
-        for <linux-wpan@vger.kernel.org>; Thu, 18 Apr 2024 10:33:29 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google; t=1713461608; x=1714066408; darn=vger.kernel.org;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=Su/0jhVB60Wlg9G5Him3VvxG/87i2p2Lv2g9MqI6bUU=;
-        b=JMLBZWMeoJ3pn4AjTfN4NPROPvKxhG7zRayH4/JQoWirBjKQTbdwp8L5kuyP6meJZq
-         xF3Qe9AU9k01C8tIlKlvZZUt8rIgxWP8YJKZjNa+kiJoqpp41Ng9Q2MoElau9z+9Qj7j
-         LlygJe2LBcQocZo5FQMsOscxXv57A3G+8A0y0=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1713461608; x=1714066408;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=Su/0jhVB60Wlg9G5Him3VvxG/87i2p2Lv2g9MqI6bUU=;
-        b=K3XfTS2GGbj6tKoCAC+Ei1zpCpIsxdZK664UT+Ycb9TaGEeeBZA1jc659lv6cmsv4O
-         FNRSXBNHxUXzuiM50WXAq7mcH4XT35DrPKKMW2dgysLw31g3WGgRhEj6EZm6OYBBjmmH
-         hO62geKiBtb728j00TvHGrVi2RWETx/d1fwMcQ6ar/Vkruy0J1UJg8mwsygqZiPp8fMv
-         +oOUDRpTI/N6Ne5FSiG/mon/KOsQL7o/+p/BelggCDo50lZCYxygRujA9fpqzRo5mK9X
-         Ay2Kr47MSqUR8Ec+nvDfWnHl4uYAS2sdNfYJ/P4oxkdP+iyq7YLszsShPzTw4ECr+X0x
-         yhKg==
-X-Forwarded-Encrypted: i=1; AJvYcCVZozoH+G0E/U4hoSwOvV48zfDrKzNmNTGpbqKdPBmf7+kHYkqas4R2EYmVqmNf8Yyoz0zRX0CymuU9uquEu0vlUieaHlGvbwKV1w==
-X-Gm-Message-State: AOJu0YxeO/wJ2ENrFBH8WT63j6Dq9cEtVmesFA6oV46CfL+T5rhbZ5SV
-	rHuNSB8n04yOMYnF0s1J01ai7zzMlQJn5dts/FS32hWq6Kz3IRkfxF6JY1fnOw==
-X-Google-Smtp-Source: AGHT+IGA2jtQNRvB9rGrp0xvC3LVrf3b0mrd0c1k+WW3TidBwOQ3bB57iP8v8X9wDFCdBcLCvEqCvQ==
-X-Received: by 2002:a05:6870:e8c5:b0:22e:959b:cf74 with SMTP id r5-20020a056870e8c500b0022e959bcf74mr4409603oan.40.1713461608313;
-        Thu, 18 Apr 2024 10:33:28 -0700 (PDT)
-Received: from www.outflux.net ([198.0.35.241])
-        by smtp.gmail.com with ESMTPSA id s21-20020a632155000000b005cd8044c6fesm1689076pgm.23.2024.04.18.10.33.27
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 18 Apr 2024 10:33:27 -0700 (PDT)
-Date: Thu, 18 Apr 2024 10:33:27 -0700
-From: Kees Cook <keescook@chromium.org>
-To: Thomas =?iso-8859-1?Q?Wei=DFschuh?= <linux@weissschuh.net>
-Cc: David Ahern <dsahern@kernel.org>,
-	"David S. Miller" <davem@davemloft.net>,
-	Eric Dumazet <edumazet@google.com>,
-	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
-	Luis Chamberlain <mcgrof@kernel.org>,
-	Joel Granados <j.granados@samsung.com>,
-	Joerg Reuter <jreuter@yaina.de>,
-	Pablo Neira Ayuso <pablo@netfilter.org>,
-	Jozsef Kadlecsik <kadlec@netfilter.org>,
-	Roopa Prabhu <roopa@nvidia.com>,
-	Nikolay Aleksandrov <razor@blackwall.org>,
-	Alexander Aring <alex.aring@gmail.com>,
-	Stefan Schmidt <stefan@datenfreihafen.org>,
-	Miquel Raynal <miquel.raynal@bootlin.com>,
-	Steffen Klassert <steffen.klassert@secunet.com>,
-	Herbert Xu <herbert@gondor.apana.org.au>,
-	Matthieu Baerts <matttbe@kernel.org>,
-	Mat Martineau <martineau@kernel.org>,
-	Geliang Tang <geliang@kernel.org>,
-	Marcelo Ricardo Leitner <marcelo.leitner@gmail.com>,
-	Xin Long <lucien.xin@gmail.com>,
-	Wenjia Zhang <wenjia@linux.ibm.com>,
-	Jan Karcher <jaka@linux.ibm.com>,
-	"D. Wythe" <alibuda@linux.alibaba.com>,
-	Tony Lu <tonylu@linux.alibaba.com>,
-	Wen Gu <guwen@linux.alibaba.com>, netdev@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org,
-	linux-hams@vger.kernel.org, netfilter-devel@vger.kernel.org,
-	coreteam@netfilter.org, bridge@lists.linux.dev,
-	linux-wpan@vger.kernel.org, mptcp@lists.linux.dev,
-	linux-sctp@vger.kernel.org, linux-s390@vger.kernel.org
-Subject: Re: [PATCH v2] sysctl: treewide: constify
- ctl_table_header::ctl_table_arg
-Message-ID: <202404181026.1E2AA3457@keescook>
-References: <20240418-sysctl-const-table-arg-v2-1-4012abc31311@weissschuh.net>
+	s=arc-20240116; t=1714046620; c=relaxed/simple;
+	bh=z4KRjIbbsJSqGmAGg8o8k7Lsw48MCLoNj1a/WNPurWw=;
+	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=FKpX6mZ0I42s/04mj+iP6oAaPC7xZWQ1XiUGLtEPb5wOwM5GrdnOVSLrCe/y/Hy2zX1Z4jRqt40g6J12uJ6OTxu2I+wMO1QsCqAbFnuVJ3iEluufZqkWA1uyG+QgLpSBgiFBzLh3bZkNpULMOlRvcSQLdtd8btVk3stB0LFB7vY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Jv5/3gzC; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPS id 8A4F5C2BD10;
+	Thu, 25 Apr 2024 12:03:39 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1714046619;
+	bh=z4KRjIbbsJSqGmAGg8o8k7Lsw48MCLoNj1a/WNPurWw=;
+	h=From:Subject:Date:To:Cc:Reply-To:From;
+	b=Jv5/3gzCJrXVfTeDKWAV5E8N61AXvgSkBc9xdReFhrqWBomRKaL3nPrwajQcSC43Z
+	 V19Gu1UHHzp8Xs4Uq5PqOgYMX7O5F6ONnMhIHttAia+X9ru0MAqZBOxjygfRcktKKD
+	 3AA+Uc6qvsBOgrNJDrbPczfwfOIUmWDRkcfGpstW5Ji4/uhphPW0PR6RCjRyqWjD3i
+	 zBfYIlMftFXh85p9UHZRb0SKJWXKXcMEIQohxj55c1EV4AcPiZWd/URDPR+FwtO0p7
+	 FfZYtpDRyVNq0lu034yqGpw661+4u20+Pd5RbVsEWB0ROpgLuq4s9+NF5tBVE9BiL9
+	 3bvgldOI0Ly5A==
+Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 60656C4345F;
+	Thu, 25 Apr 2024 12:03:39 +0000 (UTC)
+From: Joel Granados via B4 Relay <devnull+j.granados.samsung.com@kernel.org>
+Subject: [PATCH v4 0/8] sysctl: Remove sentinel elements from networking
+Date: Thu, 25 Apr 2024 14:02:58 +0200
+Message-Id: <20240425-jag-sysctl_remset_net-v4-0-9e82f985777d@samsung.com>
 Precedence: bulk
 X-Mailing-List: linux-wpan@vger.kernel.org
 List-Id: <linux-wpan.vger.kernel.org>
 List-Subscribe: <mailto:linux-wpan+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-wpan+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20240418-sysctl-const-table-arg-v2-1-4012abc31311@weissschuh.net>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIAHJGKmYC/3XO0QrCMAwF0F+RPltZ0qqrT/6HyOjabqu4Tpo5F
+ Nm/2wmiInu8CfckD0Yuekdst3iw6AZPvgspyOWCmUaH2nFvU2aYocwEAD/pmtOdTH8uomvJ9UV
+ wPbdpqUErYTclS91LdJW/vdzDMeXGU9/F++vMANP0LcoZcQCeca1xU0ppUVm1J93SNdQr07VsM
+ gf8cjCfczA5azSq0lalF6t/R3wcCTjniOQAQL61IAwC/DrjOD4BxsuYO0wBAAA=
+To: "David S. Miller" <davem@davemloft.net>, 
+ Eric Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>, 
+ Paolo Abeni <pabeni@redhat.com>, Alexander Aring <alex.aring@gmail.com>, 
+ Stefan Schmidt <stefan@datenfreihafen.org>, 
+ Miquel Raynal <miquel.raynal@bootlin.com>, David Ahern <dsahern@kernel.org>, 
+ Steffen Klassert <steffen.klassert@secunet.com>, 
+ Herbert Xu <herbert@gondor.apana.org.au>, 
+ Matthieu Baerts <matttbe@kernel.org>, Mat Martineau <martineau@kernel.org>, 
+ Geliang Tang <geliang@kernel.org>, Ralf Baechle <ralf@linux-mips.org>, 
+ Remi Denis-Courmont <courmisch@gmail.com>, 
+ Allison Henderson <allison.henderson@oracle.com>, 
+ David Howells <dhowells@redhat.com>, Marc Dionne <marc.dionne@auristor.com>, 
+ Marcelo Ricardo Leitner <marcelo.leitner@gmail.com>, 
+ Xin Long <lucien.xin@gmail.com>, Wenjia Zhang <wenjia@linux.ibm.com>, 
+ Jan Karcher <jaka@linux.ibm.com>, "D. Wythe" <alibuda@linux.alibaba.com>, 
+ Tony Lu <tonylu@linux.alibaba.com>, Wen Gu <guwen@linux.alibaba.com>, 
+ Trond Myklebust <trond.myklebust@hammerspace.com>, 
+ Anna Schumaker <anna@kernel.org>, Chuck Lever <chuck.lever@oracle.com>, 
+ Jeff Layton <jlayton@kernel.org>, Neil Brown <neilb@suse.de>, 
+ Olga Kornievskaia <kolga@netapp.com>, Dai Ngo <Dai.Ngo@oracle.com>, 
+ Tom Talpey <tom@talpey.com>, Jon Maloy <jmaloy@redhat.com>, 
+ Ying Xue <ying.xue@windriver.com>, Martin Schiller <ms@dev.tdt.de>, 
+ Pablo Neira Ayuso <pablo@netfilter.org>, 
+ Jozsef Kadlecsik <kadlec@netfilter.org>, Florian Westphal <fw@strlen.de>, 
+ Roopa Prabhu <roopa@nvidia.com>, Nikolay Aleksandrov <razor@blackwall.org>, 
+ Simon Horman <horms@verge.net.au>, Julian Anastasov <ja@ssi.bg>, 
+ Joerg Reuter <jreuter@yaina.de>, Luis Chamberlain <mcgrof@kernel.org>, 
+ Kees Cook <keescook@chromium.org>
+Cc: netdev@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ dccp@vger.kernel.org, linux-wpan@vger.kernel.org, mptcp@lists.linux.dev, 
+ linux-hams@vger.kernel.org, linux-rdma@vger.kernel.org, 
+ rds-devel@oss.oracle.com, linux-afs@lists.infradead.org, 
+ linux-sctp@vger.kernel.org, linux-s390@vger.kernel.org, 
+ linux-nfs@vger.kernel.org, tipc-discussion@lists.sourceforge.net, 
+ linux-x25@vger.kernel.org, netfilter-devel@vger.kernel.org, 
+ coreteam@netfilter.org, bridge@lists.linux.dev, lvs-devel@vger.kernel.org, 
+ Joel Granados <j.granados@samsung.com>
+X-Mailer: b4 0.13-dev-2d940
+X-Developer-Signature: v=1; a=openpgp-sha256; l=15110;
+ i=j.granados@samsung.com; h=from:subject:message-id;
+ bh=zBmytE4RXeXsfs2R37Cc3NmnPMXNcZF6hCbgLnPrpWg=;
+ b=owJ4nAHtARL+kA0DAAoBupfNUreWQU8ByyZiAGYqRpSAjk77t9X/LxyFMa4bCs8zj3S6nmBRI
+ LlM/lF/0WkIfYkBswQAAQoAHRYhBK5HCVcl5jElzssnkLqXzVK3lkFPBQJmKkaUAAoJELqXzVK3
+ lkFPkn8L/ji9z/RcTAJaHdhrakLG3z/EQK6Q9BElYrCtmU6QzLtcbIcXBxPKJOLV3S5qeRt9u1C
+ wuB8xOT/u0pWHLdexg+hqI05qIhD38TL6Tp0Q34uMERiJifzMZQDNc0Pp2JowTYLZSnVNYIee0T
+ IuMBZGoYbt82u6Na7Tfq4p74YWdtyInXE2Ahcm4cO/8exIO39N8VzQAB2V/GGnW3R7twOSzzlXt
+ JV9RTahw7Ur9hmAucmPuSJQAo8Xo3YPuEkWWDyuj7R/e1VF20ZKSRvjkZC+0sijpfS/1KKG+VAu
+ NrEoofmqbFFC4SyNQnbBpUL7VUAxAamGlLpHYmx0Oep23XuklThW6eIboE81c9aRe9ME8MC/cQK
+ VLmpvZPoP5xtPsy9Tag9M36oDkdcduVHrbW+EhfP0rNYlnZdxBrhswLT72mBaikgrCTPwD4wcp3
+ Jok24YjqSneVDmFAd7lh929IQexalQ2+kILqcQkMDNNOvjOWyglROtxzMFm8AojZpLFd5eVmnJ5
+ rw=
+X-Developer-Key: i=j.granados@samsung.com; a=openpgp;
+ fpr=F1F8E46D30F0F6C4A45FF4465895FAAC338C6E77
+X-Endpoint-Received: by B4 Relay for j.granados@samsung.com/default with
+ auth_id=70
+X-Original-From: Joel Granados <j.granados@samsung.com>
+Reply-To: j.granados@samsung.com
 
-On Thu, Apr 18, 2024 at 11:40:08AM +0200, Thomas Weiﬂschuh wrote:
-> To be able to constify instances of struct ctl_tables it is necessary to
-> remove ways through which non-const versions are exposed from the
-> sysctl core.
-> One of these is the ctl_table_arg member of struct ctl_table_header.
-> 
-> Constify this reference as a prerequisite for the full constification of
-> struct ctl_table instances.
-> No functional change.
-> 
-> Signed-off-by: Thomas Weiﬂschuh <linux@weissschuh.net>
-> ---
-> Changes in v2:
-> - Add link to original monolithic series
-> - Send to all maintainers again
-> - Link to v1: https://lore.kernel.org/r/20240322-sysctl-const-table-arg-v1-1-88436d34961b@weissschuh.net
-> ---
-> This is a standalone version of PATCH 11 from my original const-sysctl
-> series at
-> https://lore.kernel.org/lkml/20231204-const-sysctl-v2-0-7a5060b11447@weissschuh.net/
-> 
-> It is based upon the branch constfy of
-> https://git.kernel.org/pub/scm/linux/kernel/git/sysctl/sysctl.git/
-> 
-> This patch is meant to be applied through the sysctl tree.
-> 
-> It was implemented by manually searching for "ctl_table_arg"
-> throughout the tree and inspecing each found site.
-> 
-> If somebody comes up with a cocciscript for this, I'll be happy to use
-> that.
+From: Joel Granados <j.granados@samsung.com>
 
-My simple attempt doesn't find any additional instances:
+What?
+These commits remove the sentinel element (last empty element) from the
+sysctl arrays of all the files under the "net/" directory that register
+a sysctl array. The merging of the preparation patches [4] to mainline
+allows us to just remove sentinel elements without changing behavior.
+This is safe because the sysctl registration code (register_sysctl() and
+friends) use the array size in addition to checking for a sentinel [1].
 
-@constify@
-identifier VAR;
-expression EXP;
-@@
+Why?
+By removing the sysctl sentinel elements we avoid kernel bloat as
+ctl_table arrays get moved out of kernel/sysctl.c into their own
+respective subsystems. This move was started long ago to avoid merge
+conflicts; the sentinel removal bit came after Mathew Wilcox suggested
+it to avoid bloating the kernel by one element as arrays moved out. This
+patchset will reduce the overall build time size of the kernel and run
+time memory bloat by about ~64 bytes per declared ctl_table array (more
+info here [5]).
 
--       struct ctl_table *VAR;
-+       const struct ctl_table *VAR;
-        ...
-        VAR = (EXP)->ctl_table_arg
+When are we done?
+There are 4 patchest (25 commits [2]) that are still outstanding to
+completely remove the sentinels: files under "net/" (this patchset),
+files under "kernel/" dir, misc dirs (files under mm/ security/ and
+others) and the final set that removes the unneeded check for ->procname
+== NULL.
 
-it actually misses a few. :P
+Testing:
+* Ran sysctl selftests (./tools/testing/selftests/sysctl/sysctl.sh)
+* Ran this through 0-day with no errors or warnings
 
-Reviewed-by: Kees Cook <keescook@chromium.org>
+Savings in vmlinux:
+  A total of 64 bytes per sentinel is saved after removal; I measured in
+  x86_64 to give an idea of the aggregated savings. The actual savings
+  will depend on individual kernel configuration.
+    * bloat-o-meter
+        - The "yesall" config saves 3976 bytes (bloat-o-meter output [6])
+        - A reduced config [3] saves 1263 bytes (bloat-o-meter output [7])
 
-> ---
->  drivers/net/vrf.c                       | 2 +-
->  include/linux/sysctl.h                  | 2 +-
->  ipc/ipc_sysctl.c                        | 2 +-
->  ipc/mq_sysctl.c                         | 2 +-
->  kernel/ucount.c                         | 2 +-
->  net/ax25/sysctl_net_ax25.c              | 2 +-
->  net/bridge/br_netfilter_hooks.c         | 2 +-
->  net/core/sysctl_net_core.c              | 2 +-
->  net/ieee802154/6lowpan/reassembly.c     | 2 +-
->  net/ipv4/devinet.c                      | 2 +-
->  net/ipv4/ip_fragment.c                  | 2 +-
->  net/ipv4/route.c                        | 2 +-
->  net/ipv4/sysctl_net_ipv4.c              | 2 +-
->  net/ipv4/xfrm4_policy.c                 | 2 +-
->  net/ipv6/addrconf.c                     | 2 +-
->  net/ipv6/netfilter/nf_conntrack_reasm.c | 2 +-
->  net/ipv6/reassembly.c                   | 2 +-
->  net/ipv6/sysctl_net_ipv6.c              | 6 +++---
->  net/ipv6/xfrm6_policy.c                 | 2 +-
->  net/mpls/af_mpls.c                      | 4 ++--
->  net/mptcp/ctrl.c                        | 2 +-
->  net/netfilter/nf_conntrack_standalone.c | 2 +-
->  net/netfilter/nf_log.c                  | 2 +-
->  net/sctp/sysctl.c                       | 2 +-
->  net/smc/smc_sysctl.c                    | 2 +-
->  net/unix/sysctl_net_unix.c              | 2 +-
->  net/xfrm/xfrm_sysctl.c                  | 2 +-
->  27 files changed, 30 insertions(+), 30 deletions(-)
-> 
-> diff --git a/drivers/net/vrf.c b/drivers/net/vrf.c
-> index bb95ce43cd97..66f8542f3b18 100644
-> --- a/drivers/net/vrf.c
-> +++ b/drivers/net/vrf.c
-> @@ -1971,7 +1971,7 @@ static int vrf_netns_init_sysctl(struct net *net, struct netns_vrf *nn_vrf)
->  static void vrf_netns_exit_sysctl(struct net *net)
->  {
->  	struct netns_vrf *nn_vrf = net_generic(net, vrf_net_id);
-> -	struct ctl_table *table;
-> +	const struct ctl_table *table;
->  
->  	table = nn_vrf->ctl_hdr->ctl_table_arg;
->  	unregister_net_sysctl_table(nn_vrf->ctl_hdr);
-> diff --git a/include/linux/sysctl.h b/include/linux/sysctl.h
-> index 47bd28ffa88f..09db2f2e6488 100644
-> --- a/include/linux/sysctl.h
-> +++ b/include/linux/sysctl.h
-> @@ -171,7 +171,7 @@ struct ctl_table_header {
->  		struct rcu_head rcu;
->  	};
->  	struct completion *unregistering;
-> -	struct ctl_table *ctl_table_arg;
-> +	const struct ctl_table *ctl_table_arg;
->  	struct ctl_table_root *root;
->  	struct ctl_table_set *set;
->  	struct ctl_dir *parent;
-> diff --git a/ipc/ipc_sysctl.c b/ipc/ipc_sysctl.c
-> index 19b2a67aef40..113452038303 100644
-> --- a/ipc/ipc_sysctl.c
-> +++ b/ipc/ipc_sysctl.c
-> @@ -305,7 +305,7 @@ bool setup_ipc_sysctls(struct ipc_namespace *ns)
->  
->  void retire_ipc_sysctls(struct ipc_namespace *ns)
->  {
-> -	struct ctl_table *tbl;
-> +	const struct ctl_table *tbl;
->  
->  	tbl = ns->ipc_sysctls->ctl_table_arg;
->  	unregister_sysctl_table(ns->ipc_sysctls);
-> diff --git a/ipc/mq_sysctl.c b/ipc/mq_sysctl.c
-> index 43c0825da9e8..068e7d5aa42b 100644
-> --- a/ipc/mq_sysctl.c
-> +++ b/ipc/mq_sysctl.c
-> @@ -159,7 +159,7 @@ bool setup_mq_sysctls(struct ipc_namespace *ns)
->  
->  void retire_mq_sysctls(struct ipc_namespace *ns)
->  {
-> -	struct ctl_table *tbl;
-> +	const struct ctl_table *tbl;
->  
->  	tbl = ns->mq_sysctls->ctl_table_arg;
->  	unregister_sysctl_table(ns->mq_sysctls);
-> diff --git a/kernel/ucount.c b/kernel/ucount.c
-> index 90300840256b..366a2c1971f5 100644
-> --- a/kernel/ucount.c
-> +++ b/kernel/ucount.c
-> @@ -119,7 +119,7 @@ bool setup_userns_sysctls(struct user_namespace *ns)
->  void retire_userns_sysctls(struct user_namespace *ns)
->  {
->  #ifdef CONFIG_SYSCTL
-> -	struct ctl_table *tbl;
-> +	const struct ctl_table *tbl;
->  
->  	tbl = ns->sysctls->ctl_table_arg;
->  	unregister_sysctl_table(ns->sysctls);
-> diff --git a/net/ax25/sysctl_net_ax25.c b/net/ax25/sysctl_net_ax25.c
-> index db66e11e7fe8..e0128dc9def3 100644
-> --- a/net/ax25/sysctl_net_ax25.c
-> +++ b/net/ax25/sysctl_net_ax25.c
-> @@ -171,7 +171,7 @@ int ax25_register_dev_sysctl(ax25_dev *ax25_dev)
->  void ax25_unregister_dev_sysctl(ax25_dev *ax25_dev)
->  {
->  	struct ctl_table_header *header = ax25_dev->sysheader;
-> -	struct ctl_table *table;
-> +	const struct ctl_table *table;
->  
->  	if (header) {
->  		ax25_dev->sysheader = NULL;
-> diff --git a/net/bridge/br_netfilter_hooks.c b/net/bridge/br_netfilter_hooks.c
-> index 35e10c5a766d..a09118c56c7d 100644
-> --- a/net/bridge/br_netfilter_hooks.c
-> +++ b/net/bridge/br_netfilter_hooks.c
-> @@ -1268,7 +1268,7 @@ static int br_netfilter_sysctl_init_net(struct net *net)
->  static void br_netfilter_sysctl_exit_net(struct net *net,
->  					 struct brnf_net *brnet)
->  {
-> -	struct ctl_table *table = brnet->ctl_hdr->ctl_table_arg;
-> +	const struct ctl_table *table = brnet->ctl_hdr->ctl_table_arg;
->  
->  	unregister_net_sysctl_table(brnet->ctl_hdr);
->  	if (!net_eq(net, &init_net))
-> diff --git a/net/core/sysctl_net_core.c b/net/core/sysctl_net_core.c
-> index 6973dda3abda..903ab4a51c17 100644
-> --- a/net/core/sysctl_net_core.c
-> +++ b/net/core/sysctl_net_core.c
-> @@ -743,7 +743,7 @@ static __net_init int sysctl_core_net_init(struct net *net)
->  
->  static __net_exit void sysctl_core_net_exit(struct net *net)
->  {
-> -	struct ctl_table *tbl;
-> +	const struct ctl_table *tbl;
->  
->  	tbl = net->core.sysctl_hdr->ctl_table_arg;
->  	unregister_net_sysctl_table(net->core.sysctl_hdr);
-> diff --git a/net/ieee802154/6lowpan/reassembly.c b/net/ieee802154/6lowpan/reassembly.c
-> index 6dd960ec558c..2a983cf450da 100644
-> --- a/net/ieee802154/6lowpan/reassembly.c
-> +++ b/net/ieee802154/6lowpan/reassembly.c
-> @@ -399,7 +399,7 @@ static int __net_init lowpan_frags_ns_sysctl_register(struct net *net)
->  
->  static void __net_exit lowpan_frags_ns_sysctl_unregister(struct net *net)
->  {
-> -	struct ctl_table *table;
-> +	const struct ctl_table *table;
->  	struct netns_ieee802154_lowpan *ieee802154_lowpan =
->  		net_ieee802154_lowpan(net);
->  
-> diff --git a/net/ipv4/devinet.c b/net/ipv4/devinet.c
-> index 7a437f0d4190..7592f242336b 100644
-> --- a/net/ipv4/devinet.c
-> +++ b/net/ipv4/devinet.c
-> @@ -2749,7 +2749,7 @@ static __net_init int devinet_init_net(struct net *net)
->  static __net_exit void devinet_exit_net(struct net *net)
->  {
->  #ifdef CONFIG_SYSCTL
-> -	struct ctl_table *tbl;
-> +	const struct ctl_table *tbl;
->  
->  	tbl = net->ipv4.forw_hdr->ctl_table_arg;
->  	unregister_net_sysctl_table(net->ipv4.forw_hdr);
-> diff --git a/net/ipv4/ip_fragment.c b/net/ipv4/ip_fragment.c
-> index a4941f53b523..6b9285fd6f06 100644
-> --- a/net/ipv4/ip_fragment.c
-> +++ b/net/ipv4/ip_fragment.c
-> @@ -632,7 +632,7 @@ static int __net_init ip4_frags_ns_ctl_register(struct net *net)
->  
->  static void __net_exit ip4_frags_ns_ctl_unregister(struct net *net)
->  {
-> -	struct ctl_table *table;
-> +	const struct ctl_table *table;
->  
->  	table = net->ipv4.frags_hdr->ctl_table_arg;
->  	unregister_net_sysctl_table(net->ipv4.frags_hdr);
-> diff --git a/net/ipv4/route.c b/net/ipv4/route.c
-> index c8f76f56dc16..af30b5942ba4 100644
-> --- a/net/ipv4/route.c
-> +++ b/net/ipv4/route.c
-> @@ -3590,7 +3590,7 @@ static __net_init int sysctl_route_net_init(struct net *net)
->  
->  static __net_exit void sysctl_route_net_exit(struct net *net)
->  {
-> -	struct ctl_table *tbl;
-> +	const struct ctl_table *tbl;
->  
->  	tbl = net->ipv4.route_hdr->ctl_table_arg;
->  	unregister_net_sysctl_table(net->ipv4.route_hdr);
-> diff --git a/net/ipv4/sysctl_net_ipv4.c b/net/ipv4/sysctl_net_ipv4.c
-> index 7e4f16a7dcc1..ce5d19978a26 100644
-> --- a/net/ipv4/sysctl_net_ipv4.c
-> +++ b/net/ipv4/sysctl_net_ipv4.c
-> @@ -1554,7 +1554,7 @@ static __net_init int ipv4_sysctl_init_net(struct net *net)
->  
->  static __net_exit void ipv4_sysctl_exit_net(struct net *net)
->  {
-> -	struct ctl_table *table;
-> +	const struct ctl_table *table;
->  
->  	kfree(net->ipv4.sysctl_local_reserved_ports);
->  	table = net->ipv4.ipv4_hdr->ctl_table_arg;
-> diff --git a/net/ipv4/xfrm4_policy.c b/net/ipv4/xfrm4_policy.c
-> index c33bca2c3841..1dda59e0aeab 100644
-> --- a/net/ipv4/xfrm4_policy.c
-> +++ b/net/ipv4/xfrm4_policy.c
-> @@ -186,7 +186,7 @@ static __net_init int xfrm4_net_sysctl_init(struct net *net)
->  
->  static __net_exit void xfrm4_net_sysctl_exit(struct net *net)
->  {
-> -	struct ctl_table *table;
-> +	const struct ctl_table *table;
->  
->  	if (!net->ipv4.xfrm4_hdr)
->  		return;
-> diff --git a/net/ipv6/addrconf.c b/net/ipv6/addrconf.c
-> index 247bd4d8ee45..9c34a351f115 100644
-> --- a/net/ipv6/addrconf.c
-> +++ b/net/ipv6/addrconf.c
-> @@ -7235,7 +7235,7 @@ static int __addrconf_sysctl_register(struct net *net, char *dev_name,
->  static void __addrconf_sysctl_unregister(struct net *net,
->  					 struct ipv6_devconf *p, int ifindex)
->  {
-> -	struct ctl_table *table;
-> +	const struct ctl_table *table;
->  
->  	if (!p->sysctl_header)
->  		return;
-> diff --git a/net/ipv6/netfilter/nf_conntrack_reasm.c b/net/ipv6/netfilter/nf_conntrack_reasm.c
-> index 1a51a44571c3..98809f846229 100644
-> --- a/net/ipv6/netfilter/nf_conntrack_reasm.c
-> +++ b/net/ipv6/netfilter/nf_conntrack_reasm.c
-> @@ -105,7 +105,7 @@ static int nf_ct_frag6_sysctl_register(struct net *net)
->  static void __net_exit nf_ct_frags6_sysctl_unregister(struct net *net)
->  {
->  	struct nft_ct_frag6_pernet *nf_frag = nf_frag_pernet(net);
-> -	struct ctl_table *table;
-> +	const struct ctl_table *table;
->  
->  	table = nf_frag->nf_frag_frags_hdr->ctl_table_arg;
->  	unregister_net_sysctl_table(nf_frag->nf_frag_frags_hdr);
-> diff --git a/net/ipv6/reassembly.c b/net/ipv6/reassembly.c
-> index acb4f119e11f..ee95cdcc8747 100644
-> --- a/net/ipv6/reassembly.c
-> +++ b/net/ipv6/reassembly.c
-> @@ -487,7 +487,7 @@ static int __net_init ip6_frags_ns_sysctl_register(struct net *net)
->  
->  static void __net_exit ip6_frags_ns_sysctl_unregister(struct net *net)
->  {
-> -	struct ctl_table *table;
-> +	const struct ctl_table *table;
->  
->  	table = net->ipv6.sysctl.frags_hdr->ctl_table_arg;
->  	unregister_net_sysctl_table(net->ipv6.sysctl.frags_hdr);
-> diff --git a/net/ipv6/sysctl_net_ipv6.c b/net/ipv6/sysctl_net_ipv6.c
-> index 888676163e90..75de55f907b0 100644
-> --- a/net/ipv6/sysctl_net_ipv6.c
-> +++ b/net/ipv6/sysctl_net_ipv6.c
-> @@ -313,9 +313,9 @@ static int __net_init ipv6_sysctl_net_init(struct net *net)
->  
->  static void __net_exit ipv6_sysctl_net_exit(struct net *net)
->  {
-> -	struct ctl_table *ipv6_table;
-> -	struct ctl_table *ipv6_route_table;
-> -	struct ctl_table *ipv6_icmp_table;
-> +	const struct ctl_table *ipv6_table;
-> +	const struct ctl_table *ipv6_route_table;
-> +	const struct ctl_table *ipv6_icmp_table;
->  
->  	ipv6_table = net->ipv6.sysctl.hdr->ctl_table_arg;
->  	ipv6_route_table = net->ipv6.sysctl.route_hdr->ctl_table_arg;
-> diff --git a/net/ipv6/xfrm6_policy.c b/net/ipv6/xfrm6_policy.c
-> index 42fb6996b077..4891012b692f 100644
-> --- a/net/ipv6/xfrm6_policy.c
-> +++ b/net/ipv6/xfrm6_policy.c
-> @@ -218,7 +218,7 @@ static int __net_init xfrm6_net_sysctl_init(struct net *net)
->  
->  static void __net_exit xfrm6_net_sysctl_exit(struct net *net)
->  {
-> -	struct ctl_table *table;
-> +	const struct ctl_table *table;
->  
->  	if (!net->ipv6.sysctl.xfrm6_hdr)
->  		return;
-> diff --git a/net/mpls/af_mpls.c b/net/mpls/af_mpls.c
-> index 6dab883a08dd..973881b8faa3 100644
-> --- a/net/mpls/af_mpls.c
-> +++ b/net/mpls/af_mpls.c
-> @@ -1438,7 +1438,7 @@ static void mpls_dev_sysctl_unregister(struct net_device *dev,
->  				       struct mpls_dev *mdev)
->  {
->  	struct net *net = dev_net(dev);
-> -	struct ctl_table *table;
-> +	const struct ctl_table *table;
->  
->  	if (!mdev->sysctl)
->  		return;
-> @@ -2706,7 +2706,7 @@ static void mpls_net_exit(struct net *net)
->  {
->  	struct mpls_route __rcu **platform_label;
->  	size_t platform_labels;
-> -	struct ctl_table *table;
-> +	const struct ctl_table *table;
->  	unsigned int index;
->  
->  	table = net->mpls.ctl->ctl_table_arg;
-> diff --git a/net/mptcp/ctrl.c b/net/mptcp/ctrl.c
-> index 13fe0748dde8..8d661156ab8c 100644
-> --- a/net/mptcp/ctrl.c
-> +++ b/net/mptcp/ctrl.c
-> @@ -198,7 +198,7 @@ static int mptcp_pernet_new_table(struct net *net, struct mptcp_pernet *pernet)
->  
->  static void mptcp_pernet_del_table(struct mptcp_pernet *pernet)
->  {
-> -	struct ctl_table *table = pernet->ctl_table_hdr->ctl_table_arg;
-> +	const struct ctl_table *table = pernet->ctl_table_hdr->ctl_table_arg;
->  
->  	unregister_net_sysctl_table(pernet->ctl_table_hdr);
->  
-> diff --git a/net/netfilter/nf_conntrack_standalone.c b/net/netfilter/nf_conntrack_standalone.c
-> index 0ee98ce5b816..bb9dea676ec1 100644
-> --- a/net/netfilter/nf_conntrack_standalone.c
-> +++ b/net/netfilter/nf_conntrack_standalone.c
-> @@ -1122,7 +1122,7 @@ static int nf_conntrack_standalone_init_sysctl(struct net *net)
->  static void nf_conntrack_standalone_fini_sysctl(struct net *net)
->  {
->  	struct nf_conntrack_net *cnet = nf_ct_pernet(net);
-> -	struct ctl_table *table;
-> +	const struct ctl_table *table;
->  
->  	table = cnet->sysctl_header->ctl_table_arg;
->  	unregister_net_sysctl_table(cnet->sysctl_header);
-> diff --git a/net/netfilter/nf_log.c b/net/netfilter/nf_log.c
-> index 370f8231385c..efedd2f13ac7 100644
-> --- a/net/netfilter/nf_log.c
-> +++ b/net/netfilter/nf_log.c
-> @@ -514,7 +514,7 @@ static int netfilter_log_sysctl_init(struct net *net)
->  
->  static void netfilter_log_sysctl_exit(struct net *net)
->  {
-> -	struct ctl_table *table;
-> +	const struct ctl_table *table;
->  
->  	table = net->nf.nf_log_dir_header->ctl_table_arg;
->  	unregister_net_sysctl_table(net->nf.nf_log_dir_header);
-> diff --git a/net/sctp/sysctl.c b/net/sctp/sysctl.c
-> index f65d6f92afcb..25bdf17c7262 100644
-> --- a/net/sctp/sysctl.c
-> +++ b/net/sctp/sysctl.c
-> @@ -624,7 +624,7 @@ int sctp_sysctl_net_register(struct net *net)
->  
->  void sctp_sysctl_net_unregister(struct net *net)
->  {
-> -	struct ctl_table *table;
-> +	const struct ctl_table *table;
->  
->  	table = net->sctp.sysctl_header->ctl_table_arg;
->  	unregister_net_sysctl_table(net->sctp.sysctl_header);
-> diff --git a/net/smc/smc_sysctl.c b/net/smc/smc_sysctl.c
-> index a5946d1b9d60..4e8baa2e7ea4 100644
-> --- a/net/smc/smc_sysctl.c
-> +++ b/net/smc/smc_sysctl.c
-> @@ -133,7 +133,7 @@ int __net_init smc_sysctl_net_init(struct net *net)
->  
->  void __net_exit smc_sysctl_net_exit(struct net *net)
->  {
-> -	struct ctl_table *table;
-> +	const struct ctl_table *table;
->  
->  	table = net->smc.smc_hdr->ctl_table_arg;
->  	unregister_net_sysctl_table(net->smc.smc_hdr);
-> diff --git a/net/unix/sysctl_net_unix.c b/net/unix/sysctl_net_unix.c
-> index 3e84b31c355a..44996af61999 100644
-> --- a/net/unix/sysctl_net_unix.c
-> +++ b/net/unix/sysctl_net_unix.c
-> @@ -52,7 +52,7 @@ int __net_init unix_sysctl_register(struct net *net)
->  
->  void unix_sysctl_unregister(struct net *net)
->  {
-> -	struct ctl_table *table;
-> +	const struct ctl_table *table;
->  
->  	table = net->unx.ctl->ctl_table_arg;
->  	unregister_net_sysctl_table(net->unx.ctl);
-> diff --git a/net/xfrm/xfrm_sysctl.c b/net/xfrm/xfrm_sysctl.c
-> index 7fdeafc838a7..e972930c292b 100644
-> --- a/net/xfrm/xfrm_sysctl.c
-> +++ b/net/xfrm/xfrm_sysctl.c
-> @@ -76,7 +76,7 @@ int __net_init xfrm_sysctl_init(struct net *net)
->  
->  void __net_exit xfrm_sysctl_fini(struct net *net)
->  {
-> -	struct ctl_table *table;
-> +	const struct ctl_table *table;
->  
->  	table = net->xfrm.sysctl_hdr->ctl_table_arg;
->  	unregister_net_sysctl_table(net->xfrm.sysctl_hdr);
-> 
-> ---
-> base-commit: 48a8b5270db856be233021e47a5f1dc02d47ed0d
-> change-id: 20231226-sysctl-const-table-arg-2c828e0264dc
-> 
-> Best regards,
-> -- 
-> Thomas Weiﬂschuh <linux@weissschuh.net>
-> 
+Savings in allocated memory:
+  None in this set but will occur when the superfluous allocations are
+  removed from proc_sysctl.c. I include it here for context. The
+  estimated savings during boot for config [3] are 6272 bytes. See [8]
+  for how to measure it.
 
+Comments/feedback greatly appreciated
+
+Changes in v4:
+- Keep reverse xmas tree order when introducing new variables
+- Use a table_size variable to keep the value of ARRAY_SIZE
+- Separated the original "networking: Remove the now superfluous
+  sentinel elements from ctl_table arra" into smaller commits to ease
+  review
+- Merged x.25 and ax.25 commits together.
+- Removed any SOB from the commits that were changed
+- Link to v3: https://lore.kernel.org/r/20240412-jag-sysctl_remset_net-v3-0-11187d13c211@samsung.com
+
+Changes in v3:
+- Reworkded ax.25
+  - Added a BUILD_BUG_ON for the ax.25 commit
+  - Added a CONFIG_AX25_DAMA_SLAVE guard where needed
+- Link to v2: https://lore.kernel.org/r/20240328-jag-sysctl_remset_net-v2-0-52c9fad9a1af@samsung.com
+
+Changes in v2:
+- Rebased to v6.9-rc1
+- Removed unneeded comment from sysctl_net_ax25.c
+- Link to v1: https://lore.kernel.org/r/20240314-jag-sysctl_remset_net-v1-0-aa26b44d29d9@samsung.com
+
+Best
+Joel
+
+[1] https://lore.kernel.org/all/20230809105006.1198165-1-j.granados@samsung.com/
+[2] https://git.kernel.org/pub/scm/linux/kernel/git/joel.granados/linux.git/tag/?h=sysctl_remove_empty_elem_v5
+[3] https://gist.github.com/Joelgranados/feaca7af5537156ca9b73aeaec093171
+[4] https://lore.kernel.org/all/ZO5Yx5JFogGi%2FcBo@bombadil.infradead.org/
+
+[5]
+Links Related to the ctl_table sentinel removal:
+* Good summaries from Luis:
+  https://lore.kernel.org/all/ZO5Yx5JFogGi%2FcBo@bombadil.infradead.org/
+  https://lore.kernel.org/all/ZMFizKFkVxUFtSqa@bombadil.infradead.org/
+* Patches adjusting sysctl register calls:
+  https://lore.kernel.org/all/20230302204612.782387-1-mcgrof@kernel.org/
+  https://lore.kernel.org/all/20230302202826.776286-1-mcgrof@kernel.org/
+* Discussions about expectations and approach
+  https://lore.kernel.org/all/20230321130908.6972-1-frank.li@vivo.com
+  https://lore.kernel.org/all/20220220060626.15885-1-tangmeng@uniontech.com
+
+[6]
+add/remove: 0/1 grow/shrink: 2/67 up/down: 76/-4052 (-3976)
+Function                                     old     new   delta
+llc_sysctl_init                              306     377     +71
+nf_log_net_init                              866     871      +5
+sysctl_core_net_init                         375     366      -9
+lowpan_frags_init_net                        618     598     -20
+ip_vs_control_net_init_sysctl               2446    2422     -24
+sysctl_route_net_init                        521     493     -28
+__addrconf_sysctl_register                   678     650     -28
+xfrm_sysctl_init                             405     374     -31
+mpls_net_init                                367     334     -33
+sctp_sysctl_net_register                     386     346     -40
+__ip_vs_lblcr_init                           546     501     -45
+__ip_vs_lblc_init                            546     501     -45
+neigh_sysctl_register                       1011     958     -53
+mpls_dev_sysctl_register                     475     419     -56
+ipv6_route_sysctl_init                       450     394     -56
+xs_tunables_table                            448     384     -64
+xr_tunables_table                            448     384     -64
+xfrm_table                                   320     256     -64
+xfrm6_policy_table                           128      64     -64
+xfrm4_policy_table                           128      64     -64
+x25_table                                    448     384     -64
+vs_vars                                     1984    1920     -64
+unix_table                                   128      64     -64
+tipc_table                                   448     384     -64
+svcrdma_parm_table                           832     768     -64
+smc_table                                    512     448     -64
+sctp_table                                   256     192     -64
+sctp_net_table                              2304    2240     -64
+rxrpc_sysctl_table                           704     640     -64
+rose_table                                   704     640     -64
+rds_tcp_sysctl_table                         192     128     -64
+rds_sysctl_rds_table                         384     320     -64
+rds_ib_sysctl_table                          384     320     -64
+phonet_table                                 128      64     -64
+nr_table                                     832     768     -64
+nf_log_sysctl_table                          768     704     -64
+nf_log_sysctl_ftable                         128      64     -64
+nf_ct_sysctl_table                          3200    3136     -64
+nf_ct_netfilter_table                        128      64     -64
+nf_ct_frag6_sysctl_table                     256     192     -64
+netns_core_table                             320     256     -64
+net_core_table                              2176    2112     -64
+neigh_sysctl_template                       1416    1352     -64
+mptcp_sysctl_table                           576     512     -64
+mpls_dev_table                               128      64     -64
+lowpan_frags_ns_ctl_table                    256     192     -64
+lowpan_frags_ctl_table                       128      64     -64
+llc_station_table                             64       -     -64
+llc2_timeout_table                           320     256     -64
+ipv6_table_template                         1344    1280     -64
+ipv6_route_table_template                    768     704     -64
+ipv6_rotable                                 320     256     -64
+ipv6_icmp_table_template                     448     384     -64
+ipv4_table                                  1024     960     -64
+ipv4_route_table                             832     768     -64
+ipv4_route_netns_table                       320     256     -64
+ipv4_net_table                              7552    7488     -64
+ip6_frags_ns_ctl_table                       256     192     -64
+ip6_frags_ctl_table                          128      64     -64
+ip4_frags_ns_ctl_table                       320     256     -64
+ip4_frags_ctl_table                          128      64     -64
+devinet_sysctl                              2184    2120     -64
+debug_table                                  384     320     -64
+dccp_default_table                           576     512     -64
+ctl_forward_entry                            128      64     -64
+brnf_table                                   448     384     -64
+ax25_param_table                             960     896     -64
+atalk_table                                  320     256     -64
+addrconf_sysctl                             3904    3840     -64
+vs_vars_table                                256     128    -128
+Total: Before=440631035, After=440627059, chg -0.00%
+
+[7]
+add/remove: 0/0 grow/shrink: 1/22 up/down: 8/-1263 (-1255)
+Function                                     old     new   delta
+sysctl_route_net_init                        189     197      +8
+__addrconf_sysctl_register                   306     294     -12
+ipv6_route_sysctl_init                       201     185     -16
+neigh_sysctl_register                        385     366     -19
+unix_table                                   128      64     -64
+netns_core_table                             256     192     -64
+net_core_table                              1664    1600     -64
+neigh_sysctl_template                       1416    1352     -64
+ipv6_table_template                         1344    1280     -64
+ipv6_route_table_template                    768     704     -64
+ipv6_rotable                                 192     128     -64
+ipv6_icmp_table_template                     448     384     -64
+ipv4_table                                   768     704     -64
+ipv4_route_table                             832     768     -64
+ipv4_route_netns_table                       320     256     -64
+ipv4_net_table                              7040    6976     -64
+ip6_frags_ns_ctl_table                       256     192     -64
+ip6_frags_ctl_table                          128      64     -64
+ip4_frags_ns_ctl_table                       320     256     -64
+ip4_frags_ctl_table                          128      64     -64
+devinet_sysctl                              2184    2120     -64
+ctl_forward_entry                            128      64     -64
+addrconf_sysctl                             3392    3328     -64
+Total: Before=8523801, After=8522546, chg -0.01%
+
+[8]
+To measure the in memory savings apply this on top of this patchset.
+
+"
+diff --git i/fs/proc/proc_sysctl.c w/fs/proc/proc_sysctl.c
+index 37cde0efee57..896c498600e8 100644
+--- i/fs/proc/proc_sysctl.c
++++ w/fs/proc/proc_sysctl.c
+@@ -966,6 +966,7 @@ static struct ctl_dir *new_dir(struct ctl_table_set *set,
+        table[0].procname = new_name;
+        table[0].mode = S_IFDIR|S_IRUGO|S_IXUGO;
+        init_header(&new->header, set->dir.header.root, set, node, table, 1);
++       printk("%ld sysctl saved mem kzalloc\n", sizeof(struct ctl_table));
+
+        return new;
+ }
+@@ -1189,6 +1190,7 @@ static struct ctl_table_header *new_links(struct ctl_dir *dir, s>
+                link_name += len;
+                link++;
+        }
++       printk("%ld sysctl saved mem kzalloc\n", sizeof(struct ctl_table));
+        init_header(links, dir->header.root, dir->header.set, node, link_table,
+                    head->ctl_table_size);
+        links->nreg = nr_entries;
+"
+and then run the following bash script in the kernel:
+
+accum=0
+for n in $(dmesg | grep kzalloc | awk '{print $3}') ; do
+    accum=$(calc "$accum + $n")
+done
+echo $accum
+
+Signed-off-by: Joel Granados <j.granados@samsung.com>
+
+--
+
+---
+---
+Joel Granados (8):
+      net: Remove the now superfluous sentinel elements from ctl_table array
+      net: ipv{6,4}: Remove the now superfluous sentinel elements from ctl_table array
+      net: rds: Remove the now superfluous sentinel elements from ctl_table array
+      net: sunrpc: Remove the now superfluous sentinel elements from ctl_table array
+      net: Remove ctl_table sentinel elements from several networking subsystems
+      netfilter: Remove the now superfluous sentinel elements from ctl_table array
+      appletalk: Remove the now superfluous sentinel elements from ctl_table array
+      ax.25: x.25: Remove the now superfluous sentinel elements from ctl_table array
+
+ include/net/ax25.h                      |  2 ++
+ net/appletalk/sysctl_net_atalk.c        |  1 -
+ net/ax25/ax25_dev.c                     |  3 +++
+ net/ax25/ax25_ds_timer.c                |  4 ++++
+ net/ax25/sysctl_net_ax25.c              |  3 +--
+ net/bridge/br_netfilter_hooks.c         |  1 -
+ net/core/neighbour.c                    |  5 +----
+ net/core/sysctl_net_core.c              | 12 +++++-------
+ net/dccp/sysctl.c                       |  2 --
+ net/ieee802154/6lowpan/reassembly.c     |  6 +-----
+ net/ipv4/devinet.c                      |  5 ++---
+ net/ipv4/ip_fragment.c                  |  2 --
+ net/ipv4/route.c                        |  8 ++------
+ net/ipv4/sysctl_net_ipv4.c              |  7 +++----
+ net/ipv4/xfrm4_policy.c                 |  1 -
+ net/ipv6/addrconf.c                     |  8 +++-----
+ net/ipv6/icmp.c                         |  1 -
+ net/ipv6/netfilter/nf_conntrack_reasm.c |  1 -
+ net/ipv6/reassembly.c                   |  2 --
+ net/ipv6/route.c                        |  5 -----
+ net/ipv6/sysctl_net_ipv6.c              |  8 +++-----
+ net/ipv6/xfrm6_policy.c                 |  1 -
+ net/llc/sysctl_net_llc.c                |  8 ++------
+ net/mpls/af_mpls.c                      | 12 ++++++------
+ net/mptcp/ctrl.c                        |  1 -
+ net/netfilter/ipvs/ip_vs_ctl.c          |  5 +----
+ net/netfilter/ipvs/ip_vs_lblc.c         |  5 +----
+ net/netfilter/ipvs/ip_vs_lblcr.c        |  5 +----
+ net/netfilter/nf_conntrack_standalone.c |  6 +-----
+ net/netfilter/nf_log.c                  |  3 +--
+ net/netrom/sysctl_net_netrom.c          |  1 -
+ net/phonet/sysctl.c                     |  1 -
+ net/rds/ib_sysctl.c                     |  1 -
+ net/rds/sysctl.c                        |  1 -
+ net/rds/tcp.c                           |  1 -
+ net/rose/sysctl_net_rose.c              |  1 -
+ net/rxrpc/sysctl.c                      |  1 -
+ net/sctp/sysctl.c                       | 10 +++-------
+ net/smc/smc_sysctl.c                    |  1 -
+ net/sunrpc/sysctl.c                     |  1 -
+ net/sunrpc/xprtrdma/svc_rdma.c          |  1 -
+ net/sunrpc/xprtrdma/transport.c         |  1 -
+ net/sunrpc/xprtsock.c                   |  1 -
+ net/tipc/sysctl.c                       |  1 -
+ net/unix/sysctl_net_unix.c              |  1 -
+ net/x25/sysctl_net_x25.c                |  1 -
+ net/xfrm/xfrm_sysctl.c                  |  5 +----
+ 47 files changed, 47 insertions(+), 116 deletions(-)
+---
+base-commit: 4cece764965020c22cff7665b18a012006359095
+change-id: 20240311-jag-sysctl_remset_net-d403a1a93d6b
+
+Best regards,
 -- 
-Kees Cook
+Joel Granados <j.granados@samsung.com>
+
+
 
