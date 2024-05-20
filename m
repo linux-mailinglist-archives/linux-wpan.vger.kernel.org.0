@@ -1,100 +1,113 @@
-Return-Path: <linux-wpan+bounces-257-lists+linux-wpan=lfdr.de@vger.kernel.org>
+Return-Path: <linux-wpan+bounces-259-lists+linux-wpan=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-wpan@lfdr.de
 Delivered-To: lists+linux-wpan@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id A7D938C9296
-	for <lists+linux-wpan@lfdr.de>; Sat, 18 May 2024 23:49:53 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 037D28C99FF
+	for <lists+linux-wpan@lfdr.de>; Mon, 20 May 2024 10:54:27 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id ABC0A1C209C3
-	for <lists+linux-wpan@lfdr.de>; Sat, 18 May 2024 21:49:52 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 96B9CB21E8D
+	for <lists+linux-wpan@lfdr.de>; Mon, 20 May 2024 08:54:24 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id D338F5C603;
-	Sat, 18 May 2024 21:49:49 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 87655208A7;
+	Mon, 20 May 2024 08:54:00 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=datenfreihafen.org header.i=@datenfreihafen.org header.b="H/n9r1mR"
+	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="jcHU2hJr"
 X-Original-To: linux-wpan@vger.kernel.org
-Received: from proxima.lasnet.de (proxima.lasnet.de [78.47.171.185])
+Received: from relay2-d.mail.gandi.net (relay2-d.mail.gandi.net [217.70.183.194])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 632853FB9F
-	for <linux-wpan@vger.kernel.org>; Sat, 18 May 2024 21:49:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=78.47.171.185
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 65710208A0
+	for <linux-wpan@vger.kernel.org>; Mon, 20 May 2024 08:53:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.70.183.194
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1716068989; cv=none; b=HDkTqH08nMsIM1wYA2LyjFlkaYOo0W1bcIg7JzWL1KsBpIzxCLN78H/1ScE9335FQNDEf0ZG5cRIQRsdga9GS01JY1OuyR4vIpEriOIg60ER7mXEuWW8xOsbPt47Dpu9f6GpVwg+2crCx3Xgnsl6yiOb/IkW7LszhSuy5sQOh6s=
+	t=1716195240; cv=none; b=C5O7t8EbSnrA9SEBikt573v8PEMJCdyhgvB9iZtPWBu0Ax5sz50VZdN8ph3kTslwK7c5pgZovae8Y4l7u/YzbS/7I3BMPHS4eYXVQ/eo+t1qJO9SNSeMvdVn/0VNAjCVjUJuJwAbfuLjfC2itsCz0Rhm/+CSgk4sxakQwBVo8+M=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1716068989; c=relaxed/simple;
-	bh=y+3z/0SImEatttbQhITqfCW09q4Zp7imB/p3uFkwFRQ=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=OahdHzG+TJa8buv7bGQjMZOU94zc19UQP07/5xWFdSjdMPMLRMqmLNdq7Bb5vpaT3r4Hz9ndXC+DwM+0xUiny+g59FkvoEDr6z+0q6LqUZfW0JuhYXYY+zKFpYj9HpMlDv7zMqfVpd0dgO3fmvKDLFJrFP71+LDQnjb5hwVYPl8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=datenfreihafen.org; spf=pass smtp.mailfrom=datenfreihafen.org; dkim=pass (2048-bit key) header.d=datenfreihafen.org header.i=@datenfreihafen.org header.b=H/n9r1mR; arc=none smtp.client-ip=78.47.171.185
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=datenfreihafen.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=datenfreihafen.org
-Received: from [192.168.2.51] (unknown [45.118.184.53])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	(Authenticated sender: stefan@datenfreihafen.org)
-	by proxima.lasnet.de (Postfix) with ESMTPSA id 9EB9DC0221;
-	Sat, 18 May 2024 23:49:41 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=datenfreihafen.org;
-	s=2021; t=1716068981;
+	s=arc-20240116; t=1716195240; c=relaxed/simple;
+	bh=yrZmRFcu/5GiA9nuhAfepZM11DVZbT7a12GsU7Kgzyc=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=TRuIQ9oKoOjAjxqvd62gX2uwNPdmYFgTHdsyPjGt94sohIX+kWXn+1/Z29L6LDzENsScoHSY0l5zYYt+WmMGhT0wlcNHrLhrSia6FCZS87w/d23Hxe00Vqu+ge7Ds0o5ckx1kpvGyW+G4KgFWfcltiTim8/iyj/l3gphgyy5cSY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=jcHU2hJr; arc=none smtp.client-ip=217.70.183.194
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
+Received: by mail.gandi.net (Postfix) with ESMTPSA id 4C29E40008;
+	Mon, 20 May 2024 08:53:50 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
+	t=1716195230;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=7PCHHEMOb8i3hUZ/FWEtsjaH2np1ZTMEfKL0DAyC66Q=;
-	b=H/n9r1mRNNIC9Gaj0FEuqYY4YlkH5nNcZ9W3H8M99oDrDmLJiMW9ZcHoX5v1Fl2iU6DsWN
-	luladh3bHlTPDIiLMDEDKKvvVVLH1h6PiRTDJw/PRCVoeRgaSvXa+2+mioUSG5F7Sms/q7
-	XqmPkPzEu5gH4kv/jNymZaahA1HZ4I2BtZrrCinGOi2L9JyC2/8YCpoIIRuKoxKRuxXjhq
-	WcJZVhEHbjpBVz+VxoWUFwSAHP6GZiPj62HDaC+B/cWJtCrF33qaX/uJhBqDrDtqv7/iEE
-	2YZBe+M1NOpG9+moy9OccPh47kx6TAm3uF5KFJuZH3xxfy8iYVjCItNd92DWXQ==
-Message-ID: <ea13c022-11f7-4474-88f3-9ff9169600f9@datenfreihafen.org>
-Date: Sat, 18 May 2024 23:49:41 +0200
+	bh=2VjofWda1hWsGOH9j5iwF7nU1rS4Bo+qxQVveXUpteg=;
+	b=jcHU2hJrz0hZsd6hRNizGQ+kb5EaaJLoftIuqcngMrxVr1P1FnBaGvD12L69lUdFcqlyih
+	Z93h9d9f5/+FtfM3znbJFPDZKQcjuHQltBtcn/mEWDdv0+NBwghCuC4Jn28254g9PER3KC
+	rC02Ugj5Z2NgPgeExoK+91HqYHwzoNGbxodDZQ9mqz6rki1R3M9C8qVfScVkbsyVds+iK+
+	cS0O26TiU+fPMk78ik4VkM3d2rT6xijA6rTukABqCYfT6yQrF1hYxcmP9mz46EODXD2xvW
+	KhWDfhfvrg79hcY1W33o9aR3ctPQScG6qPpo5X1XCxUUNtEH+nCpF9hZELZklQ==
+Date: Mon, 20 May 2024 10:53:49 +0200
+From: Miquel Raynal <miquel.raynal@bootlin.com>
+To: Stefan Schmidt <stefan@datenfreihafen.org>
+Cc: Dmitry Antipov <dmantipov@yandex.ru>, Alexander Aring
+ <alex.aring@gmail.com>, linux-wpan@vger.kernel.org,
+ lvc-project@linuxtesting.org
+Subject: Re: [PATCH] mac802154: fix time calculation in
+ ieee802154_configure_durations()
+Message-ID: <20240520105349.3c5620a2@xps-13>
+In-Reply-To: <ea13c022-11f7-4474-88f3-9ff9169600f9@datenfreihafen.org>
+References: <20240508114010.219527-1-dmantipov@yandex.ru>
+	<20240513090902.2d61ca02@xps-13>
+	<ea13c022-11f7-4474-88f3-9ff9169600f9@datenfreihafen.org>
+Organization: Bootlin
+X-Mailer: Claws Mail 4.1.1 (GTK 3.24.38; x86_64-pc-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-wpan@vger.kernel.org
 List-Id: <linux-wpan.vger.kernel.org>
 List-Subscribe: <mailto:linux-wpan+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-wpan+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] mac802154: fix time calculation in
- ieee802154_configure_durations()
-To: Miquel Raynal <miquel.raynal@bootlin.com>,
- Dmitry Antipov <dmantipov@yandex.ru>
-Cc: Alexander Aring <alex.aring@gmail.com>, linux-wpan@vger.kernel.org,
- lvc-project@linuxtesting.org
-References: <20240508114010.219527-1-dmantipov@yandex.ru>
- <20240513090902.2d61ca02@xps-13>
-Content-Language: en-US
-From: Stefan Schmidt <stefan@datenfreihafen.org>
-In-Reply-To: <20240513090902.2d61ca02@xps-13>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+X-GND-Sasl: miquel.raynal@bootlin.com
 
-Hello Miquel,
+Hi Stefan,
 
-On 13.05.24 09:09, Miquel Raynal wrote:
-> Hi Dmitry,
-> 
-> + Stefan
-> 
-> dmantipov@yandex.ru wrote on Wed,  8 May 2024 14:40:10 +0300:
-> 
->> Since 'symbol_duration' of 'struct wpan_phy' is in nanoseconds but
->> 'lifs_period' and 'sifs_period' are both in microseconds, fix time
->> calculation in 'ieee802154_configure_durations()' and use convenient
->> 'NSEC_PER_USEC' in 'ieee802154_setup_wpan_phy_pib()' as well.
->> Compile tested only.
->>
->> Found by Linux Verification Center (linuxtesting.org) with SVACE.
->>
-> 
-> Requires Fixes and Cc: stable I guess.
+stefan@datenfreihafen.org wrote on Sat, 18 May 2024 23:49:41 +0200:
 
-Fixes should be enough to get picked up. Added before pushing.
+> Hello Miquel,
+>=20
+> On 13.05.24 09:09, Miquel Raynal wrote:
+> > Hi Dmitry,
+> >=20
+> > + Stefan
+> >=20
+> > dmantipov@yandex.ru wrote on Wed,  8 May 2024 14:40:10 +0300:
+> >  =20
+> >> Since 'symbol_duration' of 'struct wpan_phy' is in nanoseconds but
+> >> 'lifs_period' and 'sifs_period' are both in microseconds, fix time
+> >> calculation in 'ieee802154_configure_durations()' and use convenient
+> >> 'NSEC_PER_USEC' in 'ieee802154_setup_wpan_phy_pib()' as well.
+> >> Compile tested only.
+> >>
+> >> Found by Linux Verification Center (linuxtesting.org) with SVACE.
+> >> =20
+> >=20
+> > Requires Fixes and Cc: stable I guess. =20
+>=20
+> Fixes should be enough to get picked up. Added before pushing.
 
-regards
-Stefan Schmidt
+Actually, unless the process changed recently, IIRC we should add Cc:
+stable when we think it should be backported (like this patch). The
+stable team indeed introduced an algorithm to collect patches not
+flagged with this tag "by mistake", but they ask us to continue Cc'ing
+them. Of course a Fixes tag is a good hint for the algorithm that the
+patch should be backported, and most of the time the patch will be
+backported anyway. Also rules being often different in net/, I think
+even net maintainers now comply with this and not longer do the
+cherry-picks themselves.
+
+But maybe this changed recently again and my just lost :-)
+
+Thanks,
+Miqu=C3=A8l
 
