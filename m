@@ -1,50 +1,84 @@
-Return-Path: <linux-wpan+bounces-579-lists+linux-wpan=lfdr.de@vger.kernel.org>
+Return-Path: <linux-wpan+bounces-581-lists+linux-wpan=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-wpan@lfdr.de
 Delivered-To: lists+linux-wpan@lfdr.de
 Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7E690A403C1
-	for <lists+linux-wpan@lfdr.de>; Sat, 22 Feb 2025 00:50:21 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id DB902A4C456
+	for <lists+linux-wpan@lfdr.de>; Mon,  3 Mar 2025 16:10:32 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id EEA9919C338A
-	for <lists+linux-wpan@lfdr.de>; Fri, 21 Feb 2025 23:50:26 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id A5A8C1882F07
+	for <lists+linux-wpan@lfdr.de>; Mon,  3 Mar 2025 15:10:28 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 22093255E41;
-	Fri, 21 Feb 2025 23:50:03 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id C56952144D3;
+	Mon,  3 Mar 2025 15:10:06 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="BDu9ISbE"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="OR6VtSZn"
 X-Original-To: linux-wpan@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CCA77255E29;
-	Fri, 21 Feb 2025 23:50:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 21249214201;
+	Mon,  3 Mar 2025 15:10:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1740181803; cv=none; b=dwZ0+xrvXraIoMK56T2e5hkFh7NEFt+8z69iCb8l7pLZ8HFNRktaUyQrr3qMTHjRJpNNoqkKclyCTZay1m1fNq/u05l+XligLbk3+unw4Saqu7x4p3mML9DnsNX4gQ0ly1J4kQxiQdTq4luViar1OqYoon3jjE/C/l1CgMSD9QY=
+	t=1741014606; cv=none; b=bwo3zroGM5m0mbluj2TYIrT5kSWPQ3wt3ASSQSHzJvQybNa9ywIB8zZ1IuSf1iWRbpv/EUHGAQsgK45dX6Uubkp1nnv7zvaDa5ndggHfqottc9kj9qpzuX+RALn3qYDEVRLGUVycBW0OrnGo2/xkwYla+JBAIOEz04QqfR/36Q8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1740181803; c=relaxed/simple;
-	bh=CTqJ/KmzI6Gqn0P8GISxBeKnxm42pSWuEHz+MsnFwsw=;
-	h=Content-Type:MIME-Version:Subject:From:Message-Id:Date:References:
-	 In-Reply-To:To:Cc; b=Ha7J3DmgFjjEBnRmUT017nVDVLuzmzmoktZ6FWv+lOI8nY7RpPm00cNzupT2+BR5Eu1efsI8XFet4/WLFH05K2agSuTiZSTH+odPOzwqWtTlPB42SUTY7H2UbR6XnLFlUrGMJpLBIPnhDIbVJ/UVk3kvxx1gO/mhoi4rWg1pVgQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=BDu9ISbE; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4D170C4CEE8;
-	Fri, 21 Feb 2025 23:50:02 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1740181802;
-	bh=CTqJ/KmzI6Gqn0P8GISxBeKnxm42pSWuEHz+MsnFwsw=;
-	h=Subject:From:Date:References:In-Reply-To:To:Cc:From;
-	b=BDu9ISbENe4QBTzFvL3z1yzMFvK03RKEkTbSwfBUkHNtTUh87YeINV9ofzYEHWC3S
-	 jZzNU5gsxWbwLeHefuhEiZ9tiDlx3f/7HNbz6+540xOxAjI7PR0td6mH30Y3+TKUgF
-	 LvyTFKZzhdtpcsU6ypDidAaK+ncYlAPPafKV4INeuNv7tC9FhmAMN0Vo6m1FyHhHaY
-	 CchC7RgW86hAUItr0fS49w52qJFaotrHr/KW9nOdhhDez05BFc79K9glnKMMjqoXTE
-	 2B5QJHf8bMDZ6dD1+XamNosy4PieEtpvxtm9eOjBTRJHtAiLr3CyiD+AQA01DPTnNn
-	 +FzWQRl5jE+uA==
-Received: from [10.30.226.235] (localhost [IPv6:::1])
-	by aws-us-west-2-korg-oddjob-rhel9-1.codeaurora.org (Postfix) with ESMTP id 710DC380CEEC;
-	Fri, 21 Feb 2025 23:50:34 +0000 (UTC)
-Content-Type: text/plain; charset="utf-8"
+	s=arc-20240116; t=1741014606; c=relaxed/simple;
+	bh=YcGUKagKGbtwNKLU0xV9Ao0yx82+59o5WiA+tFSfjOc=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=qqfNXe0FrmkqZkMVpjuqBOKA78v0s6vu8MPg9DZ6ez25PwPgHBjzpKC+IMwwCm5b2oY6BWCIwajzy7WklUCszZRiJqLtwx3X4pfhUFDpRRUmDlfUyniwybxq8o1POtp0a4K6nJUlKqznnOdqs5ZmcyKMsV7p4cZGZ9cC1+r32yU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=OR6VtSZn; arc=none smtp.client-ip=198.175.65.11
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1741014605; x=1772550605;
+  h=from:to:cc:subject:date:message-id:mime-version:
+   content-transfer-encoding;
+  bh=YcGUKagKGbtwNKLU0xV9Ao0yx82+59o5WiA+tFSfjOc=;
+  b=OR6VtSZnEBINRpuNhbNwftbLr5bNjTE6EM+v8EGu1NkNYMjUGrd9Qg2A
+   1vA0WDtVpnVobwmk/1EDgPF3OzaBWtkEnNWbN3MHwMo6nsbMpZAnkUIbF
+   r0XnhWrNCqbzwmWQH9+Mh5Dn1vUH2C/F3a77KPfKoqSH8jnLQZVXjIdMK
+   T2UpMgzrCmVd7BFjEyNgnRDK/Y+kKyPa8BLCzQOIXM4QIMmK4PDXAnqZc
+   1dvpl9icUulwr/PVtMKKdtkyXYe8EArOZEYnwVeWNkRxYPowUAmCR+7MC
+   NNFvtVhargyn1SdiL4Vj/0lTwhNCEsNE1EqQBlwUlT4G7cHyve20QnwTA
+   g==;
+X-CSE-ConnectionGUID: 0ryKn/LBTgCB+/J//grrpQ==
+X-CSE-MsgGUID: Tdlh0taoQB+qXmIUaXmRdQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11362"; a="52099500"
+X-IronPort-AV: E=Sophos;i="6.13,330,1732608000"; 
+   d="scan'208";a="52099500"
+Received: from fmviesa009.fm.intel.com ([10.60.135.149])
+  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Mar 2025 07:09:01 -0800
+X-CSE-ConnectionGUID: Zql8hNh0QV+HxwD6L7F8Rg==
+X-CSE-MsgGUID: G8h/nVpxSd2GXngWvwwojQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.13,330,1732608000"; 
+   d="scan'208";a="118739575"
+Received: from black.fi.intel.com ([10.237.72.28])
+  by fmviesa009.fm.intel.com with ESMTP; 03 Mar 2025 07:08:57 -0800
+Received: by black.fi.intel.com (Postfix, from userid 1003)
+	id 71D94125; Mon, 03 Mar 2025 17:08:56 +0200 (EET)
+From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+To: Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+	linux-wpan@vger.kernel.org,
+	netdev@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-gpio@vger.kernel.org
+Cc: Alexander Aring <alex.aring@gmail.com>,
+	Stefan Schmidt <stefan@datenfreihafen.org>,
+	Miquel Raynal <miquel.raynal@bootlin.com>,
+	Andrew Lunn <andrew+netdev@lunn.ch>,
+	"David S. Miller" <davem@davemloft.net>,
+	Eric Dumazet <edumazet@google.com>,
+	Jakub Kicinski <kuba@kernel.org>,
+	Paolo Abeni <pabeni@redhat.com>,
+	Linus Walleij <linus.walleij@linaro.org>,
+	Bartosz Golaszewski <brgl@bgdev.pl>
+Subject: [PATCH net-next v1 0/2] ieee802154: ca8210: Sparse fix and GPIOd conversion
+Date: Mon,  3 Mar 2025 17:07:38 +0200
+Message-ID: <20250303150855.1294188-1-andriy.shevchenko@linux.intel.com>
+X-Mailer: git-send-email 2.47.2
 Precedence: bulk
 X-Mailing-List: linux-wpan@vger.kernel.org
 List-Id: <linux-wpan.vger.kernel.org>
@@ -52,75 +86,19 @@ List-Subscribe: <mailto:linux-wpan+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-wpan+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Subject: Re: [PATCH net-next v10 00/13] net: Improve netns handling in rtnetlink
-From: patchwork-bot+netdevbpf@kernel.org
-Message-Id: 
- <174018183327.2240430.4249639047640655494.git-patchwork-notify@kernel.org>
-Date: Fri, 21 Feb 2025 23:50:33 +0000
-References: <20250219125039.18024-1-shaw.leon@gmail.com>
-In-Reply-To: <20250219125039.18024-1-shaw.leon@gmail.com>
-To: Xiao Liang <shaw.leon@gmail.com>
-Cc: netdev@vger.kernel.org, linux-kselftest@vger.kernel.org,
- kuniyu@amazon.com, kuba@kernel.org, davem@davemloft.net, dsahern@kernel.org,
- edumazet@google.com, pabeni@redhat.com, andrew+netdev@lunn.ch,
- horms@kernel.org, shuah@kernel.org, donald.hunter@gmail.com,
- alex.aring@gmail.com, stefan@datenfreihafen.org, miquel.raynal@bootlin.com,
- steffen.klassert@secunet.com, herbert@gondor.apana.org.au,
- linux-rdma@vger.kernel.org, linux-can@vger.kernel.org,
- osmocom-net-gprs@lists.osmocom.org, bpf@vger.kernel.org,
- linux-ppp@vger.kernel.org, wireguard@lists.zx2c4.com,
- linux-wireless@vger.kernel.org, b.a.t.m.a.n@lists.open-mesh.org,
- bridge@lists.linux.dev, linux-wpan@vger.kernel.org,
- linux-kernel@vger.kernel.org
 
-Hello:
+The main part is the patch 2 that converts the driver to GPIO descriptor APIs,
+the first one is just an ad-hoc fix WRT sparse complains on the bitwise
+types misuse.
 
-This series was applied to netdev/net-next.git (main)
-by Jakub Kicinski <kuba@kernel.org>:
+Andy Shevchenko (2):
+  ieee802154: ca8210: Use proper setter and getters for bitwise types
+  ieee802154: ca8210: Switch to using gpiod API
 
-On Wed, 19 Feb 2025 20:50:26 +0800 you wrote:
-> This patch series includes some netns-related improvements and fixes for
-> rtnetlink, to make link creation more intuitive:
-> 
->  1) Creating link in another net namespace doesn't conflict with link
->     names in current one.
->  2) Refector rtnetlink link creation. Create link in target namespace
->     directly.
-> 
-> [...]
+ drivers/net/ieee802154/ca8210.c | 72 ++++++++++++---------------------
+ 1 file changed, 26 insertions(+), 46 deletions(-)
 
-Here is the summary with links:
-  - [net-next,v10,01/13] rtnetlink: Lookup device in target netns when creating link
-    https://git.kernel.org/netdev/net-next/c/ec061546c6cf
-  - [net-next,v10,02/13] rtnetlink: Pack newlink() params into struct
-    https://git.kernel.org/netdev/net-next/c/69c7be1b903f
-  - [net-next,v10,03/13] net: Use link/peer netns in newlink() of rtnl_link_ops
-    https://git.kernel.org/netdev/net-next/c/cf517ac16ad9
-  - [net-next,v10,04/13] ieee802154: 6lowpan: Validate link netns in newlink() of rtnl_link_ops
-    https://git.kernel.org/netdev/net-next/c/3533717581dd
-  - [net-next,v10,05/13] net: ip_tunnel: Don't set tunnel->net in ip_tunnel_init()
-    https://git.kernel.org/netdev/net-next/c/9e17b2a1a097
-  - [net-next,v10,06/13] net: ip_tunnel: Use link netns in newlink() of rtnl_link_ops
-    https://git.kernel.org/netdev/net-next/c/eacb1160536e
-  - [net-next,v10,07/13] net: ipv6: Init tunnel link-netns before registering dev
-    https://git.kernel.org/netdev/net-next/c/db014522f356
-  - [net-next,v10,08/13] net: ipv6: Use link netns in newlink() of rtnl_link_ops
-    https://git.kernel.org/netdev/net-next/c/5e72ce3e3980
-  - [net-next,v10,09/13] net: xfrm: Use link netns in newlink() of rtnl_link_ops
-    https://git.kernel.org/netdev/net-next/c/5314e3d68455
-  - [net-next,v10,10/13] rtnetlink: Remove "net" from newlink params
-    https://git.kernel.org/netdev/net-next/c/9c0fc091dc01
-  - [net-next,v10,11/13] rtnetlink: Create link directly in target net namespace
-    https://git.kernel.org/netdev/net-next/c/7ca486d08a30
-  - [net-next,v10,12/13] selftests: net: Add python context manager for netns entering
-    https://git.kernel.org/netdev/net-next/c/030329416232
-  - [net-next,v10,13/13] selftests: net: Add test cases for link and peer netns
-    https://git.kernel.org/netdev/net-next/c/85cb3711acb8
-
-You are awesome, thank you!
 -- 
-Deet-doot-dot, I am a bot.
-https://korg.docs.kernel.org/patchwork/pwbot.html
-
+2.47.2
 
 
