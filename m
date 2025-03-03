@@ -1,226 +1,129 @@
-Return-Path: <linux-wpan+bounces-590-lists+linux-wpan=lfdr.de@vger.kernel.org>
+Return-Path: <linux-wpan+bounces-592-lists+linux-wpan=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-wpan@lfdr.de
 Delivered-To: lists+linux-wpan@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4C508A4C8E8
-	for <lists+linux-wpan@lfdr.de>; Mon,  3 Mar 2025 18:13:16 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8729CA4CC3A
+	for <lists+linux-wpan@lfdr.de>; Mon,  3 Mar 2025 20:52:00 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id C41C917A7C8
-	for <lists+linux-wpan@lfdr.de>; Mon,  3 Mar 2025 17:07:11 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 63377189679E
+	for <lists+linux-wpan@lfdr.de>; Mon,  3 Mar 2025 19:52:06 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 826D9255E54;
-	Mon,  3 Mar 2025 16:49:38 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 352252343B5;
+	Mon,  3 Mar 2025 19:51:50 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="eAGyMiWx"
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="q3C7Fn64"
 X-Original-To: linux-wpan@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-lf1-f45.google.com (mail-lf1-f45.google.com [209.85.167.45])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C58E2253F38;
-	Mon,  3 Mar 2025 16:49:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.19
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5CB50214A90
+	for <linux-wpan@vger.kernel.org>; Mon,  3 Mar 2025 19:51:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.45
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1741020578; cv=none; b=tNBN08suWEMg8msEJKWw1LtC8y6lOCUbx6I9gpbBVkm+u/AjHOnD1R3uQFyuBcv791dzZ4ejOyeAcZw+79J0WRf6TXWDUY4UIs+FdjWiieKW/lvFZ9lLjPhw2W2xNxhlPHRZ0bHdWCVUhfnG/CR1UMGt0aC0WbH8Z0zIrrxnKKs=
+	t=1741031510; cv=none; b=X5Gk5lnOB6E97X4DoJd70p3Xe5NsAYME53iDzWPrRP1AfKF1NmAm9pWDayAMiETj0DK5hGAodU/PdAIa083ovUwuvnoETl4tYMZj5XS1UXO/YbsT0kbPXu0S/ehTKK2qwuH8jHHhr3h37ccpXS02MF9mpnfRbm0y8DjJGK/mZXs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1741020578; c=relaxed/simple;
-	bh=QxMI96pUH6DNsqjiw2kEM8KCz4+ZICG+5dYAmxd/380=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=fb+tl1eehUd4iKx+dxd0Mr/vAEDPhgc44aHoU2jP0/6FWo7oBRHcZPnWDH4cFpG+vZg0yZh17qjyvmLRYa+rjc30myyyFpiWZGytnIGzHS12I+BH8Tp8NF1Ql6h3VTBNZZBc/lOzxQsh91CA/7NhjafG3rSFsY4SqUgRN+qGPL4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=eAGyMiWx; arc=none smtp.client-ip=198.175.65.19
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1741020577; x=1772556577;
-  h=from:to:cc:subject:date:message-id:in-reply-to:
-   references:mime-version:content-transfer-encoding;
-  bh=QxMI96pUH6DNsqjiw2kEM8KCz4+ZICG+5dYAmxd/380=;
-  b=eAGyMiWxRk2fuRd1dnfGlkrvFlvQ/lDPiEq4LAfeya4QrVKH9Zh4sDS5
-   bUsKpf3vSQkeyq568F1DREl3F8Gj7pb5Nf3aARgX3nkt6Z1PeKWHQRK4P
-   J4pCRUyLFScd9zE9aUgePowiDLv4Cp6FZjkqN6LhOy0H9RIwxOtbChfZb
-   FB6J6iGvzSTZaok0ZKVgWJlCVtDEUDU9n/COz2kG6hlY+V2bJb3Q5EKHk
-   cPJRcDdd6i3BLlgkie5EteXYE3dEtbYEqtCLwxj8Iy/X5DGTXvnJ5p+46
-   M1yTpqkahQRwycxu9MAoDll3qTUY8vHGSnXTn4C3PWVV+HVgBKyJ4nrZS
-   g==;
-X-CSE-ConnectionGUID: CpEFYVGGQoG0Xslk7rnq1Q==
-X-CSE-MsgGUID: Vh/r83EmQhmIOlb9oePvPw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11362"; a="41761409"
-X-IronPort-AV: E=Sophos;i="6.13,330,1732608000"; 
-   d="scan'208";a="41761409"
-Received: from fmviesa004.fm.intel.com ([10.60.135.144])
-  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Mar 2025 08:49:34 -0800
-X-CSE-ConnectionGUID: kYMzaWX1S2++c4ZMe1Brmw==
-X-CSE-MsgGUID: /PwV6x5QQmCoUuLOgySURw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.13,330,1732608000"; 
-   d="scan'208";a="123212198"
-Received: from black.fi.intel.com ([10.237.72.28])
-  by fmviesa004.fm.intel.com with ESMTP; 03 Mar 2025 08:49:30 -0800
-Received: by black.fi.intel.com (Postfix, from userid 1003)
-	id BC5BE1FF; Mon, 03 Mar 2025 18:49:29 +0200 (EET)
-From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-To: Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-	linux-wpan@vger.kernel.org,
-	netdev@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	linux-gpio@vger.kernel.org
-Cc: Alexander Aring <alex.aring@gmail.com>,
-	Stefan Schmidt <stefan@datenfreihafen.org>,
-	Miquel Raynal <miquel.raynal@bootlin.com>,
-	Andrew Lunn <andrew+netdev@lunn.ch>,
-	"David S. Miller" <davem@davemloft.net>,
-	Eric Dumazet <edumazet@google.com>,
-	Jakub Kicinski <kuba@kernel.org>,
-	Paolo Abeni <pabeni@redhat.com>,
-	Linus Walleij <linus.walleij@linaro.org>,
-	Bartosz Golaszewski <brgl@bgdev.pl>
-Subject: [PATCH net-next v2 3/3] ieee802154: ca8210: Switch to using gpiod API
-Date: Mon,  3 Mar 2025 18:49:10 +0200
-Message-ID: <20250303164928.1466246-4-andriy.shevchenko@linux.intel.com>
-X-Mailer: git-send-email 2.47.2
-In-Reply-To: <20250303164928.1466246-1-andriy.shevchenko@linux.intel.com>
-References: <20250303164928.1466246-1-andriy.shevchenko@linux.intel.com>
+	s=arc-20240116; t=1741031510; c=relaxed/simple;
+	bh=GsQ4AlMHXflwhjl3qlPbMr5mgvvbV1JUiFvFXS4uYGQ=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=fiXRk/1RqQafooQUTo0xx8Tjmv1dBPG6u5S0KBpz6J0uutAamOdpXzVwP15KL6UKVww3PvqAH1ehsSHNoa1lejXGhNyddQ6bg4TzCt3pVHkv97szuGZqLjWBjOeVWQ3iyGKx051nlIXLUPFjkzE5E+SUzLK+XiVM7/+d2S1BE+M=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=q3C7Fn64; arc=none smtp.client-ip=209.85.167.45
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+Received: by mail-lf1-f45.google.com with SMTP id 2adb3069b0e04-5494bc8a526so4192152e87.0
+        for <linux-wpan@vger.kernel.org>; Mon, 03 Mar 2025 11:51:47 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1741031505; x=1741636305; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=YOeEe/vKXmfGXFSe4NXDP7rT5PatmaYJmBeo1VUXgeM=;
+        b=q3C7Fn64y2JLH/pjzso65AhmdA9PZr8/Mnc2Rbg666gGcfMoD7MELHt7Q4vqPovuhY
+         3Ny89+/JGVfkJFUL0arRtdihgM1uqn9YUhr8Y9LLgx2Z2xK9IemRHM5BNt5sEh7CHxPA
+         0pE6mbQY2hpnA0sxMZnE1JbH1LPZIXEjyjo2ey0AHOD1RtlwojmWmiQSTPVlNQbotq5I
+         rfK+rGnb+D7uVMrGogozAimvBdxTPQZYTtvcZUj2eFO7DLCtnu5C8QFpaXJE1AtcECkl
+         M7npQKwglNKyz3cB5J5kdaxLxc2lM2dX+1CPCUWvos/8vyEp1jeCCzYIHof1KIKU8BAM
+         onfQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1741031505; x=1741636305;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=YOeEe/vKXmfGXFSe4NXDP7rT5PatmaYJmBeo1VUXgeM=;
+        b=v+ceUH08n4SUrF6ulNdo3j3oa+3xpJljJgIwkrXg1m4rFt/F/I32TT+5qn7+jldzaP
+         EYtsKCIe0GwUuDfcAtgEQpPEPUTrzAhOaNP7McwSffxx5UoSberiElxhfkmo9dHvQqc/
+         2hdXXvIZyhXAXDheZQT7HxoG/xBOiYN0JDxzV37QKht10L77LhQqEVQpr9I+F20ltEXr
+         L/WW/iqfCOJmNAZ+GOezrX3ulGuzyMaR6VXbnJV90zEYKG6tGSAGCs2JocKHMZtNApGK
+         hPtV2w2e73L8BnWF/5IDCAhctSgo7G/ldUGnLFgxsuhmQcrkDgjhjmCc6INKbj3ruhxQ
+         F/dw==
+X-Gm-Message-State: AOJu0YyfALN9FpZVyi6fnRkqMOZEgQm/XTaZY7yVYlLONbnJdYzoHBxL
+	u6Flog2qNYqIqXSoS+CUa1nT/wpLj5y056reTCcDBv2ViJnaLLbask897osdjierE4Mqb1S350E
+	fJUevRYCX23ThS8km8YRjmU9KrYt8jhdj5/iSIA==
+X-Gm-Gg: ASbGncsqOU7mdES7dkbpyXmkLSMI3kFC+A76KwnA5DABLkc5TaUSGIVxuETEyj/pIiF
+	SV/v+W4N+LTMyIvLfRND/fKa0FItY8yw54pebDav0wraO7yxx7XZj7MSw8DA/e+NMP4h4HsD2So
+	NRMY0Gzi2/K2Rs+wSMyXY6ZgiJ4Q==
+X-Google-Smtp-Source: AGHT+IFsGbvesnjWbfEk8+qcnhMhpwSK7rY1/+23lfk9h761ve12/onnm+C+Kg2oHwbcpQo6jWrgj2PsmOSffLjO+Lw=
+X-Received: by 2002:a05:6512:124b:b0:549:7145:5d25 with SMTP id
+ 2adb3069b0e04-54971455f79mr1443819e87.34.1741031505444; Mon, 03 Mar 2025
+ 11:51:45 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-wpan@vger.kernel.org
 List-Id: <linux-wpan.vger.kernel.org>
 List-Subscribe: <mailto:linux-wpan+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-wpan+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20250303164928.1466246-1-andriy.shevchenko@linux.intel.com> <20250303164928.1466246-2-andriy.shevchenko@linux.intel.com>
+In-Reply-To: <20250303164928.1466246-2-andriy.shevchenko@linux.intel.com>
+From: Linus Walleij <linus.walleij@linaro.org>
+Date: Mon, 3 Mar 2025 20:51:34 +0100
+X-Gm-Features: AQ5f1Jr4_oqgGu33I-byOxU2dX3oyVoLqRbYUQ6KaoKwKXnjUNMYEaKqTtmoBw0
+Message-ID: <CACRpkdbm5RQ-YOAaU7Mu2dyEjM12v8mP7rTTmW9-V5EbOPTJPA@mail.gmail.com>
+Subject: Re: [PATCH net-next v2 1/3] ieee802154: ca8210: Use proper setter and
+ getters for bitwise types
+To: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+Cc: linux-wpan@vger.kernel.org, netdev@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-gpio@vger.kernel.org, 
+	Alexander Aring <alex.aring@gmail.com>, Stefan Schmidt <stefan@datenfreihafen.org>, 
+	Miquel Raynal <miquel.raynal@bootlin.com>, Andrew Lunn <andrew+netdev@lunn.ch>, 
+	"David S. Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>, 
+	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, Bartosz Golaszewski <brgl@bgdev.pl>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-This updates the driver to gpiod API, and removes yet another use of
-of_get_named_gpio().
+On Mon, Mar 3, 2025 at 5:49=E2=80=AFPM Andy Shevchenko
+<andriy.shevchenko@linux.intel.com> wrote:
 
-Signed-off-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
----
- drivers/net/ieee802154/ca8210.c | 57 +++++++++++----------------------
- 1 file changed, 19 insertions(+), 38 deletions(-)
+> Sparse complains that the driver doesn't respect the bitwise types:
+>
+> drivers/net/ieee802154/ca8210.c:1796:27: warning: incorrect type in assig=
+nment (different base types)
+> drivers/net/ieee802154/ca8210.c:1796:27:    expected restricted __le16 [a=
+ddressable] [assigned] [usertype] pan_id
+> drivers/net/ieee802154/ca8210.c:1796:27:    got unsigned short [usertype]
+> drivers/net/ieee802154/ca8210.c:1801:25: warning: incorrect type in assig=
+nment (different base types)
+> drivers/net/ieee802154/ca8210.c:1801:25:    expected restricted __le16 [a=
+ddressable] [assigned] [usertype] pan_id
+> drivers/net/ieee802154/ca8210.c:1801:25:    got unsigned short [usertype]
+> drivers/net/ieee802154/ca8210.c:1928:28: warning: incorrect type in argum=
+ent 3 (different base types)
+> drivers/net/ieee802154/ca8210.c:1928:28:    expected unsigned short [user=
+type] dst_pan_id
+> drivers/net/ieee802154/ca8210.c:1928:28:    got restricted __le16 [addres=
+sable] [usertype] pan_id
+>
+> Use proper setter and getters for bitwise types.
+>
+> Note, in accordance with [1] the protocol is little endian.
+>
+> Link: https://www.cascoda.com/wp-content/uploads/2018/11/CA-8210_datashee=
+t_0418.pdf [1]
+> Reviewed-by: Miquel Raynal <miquel.raynal@bootlin.com>
+> Signed-off-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
 
-diff --git a/drivers/net/ieee802154/ca8210.c b/drivers/net/ieee802154/ca8210.c
-index 65f042c8734b..d4c1f00d29fe 100644
---- a/drivers/net/ieee802154/ca8210.c
-+++ b/drivers/net/ieee802154/ca8210.c
-@@ -52,12 +52,10 @@
- #include <linux/debugfs.h>
- #include <linux/delay.h>
- #include <linux/gpio/consumer.h>
--#include <linux/gpio.h>
- #include <linux/ieee802154.h>
- #include <linux/io.h>
- #include <linux/kfifo.h>
- #include <linux/of.h>
--#include <linux/of_gpio.h>
- #include <linux/module.h>
- #include <linux/mutex.h>
- #include <linux/poll.h>
-@@ -350,8 +348,8 @@ struct work_priv_container {
-  * @extclockenable: true if the external clock is to be enabled
-  * @extclockfreq:   frequency of the external clock
-  * @extclockgpio:   ca8210 output gpio of the external clock
-- * @gpio_reset:     gpio number of ca8210 reset line
-- * @gpio_irq:       gpio number of ca8210 interrupt line
-+ * @reset_gpio:     ca8210 reset GPIO descriptor
-+ * @irq_gpio:       ca8210 interrupt GPIO descriptor
-  * @irq_id:         identifier for the ca8210 irq
-  *
-  */
-@@ -359,8 +357,8 @@ struct ca8210_platform_data {
- 	bool extclockenable;
- 	unsigned int extclockfreq;
- 	unsigned int extclockgpio;
--	int gpio_reset;
--	int gpio_irq;
-+	struct gpio_desc *reset_gpio;
-+	struct gpio_desc *irq_gpio;
- 	int irq_id;
- };
- 
-@@ -632,10 +630,10 @@ static void ca8210_reset_send(struct spi_device *spi, unsigned int ms)
- 	struct ca8210_priv *priv = spi_get_drvdata(spi);
- 	long status;
- 
--	gpio_set_value(pdata->gpio_reset, 0);
-+	gpiod_set_value(pdata->reset_gpio, 0);
- 	reinit_completion(&priv->ca8210_is_awake);
- 	msleep(ms);
--	gpio_set_value(pdata->gpio_reset, 1);
-+	gpiod_set_value(pdata->reset_gpio, 1);
- 	priv->promiscuous = false;
- 
- 	/* Wait until wakeup indication seen */
-@@ -2788,24 +2786,14 @@ static int ca8210_reset_init(struct spi_device *spi)
- {
- 	struct device *dev = &spi->dev;
- 	struct ca8210_platform_data *pdata = dev_get_platdata(dev);
--	int ret;
- 
--	pdata->gpio_reset = of_get_named_gpio(
--		spi->dev.of_node,
--		"reset-gpio",
--		0
--	);
--
--	ret = gpio_direction_output(pdata->gpio_reset, 1);
--	if (ret < 0) {
--		dev_crit(
--			&spi->dev,
--			"Reset GPIO %d did not set to output mode\n",
--			pdata->gpio_reset
--		);
-+	pdata->reset_gpio = devm_gpiod_get(dev, "reset", GPIOD_OUT_HIGH);
-+	if (IS_ERR(pdata->reset_gpio)) {
-+		dev_crit(dev, "Reset GPIO did not set to output mode\n");
-+		return PTR_ERR(pdata->reset_gpio);
- 	}
- 
--	return ret;
-+	return 0;
- }
- 
- /**
-@@ -2820,20 +2808,15 @@ static int ca8210_interrupt_init(struct spi_device *spi)
- 	struct ca8210_platform_data *pdata = dev_get_platdata(dev);
- 	int ret;
- 
--	pdata->gpio_irq = of_get_named_gpio(
--		spi->dev.of_node,
--		"irq-gpio",
--		0
--	);
-+	pdata->irq_gpio = devm_gpiod_get(dev, "irq", GPIOD_IN);
-+	if (IS_ERR(pdata->irq_gpio)) {
-+		dev_crit(dev, "Could not retrieve IRQ GPIO\n");
-+		return PTR_ERR(pdata->irq_gpio);
-+	}
- 
--	pdata->irq_id = gpio_to_irq(pdata->gpio_irq);
-+	pdata->irq_id = gpiod_to_irq(pdata->irq_gpio);
- 	if (pdata->irq_id < 0) {
--		dev_crit(
--			&spi->dev,
--			"Could not get irq for gpio pin %d\n",
--			pdata->gpio_irq
--		);
--		gpio_free(pdata->gpio_irq);
-+		dev_crit(dev, "Could not get irq for IRQ GPIO\n");
- 		return pdata->irq_id;
- 	}
- 
-@@ -2844,10 +2827,8 @@ static int ca8210_interrupt_init(struct spi_device *spi)
- 		"ca8210-irq",
- 		spi_get_drvdata(spi)
- 	);
--	if (ret) {
-+	if (ret)
- 		dev_crit(&spi->dev, "request_irq %d failed\n", pdata->irq_id);
--		gpio_free(pdata->gpio_irq);
--	}
- 
- 	return ret;
- }
--- 
-2.47.2
+Reviewed-by: Linus Walleij <linus.walleij@linaro.org>
 
+Yours,
+Linus Walleij
 
