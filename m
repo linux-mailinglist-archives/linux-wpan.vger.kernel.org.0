@@ -1,349 +1,168 @@
-Return-Path: <linux-wpan+bounces-795-lists+linux-wpan=lfdr.de@vger.kernel.org>
+Return-Path: <linux-wpan+bounces-797-lists+linux-wpan=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-wpan@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id yNhfMU1iuWlsCwIAu9opvQ
-	(envelope-from <linux-wpan+bounces-795-lists+linux-wpan=lfdr.de@vger.kernel.org>)
-	for <lists+linux-wpan@lfdr.de>; Tue, 17 Mar 2026 15:16:45 +0100
+	id Ro/vBixvwGkMHwQAu9opvQ
+	(envelope-from <linux-wpan+bounces-797-lists+linux-wpan=lfdr.de@vger.kernel.org>)
+	for <lists+linux-wpan@lfdr.de>; Sun, 22 Mar 2026 23:37:32 +0100
 X-Original-To: lists+linux-wpan@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id E5FF22ABA0D
-	for <lists+linux-wpan@lfdr.de>; Tue, 17 Mar 2026 15:16:44 +0100 (CET)
+Received: from tor.lore.kernel.org (tor.lore.kernel.org [IPv6:2600:3c04:e001:36c::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6FF5C2EB0A9
+	for <lists+linux-wpan@lfdr.de>; Sun, 22 Mar 2026 23:37:31 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 3A71630DA1F1
-	for <lists+linux-wpan@lfdr.de>; Tue, 17 Mar 2026 14:05:59 +0000 (UTC)
+	by tor.lore.kernel.org (Postfix) with ESMTP id AB0A33004C29
+	for <lists+linux-wpan@lfdr.de>; Sun, 22 Mar 2026 22:37:29 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 865BB3E5583;
-	Tue, 17 Mar 2026 14:03:59 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id B5ED3372EFF;
+	Sun, 22 Mar 2026 22:37:28 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=datenfreihafen.org header.i=@datenfreihafen.org header.b="ft3da00d"
 X-Original-To: linux-wpan@vger.kernel.org
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from proxima.lasnet.de (proxima.lasnet.de [78.47.171.185])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A828E3E3C48
-	for <linux-wpan@vger.kernel.org>; Tue, 17 Mar 2026 14:03:56 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B997128642B;
+	Sun, 22 Mar 2026 22:37:26 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=78.47.171.185
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773756239; cv=none; b=Egu6G1C/uTT7UbknVQhgFCwKPfLOngO+4qQlGKUBh5SqBShnJI1PTEsdgng3UmnnJDvSiXV/wvFfHbD9LCKBnz/TJ+qP079SkwCEg1iZYdqhbnSi0aRV1pVn9kEvC6VQVngUBZe1bmEHUexPs9eMfTLVbHigRe959CyUVzykMNc=
+	t=1774219048; cv=none; b=Pb9vs7J9pU9FTnfq5B1Qs5qaoZzSI/4o2QLZx6nkpkqEH9DDbg8QUTOCeKatnLovbPsmQMRwJVCYqo5jPHBrowBzH6t4wkYiAhc0mgu3D7ipztrx4prZNabDB+8hvNb5RZiSGTs+ydKq2/Z/iNslZY2ohqNOBa9u9DVebY+kkq8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773756239; c=relaxed/simple;
-	bh=5Nb9LK8r9IyyJM5004Ss24FqxXs5Dg86yIi8ooN7u00=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=B0jgkBE2gXeT6QFNyjBU1XvlDW7R6jaUjMrLWgntTaY9fKgJWf2QmPEhm9z5KE3rScze6BVKmYVe2nPgVsSHSG50MjpkPkqE+K442ccwEraI7iHNF6JgB4zAcaT5l2zYqPBtF0spFUB+dV77FQrFNiHuHDCCcj2P0EDOmFhIjb4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; arc=none smtp.client-ip=195.135.223.130
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
+	s=arc-20240116; t=1774219048; c=relaxed/simple;
+	bh=cwKmKrBehC3eWBWOV3D0RnsdYcHGCiY95lRhCPL4k3M=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=rCG9ik5h1gNUukEf0qQsCwDzVlqqK1l7gQYabvgqaD1gJ8p+Wlzswpmc0PcLQ7hMw46AyBcGg7eyd204EQwdZyNWQN0bKgMU5FUTee7C77kB6xiNOkWJrvtWcdKt8fw1wRg1UUZ126UEj3GDwQDmyfvDHHKUo5QZnxO3d3fFZ5k=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=datenfreihafen.org; spf=pass smtp.mailfrom=datenfreihafen.org; dkim=pass (2048-bit key) header.d=datenfreihafen.org header.i=@datenfreihafen.org header.b=ft3da00d; arc=none smtp.client-ip=78.47.171.185
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=datenfreihafen.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=datenfreihafen.org
+Received: from [192.168.2.30] (unknown [46.253.254.168])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id 24ECC4D351;
-	Tue, 17 Mar 2026 14:03:55 +0000 (UTC)
-Authentication-Results: smtp-out1.suse.de;
-	none
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 942EF4273B;
-	Tue, 17 Mar 2026 14:03:53 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id aNcwIUlfuWmpYwAAD6G6ig
-	(envelope-from <fmancera@suse.de>); Tue, 17 Mar 2026 14:03:53 +0000
-From: Fernando Fernandez Mancera <fmancera@suse.de>
-To: netdev@vger.kernel.org
-Cc: Fernando Fernandez Mancera <fmancera@suse.de>,
-	=?UTF-8?q?Ricardo=20B=2E=20Marli=C3=A8re?= <rbm@suse.com>,
-	"David S. Miller" <davem@davemloft.net>,
-	Eric Dumazet <edumazet@google.com>,
-	Jakub Kicinski <kuba@kernel.org>,
-	Paolo Abeni <pabeni@redhat.com>,
-	Simon Horman <horms@kernel.org>,
-	Alexander Aring <alex.aring@gmail.com>,
-	Stefan Schmidt <stefan@datenfreihafen.org>,
-	Miquel Raynal <miquel.raynal@bootlin.com>,
-	Aaron Conole <aconole@redhat.com>,
-	Eelco Chaudron <echaudro@redhat.com>,
-	Ilya Maximets <i.maximets@ovn.org>,
-	Jamal Hadi Salim <jhs@mojatatu.com>,
-	Jiri Pirko <jiri@resnulli.us>,
-	Jon Maloy <jmaloy@redhat.com>,
-	Steffen Klassert <steffen.klassert@secunet.com>,
-	Herbert Xu <herbert@gondor.apana.org.au>,
-	Kuniyuki Iwashima <kuniyu@google.com>,
-	Guillaume Nault <gnault@redhat.com>,
-	Breno Leitao <leitao@debian.org>,
-	Kees Cook <kees@kernel.org>,
-	Stanislav Fomichev <sdf@fomichev.me>,
-	linux-kernel@vger.kernel.org,
-	linux-wpan@vger.kernel.org,
-	dev@openvswitch.org,
-	tipc-discussion@lists.sourceforge.net
-Subject: [PATCH 07/10 net-next v3] net: convert remaining ipv6_stub users to direct function calls
-Date: Tue, 17 Mar 2026 15:01:03 +0100
-Message-ID: <20260317140141.5723-8-fmancera@suse.de>
-X-Mailer: git-send-email 2.51.0
-In-Reply-To: <20260317140141.5723-1-fmancera@suse.de>
-References: <20260317140141.5723-1-fmancera@suse.de>
+	(Authenticated sender: stefan@datenfreihafen.org)
+	by proxima.lasnet.de (Postfix) with ESMTPSA id E13F7C034C;
+	Sun, 22 Mar 2026 23:27:28 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=datenfreihafen.org;
+	s=2021; t=1774218449;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=UiyTyEMNWezsYXPnf+/PmiVO+I71O3ORqcsuAzMGM1I=;
+	b=ft3da00d0+Jx1/+K0qK35iI/nGqO8WHdj0xhmD2eJhkfjHtv04IKhO745eY3TfhUpMDZCz
+	Zkx6zhQcUkdoWqkKBr82wzFmvf51ZDisAKGIH9nr6STTMOTrbFxLuG924X7iBshE3dgCIO
+	h4xjTmOly5Kz5wSPmHTtE+GJe0MxW32sA5niBPeDhR35CVVWYBGjQGkyT2whWyN/IjOiZq
+	sFa5ceZCkfLF057Rs+UGTpHrXh5xdlFTeeN4pg61ZeN+5H/2kULg5u33TIfHFJjLEbdFRM
+	GLHQbras/8OrxIwtgWbDVBu3KkTH8GR2njDjTdEoM5kmLDJcSDR+dmWQx/5lhg==
+Message-ID: <d71db3f0-12b0-485b-afec-ea5eeed35305@datenfreihafen.org>
+Date: Sun, 22 Mar 2026 23:27:27 +0100
 Precedence: bulk
 X-Mailing-List: linux-wpan@vger.kernel.org
 List-Id: <linux-wpan.vger.kernel.org>
 List-Subscribe: <mailto:linux-wpan+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-wpan+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-Rspamd-Pre-Result: action=no action;
-	module=replies;
-	Message is reply to one we originated
-X-Rspamd-Pre-Result: action=no action;
-	module=replies;
-	Message is reply to one we originated
-X-Spam-Flag: NO
-X-Spam-Score: -4.00
-X-Spam-Level: 
-X-Spamd-Result: default: False [1.14 / 15.00];
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] ieee802154: atusb: drop redundant device reference
+To: Johan Hovold <johan@kernel.org>
+Cc: Alexander Aring <alex.aring@gmail.com>,
+ Miquel Raynal <miquel.raynal@bootlin.com>,
+ Andrew Lunn <andrew+netdev@lunn.ch>, "David S . Miller"
+ <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>,
+ Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
+ linux-wpan@vger.kernel.org, netdev@vger.kernel.org,
+ linux-kernel@vger.kernel.org
+References: <20260305104313.15898-1-johan@kernel.org>
+From: Stefan Schmidt <stefan@datenfreihafen.org>
+Content-Language: en-US
+In-Reply-To: <20260305104313.15898-1-johan@kernel.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Spamd-Result: default: False [-0.16 / 15.00];
 	SUSPICIOUS_RECIPS(1.50)[];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	MID_CONTAINS_FROM(1.00)[];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64:c];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c04:e001:36c::/64];
+	R_DKIM_ALLOW(-0.20)[datenfreihafen.org:s=2021];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
-	DMARC_POLICY_SOFTFAIL(0.10)[suse.de : SPF not aligned (relaxed), No valid DKIM,none];
 	HAS_LIST_UNSUB(-0.01)[];
-	RCPT_COUNT_TWELVE(0.00)[28];
-	FREEMAIL_CC(0.00)[suse.de,suse.com,davemloft.net,google.com,kernel.org,redhat.com,gmail.com,datenfreihafen.org,bootlin.com,ovn.org,mojatatu.com,resnulli.us,secunet.com,gondor.apana.org.au,debian.org,fomichev.me,vger.kernel.org,openvswitch.org,lists.sourceforge.net];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	RCVD_TLS_LAST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-795-lists,linux-wpan=lfdr.de];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	FROM_HAS_DN(0.00)[];
+	TAGGED_FROM(0.00)[bounces-797-lists,linux-wpan=lfdr.de];
+	RCVD_TLS_LAST(0.00)[];
+	RCVD_COUNT_THREE(0.00)[4];
+	DMARC_NA(0.00)[datenfreihafen.org];
+	FREEMAIL_CC(0.00)[gmail.com,bootlin.com,lunn.ch,davemloft.net,google.com,kernel.org,redhat.com,vger.kernel.org];
+	MIME_TRACE(0.00)[0:+];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	DKIM_TRACE(0.00)[datenfreihafen.org:+];
+	ASN(0.00)[asn:63949, ipnet:2600:3c04::/32, country:SG];
 	TO_DN_SOME(0.00)[];
-	RCVD_COUNT_FIVE(0.00)[6];
+	NEURAL_HAM(-0.00)[-1.000];
 	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[fmancera@suse.de,linux-wpan@vger.kernel.org];
-	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
-	NEURAL_HAM(-0.00)[-0.915];
-	TAGGED_RCPT(0.00)[linux-wpan];
-	R_DKIM_NA(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[stefan@datenfreihafen.org,linux-wpan@vger.kernel.org];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	MID_RHS_MATCH_FROM(0.00)[];
+	TAGGED_RCPT(0.00)[linux-wpan,netdev];
+	RCPT_COUNT_SEVEN(0.00)[11];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.com:email,sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns,suse.de:email,suse.de:mid]
-X-Rspamd-Queue-Id: E5FF22ABA0D
+	DBL_BLOCKED_OPENRESOLVER(0.00)[tor.lore.kernel.org:helo,tor.lore.kernel.org:rdns,datenfreihafen.org:dkim,datenfreihafen.org:email,datenfreihafen.org:mid]
+X-Rspamd-Queue-Id: 6FF5C2EB0A9
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
-As IPv6 is built-in only, the ipv6_stub infrastruture is no longer
-necessary.
+Hello,
 
-Convert remaining ipv6_stub users to make direct function calls. The
-fallback functions introduced previously will prevent linkage errors
-when CONFIG_IPV6 is disabled.
+On 3/5/26 11:43, Johan Hovold wrote:
+> Driver core holds a reference to the USB interface and its parent USB
+> device while the interface is bound to a driver and there is no need to
+> take additional references unless the structures are needed after
+> disconnect.
+> 
+> Drop the redundant device reference to reduce cargo culting, make it
+> easier to spot drivers where an extra reference is needed, and reduce
+> the risk of memory leaks when drivers fail to release it.
+> 
+> Signed-off-by: Johan Hovold <johan@kernel.org>
+> ---
+>   drivers/net/ieee802154/atusb.c | 5 +----
+>   1 file changed, 1 insertion(+), 4 deletions(-)
+> 
+> diff --git a/drivers/net/ieee802154/atusb.c b/drivers/net/ieee802154/atusb.c
+> index 95a4a3cdc8a4..5f7fc4ee7a07 100644
+> --- a/drivers/net/ieee802154/atusb.c
+> +++ b/drivers/net/ieee802154/atusb.c
+> @@ -961,7 +961,7 @@ static int atusb_probe(struct usb_interface *interface,
+>   
+>   	atusb = hw->priv;
+>   	atusb->hw = hw;
+> -	atusb->usb_dev = usb_get_dev(usb_dev);
+> +	atusb->usb_dev = usb_dev;
+>   	usb_set_intfdata(interface, atusb);
+>   
+>   	atusb->shutdown = 0;
+> @@ -1055,7 +1055,6 @@ static int atusb_probe(struct usb_interface *interface,
+>   	atusb_free_urbs(atusb);
+>   	usb_kill_urb(atusb->tx_urb);
+>   	usb_free_urb(atusb->tx_urb);
+> -	usb_put_dev(usb_dev);
+>   	ieee802154_free_hw(hw);
+>   	return ret;
+>   }
+> @@ -1076,8 +1075,6 @@ static void atusb_disconnect(struct usb_interface *interface)
+>   
+>   	ieee802154_unregister_hw(atusb->hw);
+>   
+> -	usb_put_dev(atusb->usb_dev);
+> -
+>   	ieee802154_free_hw(atusb->hw);
+>   
+>   	usb_set_intfdata(interface, NULL);
 
-Signed-off-by: Fernando Fernandez Mancera <fmancera@suse.de>
-Tested-by: Ricardo B. Marlière <rbm@suse.com>
----
- include/net/udp_tunnel.h      | 2 +-
- net/ieee802154/6lowpan/tx.c   | 2 +-
- net/mpls/af_mpls.c            | 3 +--
- net/openvswitch/actions.c     | 3 ++-
- net/sched/sch_frag.c          | 4 ++--
- net/tipc/udp_media.c          | 9 +++------
- net/xfrm/espintcp.c           | 5 +----
- net/xfrm/xfrm_nat_keepalive.c | 4 ++--
- net/xfrm/xfrm_output.c        | 3 +--
- 9 files changed, 14 insertions(+), 21 deletions(-)
+Signed-off-by: Stefan Schmidt <stefan@datenfreihafen.org>
 
-diff --git a/include/net/udp_tunnel.h b/include/net/udp_tunnel.h
-index d9c6d04bb3b5..277f1ce1c02d 100644
---- a/include/net/udp_tunnel.h
-+++ b/include/net/udp_tunnel.h
-@@ -230,7 +230,7 @@ static inline void udp_tunnel_encap_enable(struct sock *sk)
- 
- #if IS_ENABLED(CONFIG_IPV6)
- 	if (READ_ONCE(sk->sk_family) == PF_INET6)
--		ipv6_stub->udpv6_encap_enable();
-+		udpv6_encap_enable();
- #endif
- 	udp_encap_enable();
- }
-diff --git a/net/ieee802154/6lowpan/tx.c b/net/ieee802154/6lowpan/tx.c
-index 0c07662b44c0..69ec02386aaa 100644
---- a/net/ieee802154/6lowpan/tx.c
-+++ b/net/ieee802154/6lowpan/tx.c
-@@ -59,7 +59,7 @@ int lowpan_header_create(struct sk_buff *skb, struct net_device *ldev,
- 	} else {
- 		__le16 short_addr = cpu_to_le16(IEEE802154_ADDR_SHORT_UNSPEC);
- 
--		n = neigh_lookup(&nd_tbl, &hdr->daddr, ldev);
-+		n = neigh_lookup(ipv6_get_nd_tbl(), &hdr->daddr, ldev);
- 		if (n) {
- 			llneigh = lowpan_802154_neigh(neighbour_priv(n));
- 			read_lock_bh(&n->lock);
-diff --git a/net/mpls/af_mpls.c b/net/mpls/af_mpls.c
-index ae85a7654b1f..8b4c0b7d55a2 100644
---- a/net/mpls/af_mpls.c
-+++ b/net/mpls/af_mpls.c
-@@ -24,7 +24,6 @@
- #if IS_ENABLED(CONFIG_IPV6)
- #include <net/ipv6.h>
- #endif
--#include <net/ipv6_stubs.h>
- #include <net/rtnh.h>
- #include "internal.h"
- 
-@@ -642,7 +641,7 @@ static struct net_device *inet6_fib_lookup_dev(struct net *net,
- 
- 	memset(&fl6, 0, sizeof(fl6));
- 	memcpy(&fl6.daddr, addr, sizeof(struct in6_addr));
--	dst = ipv6_stub->ipv6_dst_lookup_flow(net, NULL, &fl6, NULL);
-+	dst = ip6_dst_lookup_flow(net, NULL, &fl6, NULL);
- 	if (IS_ERR(dst))
- 		return ERR_CAST(dst);
- 
-diff --git a/net/openvswitch/actions.c b/net/openvswitch/actions.c
-index 792ca44a461d..140388a18ae0 100644
---- a/net/openvswitch/actions.c
-+++ b/net/openvswitch/actions.c
-@@ -21,6 +21,7 @@
- #include <net/ip.h>
- #include <net/ipv6.h>
- #include <net/ip6_fib.h>
-+#include <net/ip6_route.h>
- #include <net/checksum.h>
- #include <net/dsfield.h>
- #include <net/mpls.h>
-@@ -810,7 +811,7 @@ static void ovs_fragment(struct net *net, struct vport *vport,
- 		skb_dst_set_noref(skb, &ovs_rt.dst);
- 		IP6CB(skb)->frag_max_size = mru;
- 
--		ipv6_stub->ipv6_fragment(net, skb->sk, skb, ovs_vport_output);
-+		ip6_fragment(net, skb->sk, skb, ovs_vport_output);
- 		refdst_drop(orig_dst);
- 	} else {
- 		WARN_ONCE(1, "Failed fragment ->%s: eth=%04x, MRU=%d, MTU=%d.",
-diff --git a/net/sched/sch_frag.c b/net/sched/sch_frag.c
-index d1d87dce7f3f..75ee52750919 100644
---- a/net/sched/sch_frag.c
-+++ b/net/sched/sch_frag.c
-@@ -6,6 +6,7 @@
- #include <net/dst.h>
- #include <net/ip.h>
- #include <net/ip6_fib.h>
-+#include <net/ip6_route.h>
- 
- struct sch_frag_data {
- 	unsigned long dst;
-@@ -127,8 +128,7 @@ static int sch_fragment(struct net *net, struct sk_buff *skb,
- 		skb_dst_set_noref(skb, &sch_frag_rt.dst);
- 		IP6CB(skb)->frag_max_size = mru;
- 
--		ret = ipv6_stub->ipv6_fragment(net, skb->sk, skb,
--					       sch_frag_xmit);
-+		ret = ip6_fragment(net, skb->sk, skb, sch_frag_xmit);
- 		local_unlock_nested_bh(&sch_frag_data_storage.bh_lock);
- 		refdst_drop(orig_dst);
- 	} else {
-diff --git a/net/tipc/udp_media.c b/net/tipc/udp_media.c
-index 2b8e385d1e51..2c66b356025a 100644
---- a/net/tipc/udp_media.c
-+++ b/net/tipc/udp_media.c
-@@ -44,7 +44,6 @@
- #include <net/sock.h>
- #include <net/ip.h>
- #include <net/udp_tunnel.h>
--#include <net/ipv6_stubs.h>
- #include <linux/tipc_netlink.h>
- #include "core.h"
- #include "addr.h"
-@@ -207,9 +206,8 @@ static int tipc_udp_xmit(struct net *net, struct sk_buff *skb,
- 				.saddr = src->ipv6,
- 				.flowi6_proto = IPPROTO_UDP
- 			};
--			ndst = ipv6_stub->ipv6_dst_lookup_flow(net,
--							       ub->ubsock->sk,
--							       &fl6, NULL);
-+			ndst = ip6_dst_lookup_flow(net, ub->ubsock->sk,
-+						   &fl6, NULL);
- 			if (IS_ERR(ndst)) {
- 				err = PTR_ERR(ndst);
- 				goto tx_error;
-@@ -418,8 +416,7 @@ static int enable_mcast(struct udp_bearer *ub, struct udp_media_addr *remote)
- #if IS_ENABLED(CONFIG_IPV6)
- 	} else {
- 		lock_sock(sk);
--		err = ipv6_stub->ipv6_sock_mc_join(sk, ub->ifindex,
--						   &remote->ipv6);
-+		err = ipv6_sock_mc_join(sk, ub->ifindex, &remote->ipv6);
- 		release_sock(sk);
- #endif
- 	}
-diff --git a/net/xfrm/espintcp.c b/net/xfrm/espintcp.c
-index 998832419097..a2756186e13a 100644
---- a/net/xfrm/espintcp.c
-+++ b/net/xfrm/espintcp.c
-@@ -7,9 +7,6 @@
- #include <linux/skmsg.h>
- #include <net/inet_common.h>
- #include <trace/events/sock.h>
--#if IS_ENABLED(CONFIG_IPV6)
--#include <net/ipv6_stubs.h>
--#endif
- #include <net/hotdata.h>
- 
- static void handle_nonesp(struct espintcp_ctx *ctx, struct sk_buff *skb,
-@@ -43,7 +40,7 @@ static void handle_esp(struct sk_buff *skb, struct sock *sk)
- 	local_bh_disable();
- #if IS_ENABLED(CONFIG_IPV6)
- 	if (sk->sk_family == AF_INET6)
--		ipv6_stub->xfrm6_rcv_encap(skb, IPPROTO_ESP, 0, TCP_ENCAP_ESPINTCP);
-+		xfrm6_rcv_encap(skb, IPPROTO_ESP, 0, TCP_ENCAP_ESPINTCP);
- 	else
- #endif
- 		xfrm4_rcv_encap(skb, IPPROTO_ESP, 0, TCP_ENCAP_ESPINTCP);
-diff --git a/net/xfrm/xfrm_nat_keepalive.c b/net/xfrm/xfrm_nat_keepalive.c
-index ebf95d48e86c..d47f2ed8005c 100644
---- a/net/xfrm/xfrm_nat_keepalive.c
-+++ b/net/xfrm/xfrm_nat_keepalive.c
-@@ -98,14 +98,14 @@ static int nat_keepalive_send_ipv6(struct sk_buff *skb,
- 	local_lock_nested_bh(&nat_keepalive_sk_ipv6.bh_lock);
- 	sk = this_cpu_read(nat_keepalive_sk_ipv6.sock);
- 	sock_net_set(sk, net);
--	dst = ipv6_stub->ipv6_dst_lookup_flow(net, sk, &fl6, NULL);
-+	dst = ip6_dst_lookup_flow(net, sk, &fl6, NULL);
- 	if (IS_ERR(dst)) {
- 		local_unlock_nested_bh(&nat_keepalive_sk_ipv6.bh_lock);
- 		return PTR_ERR(dst);
- 	}
- 
- 	skb_dst_set(skb, dst);
--	err = ipv6_stub->ip6_xmit(sk, skb, &fl6, skb->mark, NULL, 0, 0);
-+	err = ip6_xmit(sk, skb, &fl6, skb->mark, NULL, 0, 0);
- 	sock_net_set(sk, &init_net);
- 	local_unlock_nested_bh(&nat_keepalive_sk_ipv6.bh_lock);
- 	return err;
-diff --git a/net/xfrm/xfrm_output.c b/net/xfrm/xfrm_output.c
-index 54222fcbd7fd..a9652b422f51 100644
---- a/net/xfrm/xfrm_output.c
-+++ b/net/xfrm/xfrm_output.c
-@@ -20,7 +20,6 @@
- 
- #if IS_ENABLED(CONFIG_IPV6)
- #include <net/ip6_route.h>
--#include <net/ipv6_stubs.h>
- #endif
- 
- #include "xfrm_inout.h"
-@@ -900,7 +899,7 @@ int xfrm6_tunnel_check_size(struct sk_buff *skb)
- 		skb->protocol = htons(ETH_P_IPV6);
- 
- 		if (xfrm6_local_dontfrag(sk))
--			ipv6_stub->xfrm6_local_rxpmtu(skb, mtu);
-+			xfrm6_local_rxpmtu(skb, mtu);
- 		else if (sk)
- 			xfrm_local_error(skb, mtu);
- 		else
--- 
-2.53.0
+Jakub, Dave or Paolo can you folks please pick this up into net-next? I 
+waited a moment but I have nothing else for wpan-next in the queue for 
+now, so it would be silly to have a pull-request just for this.
 
+regards
+Stefan Schmidt
 
