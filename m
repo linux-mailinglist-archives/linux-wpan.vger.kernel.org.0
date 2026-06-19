@@ -1,67 +1,68 @@
-Return-Path: <linux-wpan+bounces-872-lists+linux-wpan=lfdr.de@vger.kernel.org>
+Return-Path: <linux-wpan+bounces-873-lists+linux-wpan=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-wpan@lfdr.de
 Received: from mail.lfdr.de
 	by mail.lfdr.de with LMTP
-	id KA9eD3CsNWoF3AYAu9opvQ
-	(envelope-from <linux-wpan+bounces-872-lists+linux-wpan=lfdr.de@vger.kernel.org>)
-	for <lists+linux-wpan@lfdr.de>; Fri, 19 Jun 2026 22:54:08 +0200
+	id IepOCJutNWqC3AYAu9opvQ
+	(envelope-from <linux-wpan+bounces-873-lists+linux-wpan=lfdr.de@vger.kernel.org>)
+	for <lists+linux-wpan@lfdr.de>; Fri, 19 Jun 2026 22:59:07 +0200
 X-Original-To: lists+linux-wpan@lfdr.de
-Received: from tor.lore.kernel.org (tor.lore.kernel.org [172.105.105.114])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9F9A06A7BAE
-	for <lists+linux-wpan@lfdr.de>; Fri, 19 Jun 2026 22:54:07 +0200 (CEST)
+Received: from sin.lore.kernel.org (sin.lore.kernel.org [IPv6:2600:3c15:e001:75::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id 031976A7BD6
+	for <lists+linux-wpan@lfdr.de>; Fri, 19 Jun 2026 22:59:06 +0200 (CEST)
 Authentication-Results: mail.lfdr.de;
 	dkim=none;
 	dmarc=none;
-	spf=pass (mail.lfdr.de: domain of "linux-wpan+bounces-872-lists+linux-wpan=lfdr.de@vger.kernel.org" designates 172.105.105.114 as permitted sender) smtp.mailfrom="linux-wpan+bounces-872-lists+linux-wpan=lfdr.de@vger.kernel.org";
+	spf=pass (mail.lfdr.de: domain of "linux-wpan+bounces-873-lists+linux-wpan=lfdr.de@vger.kernel.org" designates 2600:3c15:e001:75::12fc:5321 as permitted sender) smtp.mailfrom="linux-wpan+bounces-873-lists+linux-wpan=lfdr.de@vger.kernel.org";
 	arc=pass ("subspace.kernel.org:s=arc-20240116:i=1")
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by tor.lore.kernel.org (Postfix) with ESMTP id 96F92302960D
-	for <lists+linux-wpan@lfdr.de>; Fri, 19 Jun 2026 20:54:06 +0000 (UTC)
+	by sin.lore.kernel.org (Postfix) with ESMTP id 29BAF3007B28
+	for <lists+linux-wpan@lfdr.de>; Fri, 19 Jun 2026 20:59:03 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 493733BD63B;
-	Fri, 19 Jun 2026 20:54:04 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id F0EB53CB911;
+	Fri, 19 Jun 2026 20:58:59 +0000 (UTC)
 X-Original-To: linux-wpan@vger.kernel.org
 Received: from proxima.lasnet.de (proxima.lasnet.de [78.47.171.185])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 194D43290DB;
-	Fri, 19 Jun 2026 20:54:02 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 79B2D3C3C00;
+	Fri, 19 Jun 2026 20:58:57 +0000 (UTC)
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781902444; cv=none; b=iDZhcPDoJT9qROCE4Acceyfjze/rGWRTE06I0cCQqP6FAaIMC7btMOgJ3IIo7sa7SjWXZnzbZmIfIXm593qmCp/A9DPSPHfP0srz876lGt676AacZ3ydcReqK6ppUkxmj55Nq96ZAbTxIy5uKbZLgQPZHu5tNRz4D0gI44J3OF0=
+	t=1781902739; cv=none; b=VMEpMg52QNy28pYsSNrHkN52gbF1T4uKkYB4F6HOyK3wt2nfPbYQgMXuEa6IgFGVaJtrVYsRnC6BIYrcbujhgmcRfiI2phVNipdziwB4kQVBM27TW9O2i/KakaKOVKATMkHmNMQWlmBKWw2VnGOitdghiZAvYgyC6OpY8bU+T5U=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781902444; c=relaxed/simple;
-	bh=wsKYov9ueDn1RiY/wif6+y1wha8dgovGnU5G9dpRfQU=;
+	s=arc-20240116; t=1781902739; c=relaxed/simple;
+	bh=oooXo17agqt59WPLk3K1n2OhubOgja7s+KkLia3OLv8=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=hm+SIZ/k+ukw9GRFsaI8i9qIsfoU3DcADI9f3TInIfJ5Bnpteh+tpaMCVeJMebHgA7daa+9rgxVwOijK3ASafOrr5BbcS/nrVw3LNkz/4PBtkXCuk2W/pUBrw1eVCdCosG9HolodgKvvDvHNJjsChOFoWSdvW1lmQHvQI5Y32v4=
+	 MIME-Version:Content-Type; b=mXJYqCBhLujql9CdYB63c6wPUY4M+p2bWoqnnP53I8AOdsYV5puR4BnE8jH3a7rGT1HYx73mdBlWSpt5/atLk/EHp81E5tuFyGTVbV4/rqjm0S+YTN0YNVOxIFHWX+AJG3TlEXFxnJJb2ByGCOUc7MAv9NfYYmx+AVxz6qjXPUc=
 ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=datenfreihafen.org; spf=pass smtp.mailfrom=datenfreihafen.org; arc=none smtp.client-ip=78.47.171.185
 Received: from work.datenfreihafen.local (unknown [46.253.254.161])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
 	(Authenticated sender: stefan@sostec.de)
-	by proxima.lasnet.de (Postfix) with ESMTPSA id 04A05C0A83;
-	Fri, 19 Jun 2026 22:54:00 +0200 (CEST)
+	by proxima.lasnet.de (Postfix) with ESMTPSA id 041FEC0879;
+	Fri, 19 Jun 2026 22:58:54 +0200 (CEST)
 From: Stefan Schmidt <stefan@datenfreihafen.org>
-To: syzkaller-bugs@googlegroups.com,
-	Alexander Aring <alex.aring@gmail.com>,
-	"David S. Miller" <davem@davemloft.net>,
-	Eric Dumazet <edumazet@google.com>,
-	Jakub Kicinski <kuba@kernel.org>,
-	linux-wpan@vger.kernel.org,
-	Miquel Raynal <miquel.raynal@bootlin.com>,
-	netdev@vger.kernel.org,
-	Paolo Abeni <pabeni@redhat.com>,
-	syzbot <syzbot@kernel.org>
+To: alex.aring@gmail.com,
+	miquel.raynal@bootlin.com,
+	Robertus Diawan Chris <robertusdchris@gmail.com>
 Cc: Stefan Schmidt <stefan@datenfreihafen.org>,
+	davem@davemloft.net,
+	edumazet@google.com,
+	kuba@kernel.org,
+	pabeni@redhat.com,
 	horms@kernel.org,
+	linux-wpan@vger.kernel.org,
+	netdev@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
-	syzbot@lists.linux.dev
-Subject: Re: [PATCH] ieee802154: fix kernel-infoleak in dgram_recvmsg()
-Date: Fri, 19 Jun 2026 22:53:55 +0200
-Message-ID: <178190240273.821068.5734846071151495833.b4-ty@datenfreihafen.org>
+	linux-kernel-mentees@lists.linuxfoundation.org,
+	skhan@linuxfoundation.org,
+	me@brighamcampbell.com
+Subject: Re: [PATCH] mac802154: Prevent overwrite return code in mac802154_perform_association()
+Date: Fri, 19 Jun 2026 22:58:49 +0200
+Message-ID: <178190268127.829220.6513673834040282671.b4-ty@datenfreihafen.org>
 X-Mailer: git-send-email 2.54.0
-In-Reply-To: <62795fd9-fc0c-48eb-bb82-05ffc5a57104@mail.kernel.org>
-References: <62795fd9-fc0c-48eb-bb82-05ffc5a57104@mail.kernel.org>
+In-Reply-To: <20260602054133.470293-1-robertusdchris@gmail.com>
+References: <20260602054133.470293-1-robertusdchris@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-wpan@vger.kernel.org
 List-Id: <linux-wpan.vger.kernel.org>
@@ -74,23 +75,22 @@ X-Rspamd-Action: no action
 X-Spamd-Result: default: False [0.04 / 15.00];
 	SUSPICIOUS_RECIPS(1.50)[];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	R_SPF_ALLOW(-0.20)[+ip4:172.105.105.114];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c15:e001:75::/64:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	TAGGED_FROM(0.00)[bounces-872-lists,linux-wpan=lfdr.de];
+	RCVD_TLS_LAST(0.00)[];
+	FORGED_RECIPIENTS(0.00)[m:alex.aring@gmail.com,m:miquel.raynal@bootlin.com,m:robertusdchris@gmail.com,m:stefan@datenfreihafen.org,m:davem@davemloft.net,m:edumazet@google.com,m:kuba@kernel.org,m:pabeni@redhat.com,m:horms@kernel.org,m:linux-wpan@vger.kernel.org,m:netdev@vger.kernel.org,m:linux-kernel@vger.kernel.org,m:linux-kernel-mentees@lists.linuxfoundation.org,m:skhan@linuxfoundation.org,m:me@brighamcampbell.com,m:alexaring@gmail.com,s:lists@lfdr.de];
 	DMARC_NA(0.00)[datenfreihafen.org];
 	RCVD_COUNT_THREE(0.00)[4];
-	RCVD_TLS_LAST(0.00)[];
-	FORGED_RECIPIENTS(0.00)[m:syzkaller-bugs@googlegroups.com,m:alex.aring@gmail.com,m:davem@davemloft.net,m:edumazet@google.com,m:kuba@kernel.org,m:linux-wpan@vger.kernel.org,m:miquel.raynal@bootlin.com,m:netdev@vger.kernel.org,m:pabeni@redhat.com,m:syzbot@kernel.org,m:stefan@datenfreihafen.org,m:horms@kernel.org,m:linux-kernel@vger.kernel.org,m:syzbot@lists.linux.dev,m:alexaring@gmail.com,s:lists@lfdr.de];
-	FROM_HAS_DN(0.00)[];
+	FREEMAIL_TO(0.00)[gmail.com,bootlin.com];
 	FORGED_SENDER(0.00)[stefan@datenfreihafen.org,linux-wpan@vger.kernel.org];
-	RCPT_COUNT_TWELVE(0.00)[14];
-	FREEMAIL_TO(0.00)[googlegroups.com,gmail.com,davemloft.net,google.com,kernel.org,vger.kernel.org,bootlin.com,redhat.com];
+	RCPT_COUNT_TWELVE(0.00)[15];
+	TAGGED_FROM(0.00)[bounces-873-lists,linux-wpan=lfdr.de];
 	MIME_TRACE(0.00)[0:+];
 	FORGED_SENDER_MAILLIST(0.00)[];
 	FORWARDED(0.00)[lists@lfdr.de];
-	URIBL_MULTI_FAIL(0.00)[datenfreihafen.org:server fail,vger.kernel.org:server fail,tor.lore.kernel.org:server fail];
+	FROM_HAS_DN(0.00)[];
 	FORGED_RECIPIENTS_FORWARDING(0.00)[];
 	TO_DN_SOME(0.00)[];
 	FORGED_SENDER_FORWARDING(0.00)[];
@@ -101,40 +101,29 @@ X-Spamd-Result: default: False [0.04 / 15.00];
 	R_DKIM_NA(0.00)[];
 	TAGGED_RCPT(0.00)[linux-wpan];
 	MID_RHS_MATCH_FROM(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:172.105.96.0/20, country:SG];
+	ASN(0.00)[asn:63949, ipnet:2600:3c15::/32, country:SG];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[vger.kernel.org:from_smtp,datenfreihafen.org:mid,datenfreihafen.org:from_mime,tor.lore.kernel.org:rdns,tor.lore.kernel.org:helo]
+	DBL_BLOCKED_OPENRESOLVER(0.00)[datenfreihafen.org:mid,datenfreihafen.org:from_mime,vger.kernel.org:from_smtp,sin.lore.kernel.org:rdns,sin.lore.kernel.org:helo]
 X-Rspamd-Server: lfdr
-X-Rspamd-Queue-Id: 9F9A06A7BAE
+X-Rspamd-Queue-Id: 031976A7BD6
 
-Hello syzbot.
+Hello Robertus Diawan Chris.
 
-On Wed, 27 May 2026 20:18:18 +0000, syzbot wrote:
-> KMSAN reported a kernel-infoleak in move_addr_to_user():
+On Tue, 02 Jun 2026 12:41:33 +0700, Robertus Diawan Chris wrote:
+> When assoc_status not equal to IEEE802154_ASSOCIATION_SUCCESSFUL, the
+> return value assigned to either "-ERANGE" or "-EPERM" but this return
+> value will be overwritten to 0 after exiting the conditional scope.
+> So, jump to clear_assoc label to preserve the return value when
+> assoc_status not equal to IEEE802154_ASSOCIATION_SUCCESSFUL.
 > 
-> BUG: KMSAN: kernel-infoleak in instrument_copy_to_user
-> include/linux/instrumented.h:131 [inline]
-> BUG: KMSAN: kernel-infoleak in _inline_copy_to_user
-> include/linux/uaccess.h:205 [inline]
-> BUG: KMSAN: kernel-infoleak in _copy_to_user+0xcc/0x120
-> lib/usercopy.c:26
->  instrument_copy_to_user include/linux/instrumented.h:131 [inline]
->  _inline_copy_to_user include/linux/uaccess.h:205 [inline]
->  _copy_to_user+0xcc/0x120 lib/usercopy.c:26
->  copy_to_user include/linux/uaccess.h:236 [inline]
->  move_addr_to_user+0x2e7/0x440 net/socket.c:302
->  ____sys_recvmsg+0x232/0x610 net/socket.c:2925
->  ...
->  Uninit was stored to memory at:
->  ieee802154_addr_to_sa include/net/ieee802154_netdev.h:369 [inline]
->  dgram_recvmsg+0xa09/0xbe0 net/ieee802154/socket.c:739
+> This is reported by Coverity Scan as "Unused value".
 > 
 > [...]
 
 Applied to wpan/wpan-next.git, thanks!
 
-[1/1] ieee802154: fix kernel-infoleak in dgram_recvmsg()
-      https://git.kernel.org/wpan/wpan-next/c/4db86f8ab11b
+[1/1] mac802154: Prevent overwrite return code in mac802154_perform_association()
+      https://git.kernel.org/wpan/wpan-next/c/649147cb3f8b
 
 regards,
 Stefan Schmidt
