@@ -1,182 +1,241 @@
-Return-Path: <linux-wpan+bounces-878-lists+linux-wpan=lfdr.de@vger.kernel.org>
+Return-Path: <linux-wpan+bounces-879-lists+linux-wpan=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-wpan@lfdr.de
 Received: from mail.lfdr.de
 	by mail.lfdr.de with LMTP
-	id QFVfLrtjQGoUfQkAu9opvQ
-	(envelope-from <linux-wpan+bounces-878-lists+linux-wpan=lfdr.de@vger.kernel.org>)
-	for <lists+linux-wpan@lfdr.de>; Sun, 28 Jun 2026 01:58:51 +0200
+	id xhF6NnpEQmrU3AkAu9opvQ
+	(envelope-from <linux-wpan+bounces-879-lists+linux-wpan=lfdr.de@vger.kernel.org>)
+	for <lists+linux-wpan@lfdr.de>; Mon, 29 Jun 2026 12:10:02 +0200
 X-Original-To: lists+linux-wpan@lfdr.de
-Received: from sin.lore.kernel.org (sin.lore.kernel.org [104.64.211.4])
-	by mail.lfdr.de (Postfix) with ESMTPS id A8E676D2D6B
-	for <lists+linux-wpan@lfdr.de>; Sun, 28 Jun 2026 01:58:50 +0200 (CEST)
+Received: from sin.lore.kernel.org (sin.lore.kernel.org [IPv6:2600:3c15:e001:75::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id 95EA66D8B74
+	for <lists+linux-wpan@lfdr.de>; Mon, 29 Jun 2026 12:10:01 +0200 (CEST)
 Authentication-Results: mail.lfdr.de;
-	dkim=pass header.d=gmail.com header.s=20251104 header.b=Ml71Fd3d;
-	spf=pass (mail.lfdr.de: domain of "linux-wpan+bounces-878-lists+linux-wpan=lfdr.de@vger.kernel.org" designates 104.64.211.4 as permitted sender) smtp.mailfrom="linux-wpan+bounces-878-lists+linux-wpan=lfdr.de@vger.kernel.org";
-	dmarc=pass (policy=none) header.from=gmail.com;
+	dkim=none;
+	dmarc=fail reason="SPF not aligned (relaxed), No valid DKIM" header.from=appspotmail.com (policy=none);
+	spf=pass (mail.lfdr.de: domain of "linux-wpan+bounces-879-lists+linux-wpan=lfdr.de@vger.kernel.org" designates 2600:3c15:e001:75::12fc:5321 as permitted sender) smtp.mailfrom="linux-wpan+bounces-879-lists+linux-wpan=lfdr.de@vger.kernel.org";
 	arc=pass ("subspace.kernel.org:s=arc-20240116:i=1")
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sin.lore.kernel.org (Postfix) with ESMTP id A1DB23006938
-	for <lists+linux-wpan@lfdr.de>; Sat, 27 Jun 2026 23:58:47 +0000 (UTC)
+	by sin.lore.kernel.org (Postfix) with ESMTP id 390FC30055EB
+	for <lists+linux-wpan@lfdr.de>; Mon, 29 Jun 2026 09:53:27 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1220237F8AD;
-	Sat, 27 Jun 2026 23:58:46 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id E3F112D8378;
+	Mon, 29 Jun 2026 09:53:25 +0000 (UTC)
 X-Original-To: linux-wpan@vger.kernel.org
-Received: from mail-wr1-f45.google.com (mail-wr1-f45.google.com [209.85.221.45])
+Received: from mail-oi1-f206.google.com (mail-oi1-f206.google.com [209.85.167.206])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B5A7A30D3F5
-	for <linux-wpan@vger.kernel.org>; Sat, 27 Jun 2026 23:58:44 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 57A4312CDBE
+	for <linux-wpan@vger.kernel.org>; Mon, 29 Jun 2026 09:53:24 +0000 (UTC)
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782604726; cv=none; b=Ud73fvNXVCZCXbBRwtczjg82cYOHCYH39kTeFl05bU7XvUNHX4utCHbvyl0RgKZJOHwYLhgprVISjUEoRQL9827kO8+AqTBmxZrQPmzOhL8iD7iyBr3qciD0PpJvPxB0K5Dn8QLgetvrzYaeJBESXcGaOpQdcoK1gNh3oryr64M=
+	t=1782726805; cv=none; b=Di1KYgskDAokjaR9opKwEwB5YxTDRfbiUhqt+GR4pvCopXqo0UMc0+DLfJW4dvA3/4bIRi4A/AQeRUH29hN31Uqwc9057g1EUUqyRGUsLj98Gah2kfacURwITyknZRxxxApU/trTmAYBO/rsgHdHwX3e1tjHZLjfG6mX0NxR03s=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782604726; c=relaxed/simple;
-	bh=t1c6ZkEqo/5nbeX5Y37JbyRiMyH/PLMuUEC6tLqOZMw=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=RSTALFV+XWSMBnZOD/uzVBsYjY4MN8zmUAu0lfwI/H2wR1rx94MZW/hWyL0nPA+a+rkvTEIz5QpTXP7eua1z6P1AwD+mEc856JGoAPXE7P1uK9nx0oDdU9MC2jo19wK25G199e6JnFYtPbmFgtg0RIJku8tocpx+mS+cXIe2jnw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Ml71Fd3d; arc=none smtp.client-ip=209.85.221.45
-Received: by mail-wr1-f45.google.com with SMTP id ffacd0b85a97d-4704d652e9cso459569f8f.3
-        for <linux-wpan@vger.kernel.org>; Sat, 27 Jun 2026 16:58:44 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1782604723; x=1783209523; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=skDXyZAJq24/qIOZkzrlcPyP6eRzwfs+LL2sC9Z2FWs=;
-        b=Ml71Fd3duV1vI6zM10YZHcg6HyOIuenZTSsfAoDutffzyyGHUyzVsdOt0W+RfAglBa
-         E1ER2BeOLkAEVCG8I2p2hugupwPqVqYUjS8BrjTyMSL4Z60J+AsrlvzbqXHjS8nXrfcM
-         ANF7zRqKWIUmfWi4SeH1AgjK9a0q1dGSgHn700ULmNSFaGU9zdWfhs3KLyZhaCgRct73
-         6HNRqRoHtqytA5KixJOmpVlS3k5o8ZjjDVsJTABIPIayhJQ9y6dg1gPALi9JUDRqfNAb
-         BW3zJPSCTC3RqQiJJ6Hb60p0symHMSP9KU12RyraBqRCaiUore1VE0f3TbepDuGqhBuH
-         J+zA==
+	s=arc-20240116; t=1782726805; c=relaxed/simple;
+	bh=EeAtNXFftreVObAkoFRjv6jWjUd6N8FSqqOBu4hG4BQ=;
+	h=MIME-Version:Date:Message-ID:Subject:From:To:Content-Type; b=Bk9YEWPHc3chf/1TTTKzNFWX4VIz2cCSCp0peGgpYcr6/opuh+05hWsWog74npUx0Y5LQkYzBN5Eg7Zzx0ZnOJWzRGEIFFtPoih0PHb6TlGRp8DjMEO1SSU9xFFn+f140sAEcneXVq2U8wNaVFmStwtHWZ1rknVEe8+4mXGZY0A=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com; arc=none smtp.client-ip=209.85.167.206
+Received: by mail-oi1-f206.google.com with SMTP id 5614622812f47-48f680bda84so5037216b6e.1
+        for <linux-wpan@vger.kernel.org>; Mon, 29 Jun 2026 02:53:24 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1782604723; x=1783209523;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=skDXyZAJq24/qIOZkzrlcPyP6eRzwfs+LL2sC9Z2FWs=;
-        b=RZx/j+M7GZqEwHmuDg2DtPQ5E+YZSq/tI0tcRFhXwaqNACoPEz1qYu70bAHKNqyWHo
-         MFGhNkgQjBfWAB/8WnSAP7JqkGdqko4F2RaKxCig5uTEB8jIzLTvYqRVEgK49I9Et9cr
-         Puwg2DXEBoC0CZPvj/+2SnNQOvgjEaERfRDhHIPeBxUxVLjKZTxcyM5tBg+2+HfX1vNm
-         1MpBtLK04+s7dfGDu0c/Jj+yNc5YwgqXMkSLp4pngjA41jBXJnjfkb7dV1NTWfq02iBK
-         BCaTznR6lXaGtpzXvgMB+XIQC4KblldO5NaU0hxU72GMWxjnqCydDfMnox3SBlaGQuc6
-         9Vuw==
-X-Forwarded-Encrypted: i=1; AHgh+RqnVM6WJY+GpFwzdQSjnqv3BeX2nrwDjpxhOisSnhdszBKVIyoFekhnRh5nd50VeGni5XKEa5xRK0dw@vger.kernel.org
-X-Gm-Message-State: AOJu0Yz9009B+NU686TJ0qALYBRHIvX/qvhNOQcE/VhShNpEiSwKOE/D
-	oTh7jR3AnIAyrCNbFvSc5KoVc3WTaxAwwVQeR9SSN+4sTKc/miCOUoje
-X-Gm-Gg: AfdE7clWYmpoRtuwtkeEljuE+Y+3Vv9z7IH4AVBDxaGdboZDhcTtE9/asYU1xkjcD6R
-	SgtyA/MT6J9BV1I+ca4GLshP0y2JVoWzqEZkW2Go7MF9yaV4i/z3W6+BZlspQBxB68jOVcpKgSR
-	YWoE+7m48niTREPrtlEZiDKGQvAAMjZpCsjeTFSKPWIl4FoW1WrRA3+2APxakBqcNCAC8LT0ajs
-	yjyb2nWZLkImlTYCE7zVZ0myaIUz9E+ex5Pk3zb2XsW2vANaFNXhLRLgamIVG/4u3rSxCTgV/nt
-	lI4xaw/4CMsV7QL6ZwcS2dKrZrXr6POb04NsqxCcb7LkFSXq+o8PaQly2CUov/eCi33GFQzHQse
-	0lRGTFcgw6X4iI7jo3hpjNbyWDTfkuM4wfO7b9/s2Q2jC4xY3B56PgBkDHI+LbgHlnGD5J4eq0S
-	v5ZEPlHK1/xq0q1YO5BI7LwD9PkqxKhf8DO0+K
-X-Received: by 2002:a05:6000:470b:b0:46d:28a7:3ce7 with SMTP id ffacd0b85a97d-46dbed35effmr17819314f8f.7.1782604722940;
-        Sat, 27 Jun 2026 16:58:42 -0700 (PDT)
-Received: from Dev-Null-MSI ([2a0d:3344:52ac:a808:98a4:4381:be45:536f])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-470f55acda0sm8348957f8f.23.2026.06.27.16.58.40
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 27 Jun 2026 16:58:41 -0700 (PDT)
-From: Yousef Alhouseen <alhouseenyousef@gmail.com>
-To: Alexander Aring <alex.aring@gmail.com>,
-	Stefan Schmidt <stefan@datenfreihafen.org>
-Cc: Miquel Raynal <miquel.raynal@bootlin.com>,
-	Andrew Lunn <andrew+netdev@lunn.ch>,
-	"David S . Miller" <davem@davemloft.net>,
-	Eric Dumazet <edumazet@google.com>,
-	Jakub Kicinski <kuba@kernel.org>,
-	Paolo Abeni <pabeni@redhat.com>,
-	linux-wpan@vger.kernel.org,
-	netdev@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	stable@vger.kernel.org,
-	syzbot+4707bb8a43a42fca2b97@syzkaller.appspotmail.com,
-	Yousef Alhouseen <alhouseenyousef@gmail.com>
-Subject: [PATCH net] ieee802154: hwsim: free PIB after unregistering hardware
-Date: Sun, 28 Jun 2026 01:58:05 +0200
-Message-ID: <20260627235805.17310-1-alhouseenyousef@gmail.com>
-X-Mailer: git-send-email 2.54.0
+        d=1e100.net; s=20251104; t=1782726803; x=1783331603;
+        h=to:from:subject:message-id:date:mime-version:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=zwymUYCwEopcwvNdbgWdE3V4iVchDza5/5toUHvwG2c=;
+        b=M6CezN27a/YO9YmwZ5M4ovckpCItAopthACuJ1bWbxsDvSG93FA3k40aeJIcx5Cfvj
+         JfxzlZB2qL7YACQj2JxFZ4OPei8OfKOU1dNBU4fUBbj8TXW7VfW5YHqoYT3htiemA8WL
+         qMeDVoyQtntNrZ/hP3km4Y79VLBHUMAo0jmeUdtG1ExRNf7PSo1/Mt7td6WGCF3gOx3c
+         XejtgclTEgfPpgUCfRiw0E5D2tqxDefe+NyMuJMl3idsSyOtUOP5vZ06nh19SKP/BrQU
+         +2koGYty3t3lnhRb+NZ1qX0YSYQ4Lk6+dpwBf4XWlvTCSRhaaulmSMRYupnlYzGfvaBG
+         BaBA==
+X-Forwarded-Encrypted: i=1; AFNElJ/JNdjMbs7uwS+TnZ5UhOrbH8kEPlyf+6vee+R8wPihALmRntY+4CUPZZ74fip3rNmIURL/onefDIel@vger.kernel.org
+X-Gm-Message-State: AOJu0Yx3ncOhzQGjPQr0C8e8Mdhm31DykQoK9bwXLhEWmXQPkNZaBerh
+	caTnWXmFd0TVFZgRAfeT3acB/scJNV4O5orE1TsXltmu4aNq1yzApE2pILvsLbSsqst+ubfD713
+	5yKUmh+EceRN1Th9L5dfZiMQ5jm5yXEH6GUkNeX4xgN3WJoltwkb0rCrnDuY=
 Precedence: bulk
 X-Mailing-List: linux-wpan@vger.kernel.org
 List-Id: <linux-wpan.vger.kernel.org>
 List-Subscribe: <mailto:linux-wpan+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-wpan+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+X-Received: by 2002:a05:6808:ec2:b0:491:3ade:8b9e with SMTP id
+ 5614622812f47-4921801d78fmr13471084b6e.36.1782726803455; Mon, 29 Jun 2026
+ 02:53:23 -0700 (PDT)
+Date: Mon, 29 Jun 2026 02:53:23 -0700
+X-Google-Appengine-App-Id: s~syzkaller
+X-Google-Appengine-App-Id-Alias: syzkaller
+Message-ID: <6a424093.34acba0d.134e3f.00b1.GAE@google.com>
+Subject: [syzbot] [wpan?] general protection fault in ieee802154_release_queue
+From: syzbot <syzbot+36256deb69a588e9290e@syzkaller.appspotmail.com>
+To: alex.aring@gmail.com, davem@davemloft.net, edumazet@google.com, 
+	horms@kernel.org, kuba@kernel.org, linux-kernel@vger.kernel.org, 
+	linux-wpan@vger.kernel.org, miquel.raynal@bootlin.com, netdev@vger.kernel.org, 
+	pabeni@redhat.com, stefan@datenfreihafen.org, syzkaller-bugs@googlegroups.com
+Content-Type: text/plain; charset="UTF-8"
 X-Rspamd-Action: no action
-X-Spamd-Result: default: False [0.84 / 15.00];
+X-Spamd-Result: default: False [1.14 / 15.00];
 	SUSPICIOUS_RECIPS(1.50)[];
-	MID_CONTAINS_FROM(1.00)[];
+	URI_HIDDEN_PATH(1.00)[https://syzkaller.appspot.com/x/.config?x=9a9f723a32776544];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	R_MISSING_CHARSET(0.50)[];
-	DMARC_POLICY_ALLOW(-0.50)[gmail.com,none];
-	R_SPF_ALLOW(-0.20)[+ip4:104.64.211.4:c];
-	R_DKIM_ALLOW(-0.20)[gmail.com:s=20251104];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c15:e001:75::/64:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
+	DMARC_POLICY_SOFTFAIL(0.10)[appspotmail.com : SPF not aligned (relaxed), No valid DKIM,none];
 	HAS_LIST_UNSUB(-0.01)[];
-	TAGGED_FROM(0.00)[bounces-878-lists,linux-wpan=lfdr.de];
+	URIBL_MULTI_FAIL(0.00)[sin.lore.kernel.org:server fail];
+	TAGGED_FROM(0.00)[bounces-879-lists,linux-wpan=lfdr.de,36256deb69a588e9290e];
 	RCVD_TLS_LAST(0.00)[];
-	FREEMAIL_TO(0.00)[gmail.com,datenfreihafen.org];
-	FORGED_SENDER(0.00)[alhouseenyousef@gmail.com,linux-wpan@vger.kernel.org];
-	RCPT_COUNT_TWELVE(0.00)[14];
-	FREEMAIL_FROM(0.00)[gmail.com];
-	FORGED_RECIPIENTS(0.00)[m:alex.aring@gmail.com,m:stefan@datenfreihafen.org,m:miquel.raynal@bootlin.com,m:andrew+netdev@lunn.ch,m:davem@davemloft.net,m:edumazet@google.com,m:kuba@kernel.org,m:pabeni@redhat.com,m:linux-wpan@vger.kernel.org,m:netdev@vger.kernel.org,m:linux-kernel@vger.kernel.org,m:stable@vger.kernel.org,m:syzbot+4707bb8a43a42fca2b97@syzkaller.appspotmail.com,m:alhouseenyousef@gmail.com,m:alexaring@gmail.com,m:andrew@lunn.ch,m:syzbot@syzkaller.appspotmail.com,s:lists@lfdr.de];
+	FORGED_RECIPIENTS(0.00)[m:alex.aring@gmail.com,m:davem@davemloft.net,m:edumazet@google.com,m:horms@kernel.org,m:kuba@kernel.org,m:linux-kernel@vger.kernel.org,m:linux-wpan@vger.kernel.org,m:miquel.raynal@bootlin.com,m:netdev@vger.kernel.org,m:pabeni@redhat.com,m:stefan@datenfreihafen.org,m:syzkaller-bugs@googlegroups.com,m:alexaring@gmail.com,s:lists@lfdr.de];
+	FREEMAIL_TO(0.00)[gmail.com,davemloft.net,google.com,kernel.org,vger.kernel.org,bootlin.com,redhat.com,datenfreihafen.org,googlegroups.com];
 	MIME_TRACE(0.00)[0:+];
-	FORGED_SENDER_MAILLIST(0.00)[];
+	RCVD_COUNT_THREE(0.00)[4];
 	FORWARDED(0.00)[lists@lfdr.de];
-	FREEMAIL_CC(0.00)[bootlin.com,lunn.ch,davemloft.net,google.com,kernel.org,redhat.com,vger.kernel.org,syzkaller.appspotmail.com,gmail.com];
-	DKIM_TRACE(0.00)[gmail.com:+];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	PRECEDENCE_BULK(0.00)[];
-	FORGED_SENDER_FORWARDING(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[alhouseenyousef@gmail.com,linux-wpan@vger.kernel.org];
-	FROM_HAS_DN(0.00)[];
-	TO_DN_SOME(0.00)[];
-	RCVD_COUNT_FIVE(0.00)[5];
+	FORGED_SENDER(0.00)[syzbot@syzkaller.appspotmail.com,linux-wpan@vger.kernel.org];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[storage.googleapis.com:url,sin.lore.kernel.org:rdns,sin.lore.kernel.org:helo,vger.kernel.org:from_smtp,goo.gl:url,googlegroups.com:email,syzkaller.appspot.com:url];
+	MISSING_XM_UA(0.00)[];
 	FORGED_RECIPIENTS_FORWARDING(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:104.64.192.0/19, country:SG];
+	FORGED_SENDER_FORWARDING(0.00)[];
+	TO_DN_NONE(0.00)[];
+	PRECEDENCE_BULK(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[syzbot@syzkaller.appspotmail.com,linux-wpan@vger.kernel.org];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	ALIAS_RESOLVED(0.00)[];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	TAGGED_RCPT(0.00)[linux-wpan,netdev,4707bb8a43a42fca2b97];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[vger.kernel.org:from_smtp,syzkaller.appspot.com:url,appspotmail.com:email,sin.lore.kernel.org:rdns,sin.lore.kernel.org:helo]
+	TAGGED_RCPT(0.00)[linux-wpan];
+	RCPT_COUNT_TWELVE(0.00)[12];
+	R_DKIM_NA(0.00)[];
+	ASN(0.00)[asn:63949, ipnet:2600:3c15::/32, country:SG];
+	REDIRECTOR_URL(0.00)[goo.gl];
+	SUBJECT_HAS_QUESTION(0.00)[]
 X-Rspamd-Server: lfdr
-X-Rspamd-Queue-Id: A8E676D2D6B
+X-Rspamd-Queue-Id: 95EA66D8B74
 
-hwsim_del() queues the currently published PIB for RCU freeing before
-unregistering the hardware. The unregister path can still invoke driver
-callbacks, including set_promiscuous_mode(), after that grace period has
-started. A callback can consequently dereference the freed PIB.
+Hello,
 
-Unregister the hardware first, then fetch and free the final PIB. This also
-handles a PIB replacement performed by a callback during unregister.
+syzbot found the following issue on:
 
-Fixes: 1c9f4a3fce77 ("ieee802154: hwsim: fix rcu handling")
-Reported-by: syzbot+4707bb8a43a42fca2b97@syzkaller.appspotmail.com
-Closes: https://syzkaller.appspot.com/bug?extid=4707bb8a43a42fca2b97
-Cc: stable@vger.kernel.org
-Signed-off-by: Yousef Alhouseen <alhouseenyousef@gmail.com>
+HEAD commit:    b85966adbf5d Merge tag 'net-next-7.2' of git://git.kernel...
+git tree:       net-next
+console output: https://syzkaller.appspot.com/x/log.txt?x=17ac7046580000
+kernel config:  https://syzkaller.appspot.com/x/.config?x=9a9f723a32776544
+dashboard link: https://syzkaller.appspot.com/bug?extid=36256deb69a588e9290e
+compiler:       Debian clang version 22.1.6 (++20260514074242+fc4aad7b5db3-1~exp1~20260514074407.73), Debian LLD 22.1.6
+
+Unfortunately, I don't have any reproducer for this issue yet.
+
+Downloadable assets:
+disk image: https://storage.googleapis.com/syzbot-assets/d65306d96573/disk-b85966ad.raw.xz
+vmlinux: https://storage.googleapis.com/syzbot-assets/ef43139aab0e/vmlinux-b85966ad.xz
+kernel image: https://storage.googleapis.com/syzbot-assets/26d4d1ab67c3/bzImage-b85966ad.xz
+
+IMPORTANT: if you fix the issue, please add the following tag to the commit:
+Reported-by: syzbot+36256deb69a588e9290e@syzkaller.appspotmail.com
+
+Oops: general protection fault, probably for non-canonical address 0xfbd59c0000000043: 0000 [#1] SMP KASAN PTI
+KASAN: maybe wild-memory-access in range [0xdead000000000218-0xdead00000000021f]
+CPU: 1 UID: 0 PID: 15064 Comm: syz.4.2289 Not tainted syzkaller #0 PREEMPT(full) 
+Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS Google 05/09/2026
+RIP: 0010:ieee802154_wake_queue net/mac802154/util.c:34 [inline]
+RIP: 0010:ieee802154_release_queue+0x1b0/0x380 net/mac802154/util.c:83
+Code: 42 80 3c 30 00 74 08 4c 89 e7 e8 8b f4 d0 f6 4d 8b 2c 24 4d 39 e5 0f 84 d6 00 00 00 4d 8d bd 18 01 00 00 4c 89 f8 48 c1 e8 03 <42> 80 3c 30 00 74 08 4c 89 ff e8 61 f4 d0 f6 49 8b 2f 48 85 ed 74
+RSP: 0018:ffffc90005f3f0d0 EFLAGS: 00010802
+RAX: 1bd5a00000000043 RBX: ffff88802a41a760 RCX: 0000000000080000
+RDX: ffffc90007f8c000 RSI: 000000000001e208 RDI: 000000000001e209
+RBP: ffff88802a43c018 R08: ffffffff903116f7 R09: 1ffffffff20622de
+R10: dffffc0000000000 R11: fffffbfff20622df R12: ffff88802a41a770
+R13: dead000000000100 R14: dffffc0000000000 R15: dead000000000218
+FS:  00007f6a783b06c0(0000) GS:ffff88812537c000(0000) knlGS:0000000000000000
+CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+CR2: 00007f8924187cc0 CR3: 00000000a6c7a000 CR4: 00000000003526f0
+Call Trace:
+ <TASK>
+ ieee802154_xmit_complete+0x11d/0x290 net/mac802154/util.c:140
+ hwsim_hw_xmit+0x1571/0x1620 drivers/net/ieee802154/mac802154_hwsim.c:288
+ drv_xmit_async net/mac802154/driver-ops.h:16 [inline]
+ ieee802154_tx+0x26d/0x510 net/mac802154/tx.c:89
+ ieee802154_hot_tx net/mac802154/tx.c:207 [inline]
+ ieee802154_subif_start_xmit+0x110/0x190 net/mac802154/tx.c:239
+ __netdev_start_xmit include/linux/netdevice.h:5387 [inline]
+ netdev_start_xmit include/linux/netdevice.h:5396 [inline]
+ xmit_one net/core/dev.c:3889 [inline]
+ dev_hard_start_xmit+0x2cd/0x830 net/core/dev.c:3905
+ sch_direct_xmit+0x257/0x4c0 net/sched/sch_generic.c:372
+ __dev_xmit_skb net/core/dev.c:4211 [inline]
+ __dev_queue_xmit+0x1754/0x37f0 net/core/dev.c:4833
+ dev_queue_xmit include/linux/netdevice.h:3436 [inline]
+ dgram_sendmsg+0x709/0xe30 net/ieee802154/socket.c:689
+ sock_sendmsg_nosec net/socket.c:775 [inline]
+ __sock_sendmsg net/socket.c:790 [inline]
+ ____sys_sendmsg+0x9b9/0xa20 net/socket.c:2684
+ ___sys_sendmsg+0x2a5/0x360 net/socket.c:2738
+ __sys_sendmmsg+0x273/0x4d0 net/socket.c:2827
+ __do_sys_sendmmsg net/socket.c:2854 [inline]
+ __se_sys_sendmmsg net/socket.c:2851 [inline]
+ __x64_sys_sendmmsg+0xa0/0xc0 net/socket.c:2851
+ do_syscall_x64 arch/x86/entry/syscall_64.c:63 [inline]
+ do_syscall_64+0x174/0x580 arch/x86/entry/syscall_64.c:94
+ entry_SYSCALL_64_after_hwframe+0x77/0x7f
+RIP: 0033:0x7f6a7759ce59
+Code: ff c3 66 2e 0f 1f 84 00 00 00 00 00 0f 1f 44 00 00 48 89 f8 48 89 f7 48 89 d6 48 89 ca 4d 89 c2 4d 89 c8 4c 8b 4c 24 08 0f 05 <48> 3d 01 f0 ff ff 73 01 c3 48 c7 c1 e8 ff ff ff f7 d8 64 89 01 48
+RSP: 002b:00007f6a783b0028 EFLAGS: 00000246 ORIG_RAX: 0000000000000133
+RAX: ffffffffffffffda RBX: 00007f6a77815fa0 RCX: 00007f6a7759ce59
+RDX: 0000000004000050 RSI: 00002000000196c0 RDI: 000000000000000d
+RBP: 00007f6a77632e6f R08: 0000000000000000 R09: 0000000000000000
+R10: 000000000400c010 R11: 0000000000000246 R12: 0000000000000000
+R13: 00007f6a77816038 R14: 00007f6a77815fa0 R15: 00007ffe3e47cbf8
+ </TASK>
+Modules linked in:
+---[ end trace 0000000000000000 ]---
+RIP: 0010:ieee802154_wake_queue net/mac802154/util.c:34 [inline]
+RIP: 0010:ieee802154_release_queue+0x1b0/0x380 net/mac802154/util.c:83
+Code: 42 80 3c 30 00 74 08 4c 89 e7 e8 8b f4 d0 f6 4d 8b 2c 24 4d 39 e5 0f 84 d6 00 00 00 4d 8d bd 18 01 00 00 4c 89 f8 48 c1 e8 03 <42> 80 3c 30 00 74 08 4c 89 ff e8 61 f4 d0 f6 49 8b 2f 48 85 ed 74
+RSP: 0018:ffffc90005f3f0d0 EFLAGS: 00010802
+RAX: 1bd5a00000000043 RBX: ffff88802a41a760 RCX: 0000000000080000
+RDX: ffffc90007f8c000 RSI: 000000000001e208 RDI: 000000000001e209
+RBP: ffff88802a43c018 R08: ffffffff903116f7 R09: 1ffffffff20622de
+R10: dffffc0000000000 R11: fffffbfff20622df R12: ffff88802a41a770
+R13: dead000000000100 R14: dffffc0000000000 R15: dead000000000218
+FS:  00007f6a783b06c0(0000) GS:ffff88812537c000(0000) knlGS:0000000000000000
+CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+CR2: 00007f8924187cc0 CR3: 00000000a6c7a000 CR4: 00000000003526f0
+----------------
+Code disassembly (best guess):
+   0:	42 80 3c 30 00       	cmpb   $0x0,(%rax,%r14,1)
+   5:	74 08                	je     0xf
+   7:	4c 89 e7             	mov    %r12,%rdi
+   a:	e8 8b f4 d0 f6       	call   0xf6d0f49a
+   f:	4d 8b 2c 24          	mov    (%r12),%r13
+  13:	4d 39 e5             	cmp    %r12,%r13
+  16:	0f 84 d6 00 00 00    	je     0xf2
+  1c:	4d 8d bd 18 01 00 00 	lea    0x118(%r13),%r15
+  23:	4c 89 f8             	mov    %r15,%rax
+  26:	48 c1 e8 03          	shr    $0x3,%rax
+* 2a:	42 80 3c 30 00       	cmpb   $0x0,(%rax,%r14,1) <-- trapping instruction
+  2f:	74 08                	je     0x39
+  31:	4c 89 ff             	mov    %r15,%rdi
+  34:	e8 61 f4 d0 f6       	call   0xf6d0f49a
+  39:	49 8b 2f             	mov    (%r15),%rbp
+  3c:	48 85 ed             	test   %rbp,%rbp
+  3f:	74                   	.byte 0x74
+
+
 ---
- drivers/net/ieee802154/mac802154_hwsim.c | 5 ++---
- 1 file changed, 2 insertions(+), 3 deletions(-)
+This report is generated by a bot. It may contain errors.
+See https://goo.gl/tpsmEJ for more information about syzbot.
+syzbot engineers can be reached at syzkaller@googlegroups.com.
 
-diff --git a/drivers/net/ieee802154/mac802154_hwsim.c b/drivers/net/ieee802154/mac802154_hwsim.c
-index 6daa0f198..2a2d8a9eb 100644
---- a/drivers/net/ieee802154/mac802154_hwsim.c
-+++ b/drivers/net/ieee802154/mac802154_hwsim.c
-@@ -1004,12 +1004,11 @@ static void hwsim_del(struct hwsim_phy *phy)
- 		list_del_rcu(&e->list);
- 		hwsim_free_edge(e);
- 	}
--	pib = rcu_dereference(phy->pib);
- 	rcu_read_unlock();
- 
--	kfree_rcu(pib, rcu);
--
- 	ieee802154_unregister_hw(phy->hw);
-+	pib = rcu_dereference_protected(phy->pib, 1);
-+	kfree_rcu(pib, rcu);
- 	ieee802154_free_hw(phy->hw);
- }
- 
--- 
-2.54.0
+syzbot will keep track of this issue. See:
+https://goo.gl/tpsmEJ#status for how to communicate with syzbot.
 
+If the report is already addressed, let syzbot know by replying with:
+#syz fix: exact-commit-title
+
+If you want to overwrite report's subsystems, reply with:
+#syz set subsystems: new-subsystem
+(See the list of subsystem names on the web dashboard)
+
+If the report is a duplicate of another one, reply with:
+#syz dup: exact-subject-of-another-report
+
+If you want to undo deduplication, reply with:
+#syz undup
 
