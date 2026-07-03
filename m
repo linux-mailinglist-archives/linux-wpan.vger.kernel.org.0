@@ -1,72 +1,73 @@
-Return-Path: <linux-wpan+bounces-884-lists+linux-wpan=lfdr.de@vger.kernel.org>
+Return-Path: <linux-wpan+bounces-885-lists+linux-wpan=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-wpan@lfdr.de
 Received: from mail.lfdr.de
 	by mail.lfdr.de with LMTP
-	id 4YHrD5iXR2oXbwAAu9opvQ
-	(envelope-from <linux-wpan+bounces-884-lists+linux-wpan=lfdr.de@vger.kernel.org>)
-	for <lists+linux-wpan@lfdr.de>; Fri, 03 Jul 2026 13:06:00 +0200
+	id BEASFFSbR2plcAAAu9opvQ
+	(envelope-from <linux-wpan+bounces-885-lists+linux-wpan=lfdr.de@vger.kernel.org>)
+	for <lists+linux-wpan@lfdr.de>; Fri, 03 Jul 2026 13:21:56 +0200
 X-Original-To: lists+linux-wpan@lfdr.de
-Received: from tor.lore.kernel.org (tor.lore.kernel.org [172.105.105.114])
-	by mail.lfdr.de (Postfix) with ESMTPS id CD01E701995
-	for <lists+linux-wpan@lfdr.de>; Fri, 03 Jul 2026 13:05:59 +0200 (CEST)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id 98F03701C85
+	for <lists+linux-wpan@lfdr.de>; Fri, 03 Jul 2026 13:21:55 +0200 (CEST)
 Authentication-Results: mail.lfdr.de;
-	dkim=pass header.d=bootlin.com header.s=dkim header.b=IlFqTRjR;
+	dkim=pass header.d=bootlin.com header.s=dkim header.b=xJAYl+JS;
 	dmarc=pass (policy=reject) header.from=bootlin.com;
-	spf=pass (mail.lfdr.de: domain of "linux-wpan+bounces-884-lists+linux-wpan=lfdr.de@vger.kernel.org" designates 172.105.105.114 as permitted sender) smtp.mailfrom="linux-wpan+bounces-884-lists+linux-wpan=lfdr.de@vger.kernel.org";
+	spf=pass (mail.lfdr.de: domain of "linux-wpan+bounces-885-lists+linux-wpan=lfdr.de@vger.kernel.org" designates 2600:3c0a:e001:db::12fc:5321 as permitted sender) smtp.mailfrom="linux-wpan+bounces-885-lists+linux-wpan=lfdr.de@vger.kernel.org";
 	arc=pass ("subspace.kernel.org:s=arc-20240116:i=1")
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by tor.lore.kernel.org (Postfix) with ESMTP id BB66930DB05B
-	for <lists+linux-wpan@lfdr.de>; Fri,  3 Jul 2026 10:57:47 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 4E3D2302B0A0
+	for <lists+linux-wpan@lfdr.de>; Fri,  3 Jul 2026 11:15:57 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id D51F93B8124;
-	Fri,  3 Jul 2026 10:57:45 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id DD52F3C1966;
+	Fri,  3 Jul 2026 11:15:56 +0000 (UTC)
 X-Original-To: linux-wpan@vger.kernel.org
 Received: from smtpout-02.galae.net (smtpout-02.galae.net [185.246.84.56])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F03D9395DAC
-	for <linux-wpan@vger.kernel.org>; Fri,  3 Jul 2026 10:57:42 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 461BE393DF0;
+	Fri,  3 Jul 2026 11:15:53 +0000 (UTC)
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783076265; cv=none; b=qvCDcM5FKu2h8k4YNcywfm07RNSjkJi5npd4nf3+NTjzRrxoJpwg6HS4v4XYUHUGapqLcu0kU4ABjS/0Iw+eZpiLPId5VQKf25txzWRJGNRFpWncDXgaHavzQGexZjjJZZkLBWEkwECtaRaZyyxLqSFWzYg3DVPm92NufzJoDSE=
+	t=1783077356; cv=none; b=ncX67g/Jr5wdhxWvTM4s7nW0Axceek9M6R0JnGR4O81Y/dmGEuJh/3RwxvmhkRkoC3KIM1oBIWEG2sye3GahWZ5JrqQ3NfQoGtO3ImzTNaZ8j627z3GKI1/gno5om60j4OpVU0Oip64NL1KLO+rLXfAxJCGf8G8EpmVkHWRDjP4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783076265; c=relaxed/simple;
-	bh=NGPEkS/cDH9hPz3JVAVId0cAUJdvobfMKFJ5lBDhRzE=;
+	s=arc-20240116; t=1783077356; c=relaxed/simple;
+	bh=9iaMSmlox51RK9UxCBR8HnxGg5QHRgbAboXffhGBB+U=;
 	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=Ib5wB01905e7FMQmVUj9bX/nf37dpqgM4tQeN9c8V+WRnLJEt92ZAnSMitY3Bx9xkcyz/0AUhCw6OKfARm5zHYGYEWlLlALMpoLPnn6HWMXN/scLJu7FoEW3OmprtCl0rVTE9+B1TQEfoBO5JCBJbr4HFOOnu4QzK5gG8RtbF7c=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=IlFqTRjR; arc=none smtp.client-ip=185.246.84.56
+	 MIME-Version:Content-Type; b=Q5hVJky4IcdMepgOekAu6XmTeM9rD/mXs2WG+o2f9db/1vpgkr54beIzmkcGA+mulEww++jmzO6Dv4A4gDOFzXeeNzlqlwZIEz7A7OI3oALan3G8uXDjEuHSPz+OxNfVH6XyZ9MW3j2WwKMiTZosDdNeST4JrrP6tJKyTLaTQmk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=xJAYl+JS; arc=none smtp.client-ip=185.246.84.56
 Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
-	by smtpout-02.galae.net (Postfix) with ESMTPS id 868171A0E0B;
-	Fri,  3 Jul 2026 10:57:41 +0000 (UTC)
+	by smtpout-02.galae.net (Postfix) with ESMTPS id A77DD1A0E0D;
+	Fri,  3 Jul 2026 11:15:51 +0000 (UTC)
 Received: from mail.galae.net (mail.galae.net [212.83.136.155])
-	by smtpout-01.galae.net (Postfix) with ESMTPS id 57C0D60300;
-	Fri,  3 Jul 2026 10:57:41 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id DE4C9104C83DB;
-	Fri,  3 Jul 2026 12:57:35 +0200 (CEST)
+	by smtpout-01.galae.net (Postfix) with ESMTPS id 6881060300;
+	Fri,  3 Jul 2026 11:15:51 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id EA7AC104C948C;
+	Fri,  3 Jul 2026 13:15:47 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
-	t=1783076260; h=from:subject:date:message-id:to:cc:mime-version:content-type:
+	t=1783077350; h=from:subject:date:message-id:to:cc:mime-version:content-type:
 	 content-transfer-encoding:in-reply-to:references;
-	bh=NGPEkS/cDH9hPz3JVAVId0cAUJdvobfMKFJ5lBDhRzE=;
-	b=IlFqTRjR/7iWkCl9wpsKOaXJNHI9STNXgfinc2R5WRMo9PP3Fh+159g6zJWgW0zTRGR4VZ
-	KfiECXFY4JC2qOPeu6R1omFuTA9RJehno2UT13CnpnZMVqHfGzfnPknl7hcpjf/hug/6cv
-	pr2zOZokE26EIXDA6DcXPoUEhGTJT1s/y6opZYDotqLN1BeE+4+w9kh55m2Dyp14grwpKE
-	EIE1PoJLKjjuOHrHgTBgbta9i9w8CYDd6/lo2MEPvIj5ZbYQEcps9ZBQMCPl9Jc19/ZACM
-	oyB2eUQpjQhyU3oyMW/UBLsgQq73BelJYCybp83Aw214nbsuE6ChHDdNyOXrEA==
+	bh=RhPj3LBc7hrgGru5WDxx5wR5FSjgHrAYO0nqOqYbFgo=;
+	b=xJAYl+JS9Ps44ZAJ7fxF4vXOtu8hstDn52kf4AMg8lvbPTT88kAZZ1GVipRLr8V+aIaZxP
+	+HhBVpS52e2x+507fIwBBgDM/p23exw2KepMcgVWWYuahKNLtGs2OSrN+3aVrR/kopbJam
+	Ogk28PkVWGmnkbRFQKW80qlFw7TCN9C0KhToX1PEIJd1Y0Fsj84oaLeZANwkJTSIOlAH6e
+	5rsbuLRu0t0K9lRu0D0fOrshvwudY6cLW20yUOzZzdVjrQTYYehYfXOQGzcfwwv0dTPVTI
+	Uk51YvwIzxJudeb6Ddg9GzuMEVpUygSoUGdqV88o5NNtXFoheU8EIKjCG5Ub9g==
 From: Miquel Raynal <miquel.raynal@bootlin.com>
 To: Yousef Alhouseen <alhouseenyousef@gmail.com>
-Cc: alex.aring@gmail.com,  stefan@datenfreihafen.org,  davem@davemloft.net,
-  edumazet@google.com,  kuba@kernel.org,  pabeni@redhat.com,
-  horms@kernel.org,  marcel@holtmann.org,  kuniyu@google.com,
+Cc: Alexander Aring <alex.aring@gmail.com>,  Stefan Schmidt
+ <stefan@datenfreihafen.org>,  Andrew Lunn <andrew+netdev@lunn.ch>,  "David
+ S . Miller" <davem@davemloft.net>,  Eric Dumazet <edumazet@google.com>,
+  Jakub Kicinski <kuba@kernel.org>,  Paolo Abeni <pabeni@redhat.com>,
   linux-wpan@vger.kernel.org,  netdev@vger.kernel.org,
   linux-kernel@vger.kernel.org,  stable@vger.kernel.org,
-  syzbot+36256deb69a588e9290e@syzkaller.appspotmail.com
-Subject: Re: [PATCH net v2] mac802154: remove interfaces with RCU list deletion
-In-Reply-To: <20260701164222.9094-1-alhouseenyousef@gmail.com> (Yousef
-	Alhouseen's message of "Wed, 1 Jul 2026 18:42:22 +0200")
-References: <20260630211808.50440-1-alhouseenyousef@gmail.com>
-	<20260701164222.9094-1-alhouseenyousef@gmail.com>
+  syzbot+4707bb8a43a42fca2b97@syzkaller.appspotmail.com
+Subject: Re: [PATCH net] ieee802154: hwsim: free PIB after unregistering
+ hardware
+In-Reply-To: <20260627235805.17310-1-alhouseenyousef@gmail.com> (Yousef
+	Alhouseen's message of "Sun, 28 Jun 2026 01:58:05 +0200")
+References: <20260627235805.17310-1-alhouseenyousef@gmail.com>
 User-Agent: mu4e 1.12.7; emacs 30.2
-Date: Fri, 03 Jul 2026 12:57:34 +0200
-Message-ID: <87fr20nxwh.fsf@bootlin.com>
+Date: Fri, 03 Jul 2026 13:15:46 +0200
+Message-ID: <877bncnx25.fsf@bootlin.com>
 Precedence: bulk
 X-Mailing-List: linux-wpan@vger.kernel.org
 List-Id: <linux-wpan.vger.kernel.org>
@@ -81,23 +82,23 @@ X-Spamd-Result: default: False [-0.66 / 15.00];
 	SUSPICIOUS_RECIPS(1.50)[];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
 	DMARC_POLICY_ALLOW(-0.50)[bootlin.com,reject];
-	R_SPF_ALLOW(-0.20)[+ip4:172.105.105.114:c];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64:c];
 	R_DKIM_ALLOW(-0.20)[bootlin.com:s=dkim];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
 	FROM_HAS_DN(0.00)[];
-	TAGGED_FROM(0.00)[bounces-884-lists,linux-wpan=lfdr.de];
+	TAGGED_FROM(0.00)[bounces-885-lists,linux-wpan=lfdr.de];
 	RCVD_TLS_LAST(0.00)[];
 	RECEIVED_HELO_LOCALHOST(0.00)[];
 	FREEMAIL_TO(0.00)[gmail.com];
 	FORGED_SENDER(0.00)[miquel.raynal@bootlin.com,linux-wpan@vger.kernel.org];
-	RCPT_COUNT_TWELVE(0.00)[15];
-	FORGED_RECIPIENTS(0.00)[m:alhouseenyousef@gmail.com,m:alex.aring@gmail.com,m:stefan@datenfreihafen.org,m:davem@davemloft.net,m:edumazet@google.com,m:kuba@kernel.org,m:pabeni@redhat.com,m:horms@kernel.org,m:marcel@holtmann.org,m:kuniyu@google.com,m:linux-wpan@vger.kernel.org,m:netdev@vger.kernel.org,m:linux-kernel@vger.kernel.org,m:stable@vger.kernel.org,m:syzbot+36256deb69a588e9290e@syzkaller.appspotmail.com,m:alexaring@gmail.com,m:syzbot@syzkaller.appspotmail.com,s:lists@lfdr.de];
+	RCPT_COUNT_TWELVE(0.00)[13];
+	FORGED_RECIPIENTS(0.00)[m:alhouseenyousef@gmail.com,m:alex.aring@gmail.com,m:stefan@datenfreihafen.org,m:andrew+netdev@lunn.ch,m:davem@davemloft.net,m:edumazet@google.com,m:kuba@kernel.org,m:pabeni@redhat.com,m:linux-wpan@vger.kernel.org,m:netdev@vger.kernel.org,m:linux-kernel@vger.kernel.org,m:stable@vger.kernel.org,m:syzbot+4707bb8a43a42fca2b97@syzkaller.appspotmail.com,m:alexaring@gmail.com,m:andrew@lunn.ch,m:syzbot@syzkaller.appspotmail.com,s:lists@lfdr.de];
 	MIME_TRACE(0.00)[0:+];
 	FORGED_SENDER_MAILLIST(0.00)[];
 	FORWARDED(0.00)[lists@lfdr.de];
-	FREEMAIL_CC(0.00)[gmail.com,datenfreihafen.org,davemloft.net,google.com,kernel.org,redhat.com,holtmann.org,vger.kernel.org,syzkaller.appspotmail.com];
+	FREEMAIL_CC(0.00)[gmail.com,datenfreihafen.org,lunn.ch,davemloft.net,google.com,kernel.org,redhat.com,vger.kernel.org,syzkaller.appspotmail.com];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	TO_DN_SOME(0.00)[];
 	FORGED_SENDER_FORWARDING(0.00)[];
@@ -107,35 +108,33 @@ X-Spamd-Result: default: False [-0.66 / 15.00];
 	DKIM_TRACE(0.00)[bootlin.com:+];
 	ALIAS_RESOLVED(0.00)[];
 	FORGED_RECIPIENTS_FORWARDING(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:172.105.96.0/20, country:SG];
+	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
 	MID_RHS_MATCH_FROM(0.00)[];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
-	TAGGED_RCPT(0.00)[linux-wpan,36256deb69a588e9290e];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[syzkaller.appspot.com:url,appspotmail.com:email,tor.lore.kernel.org:helo,tor.lore.kernel.org:rdns,vger.kernel.org:from_smtp,bootlin.com:from_mime,bootlin.com:email,bootlin.com:mid,bootlin.com:dkim]
+	TAGGED_RCPT(0.00)[linux-wpan,netdev,4707bb8a43a42fca2b97];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[vger.kernel.org:from_smtp,sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns,bootlin.com:from_mime,bootlin.com:dkim,bootlin.com:mid]
 X-Rspamd-Server: lfdr
-X-Rspamd-Queue-Id: CD01E701995
+X-Rspamd-Queue-Id: 98F03701C85
 
-Hello,
+Hello Yousef,
 
-> Queue wake, stop, and disable paths walk local->interfaces under RCU.
-> The bulk hardware teardown path removes entries with list_del(), so an
-> asynchronous transmit completion can follow a poisoned list node in
-> ieee802154_wake_queue().
->
-> Use list_del_rcu() as in the single-interface removal path. The following
-> unregister_netdevice() waits for in-flight RCU readers before freeing the
-> netdevice, so no separate grace-period wait is needed.
->
-> Fixes: 592dfbfc72f5 ("mac820154: move interface unregistration into iface=
-")
-> Reported-by: syzbot+36256deb69a588e9290e@syzkaller.appspotmail.com
-> Closes: https://syzkaller.appspot.com/bug?extid=3D36256deb69a588e9290e
-> Cc: stable@vger.kernel.org
-> Signed-off-by: Yousef Alhouseen <alhouseenyousef@gmail.com>
+> @@ -1004,12 +1004,11 @@ static void hwsim_del(struct hwsim_phy *phy)
+>  		list_del_rcu(&e->list);
+>  		hwsim_free_edge(e);
+>  	}
+> -	pib =3D rcu_dereference(phy->pib);
+>  	rcu_read_unlock();
+>=20=20
+> -	kfree_rcu(pib, rcu);
+> -
+>  	ieee802154_unregister_hw(phy->hw);
+> +	pib =3D rcu_dereference_protected(phy->pib, 1);
+> +	kfree_rcu(pib, rcu);
+>  	ieee802154_free_hw(phy->hw);
+>  }
 
-FWIU, looks correct.
-
-Reviewed-by: Miquel Raynal <miquel.raynal@bootlin.com>
+Would you mind justifying the choice for the _protected() version,
+please?
 
 Thanks,
 Miqu=C3=A8l
